@@ -7,9 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-Hello, world!
-<button type="button" onclick="location.href='/rest'">test</button>
-
+${test}
 </body>
 </html>
