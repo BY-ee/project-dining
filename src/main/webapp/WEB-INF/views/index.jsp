@@ -8,8 +8,7 @@
 </head>
 <body>
 
-Hello, world!
-<button type="button" onclick="location.href='/rest'">test</button>
+Hello World
 
 </body>
 </html>
