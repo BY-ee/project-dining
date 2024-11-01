@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    margin-top: 100px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+/* 헤더 링크 스타일 (변색 및 밑줄 제거) */
+header h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+header h1 a:visited,
+header h1 a:focus,
+header h1 a:hover,
+header h1 a:active {
+    color: inherit; /* 클릭 후 색상 유지 */
+    text-decoration: none; /* 클릭 후 밑줄 제거 */
+}
+
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+header input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.store-registration-form label {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.store-registration-form input[type="text"],
+.store-registration-form input[type="tel"],
+.store-registration-form input[type="file"],
+.store-registration-form textarea,
+.store-registration-form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.store-registration-form textarea {
+    resize: none;
+    height: 100px;
+}
+
+.char-limit {
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.consent-section {
+    margin-top: 20px;
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #555;
+}
+
+.consent-section label {
+    font-weight: bold;
+    color: #333;
+}
+
+.consent-text {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #b07c83;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #0288d1;
+}
+
+/* Footer 스타일 */
+.footer {
+    background-color: #f8f8f8;
+    padding: 40px 20px;
+    color: #333;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.customer-center, .company-links {
+    width: 50%;
+}
+
+.customer-center h3 {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.customer-center p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.contact-button {
+    background-color: #b07c83;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.company-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.company-links ul li a {
+    color: #666;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.address-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* 원하는 너비로 조정 */
+}
+
+.address-container input[type="text"] {
+    width: 100%;
+    padding: 10px 80px 10px 10px; /* 오른쪽에 여백을 추가하여 버튼이 겹치지 않도록 설정 */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.address-search-btn {
+    position: absolute;
+    right: 10px;
+    top: 28%;
+    transform: translateY(-50%);
+    background-color: #b07c83; /* 원하는 색상 */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.address-search-btn:hover {
+    background-color: #a0697b; /* 버튼 호버 효과 */
+}
+
+.file-names {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

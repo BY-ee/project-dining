@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <script>
-        location.href = '/admin/members';
-    </script>
-</body>
-</html>
+로그인
+<button onclick="location.href='/join'">회원가입</button>
+<button onclick="location.href='/'">홈</button>
