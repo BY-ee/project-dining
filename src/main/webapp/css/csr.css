@@ -1,0 +1,367 @@
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #ffffff; /* 전체 배경 흰색 */
+}
+
+/* 헤더 스타일 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+/* 헤더 링크 스타일 (변색 및 밑줄 제거) */
+header h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+header h1 a:visited,
+header h1 a:focus,
+header h1 a:hover,
+header h1 a:active {
+    color: inherit; /* 클릭 후 색상 유지 */
+    text-decoration: none; /* 클릭 후 밑줄 제거 */
+}
+
+/* 네비게이션 링크 스타일 */
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+}
+	
+/* 네비게이션 링크 변색 및 밑줄 제거 */
+header nav a:visited,
+header nav a:focus,
+header nav a:hover,
+header nav a:active {
+    color: #333;
+    text-decoration: none;
+}
+
+header input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* 메인 컨테이너 스타일 */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* 세로 정렬 시작 위치 */
+    max-width: 1000px; /* 중앙에 위치시키기 위한 최대 너비 */
+    margin: 0 auto;
+    padding: 40px 20px;
+    border-bottom: 1px solid #ddd; /* 하단에 연한 회색 줄 */
+    justify-content: center;
+}
+
+/* FAQ 스타일 */
+.faq {
+    width: 500px;
+    margin-left: 50px;
+}
+
+.faq h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.faq-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.faq-item {
+    margin: 10px 0;
+    background-color: transparent;
+    border: none;
+    color: #333;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom:20px;
+    margin-top:10px;
+}
+
+.faq-item:hover {
+    color: #555;
+}
+
+.faq-answer {
+    display: none; /* 초기 상태에서는 숨김 */
+    width: 80%;
+    padding: 10px 15px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* 고객센터 스타일 */
+.customer-center {
+    width: 400px;
+    padding: 20px;
+    background-color: #f9f9f9; /* 연한 회색 배경 */
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+.customer-center h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.hours {
+    font-size: 14px;
+    color: #666;
+}
+
+.info-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.contact-number {
+    font-size: 20px;
+    color: #333; /* 검은색 */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.contact-button {
+    width: 100%;	
+    padding: 10px;
+    background-color: #b07c83; /* 캡처와 같은 색상 */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.contact-button:hover {
+    background-color: #a0697b;
+}
+
+.email-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.email-button,
+.email-copy {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.email-button:hover,
+.email-copy:hover {
+    background-color: #f0f0f0;
+}
+
+/* 탭 섹션 스타일 */
+.tab-faq {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.tabs {
+    display: inline-flex;
+    gap: 15px;
+    margin-bottom: 80px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-button:hover,
+.tab-button.active {
+    color: #333;
+    border-bottom: 2px solid #333;
+}
+
+.tab-content {
+    display: none;
+    text-align: center;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    gap: 10px;
+}
+
+.faq-detial-answer {
+    display: none; /* 초기 상태에서는 숨김 */
+    width: 80%;
+    padding: 10px 15px;
+    margin-top: -10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    font-size: 14px;
+    text-align: left;
+    margin-bottom:20px;
+}
+
+.footer {
+    background-color: #f8f8f8;
+    padding: 40px 20px;
+    color: #333;
+    font-size: 14px;
+    margin-top: 120px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.customer-center {
+    width: 50%;
+    padding-right: 20px; /* 오른쪽 여백 */
+    border-right: 1px solid #ddd; /* 세로 구분선 */
+}
+
+.customer-center h3 {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.customer-center p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.contact-button {
+    background-color: #b07c83;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.contact-button:hover {
+    background-color: #a0697b;
+}
+
+.company-links {
+    width: 50%;
+    padding-left: 20px; /* 왼쪽 여백 */
+}
+
+.company-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.company-links ul li {
+    margin-bottom: 5px;
+}
+
+.company-links ul li a {
+    color: #666;
+    text-decoration: none;
+}
+
+.company-links ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    border-top: 1px solid #ddd; /* 하단 경계선 */
+    padding-top: 10px;
+}
+
+.footer-content > div {
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+        border-radius: 0; /* 경계선이 둥글지 않도록 설정 */
+    
+}
+
+.footer-content > div:last-child {
+    border-right: none;
+}
+
+.footer h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer h3 a:visited,
+.footer h3 a:hover,
+.footer h3 a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+.time {
+    margin-left: 10px;
+}
