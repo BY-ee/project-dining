@@ -2,9 +2,9 @@ package com.project.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.project.domain.Notice;
+import com.project.domain.NoticeDomain;
 
 @Mapper
 public interface NoticeMapper {
-	void insertNotice(Notice notice);
+	void insertNotice(NoticeDomain notice);
 }

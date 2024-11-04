@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.domain.Notice;
+import com.project.domain.NoticeDomain;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,67 +22,62 @@ public class AdminController {
 	// 회원관리 페이지
 	@GetMapping("/members")
 	public String member() {
-		return "/admin/adminMembers";
+		return "admin/adminMembers";
 	}
 	
 	// 게시글 관리 페이지
 	@GetMapping("/posts")
 	public String post() {
-		return "/admin/adminPosts";
+		return "admin/adminPosts";
 	}
 	
 	// 리뷰 관리 페이지
 	@GetMapping("/reviews")
 	public String review() {
-		return "/admin/adminReviews";
+		return "admin/adminReviews";
 	}
 	
 	// 게시글 승인 페이지
 	@GetMapping("/approve")
 	public String approve() {
-		return "/admin/adminApprove";
+		return "admin/adminApprove";
 	}
 	
 	// 공지사항 관리 페이지
 	@GetMapping("/notice")
 	public String notice() {
-		return "/admin/adminNotice";
+		return "admin/adminNotice";
 	}
 	
 	// 공지사항 상세 페이지
 	@GetMapping("/notice/id")
 	public String noticeDetail() {
-		return "/admin/adminNoticeDetail";
+		return "admin/adminNoticeDetail";
 	}
 	
 	// 공지사항 작성폼 페이지
 	@GetMapping("/notice/write")
 	public String noticeForm() {
-		return "/admin/adminNoticeForm";
+		return "admin/adminNoticeForm";
 	}
 	
 	// 공지사항 작성
 	@PostMapping("/notice/write")
 	@ResponseBody
-	public String writeNotice(@RequestBody Notice notice) {
+	public String writeNotice(@RequestBody NoticeDomain notice) {
 		adminService.insertNotice(notice);
-		return "/admin/adminNotice";
+		return "admin/adminNotice";
 	}
 	
 	// 공지사항 수정폼 페이지
 	@GetMapping("/notice/edit/id")
 	public String editNoticePage() {
-		return "/admin/adminNoticeEdit";
+		return "admin/adminNoticeEdit";
 	}
 	
 	// 공지사항 수정
 	@PostMapping("/notice/edit")
-	public String editNotice() {
-		return "/admin/adminNotice";
-	}
-	
-	@GetMapping("/a")
-	public String a() {
-		return "/admin/registerStore";
+	public String EditNotice() {
+		return "admin/adminNotice";
 	}
 }
