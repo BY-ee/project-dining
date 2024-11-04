@@ -9,7 +9,7 @@
     <title>리뷰 관리</title>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/adminReview.js"></script>
+    <script src="/js/admin/adminReview.js"></script>
 </head>
 <body>
 

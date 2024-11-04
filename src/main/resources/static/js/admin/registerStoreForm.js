@@ -1,18 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가게 등록</title>
-    <link rel="stylesheet" href="/css/admin/admin.css">
-    <link rel="stylesheet" href="/css/admin/adminApprove.css">
-</head>
-<body>
-    <div class="content">
-        <h2 style="margin-bottom: 20px;">사업자 가게 등록</h2>
+$(() => {
+    // 임시 데이터 (db 연동 시 함수로 데이터를 가져옴)
+    const form = `
+        <h2 style="margin-bottom: 20px;">모수</h2>
         
         <section>
             <h3>기본 정보</h3>
@@ -86,6 +75,29 @@
                 <button class="btn btn-reject">반려</button>
             </form>
         </div>
-    </div>
-</body>
-</html>
+    `;
+
+    // 게시글 승인 페이지의 가게이름 클릭 시 팝업창 띄우기
+    $('.approve-link').each((index, link) => {
+        $(link).on('click', (e) => {
+            e.preventDefault();
+            $('#approve-content').html(form);
+            $('#popup-overlay').css('display', 'flex');
+        });
+    });
+});
+
+// 가게 등록 폼 가져오는 함수
+function getRegisterStoreForm() {
+    $.ajax({
+        url: ``,
+        type: 'GET',
+        success: (form) => {
+            
+        }
+    });
+}
+
+function closePopup() {
+    $('#popup-overlay').css('display', 'none');
+}

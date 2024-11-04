@@ -7,9 +7,9 @@
 <html lang="ko">
 <head>
     <title>회원관리</title>
-</head>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/adminMember.js"></script>
+    <script src="/js/admin/adminMember.js"></script>
+</head>
 <body>
 
     <!-- Main Content -->

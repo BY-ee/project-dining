@@ -3,7 +3,7 @@ package com.project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+//import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -34,9 +34,9 @@ public class MypageController {
 		return "mypage/myPage2";
 	}
 
-	@GetMapping("/loginSuccess")
-	public String loginSuccess(@AuthenticationPrincipal OAuth2User oauth2User) {
-		System.out.println("User Attributes: " + oauth2User.getAttributes());
-		return "index"; // loginSuccess.html로 이동
-	}
+//	@GetMapping("/loginSuccess")
+//	public String loginSuccess(@AuthenticationPrincipal OAuth2User oauth2User) {
+//		System.out.println("User Attributes: " + oauth2User.getAttributes());
+//		return "index"; // loginSuccess.html로 이동
+//	}
 }

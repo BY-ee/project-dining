@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <title>작성폼</title>
-    <link rel="stylesheet" href="/css/admin/adminNotice.css">
+    <link rel="stylesheet" href="/css/admin/adminNotice.css" />
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/notice.js"></script>
 </head>

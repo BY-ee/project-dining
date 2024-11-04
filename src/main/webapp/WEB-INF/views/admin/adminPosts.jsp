@@ -9,7 +9,7 @@
     <title>게시글 관리</title>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/adminPost.js"></script>
+    <script src="/js/admin/adminPost.js"></script>
 </head>
 <body>
 
