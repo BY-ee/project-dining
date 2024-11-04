@@ -8,7 +8,7 @@
 </head>
 <body>
 회원가입
-<form action="/join" method="post">
+<form action="/join.do" method="post">
 	<input type="email" placeholder="Email" name="email" required>
 	<input type="password" placeholder="Password" name="password" required>
 	<input type="text" placeholder="Username" name="username" required>

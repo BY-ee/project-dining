@@ -1,31 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/views/admin/templates/header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 상세</title>
-    <link rel="stylesheet" href="css/notice/commonStyles.css">
-    <link rel="stylesheet" href="css/notice/noticeCommonStyles.css">
-    <link rel="stylesheet" href="css/notice/noticeStyles.css">
+    <link rel="stylesheet" href="/css/admin/adminNotice.css">
 </head>
 <body>
-    <!-- 상단바 -->
-    <header class="navbar">
-        <div class="navbar-left">
-            <a class="navbar-logo">냐미</a>
-        </div>
-        <div class="navbar-right">
-            <a href="#" class="icon">로그아웃</a>
-            <a href="/" class="icon">홈</a>
-        </div>
-    </header>
-	<nav class="navbar-menu">
-        <a href="#" class="menu-item active">공지사항</a>
-        <a href="#" class="menu-item">이벤트</a>
-    </nav>
-
+    
     <div class="content">
         <!-- 제목과 날짜 -->
         <div class="notice-header">
@@ -56,9 +41,11 @@
             </ul>
         </div>
 
-        <!-- 목록으로 돌아가기 버튼 -->
+        <!-- 버튼 -->
         <div class="back-button">
-            <button onclick="location.href='/noticeList'">목록</button>
+            <button onclick="location.href='/admin/edit/id'">수정</button>
+            <button onclick="location.href='/admin/delete/id'">삭제</button>
+            <button onclick="location.href='/admin/notice'">목록</button>
         </div>
     </div>
 </body>

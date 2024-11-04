@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이벤트 페이지</title>
-<link rel="stylesheet" href="css/commonStyles.css">
+<link rel="stylesheet" href="css/notice/commonStyles.css">
 <link rel="stylesheet" href="css/notice/noticeCommonStyles.css">
 <link rel="stylesheet" href="css/notice/eventListStyles.css">
 </head>
