@@ -22,7 +22,6 @@
 			<div class="social-connect-buttons">
 				<button>카카오 연결하기</button>
 				<button>구글 연결하기</button>
-				<button>메타 연결하기</button>
 				<button>네이버 연결하기</button>
 			</div>
 		</div>

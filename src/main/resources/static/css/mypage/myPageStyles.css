@@ -32,8 +32,48 @@
 	width: 150px;
 	height: 150px;
 	background-image: url('../../images/images.jpeg');
+	background-size:cover;
 	border-radius: 50%;
 	margin: 0 auto;
+	position:relative;
+	cursor:pointer;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	overflow: hidden; /* 자식 요소가 부모 경계를 넘지 않도록 설정 */
+}
+
+/* 마우스 호버 시 어두운 오버레이 레이어 추가 */
+.profile-pic::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0); /* 기본 상태에서는 투명 */
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.profile-pic:hover::before {
+     background-color: rgba(0, 0, 0, 0.5); /* 마우스 호버 시 어두워짐 */
+}
+
+/* '프로필 변경' 텍스트 스타일 */
+.profile-overlay {
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 2; /* 텍스트가 오버레이 위에 표시되도록 설정 */
+    display: none;
+}
+
+/* 마우스 호버 시 '프로필 변경' 텍스트 표시 */
+.profile-pic:hover .profile-overlay {
+    display: block;
 }
 
 .profile-name {
@@ -42,24 +82,9 @@
 	font-weight: bold;
 }
 
-.upload-button {
-	background-color: #5bc0de;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	border-radius: 6px;
-	margin-top: 10px;
-	transition: background-color 0.3s;
-}
-
-.upload-button:hover {
-	background-color: #31b0d5;
-}
-
 /* 메인 콘텐츠 스타일 */
 .main-content {
-	/* flex-grow: 1; 필요없는 코드 */
+	flex-grow: 1;
 	padding: 20px;
 	background-color: #ffffff;
 	border-radius: 8px;
@@ -79,7 +104,7 @@
 .tab {
 	padding: 10px;
 	border: 1px solid #ccc;
-	background-color: rgb(231, 206, 190);;
+	background-color: rgb(231, 206, 190);
 	cursor: pointer;
 	border-radius: 4px;
 	flex: 1;
@@ -324,4 +349,57 @@
 
 .policy-agreement input[type="checkbox"] {
     margin-right: 5px;
+}
+
+
+/* 사업자 진행 과정 */
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+}
+
+.progress-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #dcdcdc; /* 기본 상태의 색 */
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s;
+}
+
+.completed .progress-icon {
+    background-color: #0073e6; /* 완료된 단계의 색 */
+    color: #fff;
+}
+
+.line {
+    flex: 1;
+    height: 2px;
+    background-color: #dcdcdc;
+    margin: 0 10px;
+}
+
+.step p {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 진행 중인 단계 강조 */
+.step.completed + .line {
+    background-color: #0073e6; /* 완료된 선의 색 */
 }
