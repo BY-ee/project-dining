@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.project.dao.LoginDao;
-import com.project.model.LoginBean;
+import com.project.mapper.LoginMapper;
+import com.project.domain.LoginDomain;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,12 +21,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LoginService {
 
-	private final LoginDao loginDao;
+	private final LoginMapper loginMapper;
 
 	    
-	public LoginBean getUser(String userid) {
-		return loginDao.getUser(userid);
+	public LoginDomain getUser(String userid) {
+		return loginMapper.getUser(userid);
 	}
+
 
 
 	public String get(String naverInfoApiUrl, Map<String, String> naverHeader) {
@@ -90,8 +91,4 @@ public class LoginService {
 	        }
 	 }
 	 
-	 
-
-	
-	
 }

@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+#공통
+
+* 기본 설정 *
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+/* 상단바 스타일 */
+.navbar {
+    background-color: rgb(231, 206, 190);
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 8px;
+}
+
+.navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.navbar-right .icon {
+    font-size: 16px;
+    color: #333;
+    margin-left: 15px;
+    text-decoration: none;
+}
