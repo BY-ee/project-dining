@@ -14,6 +14,7 @@ CREATE TABLE 리뷰 (
     store_ID NUMBER NOT NULL,
     score DECIMAL(2, 1),
     review CLOB,
+    created_at DATE DEFAULT SYSDATE,
     CONSTRAINT fk_user FOREIGN KEY (user_ID) REFERENCES 유저(id),
     CONSTRAINT fk_store FOREIGN KEY (store_ID) REFERENCES 가게 상세페이지(id),
     CONSTRAINT unique_user_store UNIQUE (user_ID, store_ID) -- user_ID와 store_ID의 조합이 유일하도록 설정
