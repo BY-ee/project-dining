@@ -58,7 +58,7 @@ public class AdminController {
 	// 공지사항 작성폼 페이지
 	@GetMapping("/notice/write")
 	public String noticeForm() {
-		return "admin/adminNoticeForm";
+		return "admin/adminNoticeWrite";
 	}
 	
 	// 공지사항 작성

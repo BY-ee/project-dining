@@ -43,8 +43,8 @@
 
         <!-- 버튼 -->
         <div class="back-button">
-            <button onclick="location.href='/admin/edit/id'">수정</button>
-            <button onclick="location.href='/admin/delete/id'">삭제</button>
+            <button onclick="location.href='/admin/notice/edit/id'">수정</button>
+            <button onclick="location.href='/admin/notice/delete/id'">삭제</button>
             <button onclick="location.href='/admin/notice'">목록</button>
         </div>
     </div>
