@@ -16,7 +16,7 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 
 	public List<ReviewDomain> getAllReviews() {
-		return ReviewMapper.getAllReviews();
+		return reviewMapper.getAllReviews();
 	}
 	
 	

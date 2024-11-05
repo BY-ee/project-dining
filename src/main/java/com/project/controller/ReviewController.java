@@ -17,6 +17,11 @@ public class ReviewController {
 
 	private final ReviewService reviewService;
 	
+	@RequestMapping("/reviews")
+    public String showReviewsPage() {
+        return "store/reviews";
+    }
+	
 	@RequestMapping("/getReviews")
 	@ResponseBody
 	

@@ -1,11 +1,13 @@
 package com.project.domain;
 
+import java.util.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
 @Data
-@Alias("Reviews")
+@Alias("ReviewDomain")
 public class ReviewDomain {
 
 	private int id;
@@ -13,5 +15,5 @@ public class ReviewDomain {
 	private int store_id;
 	private double score;
 	private String review;
-	private String created_at;
+	private Date created_at;
 }

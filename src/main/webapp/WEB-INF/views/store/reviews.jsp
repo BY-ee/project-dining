@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +9,9 @@
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-<script>
+<script type="text/javascript">
+    var contextPath = '${pageContext.request.contextPath}';
+    
 	$(document).ready(function(){
 		// 페이지 로드 시 서버에서 리뷰데이터를 불러옴
 		loadReviews();
@@ -24,7 +28,7 @@
 	});
 
 	// 서버에서 리뷰 데이터를 가져오는 함수
-	function loadRewviews(){
+	function loadReviews(){
 		$.ajax({
 			url: '/getReviews',
 			method: 'GET',
@@ -49,11 +53,11 @@
          var reviewItem = `
              <div class="review-item">
                  <div class="review-header">
-                     <span class="review-author">${review.author}</span>
-                     <span class="review-date">${review.date}</span>
+                     <span class="review-author">${review.user_id}</span>
+                     <span class="review-date">${review.created_at}</span>
                  </div>
-                 <div class="review-rating">${generateStars(review.rating)}</div>
-                 <div class="review-content">${review.content}</div>
+                 <div class="review-rating">${generateStars(review.score)}</div>
+                 <div class="review-content">${review.review}</div>
              </div>`;
          reviewList.append(reviewItem);
      });
@@ -80,7 +84,7 @@
          dataType: 'json',
          success: function(reviews) {
              reviews.sort(function(a, b) {
-                 return new Date(b.date) - new Date(a.date);
+                 return new Date(b.created_at) - new Date(a.created_at);
              });
              renderReviews(reviews);
          },
@@ -98,7 +102,7 @@
          dataType: 'json',
          success: function(reviews) {
              reviews.sort(function(a, b) {
-                 return b.rating - a.rating;
+                 return b.score - a.score;
              });
              renderReviews(reviews);
          },
