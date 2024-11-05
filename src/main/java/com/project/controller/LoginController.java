@@ -1,22 +1,11 @@
 package com.project.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.domain.LoginDomain;
 import com.project.service.LoginService;
 
@@ -28,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
 	private final LoginService loginService;
- 
-	@RequestMapping("loginForm.do")
+
+	@RequestMapping("/loginForm.do")
 	public String loginForm() {
 		return "login/loginForm";
 	}
@@ -49,97 +38,43 @@ public class LoginController {
 		return "login/ownerForm";
 	}
 	
-//	@RequestMapping("home.do")
-//	public String home() {
-//		return "loginSignUp/home";
-//	}
+	@RequestMapping("home.do")
+	public String home() {
+		return "home/home-category";
+	}
 	
 	@RequestMapping("findPwd.do")
 	public String findPwd() {
 		return "login/findPwd";
 	}
+
 	
-	@RequestMapping("naverCallback.do")
-	public String naverCallback(@RequestParam("code") String code,
-								@RequestParam("state") String state,
-								@ModelAttribute LoginDomain login,
-								HttpSession session,
-								Model model) throws UnsupportedEncodingException {
-		
-		
-        String clientId = "pyNA4GhE0bkNcyJChkCA";
-        String clientSecret = "DisiKqnB7E";
-        
-        String naverRedirectURI = URLEncoder.encode("http://www.localhost/naverCallback.do", "UTF-8");
-        
-        String naverApiUrl;
-        
-        naverApiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
-        naverApiUrl += "client_id=" + clientId;
-        naverApiUrl += "&client_secret=" + clientSecret;
-        naverApiUrl += "&redirect_uri=" + naverRedirectURI;
-        naverApiUrl += "&code=" + code;
-        naverApiUrl += "&state=" + state;
-        
-		try {
-			  URL url = new URL(naverApiUrl);
-			  // con 객체가 서버로부터의 응답을 저장
-			  HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		      con.setRequestMethod("GET");
-		      int responseCode = con.getResponseCode();
-		      BufferedReader br;
-		      
-		      if(responseCode==200) { // 정상 호출
-		          br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		        } else {  // 에러 발생
-		          br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		        }
-		      String inputLine;
-		      StringBuffer naverInfo = new StringBuffer();
-		      while ((inputLine = br.readLine()) != null) {
-		    	  naverInfo.append(inputLine);
-		      }
-		      
-		      br.close();
-
-		      // naverInfo : access Token 정보를 가짐
-
-		     
-		      ObjectMapper omNaverInfo = new ObjectMapper();
-		      JsonNode jnNaverInfo = omNaverInfo.readTree(naverInfo.toString());
-		      
-		      String accessToken = jnNaverInfo.get("access_token").asText();
-		      
-		      //DTO에 accessToken저장
-		      login.setAccessToken(accessToken);
-		      
-		      String header = "Bearer " + accessToken;
-		      
-		      String naverInfoApiUrl = "https://openapi.naver.com/v1/nid/me";
-		      
-
-		      Map<String, String> naverHeader = new HashMap<>();
-		      naverHeader.put("Authorization", header);
-		      String naverRB = loginService.get(naverInfoApiUrl,naverHeader);
-		        
-		      System.out.println(naverRB);
-		      
-		}catch(Exception e){
-				e.printStackTrace();
-		}
- 
-		
-
-		return "naverCallback";  
-	
-
+	@RequestMapping("goLoginMyPage.do")
+	public String goLoginMyPage() {
+		return "login/mypagelogin";
 	}
 	
-
-
-
 	
+	@RequestMapping("moveMyPage.do")
+	public String moveMyPage() {
+		return "login/mypagelogin";
+	}
 	
+	@RequestMapping("stateLogin.do")
+	public String stateLogin(@RequestParam(value = "rootLogin", required = false) String rootLogin, HttpSession session) {
+		
+		 session.setAttribute("rootLogin", rootLogin);
+		    
+		  return "redirect:/oauth2/authorization/naver";
+	}
+	
+	@RequestMapping("stateMypage.do")
+	public String stateMypage(@RequestParam(value = "rootLogin", required = false) String rootLogin, HttpSession session) {
+		
+		 session.setAttribute("rootLogin", rootLogin);
+		    
+		  return "redirect:/oauth2/authorization/naver";
+	}
 	
 	
 	
