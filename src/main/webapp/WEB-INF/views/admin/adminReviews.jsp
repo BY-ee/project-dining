@@ -7,9 +7,6 @@
 <html lang="ko">
 <head>
     <title>리뷰 관리</title>
-
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/adminReview.js"></script>
 </head>
 <body>
 
@@ -45,32 +42,23 @@
             <tbody>
                 <tr>
                     <td>2</td>
-                    <td><a href="/admin/members">tnmm123</a></td>
-                    <td><a href="/admin/posts">모수</a></td>
+                    <td><a href="/admin/members">2</a></td>
+                    <td><a href="/admin/posts">2</a></td>
                     <td>1점</td>
-                    <td><a href="#" class="review-link">ㅇㅉ</a></td>
+                    <td><a href="#">ㅇㅉ</a></td>
                     <td style="color: #f44;">게시중단</td>
                 </tr>
 
                 <tr>
                     <td>1</td>
-                    <td><a href="/admin/members">dkdlel</a></td>
-                    <td><a href="/admin/posts">모수</a></td>
+                    <td><a href="/admin/members">1</a></td>
+                    <td><a href="/admin/posts">3</a></td>
                     <td>5점</td>
-                    <td><a href="#" class="review-link">맛있었습니다</a></td>
+                    <td><a href="#">맛있었습니다</a></td>
                     <td style="color: #5a7beb;">게시</td>
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <!-- 리뷰 팝업 -->
-    <div class="popup-overlay" id="popup-overlay">
-        <div class="popup-content">
-            <button class="popup-close" onclick="closePopup()">X</button>
-            <h3 class="popup-title">유저 닉네임</h3>
-            <div id="review-content"></div>
-        </div>
     </div>
 </body>
 </html>

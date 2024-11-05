@@ -4,25 +4,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class BoardController {
+public class NoticeController {
 
 	@GetMapping("/noticeList")
 	public String noticeList() {
-		return "board/noticeList";
+		return "notice/noticeList";
 	}
 	
 	@GetMapping("/notice")
 	public String notice() {
-		return "board/notice";
+		return "notice/notice";
 	}
 	
 	@GetMapping("/eventList")
 	public String eventList() {
-		return "board/eventList";
+		return "notice/eventList";
 	}
 	
 	@GetMapping("/event")
 	public String event() {
-		return "board/event";
+		return "notice/event";
 	}
 }

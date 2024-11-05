@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <title>공지사항 상세</title>
-    <link rel="stylesheet" href="/css/admin/adminNotice.css" />
+    <link rel="stylesheet" href="/css/admin/adminNotice.css">
 </head>
 <body>
     

@@ -7,9 +7,6 @@
 <html lang="ko">
 <head>
     <title>게시글 승인</title>
-    <link rel="stylesheet" href="/css/admin/adminApprove.css" />
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/registerStoreForm.js"></script>
 </head>
 <body>
 
@@ -38,27 +35,21 @@
                     <th>가게 이름</th>
                     <th>주소</th>
                     <th>전화번호</th>
+                    <th>메뉴</th>
                     <th>상태</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>2</td>
-                    <td><a href="#" class="approve-link">모수</a></td>
+                    <td><a href="#">모수</a></td>
                     <td>서울특별시 용산구</td>
                     <td>02-111-1111</td>
+                    <td><a href="#">확인</a></td>
                     <td>대기</td>
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <!-- 가게 등록 폼 팝업 -->
-    <div class="popup-overlay" id="popup-overlay">
-        <div class="popup-content">
-            <button class="popup-close" onclick="closePopup()">X</button>
-            <div id="approve-content"></div>
-        </div>
     </div>
 </body>
 </html>

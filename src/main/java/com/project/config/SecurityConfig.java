@@ -45,7 +45,8 @@ public class SecurityConfig {
                     .permitAll()
         )
         .oauth2Login(oauth2 -> 
-                oauth2.defaultSuccessUrl("/loginSuccess") // 네이버 로그인 성공 시 리디렉션할 URL
+                oauth2
+                    .defaultSuccessUrl("/loginSuccess") // 네이버 로그인 성공 시 리디렉션할 URL
         )
         .csrf(csrf -> csrf.disable()); // CSRF 비활성화
 

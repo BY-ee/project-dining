@@ -60,7 +60,7 @@
 
                 <tr>
                     <td>1</td>
-                    <td><a href="/admin/notice/id">[공지] 11월 19일(일) 사이트 점검 안내</a></td>
+                    <td><a href="#">[공지] 11월 19일(일) 사이트 점검 안내</a></td>
                     <td>24.10.30 15:23</td>
                     <td style="color: #f44;">게시중단</td>
                 </tr>

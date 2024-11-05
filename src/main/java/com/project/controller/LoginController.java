@@ -6,8 +6,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.domain.LoginDomain;
+import com.project.security.Api;
 import com.project.service.LoginService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,7 +25,9 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
 	private final LoginService loginService;
- 
+    
+	private final Api api;
+	
 	@RequestMapping("loginForm.do")
 	public String loginForm() {
 		return "login/loginForm";
@@ -60,15 +59,14 @@ public class LoginController {
 	}
 	
 	@RequestMapping("naverCallback.do")
-	public String naverCallback(@RequestParam("code") String code,
-								@RequestParam("state") String state,
-								@ModelAttribute LoginDomain login,
-								HttpSession session,
-								Model model) throws UnsupportedEncodingException {
+	public String naverCallback(@RequestParam String code,
+								@RequestParam String state,
+							 
+								HttpSession session) throws UnsupportedEncodingException {
 		
 		
-        String clientId = "pyNA4GhE0bkNcyJChkCA";
-        String clientSecret = "DisiKqnB7E";
+        String clientId = api.getNaverLoginClientKey();
+        String clientSecret = api.getNaverLoginSecret();
         
         String naverRedirectURI = URLEncoder.encode("http://www.localhost/naverCallback.do", "UTF-8");
         
@@ -80,6 +78,9 @@ public class LoginController {
         naverApiUrl += "&redirect_uri=" + naverRedirectURI;
         naverApiUrl += "&code=" + code;
         naverApiUrl += "&state=" + state;
+
+        String naverAccessToken = "";
+        String naverRefreshToken = "";
         
 		try {
 			  URL url = new URL(naverApiUrl);
@@ -87,63 +88,38 @@ public class LoginController {
 			  HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		      con.setRequestMethod("GET");
 		      int responseCode = con.getResponseCode();
+		      System.out.print("responseCode="+responseCode);	
+			
 		      BufferedReader br;
 		      
-		      if(responseCode==200) { // 정상 호출
-		          br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		        } else {  // 에러 발생
+		      if(responseCode == 200 ) {
+		    	  br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		      }else {  // 에러 발생
 		          br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		        }
-		      String inputLine;
-		      StringBuffer naverInfo = new StringBuffer();
-		      while ((inputLine = br.readLine()) != null) {
-		    	  naverInfo.append(inputLine);
 		      }
-		      
+		      String inputLine;
+		      StringBuffer res = new StringBuffer();
+		      while ((inputLine = br.readLine()) != null) {
+		        res.append(inputLine);
+		      }
 		      br.close();
-
-		      // naverInfo : access Token 정보를 가짐
-
-		     
-		      ObjectMapper omNaverInfo = new ObjectMapper();
-		      JsonNode jnNaverInfo = omNaverInfo.readTree(naverInfo.toString());
 		      
-		      String accessToken = jnNaverInfo.get("access_token").asText();
-		      
-		      //DTO에 accessToken저장
-		      login.setAccessToken(accessToken);
-		      
-		      String header = "Bearer " + accessToken;
-		      
-		      String naverInfoApiUrl = "https://openapi.naver.com/v1/nid/me";
-		      
-
-		      Map<String, String> naverHeader = new HashMap<>();
-		      naverHeader.put("Authorization", header);
-		      String naverRB = loginService.get(naverInfoApiUrl,naverHeader);
-		        
-		      System.out.println(naverRB);
-		      
+		                  
+	            
+			
 		}catch(Exception e){
 				e.printStackTrace();
 		}
- 
 		
-
-		return "naverCallback";  
-	
-
+		
+		
+		return "naverCallback";
 	}
 	
+	
+	
+	
 
-
-
-	
-	
-	
-	
-	
-	
 	// 로그인
 	@RequestMapping("login_ok.do")
 	public String login_ok(@ModelAttribute LoginDomain login,

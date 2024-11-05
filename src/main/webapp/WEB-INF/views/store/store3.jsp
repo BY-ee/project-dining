@@ -174,8 +174,8 @@
 	<!-- 리뷰 입력 섹션 -->
 	<div class="review-input-section">
 	    <h3>리뷰 작성하기</h3>
-	    <form id="reviewForm" action="/submitReview" method="post">
-	    <input type="text" id="user_id" placeholder="작성자 이름" required>
+	    <form id="reviewForm">
+	    <input type="text" id="reviewerName" placeholder="작성자 이름" required>
 	    <select id="reviewRating">
 	        <option value="5">5점 - 아주 좋아요</option>
 	        <option value="4">4점 - 좋아요</option>
