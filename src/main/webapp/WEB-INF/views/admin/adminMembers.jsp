@@ -45,71 +45,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>3</td>
-                    <td>user1</td>
-                    <td>닉네임123</td>
-                    <td>user1@kakao.com</td>
-                    <td><a href="#" class="intro-link">확인</a></td>
-                    <td>2024-10-29</td>
-                    <td></td>
-                    <td>
-                        <select name="user-ban-time">
-                            <option value="1">1일</option>
-                            <option value="3">3일</option>
-                            <option value="7">7일</option>
-                            <option value="30">30일</option>
-                            <option value="0">영구</option>
-                        </select>
-                        <button class="delete-btn">차단</button>
-                        <button class="edit-btn">차단 해제</button>
-                    </td>
-                    <td style="color: #5a7beb;">활동</td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>tnmm123</td>
-                    <td>tnmm11</td>
-                    <td>tnmm123@gmail.com</td>
-                    <td><a href="#" class="intro-link">확인</a></td>
-                    <td>2024-01-05</td>
-                    <td>2024-10-30</td>
-                    <td>
-                        <select name="user-ban-time">
-                            <option value="1">1일</option>
-                            <option value="3">3일</option>
-                            <option value="7">7일</option>
-                            <option value="30">30일</option>
-                            <option value="0">영구</option>
-                        </select>
-                        <button class="delete-btn">차단</button>
-                        <button class="edit-btn">차단 해제</button>
-                    </td>
-                    <td style="color: #ff4b4b;">영구차단</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>dkdlel</td>
-                    <td>Nickname1</td>
-                    <td>dkdlel@naver.com</td>
-                    <td><a href="#" class="intro-link">확인</a></td>
-                    <td>2012-05-05</td>
-                    <td></td>
-                    <td>
-                        <select name="user-ban-time">
-                            <option value="1">1일</option>
-                            <option value="3">3일</option>
-                            <option value="7">7일</option>
-                            <option value="30">30일</option>
-                            <option value="0">영구</option>
-                        </select>
-                        <button class="delete-btn">차단</button>
-                        <button class="edit-btn">차단 해제</button>
-                    </td>
-                    <td>차단 ( ~ 24.11.01 15:25)</td>
-                </tr>
+                <c:forEach var="member" items="${members}">
+                    <tr>
+                        <td>${member.id}</td>
+                        <td>${member.userid}</td>
+                        <td>${member.nickname}</td>
+                        <td>${member.email}</td>
+                        <td><a href="#" class="intro-link">확인</a></td>
+                        <td>${member.join_date}</td>
+                        <td>${member.leave_date}</td>
+                        <td>
+                            <select name="user-ban-time">
+                                <option value="1">1일</option>
+                                <option value="3">3일</option>
+                                <option value="7">7일</option>
+                                <option value="30">30일</option>
+                                <option value="0">영구</option>
+                            </select>
+                            <button class="delete-btn">차단</button>
+                            <button class="edit-btn">차단 해제</button>
+                        </td>
+                        <td style="color: #5a7beb;">${member.status}</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
