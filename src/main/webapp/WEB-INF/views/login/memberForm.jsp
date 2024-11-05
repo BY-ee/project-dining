@@ -39,7 +39,7 @@
 
 
 <div class="email-form">
-
+  
   <input type="text" placeholder="이메일" class="email-input" id="mailid" name="mailid">
   <span class="domain-symbol">@</span>
   <input type="text" placeholder="도메인" class="email-input" id="domain" name="domain">
@@ -58,6 +58,8 @@
     
     <!-- 인증 입력 필드와 확인 버튼이 나타날 위치 -->
     <div id="verification-input-container" class="verification-container"></div> 
+    <!-- 인증 완료 메시지를 표시할 빈 div -->
+  	<div id="verificationMessage" class="verification-message"></div>
     <!-- 회원가입 버튼 -->
     <button type="submit" class="signcomplete">회원가입</button>
   </div>

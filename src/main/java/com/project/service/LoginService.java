@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.project.domain.LoginDomain;
@@ -29,11 +30,12 @@ public class LoginService {
         return String.valueOf(code);
 	}
 	
+	@Async
 	public void sendVerificationEmail(String toEmail, String code) {
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(toEmail);
 	        message.setSubject("냐미냐미 이메일 인증 코드");
-	        message.setText("인증 코드: " + code );
+	        message.setText("인증 코드: " + code + "\n\n해당 인증번호는 10분간 유효합니다.");
 	        mailSender.send(message);
 	    }
 
