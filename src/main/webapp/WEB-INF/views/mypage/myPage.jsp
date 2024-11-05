@@ -70,5 +70,17 @@
             </div>
         </div>
     </div>
+    <script>
+        // 클릭 시 `redirectUrl`을 세션에 저장하기 위한 함수
+        function setRedirectUrl(url) {
+            fetch('/setRedirectUrl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ redirectUrl: url })
+            });
+        }
+    </script>
 </body>
 </html>

@@ -28,9 +28,9 @@
 
 
 	<div>
-    <a href="/oauth2/authorization/naver">
-        <img src="/images/naver_button.png" alt="네이버 간편 로그인" class="naver-login-btn">
-    </a>
+	  <a href="/oauth2/authorization/naver">
+	    <img src="/images/naver_button.png" alt="네이버 간편 로그인" class="naver-login-btn">
+	  </a>
 	</div>
 	
 

@@ -5,16 +5,21 @@ import java.io.IOException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+//spring security 관련 설정 파일
 
 @Configuration
 public class SecurityConfig {
@@ -55,13 +60,13 @@ public class SecurityConfig {
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                 Authentication authentication) throws IOException {
                 String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-                
+
                 if (redirectUrl != null) {
                     getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
                     request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
                 } else {
                     // 기본 리디렉션 URL (초기 로그인 성공 시)
-                    getRedirectStrategy().sendRedirect(request, response, "/home.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+                    getRedirectStrategy().sendRedirect(request, response, "/chooseUserType"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
                 }
             }
         };

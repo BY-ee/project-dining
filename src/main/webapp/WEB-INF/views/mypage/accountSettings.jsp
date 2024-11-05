@@ -22,7 +22,7 @@
 			<div class="social-connect-buttons">
 				<button>카카오 연결하기</button>
 				<button>구글 연결하기</button>
-				<button>네이버 연결하기</button>
+				<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/myPage')">네이버 연결하기</a>
 			</div>
 		</div>
 
