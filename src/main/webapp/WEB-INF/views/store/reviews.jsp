@@ -30,10 +30,11 @@
 	// 서버에서 리뷰 데이터를 가져오는 함수
 	function loadReviews(){
 		$.ajax({
-			url: '/getReviews',
+			url: 'getReviews',
 			method: 'GET',
 			dataType: 'json',
 			success: function(reviews){
+				console.log("reviews:" + reviews);
 				renderReviews(reviews);
 				$('#reviewCount').text(reviews.length); // 리뷰 수 업데이트
 			},
@@ -56,7 +57,7 @@
                      <span class="review-author">${review.user_id}</span>
                      <span class="review-date">${review.created_at}</span>
                  </div>
-                 <div class="review-rating">${generateStars(review.score)}</div>
+                 <div class="review-rating">generateStars(review.score)</div>
                  <div class="review-content">${review.review}</div>
              </div>`;
          reviewList.append(reviewItem);
@@ -79,7 +80,7 @@
  // 작성일자 순으로 정렬하는 함수
  function sortReviewsByDate() {
      $.ajax({
-         url: '/getReviews', // 서버 엔드포인트
+         url: 'getReviews', // 서버 엔드포인트
          method: 'GET',
          dataType: 'json',
          success: function(reviews) {

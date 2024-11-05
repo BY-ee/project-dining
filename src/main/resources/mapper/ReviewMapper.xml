@@ -5,8 +5,8 @@
 <mapper namespace="com.project.mapper.ReviewMapper">
 
 	<select id="getAllReviews" resultType="ReviewDomain">
-        SELECT user_id, score, review, created_at
-        FROM 리뷰
+        SELECT *
+        FROM REVIEW
         ORDER BY created_at DESC
     </select>
 
