@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
+	
+// ===================================================	
+	
     // 메인 사진 슬라이드 기능 설정
     const slidesContainer = document.querySelector('.slider');
     const slides = document.querySelectorAll('.slide');
@@ -48,6 +51,10 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('슬라이더 내비게이션 버튼을 찾을 수 없습니다.');
     }
+	
+	
+// ===================================================
+
 
     // 찜하기 버튼 기능
     const likeButton = document.getElementById('likeButton');
@@ -78,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+	
 
     function renderReviews() {
         const reviewList = document.getElementById('review-list');

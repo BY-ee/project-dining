@@ -199,5 +199,5 @@
 		</div>
     </div>
 </body>
-    <script src="js/home-category.js"></script>
+    <script src="js/home/home-category.js"></script>
 </html>
