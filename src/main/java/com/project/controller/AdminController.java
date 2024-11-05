@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Member;
+import com.project.domain.Menu;
 import com.project.domain.NoticeDomain;
+import com.project.domain.Store;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,8 +47,19 @@ public class AdminController {
 	
 	// 게시글 관리 페이지
 	@GetMapping("/posts")
-	public String post() {
+	public String post(@RequestParam(value="page", defaultValue = "1") int page,
+			 		   Model model) {
+		int limit = 10;
+		List<Store> stores = adminService.selectStores(page, limit);
+		model.addAttribute("stores", stores);
 		return "admin/adminPosts";
+	}
+	
+	// 메뉴 조회
+	@GetMapping("/menus/{storeId}")
+	@ResponseBody
+	public List<Menu> selectMenus(@PathVariable("storeId") long storeId) {
+		return adminService.selectMenus(storeId);
 	}
 	
 	// 리뷰 관리 페이지

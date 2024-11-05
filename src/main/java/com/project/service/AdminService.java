@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.project.domain.Member;
 import com.project.domain.NoticeDomain;
+import com.project.domain.Store;
+import com.project.domain.Menu;
 import com.project.mapper.MemberMapper;
+import com.project.mapper.MenuMapper;
 import com.project.mapper.NoticeMapper;
+import com.project.mapper.StoreMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class AdminService {
 	private final NoticeMapper noticeMapper;
 	private final MemberMapper memberMapper;
+	private final StoreMapper storeMapper;
+	private final MenuMapper menuMapper;
 
 	// 공지 작성
 	public void insertNotice(NoticeDomain notice) {
@@ -33,5 +39,18 @@ public class AdminService {
 	// 특정 유저 조회
 	public Member selectMember(long id) {
 		return memberMapper.selectMember(id);
+	}
+
+	// 가게 목록 조회
+	public List<Store> selectStores(int page, int limit) {
+		int start = (page - 1) * limit + 1;
+		int end = start + limit - 1;
+		
+		return storeMapper.selectStores(start, end);
+	}
+
+	// 메뉴 조희
+	public List<Menu> selectMenus(long storeId) {
+		return menuMapper.selectMenus(storeId);
 	}
 }

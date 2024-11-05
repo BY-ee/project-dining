@@ -45,21 +45,19 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="store" items="${stores}">
-                    <tr>
-                        <td>${store.id}</td>
-                        <td>${store.storeName}</td>
-                        <td>${store.address}</td>
-                        <td>${store.phoneNumber}</td>
-                        <td><a href="#" class="menu-link">확인</a></td>
-                        <td>${store.views}</td>
-                        <td>
-                            <button class="delete-btn">게시중단</button>
-                            <button class="edit-btn">재게시</button>
-                        </td>
-                        <td style="color: #f44;">게시중단</td>
-                    </tr>
-                </c:forEach>
+                <tr>
+                    <td>1</td>
+                    <td>모수</td>
+                    <td>서울특별시 용산구</td>
+                    <td>02-111-1111</td>
+                    <td><a href="#" class="menu-link">확인</a></td>
+                    <td>1234</td>
+                    <td>
+                        <button class="delete-btn">게시중단</button>
+                        <button class="edit-btn">재게시</button>
+                    </td>
+                    <td style="color: #f44;">게시중단</td>
+                </tr>
             </tbody>
         </table>
     </div>

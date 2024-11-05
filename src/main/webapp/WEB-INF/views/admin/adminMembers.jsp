@@ -52,8 +52,8 @@
                         <td>${member.nickname}</td>
                         <td>${member.email}</td>
                         <td><a href="#" class="intro-link">확인</a></td>
-                        <td>${member.join_date}</td>
-                        <td>${member.leave_date}</td>
+                        <td>${member.joinDate}</td>
+                        <td>${member.leaveDate}</td>
                         <td>
                             <select name="user-ban-time">
                                 <option value="1">1일</option>
