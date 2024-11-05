@@ -266,7 +266,7 @@
 
 .social-connect-buttons {
 	display: flex;
-	gap: 10px;
+	gap: 50px;
 	margin-top: 15px;
 }
 
@@ -402,4 +402,11 @@
 /* 진행 중인 단계 강조 */
 .step.completed + .line {
     background-color: #0073e6; /* 완료된 선의 색 */
+}
+
+
+.login-btn {
+    margin-top:10px;
+    width: 50px; /* 원하는 너비로 설정 */
+    height: auto; /* 비율에 맞게 자동 조정 */
 }
