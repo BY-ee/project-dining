@@ -3,8 +3,10 @@ package com.project.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.LoginDomain;
 import com.project.service.LoginService;
@@ -48,34 +50,43 @@ public class LoginController {
 		return "login/findPwd";
 	}
 
-	
-	@RequestMapping("goLoginMyPage.do")
-	public String goLoginMyPage() {
-		return "login/mypagelogin";
+	// 회원가입 - 이메일 인증
+	@PostMapping("sendVerificationEmail.do")
+    @ResponseBody
+	public String sendVerificationEmail(@RequestParam("email") String email, HttpSession session) {
+	    // 인증 코드 생성
+        String verificationCode = loginService.generateVerificationCode();
+
+        // 세션에 인증 코드 저장
+        session.setAttribute("verificationCode", verificationCode);
+        session.setAttribute("email", email);
+
+        // 이메일 전송
+        loginService.sendVerificationEmail(email, verificationCode);
+
+        return "인증 코드가 이메일로 전송되었습니다.";
 	}
 	
-	
-	@RequestMapping("moveMyPage.do")
-	public String moveMyPage() {
-		return "login/mypagelogin";
-	}
-	
-	@RequestMapping("stateLogin.do")
-	public String stateLogin(@RequestParam(value = "rootLogin", required = false) String rootLogin, HttpSession session) {
-		
-		 session.setAttribute("rootLogin", rootLogin);
-		    
-		  return "redirect:/oauth2/authorization/naver";
-	}
-	
-	@RequestMapping("stateMypage.do")
-	public String stateMypage(@RequestParam(value = "rootLogin", required = false) String rootLogin, HttpSession session) {
-		
-		 session.setAttribute("rootLogin", rootLogin);
-		    
-		  return "redirect:/oauth2/authorization/naver";
-	}
-	
+	@PostMapping("/verifyCode.do")
+    @ResponseBody
+    public String verifyCode(@RequestParam("email") String email, @RequestParam("code") String code, HttpSession session) {
+        String savedCode = (String) session.getAttribute("verificationCode");
+        String savedEmail = (String) session.getAttribute("email");
+
+        if (savedCode == null || savedEmail == null) {
+        	System.out.println(savedCode);
+        	System.out.println(savedEmail);
+            return "인증 코드가 만료되었거나 존재하지 않습니다.";
+        }
+
+        if (savedEmail.equals(email) && savedCode.equals(code)) {
+            session.removeAttribute("verificationCode"); // 인증 후 세션에서 코드 제거
+            session.removeAttribute("email");
+            return "인증에 성공했습니다.";
+        } else {
+            return "인증 코드가 올바르지 않습니다.";
+        }
+    }
 	
 	
 	

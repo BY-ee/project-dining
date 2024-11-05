@@ -10,61 +10,65 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests(authorize -> authorize
-                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/", "/stateLogin.do", "/stateMypage.do" , "/loginForm.do", "/mypageForm.do", "/oauth2/**", "/css/**", "/images/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .oauth2Login(oauth2 -> 
+        http.authorizeHttpRequests((requests) -> 
+                requests
+                    .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                    .requestMatchers("/", "/**", "/login", "/logout").permitAll() // 경로를 인증 없이 접근 가능하도록 설정 
+                    .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+        )
+        .formLogin((form) -> 
+                form
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/")
+        )
+        .logout((logout) -> 
+                logout
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+        )
+        .oauth2Login(oauth2 -> 
                 oauth2
-                    .loginPage("/loginForm.do")
-                    .successHandler(customAuthenticationSuccessHandler()) // 내부 핸들러 호출
-            )
-            .csrf(csrf -> csrf.disable());
+                .successHandler(customAuthenticationSuccessHandler()) // 커스텀 성공 핸들러 사용 -> 간편로그인 성공후
+        )
+        .csrf(csrf -> csrf.disable()); // CSRF 비활성화
 
         return http.build();
     }
-
-    // CustomAuthenticationSuccessHandler 클래스 정의
-    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
+    
+    // 커스텀 핸들러(API) 
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                Authentication authentication) throws IOException {
+                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+                
+                if (redirectUrl != null) {
+                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
+                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
+                } else {
+                    // 기본 리디렉션 URL (초기 로그인 성공 시)
+                    getRedirectStrategy().sendRedirect(request, response, "/home.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+                }
+            }
+        };
     }
     
-
-    public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-        @Override
-        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                            Authentication authentication
-                                            ) throws IOException {
-            // 요청에서 state 파라미터 가져오기
-            HttpSession session = request.getSession();
-            String rootLogin = (String) session.getAttribute("rootLogin"); 
-              
-            System.out.println("rootLogin: " + rootLogin);
-            
-            // state 값에 따라 리디렉션 경로 결정
-            if ("mypage".equals(rootLogin)) {
-                response.sendRedirect("/moveMyPage.do"); // mypage로 리디렉션
-            } else {
-                response.sendRedirect("/home.do"); // 기본 리디렉션
-            }
-        }
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // 비밀번호 암호화를 위한 BCryptPasswordEncoder 설정
+        return new BCryptPasswordEncoder();  // 비밀번호 암호화를 위한 BCrypt
     }
 }
