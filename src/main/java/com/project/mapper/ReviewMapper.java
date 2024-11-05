@@ -9,6 +9,10 @@ import com.project.domain.ReviewDomain;
 @Mapper
 public interface ReviewMapper {
 
+	// 모든 리뷰 조회
 	List<ReviewDomain> getAllReviews();
+
+	// 리뷰 삽입
+	void insertReview(ReviewDomain newReview);
 
 }

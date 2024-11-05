@@ -88,7 +88,7 @@
 			dataType : 'json',
 			success : function(reviews) {
 				reviews.sort(function(a, b) {
-					return new Date(b.created_at) - new Date(a.created_at);
+					return new Date(b.createdAt) - new Date(a.createdAt);
 				});
 				renderReviews(reviews);
 			},

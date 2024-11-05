@@ -152,36 +152,17 @@
 </div>
     </div>
 
-
     <!-- 지도 섹션 -->
     <div class="section map-section">
         <div class="section-title">가게 상세지도</div>
         <div id="map" class="map-container"></div>
     </div>
 
-    <!-- 리뷰 섹션 -->
-<div class="section review-section">
+    <!-- 리뷰 목록 섹션 -->
     <jsp:include page="reviews.jsp" />
-</div>
-
 
 	<!-- 리뷰 입력 섹션 -->
-	<div class="review-input-section">
-	    <h3>리뷰 작성하기</h3>
-	    <form id="reviewForm" action="/submitReview" method="post">
-	    <input type="text" id="user_id" placeholder="작성자 이름" required>
-	    <select id="reviewRating">
-	        <option value="5">5점 - 아주 좋아요</option>
-	        <option value="4">4점 - 좋아요</option>
-	        <option value="3">3점 - 보통이에요</option>
-	        <option value="2">2점 - 별로에요</option>
-	        <option value="1">1점 - 싫어요</option>
-	    </select>
-	    <textarea id="reviewText" placeholder="리뷰 내용을 입력하세요" required></textarea>
-	    <button onclick="addReview()">리뷰 작성</button>
-	    </form>
-	</div>
-</div>
+	<jsp:include page="reviewInput.jsp" />
 
 <!-- 외부 JS 파일 연결 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=eyf1ptej0y"></script>
