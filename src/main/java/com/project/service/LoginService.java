@@ -19,3 +19,4 @@ public class LoginService {
 		return loginMapper.getUser(userid);
 	}
 }
+	
