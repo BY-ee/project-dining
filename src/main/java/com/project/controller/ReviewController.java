@@ -27,7 +27,6 @@ public class ReviewController {
 	public List<ReviewDomain> getReviews() {
 		
 		List<ReviewDomain> reviews = reviewService.getAllReviews(); 
-		System.out.println("reviews:" + reviews);
 		
 		return reviews;
 	}

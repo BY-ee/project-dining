@@ -101,9 +101,9 @@
         </div>
     </div>
 
-    <!-- 메뉴 가격 섹션 -->
+    <!-- 메인 메뉴 섹션 -->
     <div class="section menu-price-section">
-        <div class="section-title">메뉴 가격 목록</div>
+        <div class="section-title">메인 메뉴</div>
         <div class="menu-card">
             <img src="img/pasta.jpg">
             <div class="menu-info">
@@ -151,6 +151,30 @@
 	    <button class="next-button" aria-label="다음 슬라이드">&#10095;</button>
 </div>
     </div>
+
+<!-- 사이드 메뉴 섹션 -->
+<div class="section side-menu-container">
+    <div class="section-title">사이드 메뉴</div>
+    <div class="side-menu">
+        <div class="side-menu-item">
+            <p class="menu-name">감자튀김</p>
+            <p class="menu-price">7,000원</p>
+        </div>
+        <div class="side-menu-item">
+            <p class="menu-name">샐 러 드</p>
+            <p class="menu-price">10,000원</p>
+        </div>
+        <div class="side-menu-item">
+            <p class="menu-name">스   프</p>
+            <p class="menu-price">5,000원</p>
+        </div>
+        <div class="side-menu-item">
+            <p class="menu-name">나   쵸</p>
+            <p class="menu-price">4,000원</p>
+        </div>
+    </div>
+</div>
+
 
     <!-- 지도 섹션 -->
     <div class="section map-section">
