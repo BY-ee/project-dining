@@ -70,7 +70,7 @@ public class HomeController {
     
     @GetMapping("/myPage")
     public String myPage() {
-    	return "user/myPage";
+    	return "mypage/myPage";
     }
 
 

@@ -7,58 +7,9 @@
 <html lang="ko">
 <head>
     <title>회원관리</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/js/admin/adminMember.js"></script>
 </head>
-
-<style>
-    /* 팝업 스타일 */
-    .popup-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .popup-content {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        width: 300px;
-        max-width: 80%;
-        text-align: center;
-    }
-    .popup-close {
-        background: #f00;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        float: right;
-        margin-top: -10px;
-        margin-right: -10px;
-    }
-</style>
-
-<script>
-    window.onload = () => {
-        document.querySelectorAll('.intro-link').forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const intro = event.target.getAttribute('data-intro');
-                document.getElementById('introText').innerText = intro;
-                document.getElementById('popupOverlay').style.display = 'flex';
-            });
-        });
-    }
-
-    function closePopup() {
-        document.getElementById('popupOverlay').style.display = 'none';
-    }
-</script>
 <body>
 
     <!-- Main Content -->
@@ -99,7 +50,7 @@
                     <td>user1</td>
                     <td>닉네임123</td>
                     <td>user1@kakao.com</td>
-                    <td><a href="#" class="intro-link" data-intro="자기소개에 들어갈 내용을 jstl로 넣음">확인</a></td>
+                    <td><a href="#" class="intro-link">확인</a></td>
                     <td>2024-10-29</td>
                     <td></td>
                     <td>
@@ -121,7 +72,7 @@
                     <td>tnmm123</td>
                     <td>tnmm11</td>
                     <td>tnmm123@gmail.com</td>
-                    <td><a href="#">확인</a></td>
+                    <td><a href="#" class="intro-link">확인</a></td>
                     <td>2024-01-05</td>
                     <td>2024-10-30</td>
                     <td>
@@ -143,7 +94,7 @@
                     <td>dkdlel</td>
                     <td>Nickname1</td>
                     <td>dkdlel@naver.com</td>
-                    <td><a href="#">확인</a></td>
+                    <td><a href="#" class="intro-link">확인</a></td>
                     <td>2012-05-05</td>
                     <td></td>
                     <td>
@@ -164,10 +115,11 @@
     </div>
 
     <!-- 자기소개 팝업 -->
-    <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup()">X</button>
-            <p id="introText"></p>
+            <h3 class="popup-title">자기소개</h3>
+            <div id="intro-content"></div>
         </div>
     </div>
 </body>

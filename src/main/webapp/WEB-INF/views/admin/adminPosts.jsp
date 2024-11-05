@@ -7,6 +7,9 @@
 <html lang="ko">
 <head>
     <title>게시글 관리</title>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/js/admin/adminPost.js"></script>
 </head>
 <body>
 
@@ -44,10 +47,10 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td><a href="#">모수</a></td>
+                    <td>모수</td>
                     <td>서울특별시 용산구</td>
                     <td>02-111-1111</td>
-                    <td><a href="#">확인</a></td>
+                    <td><a href="#" class="menu-link">확인</a></td>
                     <td>1234</td>
                     <td>
                         <button class="delete-btn">게시중단</button>
@@ -57,6 +60,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- 메뉴 팝업 -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">X</button>
+            <h3 class="popup-title">가게 이름</h3>
+            <div id="menu-content"></div>
+        </div>
     </div>
 </body>
 </html>
