@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.MemberMapper">
+	<select id="selectMembers" resultType="Member">
+		SELECT * FROM (
+		    SELECT m.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM member 
+		        ORDER BY id DESC
+		    ) m
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectMember" resultType="Member">
+		SELECT * FROM member
+		WHERE id=#{id}
+	</select>
+</mapper>

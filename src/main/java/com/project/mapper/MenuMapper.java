@@ -5,10 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.domain.Menu;
 import com.project.domain.Store;
 
 @Mapper
-public interface StoreMapper{
-	// 가게 목록 조회
-	List<Store> selectStores(@Param("start") int start, @Param("end") int end);
+public interface MenuMapper{
+	// 메뉴 조회
+	List<Menu> selectMenus(@Param("storeId") long storeId);
 }
