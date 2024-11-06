@@ -1,3 +1,4 @@
+<%@page import="com.project.domain.LoginDomain"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,21 +20,27 @@
         
         <!-- 	 및 인증 버튼 -->
         <div class="auth-buttons">
-            <% String nickname = (String) session.getAttribute("nickname"); %>
-            <% if (nickname != null) { %>
-                <!-- 로그인된 사용자를 위한 팝업 메뉴 -->
+            <% 
+                // 세션에서 loginUser 객체를 가져와 로그인 여부를 확인합니다.
+                LoginDomain loginUser = (LoginDomain) session.getAttribute("loginUser");
+                if (loginUser != null) { 
+            %>
+                <!-- 로그인된 사용자를 위한 메뉴 -->
                 <div class="user-popup-container">
                     <button class="menu-btn">☰</button>
                     <div class="user-popup" style="display: none;">
-                        <span class="welcome-message">환영합니다, <%= nickname %>님!</span>
+                        <span class="welcome-message">환영합니다, <%= loginUser.getNickname() %>님!</span>
                         <a href="/profile">프로필</a>
                         <a href="/myPage">마이페이지</a>
                         <a href="/settings">환경설정</a>
                         <a href="/recommendations">1:1 추천</a>
+                        <form action="/logout" method="post" style="display:inline;">
+                            <button type="submit">로그아웃</button>
+                        </form>
                     </div>
                 </div>
             <% } else { %>
-                <!-- 비로그인 사용자를 위한 로그인 버튼 -->
+                <!-- 비로그인 사용자를 위한 로그인/회원가입 버튼 -->
                 <form action="/loginForm.do" method="get" style="display:inline;">
                     <button type="submit">로그인/회원가입</button>
                 </form>
