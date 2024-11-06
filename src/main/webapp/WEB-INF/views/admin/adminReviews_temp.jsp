@@ -43,16 +43,23 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="review" items="${reviews}">
-                    <tr>
-                        <td>${review.id}</td>
-                        <td><a href="/admin/members/${review.userId}">${review.userId}</a></td>
-                        <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
-                        <td>${review.score}</td>
-                        <td><a href="#" class="review-link">확인</a></td>
-                        <td style="color: #f44;">게시중단</td>
-                    </tr>
-                </c:forEach>
+                <tr>
+                    <td>2</td>
+                    <td><a href="/admin/members">tnmm123</a></td>
+                    <td><a href="/admin/posts">모수</a></td>
+                    <td>1점</td>
+                    <td><a href="#" class="review-link">ㅇㅉ</a></td>
+                    <td style="color: #f44;">게시중단</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td><a href="/admin/members">dkdlel</a></td>
+                    <td><a href="/admin/posts">모수</a></td>
+                    <td>5점</td>
+                    <td><a href="#" class="review-link">맛있었습니다</a></td>
+                    <td style="color: #5a7beb;">게시</td>
+                </tr>
             </tbody>
         </table>
     </div>

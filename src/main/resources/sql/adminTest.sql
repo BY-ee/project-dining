@@ -124,3 +124,36 @@ INSERT INTO menu (id, store_id, menu_image1, menu_image2, menu_image3, menu_imag
 (11, 6, 'menu11_img1.jpg', 'menu11_img2.jpg', 'menu11_img3.jpg', 'menu11_img4.jpg', 'Healthy avocado toast with a twist.', 'Avocado Toast', 8500);
 INSERT INTO menu (id, store_id, menu_image1, menu_image2, menu_image3, menu_image4, menu_description, menuname, menuprice) VALUES 
 (12, 6, 'menu12_img1.jpg', 'menu12_img2.jpg', 'menu12_img3.jpg', 'menu12_img4.jpg', 'Fries with cheese and bacon topping.', 'Loaded Fries', 5000);
+
+
+-- 리뷰 테이블
+
+SELECT * FROM review;
+
+CREATE TABLE review (
+    id NUMBER PRIMARY KEY,
+    user_ID NUMBER NOT NULL,
+    store_ID NUMBER NOT NULL,
+    score DECIMAL(2, 1),
+    review CLOB,
+    CONSTRAINT fk_user FOREIGN KEY (user_ID) REFERENCES 유저(id),
+    CONSTRAINT fk_store FOREIGN KEY (store_ID) REFERENCES 가게 상세페이지(id),
+    CONSTRAINT unique_user_store UNIQUE (user_ID, store_ID) -- user_ID와 store_ID의 조합이 유일하도록 설정
+);
+
+INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+(1, 1, 1, 4.5, 'Great place, loved the food and the atmosphere!');
+
+INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+(2, 2, 2, 3.8, 'Good food but the service could be better.');
+
+INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+(3, 3, 3, 5.0, 'Amazing experience, will definitely come back!');
+
+INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+(4, 4, 4, 4.2, 'Nice ambiance, but the food was a bit too salty for my taste.');
+
+INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+(5, 5, 5, 4.8, 'Delicious dishes and great staff, highly recommend!');
+
+

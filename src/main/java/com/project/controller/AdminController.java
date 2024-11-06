@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.domain.Member;
 import com.project.domain.Menu;
 import com.project.domain.NoticeDomain;
+import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.service.AdminService;
 
@@ -29,7 +30,7 @@ public class AdminController {
 	
 	// 회원관리 페이지
 	@GetMapping("/members")
-	public String member(@RequestParam(value="page", defaultValue = "1") int page,
+	public String members(@RequestParam(value="page", defaultValue = "1") int page,
 						 Model model) {
 		int limit = 10;
 		List<Member> members = adminService.selectMembers(page, limit);
@@ -47,11 +48,12 @@ public class AdminController {
 	
 	// 게시글 관리 페이지
 	@GetMapping("/posts")
-	public String post(@RequestParam(value="page", defaultValue = "1") int page,
+	public String posts(@RequestParam(value="page", defaultValue = "1") int page,
 			 		   Model model) {
 		int limit = 10;
 		List<Store> stores = adminService.selectStores(page, limit);
 		model.addAttribute("stores", stores);
+		
 		return "admin/adminPosts";
 	}
 	
@@ -64,7 +66,12 @@ public class AdminController {
 	
 	// 리뷰 관리 페이지
 	@GetMapping("/reviews")
-	public String review() {
+	public String reviews(@RequestParam(value="page", defaultValue = "1") int page,
+	 		   			 Model model) {
+		int limit = 10;
+		List<Review> reviews = adminService.selectReviews(page, limit);
+		model.addAttribute("reviews", reviews);
+		
 		return "admin/adminReviews";
 	}
 	
