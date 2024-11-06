@@ -18,5 +18,9 @@ public class LoginService {
 	public LoginDomain getUser(String userid) {
 		return loginMapper.getUser(userid);
 	}
+	
+    public void registerUser(LoginDomain user) {
+        loginMapper.insertUser(user);
+    }
 }
 	

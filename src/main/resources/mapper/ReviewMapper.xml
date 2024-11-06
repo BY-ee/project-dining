@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.ReviewMapper">
+<!--	<select id="getAllReviews" resultType="Reviews">
+        SELECT user_id, score, review, created_at
+        FROM 리뷰
+        ORDER BY created_at DESC
+    </select>-->
+    
+	<insert id="insertReview" parameterType="com.project.domain.ReviewDomain">
+	    INSERT INTO review (id, user_id, store_id, score, review, created_at)
+	    VALUES (review_seq.NEXTVAL, #{user_id}, #{store_id}, #{score, jdbcType=DECIMAL}, #{review}, CURRENT_TIMESTAMP)
+	 </insert>
+	
+	<select id="getAllReviews" resultType="com.project.domain.ReviewDomain">
+	    SELECT * FROM reviews WHERE store_id = #{storeId}
+	</select>
+	
+<!--	<select id="getReviewsByStoreId" resultType="com.project.domain.ReviewDomain">
+	    SELECT user_id, store_id, score, review, created_at
+	    FROM review
+	    WHERE store_id = #{storeId}
+	    ORDER BY created_at DESC
+	</select>-->
+	
+</mapper>
