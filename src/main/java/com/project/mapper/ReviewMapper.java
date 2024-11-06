@@ -10,7 +10,7 @@ import com.project.domain.ReviewDomain;
 public interface ReviewMapper {
 
 	// 모든 리뷰 조회
-	List<ReviewDomain> getAllReviews();
+	List<ReviewDomain> getReviewsByStoreId(int storeId);
 
 	// 리뷰 삽입
 	void insertReview(ReviewDomain newReview);

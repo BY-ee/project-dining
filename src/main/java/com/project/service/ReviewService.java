@@ -16,8 +16,8 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 
 	// 모든 리뷰 조회
-	public List<ReviewDomain> getAllReviews() {
-		return reviewMapper.getAllReviews();
+	public List<ReviewDomain> getReviewsByStoreId(int storeId) {
+		return reviewMapper.getReviewsByStoreId(storeId);
 	}
 
 	// 리뷰저장

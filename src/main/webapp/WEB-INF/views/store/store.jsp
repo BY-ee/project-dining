@@ -11,6 +11,19 @@
     <title>가게 상세페이지</title>
     <!-- 외부 CSS 파일 연결 -->
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
+    
+    <% 
+        // 세션에서 userId와 storeId 가져오기
+        String userId = (String) session.getAttribute("user_ID");
+        Integer storeId = (Integer) request.getAttribute("store_ID");
+    %>
+
+    <!-- JavaScript에서 사용할 userId와 storeId -->
+    <script type="text/javascript">
+        var userId = <%= userId != null ? userId : "null" %>;
+        var storeId = <%= storeId %>;
+    </script>
+    
 </head>
 
 <body>
@@ -24,7 +37,6 @@
 </div>
 
 <!-- 이동경로 섹션 -->
-
 <%
     String region = (String) request.getAttribute("region");
     String category = (String) request.getAttribute("category");
