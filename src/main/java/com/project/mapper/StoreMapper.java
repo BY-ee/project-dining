@@ -1,14 +1,11 @@
 package com.project.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import com.project.domain.Store;
+import com.project.domain.StoreDomain;
 
 @Mapper
 public interface StoreMapper{
-	// 가게 목록 조회
-	List<Store> selectStores(@Param("start") int start, @Param("end") int end);
+    StoreDomain getStoreDetailById(int storeId);
+
 }

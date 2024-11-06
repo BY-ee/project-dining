@@ -18,7 +18,7 @@ public class LoginDomain {
 	private String profile_image;
 	private String introduction;
 	private String email;
-	private String status;
+	private Integer status;
 	private Timestamp join_date;
 	private Timestamp leave_date;
 

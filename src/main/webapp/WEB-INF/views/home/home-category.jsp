@@ -19,13 +19,13 @@
         
         <!-- 	 및 인증 버튼 -->
         <div class="auth-buttons">
-            <% String username = (String) session.getAttribute("username"); %>
-            <% if (username != null) { %>
+            <% String nickname = (String) session.getAttribute("nickname"); %>
+            <% if (nickname != null) { %>
                 <!-- 로그인된 사용자를 위한 팝업 메뉴 -->
                 <div class="user-popup-container">
                     <button class="menu-btn">☰</button>
                     <div class="user-popup" style="display: none;">
-                        <span class="welcome-message">환영합니다, <%= username %>님!</span>
+                        <span class="welcome-message">환영합니다, <%= nickname %>님!</span>
                         <a href="/profile">프로필</a>
                         <a href="/myPage">마이페이지</a>
                         <a href="/settings">환경설정</a>
@@ -119,10 +119,10 @@
         <!-- 가게 목록 컨테이너 -->
         <div class="store-container">
             <div class="store-list">
-                <div class="store-item-box">
-                    <div class="store-item"></div>
-                    <div class="store-name">모수</div>
-                </div>
+				<div class="store-item-box" onclick="goToStoreDetail(1)">
+				    <div class="store-item"></div>
+				    <div class="store-name">모수</div>
+				</div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
                     <div class="store-name">티앤미미</div>
@@ -199,5 +199,13 @@
 		</div>
     </div>
 </body>
-    <script src="js/home-category.js"></script>
+
+	<script type="text/javascript">
+	    var userId = ${sessionScope.user_ID}; // 세션에서 user_ID 값을 가져옴
+
+		function goToStoreDetail(storeId) {
+		    window.location.href = '/storeDetail?store_ID=' + storeId + '&user_ID=' + userId;  // StoreDetail 페이지로 이동
+		}
+	</script>
+    <script src="js/home/home-category.js"></script>
 </html>
