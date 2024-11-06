@@ -10,8 +10,10 @@ import java.net.URLEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.domain.LoginDomain;
 import com.project.security.Api;
@@ -37,6 +39,25 @@ public class LoginController {
 	public String signUp() {
 		return "login/signup";
 	}
+	
+    @PostMapping("/register")
+    public ModelAndView registerUser(@RequestParam("userid") String userid,  
+                                     @RequestParam("nickname") String nickname,
+                                     @RequestParam("userpwd") String password,
+                                     @RequestParam("email") String email,
+                                     @RequestParam("emailDomain") String emailDomain) {
+        String fullEmail = email + "@" + emailDomain;
+
+        LoginDomain user = new LoginDomain();
+        user.setUserid(userid); // userid 설정
+        user.setNickname(nickname);
+        user.setUserpwd(password);
+        user.setEmail(fullEmail);
+
+        loginService.registerUser(user); // 인스턴스를 통해 호출
+
+        return new ModelAndView("redirect:/loginForm.do");
+    }
 	
 	@RequestMapping("memberForm.do")
 	public String signForm() {
@@ -104,14 +125,9 @@ public class LoginController {
 		      }
 		      br.close();
 		      
-		                  
-	            
-			
 		}catch(Exception e){
 				e.printStackTrace();
 		}
-		
-		
 		
 		return "naverCallback";
 	}
@@ -141,6 +157,8 @@ public class LoginController {
 	        if (db.getUserpwd().equals(login.getUserpwd())) {
 	            result = 1;  // 로그인 성공
 	            session.setAttribute("loginUser", db);
+	            session.setAttribute("nickname", db.getNickname());
+	            session.setAttribute("user_ID", db.getId());
 	        } else {
 	            result = -1;  // 비밀번호 불일치
 	        }

@@ -5,7 +5,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("StoreDomain")
+@Alias("storeDatail")
 public class StoreDomain {
 
 	private int id;

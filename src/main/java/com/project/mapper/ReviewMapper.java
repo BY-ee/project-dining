@@ -1,8 +1,7 @@
 package com.project.mapper;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.ReviewDomain;
 
@@ -11,8 +10,9 @@ public interface ReviewMapper {
 
 	// 모든 리뷰 조회
 	List<ReviewDomain> getAllReviews();
-
+	
 	// 리뷰 삽입
-	void insertReview(ReviewDomain newReview);
+	void insertReview(ReviewDomain neweview);
+	// List<ReviewDomain> getReviewsByStoreId(@Param("storeId") int storeId);
 
 }
