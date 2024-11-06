@@ -155,6 +155,15 @@ body {
 
 
 
+
+.verification-message {
+  margin-top: 10px;       /* 위쪽 여백 */
+  font-size: 14px;        /* 글꼴 크기 */
+  font-weight: bold;      /* 굵은 글꼴 */
+}
+
+
+
 /* memberForm */
 
 .memberform-logo {
@@ -251,20 +260,55 @@ body {
 }
 
 .email-form {
-  display: flex; /* 플렉스 박스를 사용하여 입력 필드와 선택 박스를 나란히 배치 */
+  display: block; /* 블록 요소로 변경하여 줄바꿈 */
+  margin: 10px 0; /* 위아래 간격 추가 */
+
   justify-content: center; /* 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
+  margin-top: 20px; /* 여백 추가 */
   margin-bottom: 20px; /* 여백 추가 */
 }
 
 .email-input {
-  width: 155px; /* 입력 필드의 너비 설정 (30%로 조정) */
+  width: 120px; /* 입력 필드의 너비 설정 (30%로 조정) */
   padding: 10px; /* 패딩을 기존 입력 필드와 맞춤 */
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
   margin-top : 20px;
   height: 40px; /* 입력 박스 높이 맞춤 */
+}
+
+.email-form button {
+  width: 50px;
+  padding: 10px;
+  background-color: #D8B2B2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top : 20px;
+  margin-left : 10px;
+}
+
+
+.email-form [type="button"]:hover {
+  background-color: #c58b8b; /* 버튼 호버 시 색상 변경 */
+}
+
+
+.verification-container {
+  margin-top: 10px; /* 인증 버튼과 새 입력창 사이의 간격 */
+}
+
+#verificationCode {
+  width: 200px; /* 새 입력창의 너비 */
+  padding: 10px;
+  margin-bottom: 20px; /* 입력창과 '회원가입' 버튼 사이의 간격 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .domain-symbol {
@@ -274,11 +318,39 @@ body {
 }
 
 .email-select {
-  width: 150px; /* 선택 박스의 너비 설정 (30%로 조정) */
+  width: 120px; /* 선택 박스의 너비 설정 (30%로 조정) */
   padding: 10px; /* 패딩을 기존 입력 필드와 맞춤 */
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+  margin-left : 20px;
+  margin-top : 20px;
+  height: 40px; /* 선택 박스 높이 맞춤 */
+} 
+
+
+#confirmButton {
+  padding: 10px;
+  background-color: #D8B2B2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left : 10px;
+}
+
+#confirmButton:hover {
+  background-color: #c58b8b; /* 호버 시 색상 변경 */
+}
+
+
+.email-select {
+  width: 120px; /* 선택 박스의 너비 설정 (30%로 조정) */
+  padding: 10px; /* 패딩을 기존 입력 필드와 맞춤 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-left : 20px;
   margin-top : 20px;
   height: 40px; /* 선택 박스 높이 맞춤 */
 } 
@@ -301,23 +373,30 @@ body {
 .owner-num {
   display: flex; /* 플렉스 박스를 사용하여 아이디와 버튼을 나란히 배치 */
   justify-content: center; /* 중앙 정렬 */
-  margin-bottom: 35px; /* 여백 추가 */
+  margin-bottom: 10px; /* 여백 추가 */
 }
 
+
+.owner-symbol {
+  font-size: 14px; /* @ 기호의 글꼴 크기 조정 */
+  margin-top : 10px;
+  margin-right : 10px;
+
+}
 
 
 .owner-num input[type="text"] {
   width: 70px; /* 아이디 입력 필드의 너비를 70%로 설정 */
   padding: 10px;
+  margin-top: 5px; /* 버튼과의 간격 추가 */
   margin-right: 10px; /* 버튼과의 간격 추가 */
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
-  margin-right : 15px;
 }
 
 .owner-num input[type="button"] {
-  width: 30%;
+  width: 130px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -332,10 +411,9 @@ body {
 }
 
 .domain-symbol {
-  margin: 0 5px; /* @ 기호와 입력 필드 및 선택 박스 간의 간격 추가 */
   font-size: 14px; /* @ 기호의 글꼴 크기 조정 */
-  margin-top : 10px;
-  margin-right : 15px;
+  margin-top : 15px;
+
 }
 
 /* 비밀번호 찾기 -findPwd */
@@ -367,7 +445,10 @@ body {
 
 
 .instruction-text {
-    font-size: 0.9em; /* Adjust size as needed */
-    color: #777; /* Light gray color */
+    font-size: 15px; /* Adjust size as needed */
+    color: #999999;; /* Light gray color */
     margin-bottom: 15px; /* Space below text */
 }
+
+
+

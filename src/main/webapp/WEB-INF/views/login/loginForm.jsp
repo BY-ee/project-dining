@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="css/login/yunyoung.css">
+  <link rel="stylesheet" href="/css/login/yunyoung.css">
 </head>
 <body>
 <div class="login-container">
@@ -28,11 +28,13 @@
 
 
 	<div>
-	  <a href="https://nid.naver.com/oauth2.0/authorize?client_id=pyNA4GhE0bkNcyJChkCA&redirect_uri=http://www.localhost/naverCallback.do&response_type=code&state=STATE_STRING">
-	    <img src="/images/naver_button.png" alt="네이버 간편 로그인" class="naver-login-btn">
-	  </a>
+    <a href="/oauth2/authorization/naver">
+        <img src="/images/naver_button.png" alt="네이버 간편 로그인" class="naver-login-btn">
+    </a>
 	</div>
 	
+
+
     <br>
     <a href="findPwd.do" class="forgot-password">비밀번호 찾기</a>
   </form>

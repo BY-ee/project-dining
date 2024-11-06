@@ -22,4 +22,5 @@ public class LoginDomain {
 	private Timestamp join_date;
 	private Timestamp leave_date;
 
+
 }

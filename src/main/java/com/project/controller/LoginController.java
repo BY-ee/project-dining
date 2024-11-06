@@ -1,20 +1,14 @@
 package com.project.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.LoginDomain;
-import com.project.security.Api;
 import com.project.service.LoginService;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,10 +19,8 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
 	private final LoginService loginService;
-    
-	private final Api api;
-	
-	@RequestMapping("loginForm.do")
+
+	@RequestMapping("/loginForm.do")
 	public String loginForm() {
 		return "login/loginForm";
 	}
@@ -48,78 +40,56 @@ public class LoginController {
 		return "login/ownerForm";
 	}
 	
-//	@RequestMapping("home.do")
-//	public String home() {
-//		return "loginSignUp/home";
-//	}
+	@RequestMapping("home.do")
+	public String home() {
+		return "home/home-category";
+	}
 	
 	@RequestMapping("findPwd.do")
 	public String findPwd() {
 		return "login/findPwd";
 	}
-	
-	@RequestMapping("naverCallback.do")
-	public String naverCallback(@RequestParam String code,
-								@RequestParam String state,
-							 
-								HttpSession session) throws UnsupportedEncodingException {
-		
-		
-        String clientId = api.getNaverLoginClientKey();
-        String clientSecret = api.getNaverLoginSecret();
-        
-        String naverRedirectURI = URLEncoder.encode("http://www.localhost/naverCallback.do", "UTF-8");
-        
-        String naverApiUrl;
-        
-        naverApiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
-        naverApiUrl += "client_id=" + clientId;
-        naverApiUrl += "&client_secret=" + clientSecret;
-        naverApiUrl += "&redirect_uri=" + naverRedirectURI;
-        naverApiUrl += "&code=" + code;
-        naverApiUrl += "&state=" + state;
 
-        String naverAccessToken = "";
-        String naverRefreshToken = "";
-        
-		try {
-			  URL url = new URL(naverApiUrl);
-			  // con 객체가 서버로부터의 응답을 저장
-			  HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		      con.setRequestMethod("GET");
-		      int responseCode = con.getResponseCode();
-		      System.out.print("responseCode="+responseCode);	
-			
-		      BufferedReader br;
-		      
-		      if(responseCode == 200 ) {
-		    	  br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		      }else {  // 에러 발생
-		          br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		      }
-		      String inputLine;
-		      StringBuffer res = new StringBuffer();
-		      while ((inputLine = br.readLine()) != null) {
-		        res.append(inputLine);
-		      }
-		      br.close();
-		      
-		                  
-	            
-			
-		}catch(Exception e){
-				e.printStackTrace();
-		}
-		
-		
-		
-		return "naverCallback";
+	// 회원가입 - 이메일 인증
+	@PostMapping("sendVerificationEmail.do")
+    @ResponseBody
+	public String sendVerificationEmail(@RequestParam("email") String email, HttpSession session) {
+	    // 인증 코드 생성
+        String verificationCode = loginService.generateVerificationCode();
+
+        // 세션에 인증 코드 저장
+        session.setAttribute("verificationCode", verificationCode);
+        session.setAttribute("email", email);
+
+        // 이메일 전송
+        loginService.sendVerificationEmail(email, verificationCode);
+
+        return "인증 코드가 이메일로 전송되었습니다.";
 	}
 	
-	
-	
-	
+	@PostMapping("/verifyCode.do")
+    @ResponseBody
+    public String verifyCode(@RequestParam("email") String email, @RequestParam("code") String code, HttpSession session) {
+        String savedCode = (String) session.getAttribute("verificationCode");
+        String savedEmail = (String) session.getAttribute("email");
 
+        if (savedCode == null || savedEmail == null) {
+        	System.out.println(savedCode);
+        	System.out.println(savedEmail);
+            return "인증 코드가 만료되었거나 존재하지 않습니다.";
+        }
+
+        if (savedEmail.equals(email) && savedCode.equals(code)) {
+            session.removeAttribute("verificationCode"); // 인증 후 세션에서 코드 제거
+            session.removeAttribute("email");
+            return "인증에 성공했습니다.";
+        } else {
+            return "인증 코드가 올바르지 않습니다.";
+        }
+    }
+	
+	
+	
 	// 로그인
 	@RequestMapping("login_ok.do")
 	public String login_ok(@ModelAttribute LoginDomain login,
