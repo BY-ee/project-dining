@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/admin/templates/header.jsp" %>
 
 <!DOCTYPE html>
@@ -52,8 +53,8 @@
                         <td>${member.nickname}</td>
                         <td>${member.email}</td>
                         <td><a href="#" class="intro-link">확인</a></td>
-                        <td>${member.joinDate}</td>
-                        <td>${member.leaveDate}</td>
+                        <td><fmt:formatDate value="${member.joinDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.leaveDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
                         <td>
                             <select name="user-ban-time">
                                 <option value="1">1일</option>
