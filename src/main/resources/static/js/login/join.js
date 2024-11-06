@@ -72,5 +72,52 @@ $(document).ready(function() {
 	  });
 	});
   
+	
+	
+	$('#ownerValidation').click(function() {
+		 var ownerCode1 = $('#ownerCode1').val().trim();
+		 var ownerCode2 = $('#ownerCode2').val().trim();
+		 var ownerCode3 = $('#ownerCode3').val().trim();
+
+		  var businessNumber = ownerCode1 + ownerCode2 + ownerCode3;
+	
+	        // 입력값 검증(사업자 번호는 10자리임)
+	        if (businessNumber.length !== 10 || isNaN(businessNumber)) {
+	            $('#validationMessage').text('유효한 사업자등록번호를 입력해주세요.');
+	            return;
+	        }
+
+	        // API 요청 데이터
+	        var requestData = {
+	            "b_no": [businessNumber]
+	        };
+	
+			
+	        $.ajax({
+	            url: 'https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=4ZDFaX88OAD5ZwPJ%2FVnHtfRxa9MVdW9%2Bxtl4BP%2FKCuxqGZnSajTjNU2a%2FfzV9Qwuv5cF%2F%2BJIS0Kh%2FJi6qhWvuA%3D%3D',
+	            type: 'POST',
+	            data: JSON.stringify(requestData),
+	            dataType: 'json',
+	            contentType: 'application/json',
+	            success: function(response) {
+	                if (response.data && response.data.length > 0) {
+	                    var status = response.data[0].b_stt_cd;
+						console.log(status);
+	                    if (status === '01') { // 01: 계속사업자
+	                        $('#validationMessage').text('인증되었습니다.');
+	                    } else {
+	                        $('#validationMessage').text('영업 중인 사업자가 아닙니다.');
+	                    }
+	                } else {
+	                    $('#validationMessage').text('유효하지 않은 사업자등록번호입니다.');
+	                }
+	            },
+	            error: function() {
+	                $('#validationMessage').text('인증 중 오류가 발생했습니다. 다시 시도해주세요.');
+	            }
+	        });
+	    });
+		
+		
   
 }); // js end
