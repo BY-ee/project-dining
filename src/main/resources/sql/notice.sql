@@ -8,7 +8,7 @@ NOCACHE
 NOCYCLE;
 
 -- 2. 공지사항 테이블 생성
-CREATE TABLE 공지사항 (
+CREATE TABLE notice (
     id NUMBER PRIMARY KEY,
     category VARCHAR2(10) NOT NULL CHECK (category IN ('공지', '이벤트')),
     title VARCHAR2(100) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE 공지사항 (
 
 -- 3. id 자동 증가 트리거 생성
 CREATE TRIGGER notice_id_trigger
-BEFORE INSERT ON 공지사항
+BEFORE INSERT ON notice
 FOR EACH ROW
 BEGIN
     :NEW.id := notice_seq.NEXTVAL;

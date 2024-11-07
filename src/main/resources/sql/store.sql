@@ -8,25 +8,26 @@ NOCACHE
 NOCYCLE;
 
 -- 2. 가게 상세페이지 테이블 생성
-CREATE TABLE 가게_상세페이지 (
+CREATE TABLE store (
     id NUMBER PRIMARY KEY,
     store_name VARCHAR2(100) NOT NULL,
     address VARCHAR2(255) NOT NULL,
     detail_address VARCHAR2(255),
+    tel VARCHAR2(20),
     phone_number VARCHAR2(20),
-    owner_phone_number VARCHAR2(20),
-    main_image_1 VARCHAR2(255),
-    main_image_2 VARCHAR2(255),
-    latitude DECIMAL(11, 8),
-    longitude DECIMAL(11, 8),
+    main_image1 VARCHAR2(255),
+    main_image2 VARCHAR2(255),
+    latitude NUMBER(11, 8),
+    longitude NUMBER(11, 8),
     views NUMBER DEFAULT 0 CHECK (views >= 0),
     open_time VARCHAR2(50),
-    store_description CLOB
+    store_description CLOB,
+    status VARCHAR2(10) NOT NULL CHECK (status IN ('active', 'deleted'))
 );
 
 -- 3. id 자동 증가 트리거 생성
 CREATE TRIGGER store_detail_id_trigger
-BEFORE INSERT ON 가게_상세페이지
+BEFORE INSERT ON store
 FOR EACH ROW
 BEGIN
     :NEW.id := store_detail_seq.NEXTVAL;

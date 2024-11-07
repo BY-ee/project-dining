@@ -44,24 +44,18 @@ public class AdminService {
 		return memberMapper.selectMember(id);
 	}
 
-	// 가게 목록 조회
-	public List<Store> selectStores(int page, int limit) {
-		int start = (page - 1) * limit + 1;
-		int end = start + limit - 1;
-		
-		return storeMapper.selectStores(start, end);
-	}
-
-	// 메뉴 조희
-	public List<Menu> selectMenus(long storeId) {
-		return menuMapper.selectMenus(storeId);
-	}
-
-	// 리뷰 조회
-	public List<Review> selectReviews(int page, int limit) {
-		int start = (page - 1) * limit + 1;
-		int end = start + limit - 1;
-		
-		return reviewMapper.selectReviews(start, end);
-	}
+	/*
+	 * // 가게 목록 조회 public List<Store> selectStores(int page, int limit) { int start
+	 * = (page - 1) * limit + 1; int end = start + limit - 1;
+	 * 
+	 * return storeMapper.selectStores(start, end); }
+	 * 
+	 * // 메뉴 조희 public List<Menu> selectMenus(long storeId) { return
+	 * menuMapper.selectMenus(storeId); }
+	 * 
+	 * // 리뷰 조회 public List<Review> selectReviews(int page, int limit) { int start =
+	 * (page - 1) * limit + 1; int end = start + limit - 1;
+	 * 
+	 * return reviewMapper.selectReviews(start, end); }
+	 */
 }

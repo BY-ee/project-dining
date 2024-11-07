@@ -63,10 +63,6 @@ public class ReviewController {
   //       return "redirect:store"; // store.jsp로 리디렉션
   //   }
 	
-	
-	
-}
-	
 	@RequestMapping("/submitReview")
 	@ResponseBody
 	public String submitReview(@RequestBody Map<String, Object> payload) {
@@ -76,9 +72,9 @@ public class ReviewController {
 	    String reviewText = (String) payload.get("review");
 
 	    ReviewDomain review = new ReviewDomain();
-	    review.setUser_id(userId);
-	    review.setStore_id(storeId);
-	    review.setScore(score);
+	    //review.setUser_id(userId);
+	    //review.setStore_id(storeId);
+	    //review.setScore(score);
 	    review.setReview(reviewText);
 
 	    reviewService.saveReview(review);
