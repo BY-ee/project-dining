@@ -340,3 +340,28 @@ BEGIN
     :NEW.id := bar_seq.NEXTVAL;
 END;
 /
+
+-- ################## 관리자 테이블 ##################
+
+-- admin_member 테이블 생성
+CREATE TABLE admin_member (
+    id NUMBER PRIMARY KEY,                     -- 관리자 고유 ID
+    admin_id VARCHAR2(20) NOT NULL UNIQUE,     -- 관리자 아이디
+    admin_passwd VARCHAR2(100) NOT NULL        -- 관리자 비밀번호
+);
+
+-- id 자동 증가 시퀀스 생성
+CREATE SEQUENCE admin_member_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+-- id 자동 증가 트리거 생성
+CREATE TRIGGER admin_member_id_trigger
+BEFORE INSERT ON admin_member
+FOR EACH ROW
+BEGIN
+    :NEW.id := admin_member_seq.NEXTVAL;
+END;
+/
