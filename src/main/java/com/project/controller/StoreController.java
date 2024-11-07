@@ -40,18 +40,11 @@ public class StoreController {
 		return "store/store"; 
 	}
 }
-
-//    @RequestMapping("/")
-//    public String home() {
-//        return "home";
-//    }
-	
-//    @RequestMapping("store")
-//    public String store() {
-//    	return "store/store";
-//    }
-	
-	
+    
+    
+    
+// ============================================================================================    
+    
 //    @GetMapping("/store3")
 //    public String store3(
 //    		@RequestParam(value = "region", required = false) String region,
