@@ -30,10 +30,12 @@ public class StoreController {
 		StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
 		
 		// 세션에서 user_ID 가져오기 (로그인하지 않은 경우 null일 수 있음)
-		String userId = (String) session.getAttribute("user_ID");        
+		String userId = (String) session.getAttribute("user_ID");
+		String nickname = (String) session.getAttribute("nickname");
 		
 		// user_ID를 모델에 추가 (필요한 경우)
 		model.addAttribute("user_ID", userId);
+		model.addAttribute("nickname", nickname);
 		model.addAttribute("store_ID", storeId);
 		model.addAttribute("storeDetail", storeDetail);
 		
