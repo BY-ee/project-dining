@@ -365,3 +365,71 @@ BEGIN
     :NEW.id := admin_member_seq.NEXTVAL;
 END;
 /
+
+
+------------------ cascade 추가-----------------------
+
+-- 1. 기존 외래 키 제약 조건 삭제(지역)
+ALTER TABLE local
+DROP CONSTRAINT fk_local_store_id;
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE local
+ADD CONSTRAINT fk_local_store_id
+FOREIGN KEY (store_id)
+REFERENCES store(id)
+ON DELETE CASCADE;
+
+-- 1. 기존 외래 키 제약 조건 삭제(업종)
+ALTER TABLE industry
+DROP CONSTRAINT fk_industry_store_id;
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE industry
+ADD CONSTRAINT fk_industry_store_id
+FOREIGN KEY (store_id) REFERENCES store(id) ON DELETE CASCADE;
+
+-- 1. 기존 외래 키 제약 조건 삭제(테마)
+ALTER TABLE theme
+DROP CONSTRAINT fk_theme_store_id
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE theme
+ADD CONSTRAINT fk_theme_store_id
+FOREIGN KEY (store_id) REFERENCES store(id) ON DELETE CASCADE;
+
+-- 1. 기존 외래 키 제약 조건 삭제(음식점)
+ALTER TABLE restaurant
+DROP CONSTRAINT fk_restaurant_industry_id;
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE restaurant
+ADD CONSTRAINT fk_restaurant_industry_id
+FOREIGN KEY (industry_id) REFERENCES industry(id) ON DELETE CASCADE;
+
+-- 1. 기존 외래 키 제약 조건 삭제(카페)
+ALTER TABLE cafe
+DROP CONSTRAINT fk_cafe_industry_id;
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE cafe
+ADD CONSTRAINT fk_cafe_industry_id
+FOREIGN KEY (industry_id) REFERENCES industry(id) ON DELETE CASCADE;
+
+-- 1. 기존 외래 키 제약 조건 삭제(술집)
+ALTER TABLE bar
+DROP CONSTRAINT fk_bar_industry_id;
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE bar
+ADD CONSTRAINT fk_bar_industry_id
+FOREIGN KEY (industry_id) REFERENCES industry(id) ON DELETE CASCADE;
+
+-- 1. 기존 외래 키 제약 조건 삭제(메뉴)
+ALTER TABLE menu
+DROP CONSTRAINT fk_menu_store_id;
+
+-- 2. ON DELETE CASCADE 옵션을 포함하여 외래 키 제약 조건 다시 생성
+ALTER TABLE menu
+ADD CONSTRAINT fk_menu_store_id
+FOREIGN KEY (store_id) REFERENCES store(id) ON DELETE CASCADE;

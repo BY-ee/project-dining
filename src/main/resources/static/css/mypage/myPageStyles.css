@@ -43,6 +43,22 @@
 	overflow: hidden; /* 자식 요소가 부모 경계를 넘지 않도록 설정 */
 }
 
+.profile-name {
+	margin-top: 15px; /* 프로필 사진과 이름 사이 간격 */
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
+}
+
+.profile-intro {
+	margin-top: 10px; /* 이름과 자기소개 사이 간격 */
+	font-size: 14px;
+	color: #666;
+	line-height: 1.5; /* 줄 간격 */
+	text-align: left; /* 텍스트 정렬 */
+	padding: 10px 0; /* 상하 간격 추가 */
+}
+
 /* 마우스 호버 시 어두운 오버레이 레이어 추가 */
 .profile-pic::before {
     content: "";
