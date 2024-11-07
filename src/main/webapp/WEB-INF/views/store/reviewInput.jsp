@@ -8,15 +8,13 @@
 <title>리뷰 작성</title>
 
 <%
-	String userId = (String) session.getAttribute("user_ID");
-	String nickname = (String) session.getAttribute("nickname");
+    String userId = (String) session.getAttribute("user_ID");
+    String nickname = (String) session.getAttribute("nickname");
 %>
 
 </head>
 <body>
 
-<% if (userId != null) { %>
-<!-- 로그인한 사용자에게만 리뷰 작성 폼을 보여줌 -->
 <!-- 리뷰 섹션 -->
 <div class="review-input-section">
     <h3>리뷰 작성하기</h3>
@@ -28,7 +26,9 @@
         <!-- 작성자 이름 필드에 nickname 값 자동 표시 -->
         <% if (userId != null) { %>
             <!-- 로그인된 사용자의 경우 닉네임을 텍스트로 출력 -->
-            <p>작성자: <%= nickname %></p>
+             <div class="nickname-container">
+                <p><%= nickname %>님</p>
+            </div>
         <% } %>
         <select name="score" <%= userId == null ? "disabled" : "" %>>
             <option value="5">5점 - 아주 좋아요</option>
@@ -46,10 +46,6 @@
         <% } %>
     </form>
 </div>
-<% } else { %>
-    <!-- 로그인하지 않은 사용자에게는 로그인 안내 메시지 표시 -->
-    <p>리뷰를 작성하려면 <a href="/loginForm.do">로그인</a> 해주세요.</p>
-<% } %>
 
 </body>
 </html>

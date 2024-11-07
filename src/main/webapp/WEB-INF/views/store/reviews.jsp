@@ -53,7 +53,7 @@
             data: { storeId: storeId }, // storeId 전달
             dataType: 'json',
             success: function(reviews) {
-                const existingReview = reviews.find(review => review.userId === userId); // userId 변수는 세션에서 가져온 사용자 ID
+                const existingReview = reviews.find(review => review.USER_ID === userId); // userId 변수는 세션에서 가져온 사용자 ID
                 if (existingReview) {
                     alert("이미 리뷰를 작성하셨습니다."); // 중복 리뷰가 있을 경우 alert 메시지 표시
                     window.location.reload();
