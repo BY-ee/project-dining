@@ -3,6 +3,7 @@ package com.project.controller;
 import java.util.List;
 
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Member;
 import com.project.domain.Menu;
-import com.project.domain.NoticeDomain;
+import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.service.AdminService;

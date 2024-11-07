@@ -29,11 +29,9 @@
 		<div class="security-settings">
 			<h3>비밀번호설정</h3>
 			<div class="security-setting-item">
-				<label for="current_password">현재 비밀번호</label> <input type="text"
-					id="current_password"> <label for="new_password">새
-					비밀번호</label> <input type="text" id="new_password"> <label
-					for="new_password_verify">비밀번호 확인</label> <input type="text"
-					id="new_password_verify">
+				<label for="current_password">현재 비밀번호</label> <input type="text" id="current_password"> 
+				<label for="new_password">새비밀번호</label> <input type="text" id="new_password"> 
+				<label for="new_password_verify">비밀번호 확인</label> <input type="text" id="new_password_verify">
 				<button>수정</button>
 			</div>
 		</div>

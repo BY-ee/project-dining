@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Alias("Notice")
-public class NoticeDomain {
+public class Notice {
     private int id;
     private String category;
     private String title;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.domain.Member;
-import com.project.domain.NoticeDomain;
+import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.domain.Menu;
@@ -27,7 +27,7 @@ public class AdminService {
 	private final ReviewMapper reviewMapper;  
 
 	// 공지 작성
-	public void insertNotice(NoticeDomain notice) {
+	public void insertNotice(Notice notice) {
 		noticeMapper.insertNotice(notice);
 	}
 	
