@@ -18,6 +18,7 @@ import com.project.domain.Menu;
 import com.project.domain.NoticeDomain;
 import com.project.domain.Review;
 import com.project.domain.Store;
+import com.project.dto.Pagination;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class AdminController {
 	public String members(@RequestParam(value="page", defaultValue = "1") int page,
 						 Model model) {
 		int limit = 10;
-		List<Member> members = adminService.selectMembers(page, limit);
+		Pagination<Member> members = adminService.selectMembers(page, limit);
 		model.addAttribute("members", members);
 		
 		return "admin/adminMembers";
@@ -51,7 +52,7 @@ public class AdminController {
 	public String posts(@RequestParam(value="page", defaultValue = "1") int page,
 			 		   Model model) {
 		int limit = 10;
-		List<Store> stores = adminService.selectStores(page, limit);
+		Pagination<Store> stores = adminService.selectStores(page, limit);
 		model.addAttribute("stores", stores);
 		
 		return "admin/adminPosts";
@@ -69,7 +70,7 @@ public class AdminController {
 	public String reviews(@RequestParam(value="page", defaultValue = "1") int page,
 	 		   			 Model model) {
 		int limit = 10;
-		List<Review> reviews = adminService.selectReviews(page, limit);
+		Pagination<Review> reviews = adminService.selectReviews(page, limit);
 		model.addAttribute("reviews", reviews);
 		
 		return "admin/adminReviews";

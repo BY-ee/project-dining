@@ -17,4 +17,8 @@
 		SELECT * FROM member
 		WHERE id=#{id}
 	</select>
+	
+	<select id="countMembers" resultType="long">
+		SELECT COUNT(*) FROM member
+	</select>
 </mapper>

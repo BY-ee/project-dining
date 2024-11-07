@@ -31,4 +31,9 @@
         INSERT INTO review (id, member_id, store_id, score, content, created_at)
         VALUES (#{id}, #{member_id}, #{store_id}, #{score}, #{content}, #{created_at})
     </insert>
+    
+	<select id="countReviews" resultType="long">
+		SELECT COUNT(*) FROM review
+	</select>
+	
 </mapper>

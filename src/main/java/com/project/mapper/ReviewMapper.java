@@ -23,4 +23,6 @@ public interface ReviewMapper {
 	List<Review> selectReviews(@Param("start") int start, @Param("end") int end);
 
 
+	// 총 리뷰 개수
+	long countReviews();
 }

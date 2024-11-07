@@ -16,4 +16,9 @@
     <select id="getStoreDetailById" parameterType="int" resultType="com.project.domain.StoreDomain">
     	SELECT * FROM store WHERE id = #{store_ID}
     </select>
+    
+	<select id="countStores" resultType="long">
+		SELECT COUNT(*) FROM store
+	</select>
+	
 </mapper>

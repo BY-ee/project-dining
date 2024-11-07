@@ -15,4 +15,6 @@ public interface StoreMapper{
     StoreDomain getStoreDetailById(int store_ID);
 	List<Store> selectStores(@Param("start") int start, @Param("end") int end);
 
+	// 총 가게 개수
+	long countStores();
 }

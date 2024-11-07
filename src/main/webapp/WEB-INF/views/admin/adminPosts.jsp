@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="store" items="${stores}">
+                <c:forEach var="store" items="${stores.content}">
                     <tr>
                         <td>${store.id}</td>
                         <td>${store.storeName}</td>
@@ -62,6 +62,38 @@
                 </c:forEach>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="move-page-link">
+                <c:if test="${stores.currentPage > stores.start}">
+                    <a class="page-link" href="#">처음</a>
+                </c:if>
+
+                <a class="page-link" href="#">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${stores.start}" end="${stores.totalPages}">
+                    <c:choose>
+                        <c:when test="${page == stores.currentPage}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="#">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link" href="#">다음</a>
+
+                <c:if test="${stores.currentPage < stores.end}">
+                    <a class="page-link" href="#">끝</a>
+                </c:if>
+            </div>
+        </div>
     </div>
 
     <!-- 메뉴 팝업 -->
