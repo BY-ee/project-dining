@@ -23,13 +23,10 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
 
     // 사용자 조회
-    public LoginDomain getUser(String memberId) {
-        return loginMapper.getUser(memberId);
+    public LoginDomain getUser(String member_id) {
+        return loginMapper.getUser(member_id);
     }
     
-    public boolean isMemberIdExists(String memberId) {
-        return loginMapper.getUser(memberId) != null;
-    }
 
     // 회원가입 로직
     @Transactional

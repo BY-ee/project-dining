@@ -7,7 +7,7 @@
 
     <!-- 사용자 조회 쿼리 -->
     <select id="getUser" parameterType="String" resultType="com.project.domain.LoginDomain">
-	    SELECT * FROM member WHERE member_id = #{memberId}
+	    SELECT * FROM member WHERE member_id = #{member_id}
 	</select>
 
     <!-- 사용자 회원 가입 -->

@@ -126,7 +126,7 @@
         <!-- 가게 목록 컨테이너 -->
         <div class="store-container">
             <div class="store-list">
-				<div class="store-item-box" onclick="goToStoreDetail(1)">
+				<div class="store-item-box" onclick="goToStoreDetail(20)">
 				    <div class="store-item"></div>
 				    <div class="store-name">모수</div>
 				</div>

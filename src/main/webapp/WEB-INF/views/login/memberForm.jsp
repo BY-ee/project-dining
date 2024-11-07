@@ -44,6 +44,8 @@
         <option value="custom">직접 입력</option>
       </select>
     </div>
+    
+    
 
     <button type="submit" class="signcomplete">회원가입</button>
   </form>

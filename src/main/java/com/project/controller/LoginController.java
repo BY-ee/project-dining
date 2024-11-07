@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
     private final LoginService loginService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/loginForm.do")
     public String loginForm() {
@@ -54,10 +59,6 @@ public class LoginController {
     @PostMapping("/register")
     public String register(@ModelAttribute LoginDomain user, Model model) {
         try {
-            if (loginService.isMemberIdExists(user.getMember_id())) {
-                model.addAttribute("error", "이미 존재하는 아이디입니다.");
-                return "login/signUp.do";  // 회원가입 페이지로 다시 리턴
-            }
             loginService.insertUser(user);  // 회원 정보를 DB에 저장
             model.addAttribute("message", "회원가입이 성공적으로 완료되었습니다.");
             return "login/loginForm";  // 회원가입 성공 페이지로 리다이렉트
@@ -112,9 +113,17 @@ public class LoginController {
                            HttpSession session,
                            Model model) {
         
+        // 디버깅용 로그 출력
+        System.out.println("입력한 아이디: " + login.getMember_id());
+        System.out.println("입력한 비밀번호: " + login.getPasswd());
+
         // 입력한 아이디의 특정 유저 정보를 조회해서 db 객체에 저장
         LoginDomain db = loginService.getUser(login.getMember_id());
-        
+
+        if (db != null) {
+            System.out.println("DB에서 조회한 암호화된 비밀번호: " + db.getPasswd());
+        }
+
         int result = 0;
 
         // 아이디 존재 여부 확인 (null error 방지)
@@ -123,7 +132,7 @@ public class LoginController {
             result = -1;
         } else {
             // 아이디가 존재하면 비밀번호 비교
-            if (db.getPasswd().equals(login.getPasswd())) {
+            if (passwordEncoder.matches(login.getPasswd(), db.getPasswd())) {
                 result = 1;  // 로그인 성공
                 session.setAttribute("loginUser", db);
                 session.setAttribute("user_ID", db.getId());  // user_ID 세션에 저장    
@@ -133,7 +142,9 @@ public class LoginController {
                 result = -1;  // 비밀번호 불일치
             }
         }
-    
+
+        System.out.println("로그인 결과: " + result);
+
         model.addAttribute("result", result);
         model.addAttribute("login", login);
         

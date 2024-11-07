@@ -6,6 +6,6 @@ import com.project.domain.LoginDomain;
 
 @Mapper
 public interface LoginMapper {
-    LoginDomain getUser(String memberId);  // 사용자 조회
+    LoginDomain getUser(String member_id);  // 사용자 조회
     void insertUser(LoginDomain user);     // 사용자 등록
 }

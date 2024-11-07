@@ -12,7 +12,7 @@ import com.project.domain.Store;
 
 @Mapper
 public interface StoreMapper{
-    StoreDomain getStoreDetailById(int storeId);
+    StoreDomain getStoreDetailById(int store_ID);
 	List<Store> selectStores(@Param("start") int start, @Param("end") int end);
 
 }

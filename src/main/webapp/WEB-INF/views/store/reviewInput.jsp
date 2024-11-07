@@ -8,7 +8,8 @@
 <title>리뷰 작성</title>
 
 <%
-    String userId = (String) session.getAttribute("user_ID");
+	Long userIdLong = (Long) session.getAttribute("user_ID");
+	String userId = (userIdLong != null) ? userIdLong.toString() : null;
     String nickname = (String) session.getAttribute("user_nickname");
 %>
 

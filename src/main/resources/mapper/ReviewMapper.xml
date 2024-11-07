@@ -12,7 +12,4 @@
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
-	
-	
-	
 </mapper>
