@@ -38,6 +38,59 @@ $(() => {
             $('#popup-overlay').css('display', 'flex');
         });
     });
+
+    // 회원의 상태에 따라 글자색 변경
+    const statusColor = {
+        'active': '#79f',
+        'inactive': '#f66'
+    }
+
+    $('.member-status').each(function() {
+        const status = $(this).data('status');
+        const color = statusColor[status];
+        if (color) {
+            $(this).css({
+                'color': color
+            });
+        }
+    });
+
+
+    // 회원 차단 버튼 클릭
+    $('.block-btn').on('click', function() {
+        const memberId = $(this).data('id');
+        $.ajax({
+            url: `/admin/members/${memberId}/block`,
+            type: 'POST',
+            success: (result) => {
+                const $statusTd = $(`.member-status[data-id="${memberId}"]`);
+                $statusTd.text(result).css({
+                    'color': '#f66'
+                });
+            },
+            error: (e) => {
+                alert('Error occurred' + e.message);
+            }
+        });
+    });
+
+    // 회원 차단 해제 버튼 클릭
+    $('.unblock-btn').on('click', function() {
+        const memberId = $(this).data('id');
+        $.ajax({
+            url: `/admin/members/${memberId}/unblock`,
+            type: 'POST',
+            success: (result) => {
+                const $statusTd = $(`.member-status[data-id="${memberId}"]`);
+                $statusTd.text(result).css({
+                    'color': '#79f'
+                });
+            },
+            error: (e) => {
+                alert('Error occurred' + e.message);
+            }
+        });
+    });
 });
 
 // 회원의 자기소개 가져오는 함수

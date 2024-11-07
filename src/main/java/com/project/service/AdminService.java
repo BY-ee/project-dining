@@ -48,6 +48,16 @@ public class AdminService {
 		return memberMapper.selectMember(id);
 	}
 
+	// 회원 차단
+	public void blockMember(long id) {
+		memberMapper.blockMember(id);
+	}
+	
+	// 회원 차단해제
+	public void unblockMember(long id) {
+		memberMapper.unblockMember(id);
+	}
+	
 	// 가게 목록 조회
 	public Pagination<Store> selectStores(int page, int limit) {
 		int start = (page - 1) * limit + 1;

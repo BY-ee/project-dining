@@ -47,6 +47,24 @@ public class AdminController {
 		return adminService.selectMember(id);
 	}
 	
+	// 회원 차단
+	@PostMapping("/members/{id}/block")
+	@ResponseBody
+	public String blockMember(@PathVariable("id") long id) {
+		adminService.blockMember(id);
+		
+		return "inactive";
+	}
+	
+	// 회원 차단해제
+	@PostMapping("/members/{id}/unblock")
+	@ResponseBody
+	public String unblockMember(@PathVariable("id") long id) {
+		adminService.unblockMember(id);
+		
+		return "active";
+	}
+	
 	// 게시글 관리 페이지
 	@GetMapping("/posts")
 	public String posts(@RequestParam(value="page", defaultValue = "1") int page,

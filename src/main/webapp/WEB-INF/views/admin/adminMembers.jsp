@@ -63,10 +63,10 @@
                                 <option value="30">30일</option>
                                 <option value="0">영구</option>
                             </select>
-                            <button class="delete-btn">차단</button>
-                            <button class="edit-btn">차단 해제</button>
+                            <button class="delete-btn block-btn" data-id="${member.id}">차단</button>
+                            <button class="edit-btn unblock-btn" data-id="${member.id}">차단 해제</button>
                         </td>
-                        <td style="color: #5a7beb;">${member.status}</td>
+                        <td class="member-status" data-id="${member.id}" data-status="${member.status}">${member.status}</td>
                     </tr>
                 </c:forEach>
             </tbody>
