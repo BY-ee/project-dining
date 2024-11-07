@@ -196,3 +196,40 @@ table button {
     margin-top: -10px;
     margin-right: -10px;
 }
+
+/**********************************
+ *         페이지네이션 css
+ **********************************/
+.pagination {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.current-page {
+    background: #ccc;
+    min-width: 30px;
+    min-height: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.page-link {
+    background: #b2b3f9;
+    min-width: 30px;
+    min-height: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.move-page-link {
+    display: flex;
+    gap: 10px;
+}
+
+.page {
+    display: flex;
+    gap: 10px;
+}

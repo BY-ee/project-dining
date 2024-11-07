@@ -15,4 +15,7 @@ public interface MemberMapper {
 	
 	// 특정 유저 조회
 	Member selectMember(long id);
+	
+	// 총 회원수
+	long countMembers();
 }

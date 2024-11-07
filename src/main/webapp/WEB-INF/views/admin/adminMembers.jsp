@@ -46,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="member" items="${members}">
+                <c:forEach var="member" items="${members.content}">
                     <tr>
                         <td>${member.id}</td>
                         <td>${member.userid}</td>
@@ -71,6 +71,38 @@
                 </c:forEach>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="move-page-link">
+                <c:if test="${members.currentPage > members.start}">
+                    <a class="page-link" href="#">처음</a>
+                </c:if>
+
+                <a class="page-link" href="#">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${members.start}" end="${members.totalPages}">
+                    <c:choose>
+                        <c:when test="${page == members.currentPage}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="#">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link" href="#">다음</a>
+
+                <c:if test="${members.currentPage < members.end}">
+                    <a class="page-link" href="#">끝</a>
+                </c:if>
+            </div>
+        </div>
     </div>
 
     <!-- 자기소개 팝업 -->

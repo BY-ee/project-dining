@@ -8,6 +8,7 @@ import com.project.domain.Member;
 import com.project.domain.NoticeDomain;
 import com.project.domain.Review;
 import com.project.domain.Store;
+import com.project.dto.Pagination;
 import com.project.domain.Menu;
 import com.project.mapper.MemberMapper;
 import com.project.mapper.MenuMapper;
@@ -24,7 +25,7 @@ public class AdminService {
 	private final MemberMapper memberMapper;
 	private final StoreMapper storeMapper;
 	private final MenuMapper menuMapper;
-	private final ReviewMapper reviewMapper;  
+	private final ReviewMapper reviewMapper;
 
 	// 공지 작성
 	public void insertNotice(NoticeDomain notice) {
@@ -32,11 +33,14 @@ public class AdminService {
 	}
 	
 	// 유저 조회
-	public List<Member> selectMembers(int page, int limit) {
+	public Pagination<Member> selectMembers(int page, int limit) {
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
+		long totalCount = memberMapper.countMembers();
 		
-		return memberMapper.selectMembers(start, end);
+		List<Member> members = memberMapper.selectMembers(start, end);
+		
+		return new Pagination<>(members, page, limit, totalCount);
 	}
 	
 	// 특정 유저 조회
@@ -45,11 +49,15 @@ public class AdminService {
 	}
 
 	// 가게 목록 조회
-	public List<Store> selectStores(int page, int limit) {
+	public Pagination<Store> selectStores(int page, int limit) {
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
+		long totalCount = storeMapper.countStores();
+		int totalPages = (int) Math.ceil((double) totalCount / limit);
 		
-		return storeMapper.selectStores(start, end);
+		List<Store> stores = storeMapper.selectStores(start, end);
+		
+		return new Pagination<>(stores, start, end, totalPages);
 	}
 
 	// 메뉴 조희
@@ -58,10 +66,14 @@ public class AdminService {
 	}
 
 	// 리뷰 조회
-	public List<Review> selectReviews(int page, int limit) {
+	public Pagination<Review> selectReviews(int page, int limit) {
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
+		long totalCount = reviewMapper.countReviews();
+		int totalPages = (int) Math.ceil((double) totalCount / limit);
 		
-		return reviewMapper.selectReviews(start, end);
+		List<Review> reviews = reviewMapper.selectReviews(start, end);
+		
+		return new Pagination<>(reviews, start, end, totalPages);
 	}
 }

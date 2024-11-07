@@ -14,7 +14,7 @@ CREATE TABLE member (
     nickname VARCHAR2(50) NOT NULL,
     introduction CLOB,
     email VARCHAR2(50) NOT NULL,
-    status VARCHAR2(10) NOT NULL CHECK (status IN ('active', 'deleted')),
+    status VARCHAR2(10) NOT NULL CHECK (status IN ('active', 'inactive')),
     join_date DATE NOT NULL,
     leave_date DATE,
     profile_image VARCHAR2(255),
@@ -26,7 +26,7 @@ INSERT INTO member (
     userpwd, nickname, introduction, email, status, join_date, leave_date, 
     profile_image, point
 ) VALUES (
-    user_seq.NEXTVAL, '일반', '123-45-6789', 'user001', 'naver123', 'google123', 'kakao123', 
+    1, '일반', '123-45-6789', 'user001', 'naver123', 'google123', 'kakao123', 
     'password1', 'nickname1', '안녕하세요! 저는 일반 회원입니다.', 'user001@example.com', 
     'active', TO_DATE('2023-01-01', 'YYYY-MM-DD'), NULL, 
     'http://example.com/profile1.jpg', 100
@@ -43,8 +43,185 @@ INSERT INTO member (
     'http://example.com/profile2.jpg', 200
 );
 
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    3, '일반', '111-22-3333', 'user003', 'naver789', 'google789', 'kakao789', 
+    'password3', 'nickname3', '안녕하세요! 저는 일반 회원입니다.', 'user003@example.com', 
+    'active', TO_DATE('2023-03-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile3.jpg', 150
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    4, '사업자', '222-33-4444', 'user004', 'naver101', 'google101', 'kakao101', 
+    'password4', 'nickname4', '안녕하세요! 저는 사업자 회원입니다.', 'user004@example.com', 
+    'active', TO_DATE('2023-04-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile4.jpg', 250
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    5, '일반', '333-44-5555', 'user005', 'naver202', 'google202', 'kakao202', 
+    'password5', 'nickname5', '안녕하세요! 저는 일반 회원입니다.', 'user005@example.com', 
+    'inactive', TO_DATE('2023-05-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile5.jpg', 120
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    6, '사업자', '444-55-6666', 'user006', 'naver303', 'google303', 'kakao303', 
+    'password6', 'nickname6', '안녕하세요! 저는 사업자 회원입니다.', 'user006@example.com', 
+    'active', TO_DATE('2023-06-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile6.jpg', 300
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    7, '일반', '555-66-7777', 'user007', 'naver404', 'google404', 'kakao404', 
+    'password7', 'nickname7', '안녕하세요! 저는 일반 회원입니다.', 'user007@example.com', 
+    'inactive', TO_DATE('2023-07-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile7.jpg', 180
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    8, '일반', '666-77-8888', 'user008', 'naver505', 'google505', 'kakao505', 
+    'password8', 'nickname8', '안녕하세요! 저는 일반 회원입니다.', 'user008@example.com', 
+    'active', TO_DATE('2023-08-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile8.jpg', 160
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    9, '사업자', '777-88-9999', 'user009', 'naver606', 'google606', 'kakao606', 
+    'password9', 'nickname9', '안녕하세요! 저는 사업자 회원입니다.', 'user009@example.com', 
+    'active', TO_DATE('2023-09-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile9.jpg', 280
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    10, '일반', '888-99-1111', 'user010', 'naver707', 'google707', 'kakao707', 
+    'password10', 'nickname10', '안녕하세요! 저는 일반 회원입니다.', 'user010@example.com', 
+    'inactive', TO_DATE('2023-10-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile10.jpg', 90
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    11, '사업자', '999-11-2222', 'user011', 'naver808', 'google808', 'kakao808', 
+    'password11', 'nickname11', '안녕하세요! 저는 사업자 회원입니다.', 'user011@example.com', 
+    'active', TO_DATE('2023-11-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile11.jpg', 320
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    12, '일반', '111-22-3334', 'user012', 'naver909', 'google909', 'kakao909', 
+    'password12', 'nickname12', '안녕하세요! 저는 일반 회원입니다.', 'user012@example.com', 
+    'inactive', TO_DATE('2023-12-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile12.jpg', 130
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    13, '사업자', '222-33-4445', 'user013', 'naver010', 'google010', 'kakao010', 
+    'password13', 'nickname13', '안녕하세요! 저는 사업자 회원입니다.', 'user013@example.com', 
+    'active', TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile13.jpg', 240
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    14, '일반', '333-44-5556', 'user014', 'naver111', 'google111', 'kakao111', 
+    'password14', 'nickname14', '안녕하세요! 저는 일반 회원입니다.', 'user014@example.com', 
+    'active', TO_DATE('2024-02-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile14.jpg', 110
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    15, '사업자', '444-55-6667', 'user015', 'naver212', 'google212', 'kakao212', 
+    'password15', 'nickname15', '안녕하세요! 저는 사업자 회원입니다.', 'user015@example.com', 
+    'active', TO_DATE('2024-03-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile15.jpg', 350
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    16, '일반', '555-66-7778', 'user016', 'naver313', 'google313', 'kakao313', 
+    'password16', 'nickname16', '안녕하세요! 저는 일반 회원입니다.', 'user016@example.com', 
+    'inactive', TO_DATE('2024-04-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile16.jpg', 95
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    17, '사업자', '666-77-8889', 'user017', 'naver414', 'google414', 'kakao414', 
+    'password17', 'nickname17', '안녕하세요! 저는 사업자 회원입니다.', 'user017@example.com', 
+    'active', TO_DATE('2024-05-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile17.jpg', 260
+);
+
+INSERT INTO member (
+    id, category, registration_number, userid, naver_id, google_id, kakao_id, 
+    userpwd, nickname, introduction, email, status, join_date, leave_date, 
+    profile_image, point
+) VALUES (
+    18, '일반', '777-88-9990', 'user018', 'naver515', 'google515', 'kakao515', 
+    'password18', 'nickname18', '안녕하세요! 저는 일반 회원입니다.', 'user018@example.com', 
+    'active', TO_DATE('2024-06-01', 'YYYY-MM-DD'), NULL, 
+    'http://example.com/profile18.jpg', 175
+);
+
 
 -- 가게 테이블
+
 
 SELECT * FROM store;
 
@@ -136,24 +313,24 @@ CREATE TABLE review (
     store_ID NUMBER NOT NULL,
     score DECIMAL(2, 1),
     review CLOB,
-    CONSTRAINT fk_user FOREIGN KEY (user_ID) REFERENCES 유저(id),
-    CONSTRAINT fk_store FOREIGN KEY (store_ID) REFERENCES 가게 상세페이지(id),
+    CONSTRAINT fk_user FOREIGN KEY (user_ID) REFERENCES member(id),
+    CONSTRAINT fk_store_r FOREIGN KEY (store_ID) REFERENCES store(id),
     CONSTRAINT unique_user_store UNIQUE (user_ID, store_ID) -- user_ID와 store_ID의 조합이 유일하도록 설정
 );
 
-INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+INSERT INTO review (id, user_ID, store_ID, score, review) VALUES 
 (1, 1, 1, 4.5, 'Great place, loved the food and the atmosphere!');
 
-INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+INSERT INTO review (id, user_ID, store_ID, score, review) VALUES 
 (2, 2, 2, 3.8, 'Good food but the service could be better.');
 
-INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+INSERT INTO review (id, user_ID, store_ID, score, review) VALUES 
 (3, 3, 3, 5.0, 'Amazing experience, will definitely come back!');
 
-INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+INSERT INTO review (id, user_ID, store_ID, score, review) VALUES 
 (4, 4, 4, 4.2, 'Nice ambiance, but the food was a bit too salty for my taste.');
 
-INSERT INTO 리뷰 (id, user_ID, store_ID, score, review) VALUES 
+INSERT INTO review (id, user_ID, store_ID, score, review) VALUES 
 (5, 5, 5, 4.8, 'Delicious dishes and great staff, highly recommend!');
 
 

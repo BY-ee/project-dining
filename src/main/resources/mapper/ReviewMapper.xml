@@ -12,4 +12,8 @@
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
+	
+	<select id="countReviews" resultType="long">
+		SELECT COUNT(*) FROM review
+	</select>
 </mapper>
