@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Member;
 import com.project.domain.Menu;
-import com.project.domain.NoticeDomain;
+import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.Pagination;
@@ -103,7 +103,7 @@ public class AdminController {
 	// 공지사항 작성
 	@PostMapping("/notice/write")
 	@ResponseBody
-	public String writeNotice(@RequestBody NoticeDomain notice) {
+	public String writeNotice(@RequestBody Notice notice) {
 		adminService.insertNotice(notice);
 		return "admin/adminNotice";
 	}

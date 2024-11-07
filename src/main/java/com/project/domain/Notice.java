@@ -10,13 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Alias("Notice")
-public class NoticeDomain {
-    private int id;
+public class Notice {
+    private Long id;
     private String category;
     private String title;
     private String content;
-    private Date date;
+    private Date createdAt;
+    private Date startDate;
+    private Date endDate;
     private String status;
     private String noticeImage;
-    private int kinds;
+    private int views;
 }

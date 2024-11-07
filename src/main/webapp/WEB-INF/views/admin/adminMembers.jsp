@@ -49,12 +49,12 @@
                 <c:forEach var="member" items="${members.content}">
                     <tr>
                         <td>${member.id}</td>
-                        <td>${member.userid}</td>
+                        <td>${member.memberId}</td>
                         <td>${member.nickname}</td>
                         <td>${member.email}</td>
                         <td><a href="#" class="intro-link">확인</a></td>
-                        <td><fmt:formatDate value="${member.joinDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
-                        <td><fmt:formatDate value="${member.leaveDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.createdAt}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.deletedDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
                         <td>
                             <select name="user-ban-time">
                                 <option value="1">1일</option>
