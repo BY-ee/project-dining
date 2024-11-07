@@ -49,28 +49,32 @@ $(document).ready(function() {
 
   // 확인 버튼 클릭 시 인증 코드 확인 요청
   $(document).on('click', '#confirmButton', function() {
-			
-    const verificationCode = $('#verificationCode').val().trim();
-    const mailid = $('#mailid').val().trim();
-    const domain = $('#domain').val().trim();
-    const fullEmail = `${mailid}@${domain}`;
+      const verificationCode = $('#verificationCode').val().trim();
+      const mailid = $('#mailid').val().trim();
+      const domain = $('#domain').val().trim();
+      const fullEmail = `${mailid}@${domain}`;
 
-	 $.ajax({
-	    url: 'verifyCode.do',  // 인증 코드 확인을 위한 서버 엔드포인트
-	    type: 'POST',
-	    data: { email: fullEmail, code: verificationCode },
-	    success: function(response) {
-	      // 인증 성공 메시지를 표시
-	      $('#verificationMessage').text(response);  // 서버에서 반환한 메시지를 표시
-	      $('#verificationMessage').css('color', 'green');  // 성공 메시지를 녹색으로 표시
-	    },
-	    error: function(error) {
-	      // 인증 실패 메시지를 표시
-	      $('#verificationMessage').text("인증 확인에 실패했습니다. 다시 시도해 주세요.");
-	      $('#verificationMessage').css('color', 'red');  // 실패 메시지를 빨간색으로 표시
-	    }
-	  });
-	});
+      $.ajax({
+          url: 'verifyCode.do',
+          type: 'POST',
+          data: { email: fullEmail, code: verificationCode },
+          success: function(response) {
+              if (response === "인증에 성공했습니다.") {
+                  $('#verificationMessage').text(response).css('color', 'green');
+                  $('.signcomplete').prop('disabled', false); // 회원가입 버튼 활성화
+                  $('.signcomplete').data('verified', true); // data-verified 설정
+              } else {
+                  $('#verificationMessage').text(response).css('color', 'red');
+                  $('.signcomplete').prop('disabled', true); // 인증 실패 시 비활성화
+              }
+          },
+          error: function(error) {
+              $('#verificationMessage').text("인증 확인에 실패했습니다. 다시 시도해 주세요.");
+              $('#verificationMessage').css('color', 'red');
+              $('.signcomplete').prop('disabled', true);
+          }
+      });
+  });
   
 	
 	
@@ -117,6 +121,14 @@ $(document).ready(function() {
 	            }
 	        });
 	    });
+		
+		// 회원가입 버튼 클릭 이벤트
+		$('.signcomplete').on('click', function(event) {
+		    if (!$(this).data('verified')) {
+		        alert("이메일 인증이 필요합니다.");
+		        event.preventDefault();
+		    }
+		});
 		
 		
   

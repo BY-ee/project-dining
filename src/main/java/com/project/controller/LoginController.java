@@ -57,14 +57,23 @@ public class LoginController {
     
     // 회원가입 - 일반 사용자 및 사업자 등록 사용자
     @PostMapping("/register")
-    public String register(@ModelAttribute LoginDomain user, Model model) {
+    public String register(@ModelAttribute LoginDomain user, Model model, HttpSession session) {
+        Boolean isVerified = (Boolean) session.getAttribute("isVerified");
+
+        if (isVerified == null || !isVerified) {
+            model.addAttribute("error", "회원가입을 위해 이메일 인증이 필요합니다.");
+            return "login/signup";  // 이메일 인증 필요 메시지와 함께 회원가입 페이지로 리다이렉트
+        }
+
         try {
             loginService.insertUser(user);  // 회원 정보를 DB에 저장
             model.addAttribute("message", "회원가입이 성공적으로 완료되었습니다.");
-            return "login/loginForm";  // 회원가입 성공 페이지로 리다이렉트
+            session.removeAttribute("isVerified"); // 회원가입 후 인증 상태 제거
+            return "login/loginForm";  // 회원가입 성공 페이지로 이동
         } catch (Exception e) {
+            e.printStackTrace();  // 예외 메시지 출력
             model.addAttribute("error", "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
-            return "login/signUp.do";  // 회원가입 페이지로 다시 리턴
+            return "login/signup";  // 회원가입 실패 시 다시 회원가입 페이지로 이동
         }
     }
     
@@ -93,12 +102,11 @@ public class LoginController {
         String savedEmail = (String) session.getAttribute("email");
 
         if (savedCode == null || savedEmail == null) {
-            System.out.println(savedCode);
-            System.out.println(savedEmail);
             return "인증 코드가 만료되었거나 존재하지 않습니다.";
         }
 
         if (savedEmail.equals(email) && savedCode.equals(code)) {
+            session.setAttribute("isVerified", true);  // 인증 성공 상태 저장
             session.removeAttribute("verificationCode"); // 인증 후 세션에서 코드 제거
             session.removeAttribute("email");
             return "인증에 성공했습니다.";

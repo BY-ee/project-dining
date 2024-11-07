@@ -21,59 +21,45 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReviewController {
 
-	private final ReviewService reviewService;
-	
-//	@RequestMapping("/reviews")
-//    public String showReviewsPage() {
-//        return "store/reviews";
-//    }
-	
-	@RequestMapping("/getReviews")
-	@ResponseBody
-	public List<Map<String, Object>> getReviews(@RequestParam("storeId") int storeId) {
-		
-		List<Map<String, Object>> reviews = reviewService.getReviewsByStoreId(storeId); 
-		
-		return reviews;
-	}
-	
-	@PostMapping("/submitReview")
+    private final ReviewService reviewService;
+
+    @RequestMapping("/getReviews")
+    @ResponseBody
+    public List<ReviewDomain> getReviews(@RequestParam("store_id") int storeId) {
+        return reviewService.getReviewsByStoreId(storeId);
+    }
+
+    @PostMapping("/submitReview")
     public String submitReview(
             @RequestParam("storeId") int storeId,
             @RequestParam("score") double score,
-            @RequestParam("review") String review,
+            @RequestParam("content") String content,
             HttpSession session,
             Model model) {
-        
-		// 세션에서 user_ID와 nickname 가져오기
-	    Object userIdObj = session.getAttribute("user_ID");
 
-	    Integer userId = null;
-	    if (userIdObj instanceof String) {
-	        // user_ID가 String으로 저장된 경우 Integer로 변환
-	        userId = Integer.parseInt((String) userIdObj);
-	    } else if (userIdObj instanceof Integer) {
-	        userId = (Integer) userIdObj;
-	    }
-	    
-	    if (userId == null) {
-	        // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-	        return "redirect:/loginForm.do";
-	    }
-		
+        // 세션에서 user_ID 가져오기
+        Long memberId = (Long) session.getAttribute("user_ID");
+
+        // 디버깅용 출력
+        System.out.println("submitReview 메서드에서 가져온 memberId: " + memberId);
+
+        if (memberId == null) {
+            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+            return "redirect:/loginForm.do";
+        }
+
         // ReviewDomain 객체 생성 및 값 설정
         ReviewDomain newReview = new ReviewDomain();
-        newReview.setUserId(userId);
-        newReview.setStoreId(storeId);
+        newReview.setMember_id(memberId);
+        newReview.setStore_id(storeId);
         newReview.setScore(score);
-        newReview.setReview(review);  // DTO의 review 필드에 값 설정
-        newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
-        
+        newReview.setContent(content);
+        newReview.setCreated_at(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+
         // 리뷰 저장
         reviewService.insertReview(newReview);
 
         // 다시 원래 페이지로 리디렉션
         return "redirect:/storeDetail?store_ID=" + storeId;
     }
-	
 }

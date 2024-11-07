@@ -15,7 +15,7 @@ import com.project.domain.Review;
 public interface ReviewMapper {
 
 	// 리뷰 조회
-	List<Map<String, Object>> getReviewsByStoreId(int storeId);
+	public List<ReviewDomain> getReviewsByStoreId(int storeId);
 
 	// 리뷰 삽입
 	void insertReview(ReviewDomain newReview);

@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPage = 1;
     const reviewsPerPage = 5;
 
-    function generateSampleReviews() {
+/*    function generateSampleReviews() {
         for (let i = 1; i <= 20; i++) {
             reviews.push({
                 author: `사용자${i}`,
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-
+*/
     function renderReviews() {
         const reviewList = document.getElementById('review-list');
         reviewList.innerHTML = '';
