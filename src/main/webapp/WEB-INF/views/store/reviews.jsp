@@ -35,7 +35,7 @@
 			data : { storeId: storeId }, // storeId 전달
 			dataType : 'json',
 			success : function(reviews) {
-				console.log("reviews:" + reviews);
+				console.log("API Response:", reviews);
 				renderReviews(reviews);
 				$('#reviewCount').text(reviews.length); // 리뷰 수 업데이트
 			},
@@ -79,12 +79,12 @@
 			// 문자열 연결 방식으로 변경
 			var reviewItem = '<div class="review-item">'
 		        + '<div class="review-header">'
-	            + '<span class="review-author">' + review.userId + '</span>' // 사용자 이름
+	            + '<span class="review-author">' + review.NICKNAME + '</span>' // 사용자 이름
 	            + '<br>'  // 줄바꿈
-	            + '<span class="review-date">' + review.createdAt + '</span>' // 날짜는 작성자 이름 아래
-	            + '<div class="review-rating">' + generateStars(review.score) + '</div>' // 별점은 오른쪽 상단에 CSS로 배치
+	            + '<span class="review-date">' + review.CREATED_AT + '</span>' // 날짜는 작성자 이름 아래
+	            + '<div class="review-rating">' + generateStars(review.SCORE) + '</div>' // 별점은 오른쪽 상단에 CSS로 배치
 	        + '</div>'
-	        + '<div class="review-content">' + review.review + '</div>' // 리뷰 내용
+	        + '<div class="review-content">' + review.REVIEW + '</div>' // 리뷰 내용
 	    + '</div>';
 
 			reviewList.append(reviewItem); // reviewItem을 리뷰 리스트에 추가

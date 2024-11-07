@@ -17,5 +17,4 @@ public class ReviewDomain {
     private String review;
     private Timestamp createdAt;
     
-    private String nickname;
 }

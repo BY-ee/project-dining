@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +30,9 @@ public class ReviewController {
 	
 	@RequestMapping("/getReviews")
 	@ResponseBody
-	public List<ReviewDomain> getReviews(@RequestParam("storeId") int storeId) {
+	public List<Map<String, Object>> getReviews(@RequestParam("storeId") int storeId) {
 		
-		List<ReviewDomain> reviews = reviewService.getReviewsByStoreId(storeId); 
+		List<Map<String, Object>> reviews = reviewService.getReviewsByStoreId(storeId); 
 		
 		return reviews;
 	}
@@ -46,7 +47,6 @@ public class ReviewController {
         
 		// 세션에서 user_ID와 nickname 가져오기
 	    Object userIdObj = session.getAttribute("user_ID");
-	    String nickname = (String) session.getAttribute("nickname");
 
 	    Integer userId = null;
 	    if (userIdObj instanceof String) {
@@ -65,7 +65,6 @@ public class ReviewController {
         ReviewDomain newReview = new ReviewDomain();
         newReview.setUserId(userId);
         newReview.setStoreId(storeId);
-        newReview.setNickname(nickname);
         newReview.setScore(score);
         newReview.setReview(review);  // DTO의 review 필드에 값 설정
         newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정

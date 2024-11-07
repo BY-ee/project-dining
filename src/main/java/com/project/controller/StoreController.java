@@ -24,6 +24,8 @@ public class StoreController {
 			HttpSession session,
 			Model model) {
 		
+		System.out.println("storeId: " + storeId);
+		
 		// StoreService를 통해 가게 상세 정보 가져오기
 		StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
 		

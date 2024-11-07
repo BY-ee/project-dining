@@ -4,9 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ReviewMapper">
 
-	<select id="getReviewsByStoreId" parameterType="int" resultType="ReviewDomain">
+<!-- 	<select id="getReviewsByStoreId" parameterType="int" resultType="ReviewDomain">
         SELECT * FROM review WHERE store_id = #{storeId}
-    </select>
+    </select> -->
+    
+    
+   <!-- 수정된 쿼리: 리뷰와 닉네임을 함께 가져옴 -->
+	<select id="getReviewsByStoreId" parameterType="int" resultType="map">
+	    SELECT r.id AS review_id, r.user_id, r.store_id, r.score, 
+	           TO_CHAR(r.review) AS review, 
+	           TO_CHAR(r.created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at, 
+	           u.nickname
+	    FROM review r
+	    JOIN user_data u ON r.user_id = u.id
+	    WHERE r.store_id = #{storeId}
+	</select>
+
+    
     
 <!-- 리뷰 삽입 쿼리 -->
     <insert id="insertReview" parameterType="ReviewDomain">
