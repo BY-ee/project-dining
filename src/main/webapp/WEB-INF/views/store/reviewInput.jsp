@@ -26,7 +26,9 @@
         <!-- 작성자 이름 필드에 nickname 값 자동 표시 -->
         <% if (userId != null) { %>
             <!-- 로그인된 사용자의 경우 닉네임을 텍스트로 출력 -->
-            <p>작성자: <%= nickname %></p>
+             <div class="nickname-container">
+                <p><%= nickname %>님</p>
+            </div>
         <% } %>
         <select name="score" <%= userId == null ? "disabled" : "" %>>
             <option value="5">5점 - 아주 좋아요</option>

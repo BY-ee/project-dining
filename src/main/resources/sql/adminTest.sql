@@ -26,7 +26,7 @@ INSERT INTO member (
     userpwd, nickname, introduction, email, status, join_date, leave_date, 
     profile_image, point
 ) VALUES (
-    user_seq.NEXTVAL, '일반', '123-45-6789', 'user001', 'naver123', 'google123', 'kakao123', 
+--    user_seq.NEXTVAL, '일반', '123-45-6789', 'user001', 'naver123', 'google123', 'kakao123', 
     'password1', 'nickname1', '안녕하세요! 저는 일반 회원입니다.', 'user001@example.com', 
     'active', TO_DATE('2023-01-01', 'YYYY-MM-DD'), NULL, 
     'http://example.com/profile1.jpg', 100

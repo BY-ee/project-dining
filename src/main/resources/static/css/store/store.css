@@ -501,3 +501,17 @@ body {
 .review-input-section button:hover {
     background-color: #0056b3;
 }
+
+
+.nickname-container {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-left:5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.nickname-container p {
+    margin: 0;
+    font-size: 15px;
+}

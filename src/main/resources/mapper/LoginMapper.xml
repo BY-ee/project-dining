@@ -7,13 +7,50 @@
 
     <!-- 사용자 조회 쿼리 -->
     <select id="getUser" parameterType="String" resultType="com.project.domain.LoginDomain">
-        SELECT * FROM User_data WHERE userid = #{userid}
-    </select>
+	    SELECT * FROM member WHERE member_id = #{memberId}
+	</select>
 
-    <!-- 회원가입 쿼리 -->
+    <!-- 사용자 회원 가입 -->
     <insert id="insertUser" parameterType="com.project.domain.LoginDomain">
-        INSERT INTO User_data (id, userid, nickname, userpwd, email, join_date)
-        VALUES (user_data_seq.NEXTVAL, #{userid}, #{nickname}, #{userpwd}, #{email}, CURRENT_TIMESTAMP)
-    </insert>
+	    INSERT INTO member (
+	      id, 
+	      category, 
+	      registration_number, 
+	      member_id, 
+	      naver_id, 
+	      google_id, 
+	      kakao_id, 
+	      passwd, 
+	      nickname, 
+	      introduction, 
+	      email, 
+	      status, 
+	      created_at, 
+	      inactive_date, 
+	      reactive_date, 
+	      deleted_date, 
+	      profile_image, 
+	      point
+	    ) VALUES (
+	      member_seq.NEXTVAL, 
+	      #{category}, 
+		  #{registration_number, jdbcType=VARCHAR},
+	      #{member_id}, 
+		  #{naver_id, jdbcType=VARCHAR}, 
+		  #{google_id, jdbcType=VARCHAR}, 
+		  #{kakao_id, jdbcType=VARCHAR}, 
+	      #{passwd}, 
+	      #{nickname}, 
+	      #{introduction, jdbcType=VARCHAR}, 
+	      #{email}, 
+     	 'active',  
+	      SYSDATE, 
+	      #{inactive_date, jdbcType=DATE}, 
+	      #{reactive_date, jdbcType=DATE}, 
+	      #{deleted_date, jdbcType=DATE}, 
+	      #{profile_image, jdbcType=VARCHAR}, 
+      	  #{point, jdbcType=INTEGER}
+	    )
+	  </insert>
 
 </mapper>

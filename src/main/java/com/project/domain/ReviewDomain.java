@@ -16,5 +16,5 @@ public class ReviewDomain {
     private double score;
     private String review;
     private Timestamp createdAt;
-    private String nickname;
+    
 }

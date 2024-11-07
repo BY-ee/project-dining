@@ -1,6 +1,7 @@
 package com.project.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ public class ReviewService {
 
 	private final ReviewMapper reviewMapper;
 
-	// 모든 리뷰 조회
-	public List<ReviewDomain> getReviewsByStoreId(int storeId) {
+	// 리뷰 조회
+	public List<Map<String, Object>> getReviewsByStoreId(int storeId) {
 		return reviewMapper.getReviewsByStoreId(storeId);
 	}
 
