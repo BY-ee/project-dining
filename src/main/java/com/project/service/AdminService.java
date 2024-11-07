@@ -53,11 +53,10 @@ public class AdminService {
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
 		long totalCount = storeMapper.countStores();
-		int totalPages = (int) Math.ceil((double) totalCount / limit);
 		
 		List<Store> stores = storeMapper.selectStores(start, end);
 		
-		return new Pagination<>(stores, start, end, totalPages);
+		return new Pagination<>(stores, page, limit, totalCount);
 	}
 
 	// 메뉴 조희
@@ -70,10 +69,9 @@ public class AdminService {
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
 		long totalCount = reviewMapper.countReviews();
-		int totalPages = (int) Math.ceil((double) totalCount / limit);
 		
 		List<Review> reviews = reviewMapper.selectReviews(start, end);
 		
-		return new Pagination<>(reviews, start, end, totalPages);
+		return new Pagination<>(reviews, page, limit, totalCount);
 	}
 }
