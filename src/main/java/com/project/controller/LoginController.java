@@ -111,6 +111,9 @@ public class LoginController {
 	        if (db.getUserpwd().equals(login.getUserpwd())) {
 	            result = 1;  // 로그인 성공
 	            session.setAttribute("loginUser", db);
+	            session.setAttribute("user_ID", db.getId());  // user_ID 세션에 저장	
+	            session.setAttribute("user_nickname", db.getNickname());  // user_ID 세션에 저장	
+
 	        } else {
 	            result = -1;  // 비밀번호 불일치
 	        }

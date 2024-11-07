@@ -12,4 +12,8 @@
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
+	
+    <select id="getStoreDetailById" parameterType="int" resultType="com.project.domain.StoreDomain">
+        SELECT * FROM store_detail WHERE id = #{id}
+    </select>
 </mapper>

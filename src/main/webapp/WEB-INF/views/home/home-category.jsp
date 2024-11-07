@@ -76,11 +76,11 @@
 		            <img src="/images/home/티앤미미.jpg" alt="슬라이드 2 이미지" class="slide-image">
 		        </div>
 		        <div class="slide">
-		            <img src="/images/home/에드워드리.jpg" alt="슬라이드 3 이미지" class="slide-image">
-		        </div>
+<!-- 		            <img src="/images/home/에드워드리.jpg" alt="슬라이드 3 이미지" class="slide-image">
+ -->		        </div>
 		        <div class="slide">
-		            <img src="/images/home/물고기.jpg" alt="슬라이드 4 이미지" class="slide-image">
-		        </div>
+<!-- 		            <img src="/images/home/물고기.jpg" alt="슬라이드 4 이미지" class="slide-image">
+ -->		        </div>
 		    </div>
 		    
 		   	<div class="slide-buttons">
@@ -130,10 +130,10 @@
 				    <div class="store-item"></div>
 				    <div class="store-name">모수</div>
 				</div>
-                <div class="store-item-box">
-                    <div class="store-item"></div>
-                    <div class="store-name">티앤미미</div>
-                </div>
+				<div class="store-item-box" onclick="goToStoreDetail(2)">
+				    <div class="store-item"></div>
+				    <div class="store-name">모수</div>
+				</div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
                     <div class="store-name">에드워드 리</div>
@@ -197,6 +197,8 @@
 		                <li><a href="/terms">이용 약관</a></li>
 		                <li><a href="/storeRegistration">사업자 가게 등록</a></li>
 		                <li><a href="/noticeList">공지 사항</a></li>
+		                <li><a href="/admin/members">관리자 페이지</a></li>
+		                
 		            </ul>
 		        </div>
 		    </div>
@@ -208,11 +210,22 @@
 </body>
 
 	<script type="text/javascript">
-	    var userId = ${sessionScope.user_ID}; // 세션에서 user_ID 값을 가져옴
-
-		function goToStoreDetail(storeId) {
-		    window.location.href = '/storeDetail?store_ID=' + storeId + '&user_ID=' + userId;  // StoreDetail 페이지로 이동
-		}
+	    // JSP 표현식으로 user_ID 가져오기
+	    var userId = "<%= session.getAttribute("user_ID") != null ? session.getAttribute("user_ID") : "" %>"; 
+	
+	    function goToStoreDetail(storeId) {
+	        console.log("Store ID: " + storeId);  // 확인용 콘솔 로그
+	        console.log("User ID: " + userId);  // 확인용 콘솔 로그
+	        
+	        // userId가 존재하는지 확인하여 URL 생성
+	        var url = '/storeDetail?store_ID=' + storeId;
+	        if (userId && userId.trim() !== "") {  // userId가 비어있지 않을 때만 추가
+	            url += '&user_ID=' + userId;
+	        }
+	        window.location.href = url;  // StoreDetail 페이지로 이동
+	    }
 	</script>
+    
+    
     <script src="js/home/home-category.js"></script>
 </html>

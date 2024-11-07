@@ -32,9 +32,10 @@
 		$.ajax({
 			url : 'getReviews',
 			method : 'GET',
+			data : { storeId: storeId }, // storeId 전달
 			dataType : 'json',
 			success : function(reviews) {
-				console.log("reviews:" + reviews);
+				console.log("API Response:", reviews);
 				renderReviews(reviews);
 				$('#reviewCount').text(reviews.length); // 리뷰 수 업데이트
 			},
@@ -44,6 +45,29 @@
 		});
 	}
 
+	// 중복 리뷰 확인 후 alert 메시지 표시
+	function checkDuplicateReview() {
+        $.ajax({
+            url: 'getReviews',
+            method: 'GET',
+            data: { storeId: storeId }, // storeId 전달
+            dataType: 'json',
+            success: function(reviews) {
+                const existingReview = reviews.find(review => review.userId === userId); // userId 변수는 세션에서 가져온 사용자 ID
+                if (existingReview) {
+                    alert("이미 리뷰를 작성하셨습니다."); // 중복 리뷰가 있을 경우 alert 메시지 표시
+                    window.location.reload();
+                } else {
+                    // 중복이 아닐 경우, 리뷰 입력을 위한 로직 수행
+                    submitReview(); // 실제 리뷰 제출 함수 호출
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('리뷰 데이터를 불러오는 중 오류가 발생했습니다: ', error);
+            }
+        });
+    }
+	
 	// 리뷰 데이터를 화면에 렌더링하는 함수
 	function renderReviews(reviews) {
 		var reviewList = $('#review-list');
@@ -55,12 +79,12 @@
 			// 문자열 연결 방식으로 변경
 			var reviewItem = '<div class="review-item">'
 		        + '<div class="review-header">'
-	            + '<span class="review-author">' + review.userId + '</span>' // 사용자 이름
+	            + '<span class="review-author">' + review.NICKNAME + '</span>' // 사용자 이름
 	            + '<br>'  // 줄바꿈
-	            + '<span class="review-date">' + review.createdAt + '</span>' // 날짜는 작성자 이름 아래
-	            + '<div class="review-rating">' + generateStars(review.score) + '</div>' // 별점은 오른쪽 상단에 CSS로 배치
+	            + '<span class="review-date">' + review.CREATED_AT + '</span>' // 날짜는 작성자 이름 아래
+	            + '<div class="review-rating">' + generateStars(review.SCORE) + '</div>' // 별점은 오른쪽 상단에 CSS로 배치
 	        + '</div>'
-	        + '<div class="review-content">' + review.review + '</div>' // 리뷰 내용
+	        + '<div class="review-content">' + review.REVIEW + '</div>' // 리뷰 내용
 	    + '</div>';
 
 			reviewList.append(reviewItem); // reviewItem을 리뷰 리스트에 추가
@@ -101,7 +125,7 @@
 	// 별점 순으로 정렬하는 함수
 	function sortReviewsByRating() {
 		$.ajax({
-			url : '/getReviews', // 서버 엔드포인트
+			url : 'getReviews', // 서버 엔드포인트
 			method : 'GET',
 			dataType : 'json',
 			success : function(reviews) {
