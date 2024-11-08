@@ -1,6 +1,6 @@
 package com.project.domain;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.apache.ibatis.type.Alias;
 
@@ -15,8 +15,10 @@ public class Notice {
     private String category;
     private String title;
     private String content;
-    private Date date;
+    private Timestamp createdAt;
+    private Timestamp startDate;
+    private Timestamp endDate;
     private String status;
     private String noticeImage;
-    private int kinds;
+    private int views;
 }

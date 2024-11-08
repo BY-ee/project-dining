@@ -4,8 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.NoticeMapper">
-	<insert id="insertNotice" parameterType="Notice">
-		INSERT INTO notice (id, category, title, content, "date", status, notice_image, kinds)
-		VALUES (notice_seq.NEXTVAL, #{category}, #{title}, #{content}, SYSDATE, '게시', 'image.jpg', 0)
-	</insert>
+	<select id="getNoticeList" resultType="com.project.domain.Notice">
+		select * from (
+			select notice.* , ROWNUM AS rn 
+			from notice 
+			where ROWNUM &lt; #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
+			)
+		 where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
+	</select>
 </mapper>

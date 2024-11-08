@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,65 +37,15 @@
             <button class="search-button">검색</button>
         </div>
 
-        <!-- 공지사항 리스트 -->
-        <div class="notice-list">
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="/notice" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
+		<c:forEach var = "notice" items = "${noticePageResponse.noticeList}">
+			<div class="notice-item">
+                <span class="notice-category">[${notice.category}]</span>
+                <a href="#" class="notice-title">${notice.title}</a>
+                <span class="notice-date">${notice.createdAt}</span>
+                <span class="notice-views">${notice.views}</span>
             </div>
-            <!-- 더 많은 공지사항 항목들 -->
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-            <div class="notice-item">
-                <span class="notice-category">[공지]</span>
-                <a href="#" class="notice-title">11월 넥슨플레이 바코드캐시충전 이벤트</a>
-                <span class="notice-date">2024-10-31</span>
-                <span class="notice-views">7533</span>
-            </div>
-        </div>
-
+		</c:forEach>
+		
         <!-- 페이지네이션 -->
         <div class="pagination">
             <a href="#" class="page-link">1</a>
