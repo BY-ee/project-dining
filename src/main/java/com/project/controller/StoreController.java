@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.domain.Menu;
 import com.project.domain.StoreDomain;
 import com.project.service.StoreService;
 
@@ -29,6 +30,9 @@ public class StoreController {
 		// StoreService를 통해 가게 상세 정보 가져오기
 		StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
 		
+		// 메뉴 정보 가져오기
+		Menu menu = storeService.getMenulById(storeId);
+		
 		// 세션에서 user_ID 가져오기 (로그인하지 않은 경우 null일 수 있음)
 		Long userId = (Long) session.getAttribute("user_ID");        
 		
@@ -36,11 +40,19 @@ public class StoreController {
 		model.addAttribute("user_ID", userId);
 		model.addAttribute("store_ID", storeId);
 		model.addAttribute("storeDetail", storeDetail);
+		model.addAttribute("menu", menu);
 		
 		return "store/store"; 
 	}
+	
+	
+	
+	
+	
 }
     
+
+
     
     
 // ============================================================================================    

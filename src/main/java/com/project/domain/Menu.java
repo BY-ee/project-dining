@@ -15,5 +15,6 @@ public class Menu {
 	public String menuImage3;
 	public String menuImage4;
 	public String menuName;
+	public String menuDescription;
 	public String menuPrice;
 }
