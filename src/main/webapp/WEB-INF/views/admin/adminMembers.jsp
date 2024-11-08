@@ -49,12 +49,12 @@
                 <c:forEach var="member" items="${members.content}">
                     <tr>
                         <td>${member.id}</td>
-                        <td>${member.userid}</td>
+                        <td>${member.memberId}</td>
                         <td>${member.nickname}</td>
                         <td>${member.email}</td>
                         <td><a href="#" class="intro-link">확인</a></td>
-                        <td><fmt:formatDate value="${member.joinDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
-                        <td><fmt:formatDate value="${member.leaveDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.createdAt}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.deletedDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
                         <td>
                             <select name="user-ban-time">
                                 <option value="1">1일</option>
@@ -63,10 +63,10 @@
                                 <option value="30">30일</option>
                                 <option value="0">영구</option>
                             </select>
-                            <button class="delete-btn">차단</button>
-                            <button class="edit-btn">차단 해제</button>
+                            <button class="delete-btn block-btn" data-id="${member.id}">차단</button>
+                            <button class="edit-btn unblock-btn" data-id="${member.id}">차단 해제</button>
                         </td>
-                        <td style="color: #5a7beb;">${member.status}</td>
+                        <td class="member-status" data-id="${member.id}" data-status="${member.status}">${member.status}</td>
                     </tr>
                 </c:forEach>
             </tbody>

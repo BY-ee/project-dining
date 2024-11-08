@@ -1,5 +1,7 @@
 package com.project.domain;
 
+import java.util.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -9,9 +11,10 @@ import lombok.Setter;
 @Setter
 @Alias("Review")
 public class Review {
-    private long id;
-    private long userId;
+    private Long id;
+    private long memberId;
     private long storeId;
     private double score;
-    private String review;
+    private String content;
+    private Date createdAt;
 }

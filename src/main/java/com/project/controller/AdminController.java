@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Member;
 import com.project.domain.Menu;
-import com.project.domain.NoticeDomain;
+import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.Pagination;
@@ -45,6 +45,24 @@ public class AdminController {
 	@ResponseBody
 	public Member memberDetail(@PathVariable("id") long id) {
 		return adminService.selectMember(id);
+	}
+	
+	// 회원 차단
+	@PostMapping("/members/{id}/block")
+	@ResponseBody
+	public String blockMember(@PathVariable("id") long id) {
+		adminService.blockMember(id);
+		
+		return "inactive";
+	}
+	
+	// 회원 차단해제
+	@PostMapping("/members/{id}/unblock")
+	@ResponseBody
+	public String unblockMember(@PathVariable("id") long id) {
+		adminService.unblockMember(id);
+		
+		return "active";
 	}
 	
 	// 게시글 관리 페이지
@@ -103,7 +121,7 @@ public class AdminController {
 	// 공지사항 작성
 	@PostMapping("/notice/write")
 	@ResponseBody
-	public String writeNotice(@RequestBody NoticeDomain notice) {
+	public String writeNotice(@RequestBody Notice notice) {
 		adminService.insertNotice(notice);
 		return "admin/adminNotice";
 	}

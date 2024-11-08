@@ -46,7 +46,7 @@
                 <c:forEach var="review" items="${reviews.content}">
                     <tr>
                         <td>${review.id}</td>
-                        <td><a href="/admin/members/${review.userId}">${review.userId}</a></td>
+                        <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
                         <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
                         <td>${review.score}</td>
                         <td><a href="#" class="review-link">확인</a></td>

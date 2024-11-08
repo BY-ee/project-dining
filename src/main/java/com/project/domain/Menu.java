@@ -9,11 +9,10 @@ import lombok.Setter;
 @Setter
 @Alias("Menu")
 public class Menu {
+	public Long id;
 	public Long storeId;
-	public String menuImage1;
-	public String menuImage2;
-	public String menuImage3;
-	public String menuImage4;
+	public String menuImage;
+	public String menuDescription;
 	public String menuName;
 	public String menuPrice;
 }
