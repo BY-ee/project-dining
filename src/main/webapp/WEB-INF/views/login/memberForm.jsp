@@ -14,26 +14,27 @@
     <script src="js/login/join.js"></script> 
     
 <body>
-<form>
+<form method="post" action="joinMember">
 <div class="memberform-container">
     
   <div class="memberform-header">
     <h1 class="memberform-logo">일반회원가입</h1>
   </div>
  <div class="id-form">
- 	<input type="text" placeholder="아이디" id="loginId" name= "id">
- 	<input type="button" value="아이디중복검사">
+ 	<input type="text" placeholder="아이디" id="memberId" name= "memberId">
+ 	<input type="button" value="아이디중복검사" id="idCheck-btn">
+ 	<div id="id-check-result"></div>
  </div>
 
 
  <div class="id-form">
- 	<input type="text" placeholder="닉네임" id="loginPwd" name= "pwd">
+ 	<input type="text" placeholder="닉네임" id="nickname" name= "nickname">
  	<input type="button" value="닉네임중복검사">
  </div> 
   
  <div class="passwd-form">
-    <input type="password" placeholder="비밀번호">
-    <input type="password" placeholder="비밀번호 확인">
+    <input type="password" placeholder="비밀번호" id="passwd" name= "passwd">
+    <input type="password" placeholder="비밀번호 확인" id="passwdCheck" name= "passwdCheck">
  </div> 
   
 
@@ -61,8 +62,8 @@
     <!-- 인증 완료 메시지를 표시할 빈 div -->
   	<div id="verificationMessage" class="verification-message"></div>
     <!-- 회원가입 버튼 -->
-    <button type="submit" class="signcomplete">회원가입</button>
-  </div>
+    <button type="submit" class="signcomplete" id="join-button" >회원가입</button>
+    </div>
 </form>
 
 </body>

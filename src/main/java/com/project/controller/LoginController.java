@@ -1,12 +1,15 @@
 package com.project.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.LoginDomain;
 import com.project.service.LoginService;
@@ -19,7 +22,11 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
 	private final LoginService loginService;
+	
 
+
+    
+    
 	@RequestMapping("/loginForm.do")
 	public String loginForm() {
 		return "login/loginForm";
@@ -49,78 +56,61 @@ public class LoginController {
 	public String findPwd() {
 		return "login/findPwd";
 	}
-
-	// 회원가입 - 이메일 인증
-	@PostMapping("sendVerificationEmail.do")
-    @ResponseBody
-	public String sendVerificationEmail(@RequestParam("email") String email, HttpSession session) {
-	    // 인증 코드 생성
-        String verificationCode = loginService.generateVerificationCode();
-
-        // 세션에 인증 코드 저장
-        session.setAttribute("verificationCode", verificationCode);
-        session.setAttribute("email", email);
-
-        // 이메일 전송
-        loginService.sendVerificationEmail(email, verificationCode);
-
-        return "인증 코드가 이메일로 전송되었습니다.";
-	}
 	
-	@PostMapping("/verifyCode.do")
-    @ResponseBody
-    public String verifyCode(@RequestParam("email") String email, @RequestParam("code") String code, HttpSession session) {
-        String savedCode = (String) session.getAttribute("verificationCode");
-        String savedEmail = (String) session.getAttribute("email");
+	
+    @PostMapping("/idCheck")
+    public ResponseEntity<Map<String, Boolean>> idCheck(@RequestParam String memberId) {
+        boolean isUserIdCheck = loginService.isUserIdCheck(memberId);
 
-        if (savedCode == null || savedEmail == null) {
-        	System.out.println(savedCode);
-        	System.out.println(savedEmail);
-            return "인증 코드가 만료되었거나 존재하지 않습니다.";
-        }
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isUserIdCheck", isUserIdCheck);
 
-        if (savedEmail.equals(email) && savedCode.equals(code)) {
-            session.removeAttribute("verificationCode"); // 인증 후 세션에서 코드 제거
-            session.removeAttribute("email");
-            return "인증에 성공했습니다.";
-        } else {
-            return "인증 코드가 올바르지 않습니다.";
-        }
+        return ResponseEntity.ok(response);
     }
+    
+    
+//    // 회원가입
+//    public String joinMember(LoginDomain login) {
+//    	
+//    	// 비밀번호 확인
+//    	int pwdResult = 0;
+//    	
+//    	if(login.getPasswd().equals(login.getPasswdCheck())) {
+//    		pwdResult = 1;
+//    	}else pwdResult = -1;
+//    
+//    	
+//    
+//    }
 	
 	
-	
-	// 로그인
-	@RequestMapping("login_ok.do")
+	@RequestMapping("/login_ok.do")
 	public String login_ok(@ModelAttribute LoginDomain login,
-						   HttpSession session,
-						   Model model) {
-		
-		//입력한 아이디의 특정 유저 정보를 조회해서 db 객체에 저장
-		LoginDomain db = loginService.getUser(login.getUserid());
-		
-		int result = 0;
+	                       HttpSession session,
+	                       Model model) {
+	    
+	    // 입력한 아이디의 특정 유저 정보를 조회해서 db 객체에 저장
+	    LoginDomain db = loginService.getUser(login.getMemberId());
+	    
+	    int result = 0;
 
-		
-		 // 아이디 존재 여부 확인 (null error 방지)
-		if (db == null) {
+	    // 아이디 존재 여부 확인 (null error 방지)
+	    if (db == null) {
 	        // 아이디가 존재하지 않는 경우
 	        result = -1;
 	    } else {
 	        // 아이디가 존재하면 비밀번호 비교
-	        if (db.getUserpwd().equals(login.getUserpwd())) {
+	        if (db.getPasswd().equals(login.getPasswd())) {
 	            result = 1;  // 로그인 성공
-	            session.setAttribute("loginUser", db);
 	        } else {
 	            result = -1;  // 비밀번호 불일치
 	        }
 	    }
-	
-		model.addAttribute("result", result);
-		model.addAttribute("login", login);
-		
-		return "login/loginResult";
+
+	    model.addAttribute("result", result);
+	    model.addAttribute("login", login);
+	    
+	    return "login/loginResult";
 	}
-	
 	
 }
