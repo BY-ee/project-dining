@@ -7,15 +7,18 @@ import com.project.domain.LoginDomain;
 @Mapper
 public interface LoginMapper {
 	
-	// 아이디 중복 조회
-	boolean isUserIdCheck(String memberId);
+	// 아이디 중복조회
+	int isUserIdCheck(String member_id);
+	
+	// 닉네임 증복조회
+	int isUserNicknameCheck(String nickname);
+	
+//
+//	LoginDomain getUser(String memberId);
 
 
-	
-	// 회원가입
-	void insertUser(LoginDomain login);
-	
-	LoginDomain getUser(String memberId);
+
+
 
 
 }

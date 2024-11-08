@@ -1,30 +1,71 @@
 $(document).ready(function() {
-  
-	// id 중복검사
-	$('#idCheck-btn').on('click', function() {
-	      var memberId = $('#memberId').val().trim();
+  	
+	// 아이디 중복검사
+	$("#idCheck-btn").on('click', function() {
+	           var member_id = $('#member_id').val().trim();
 
-	      if (memberId === "") {
-	          $('#id-check').text("아이디를 입력해 주세요.");
-	          return;
-	      }
+	           if (member_id === "") {
+	               $('#id-check-result').text("아이디를 입력해 주세요.").css("color", "red");;
+	               return;
+	           }
 
-	      $.ajax({
-	          type: 'POST', // 요청 방식
-	          url: '/idCheck', // 서버의 중복 검사 엔드포인트
-	          data: { memberId : memberId }, // 서버에 전달할 데이터
-	          success: function(response) {
-	              if (response.isUserIdCheck) {
-	                  $('#id-check-result').text("이미 사용 중인 아이디입니다.");
-	              } else {
-	                  $('#id-check-result').text("사용 가능한 아이디입니다.");
-	              } 	
-	          },
-	          error: function() {
-	              $('#id-check-result').text("오류가 발생했습니다. 다시 시도해 주세요.");
-	          }
-	      });
-	  });
+	           $.ajax({
+	               type: 'POST', 
+	               url: '/idCheck', 
+	               data: { member_id: member_id }, 
+	               success: function(response) {
+	                   if (response === 1) { 
+	                       $('#id-check-result').text("이미 사용 중인 아이디입니다.").css("color", "red");;
+	                   } else {
+	                       $('#id-check-result').text("사용 가능한 아이디입니다.").css("color", "green");;
+	                   }
+	               },
+	               error: function() {
+	                   $('#id-check-result').text("오류가 발생했습니다. 다시 시도해 주세요.").css("color", "red");
+	               }
+	           });
+	       });
+	
+	// 닉네임 중복검사
+	$("#nicknameCheck-btn").on('click', function() {
+		var nickname = $('#nickname').val().trim();
+
+		if (nickname === "") {
+			$('#nickname-check-result').text("아이디를 입력해 주세요.").css("color", "red");;
+			return;
+		}
+
+		$.ajax({
+			type: 'POST', 
+			url: '/nicknameCheck', 
+			data: { nickname: nickname },
+			success: function(response) {
+				// 서버 응답에 따라 결과 표시
+				if (response === 1) { 
+					$('#nickname-check-result').text("이미 사용 중인 닉네임입니다.").css("color", "red");;
+				} else {
+					$('#nickname-check-result').text("사용 가능한 닉네임입니다.").css("color", "green");
+				}
+			},
+			error: function() {
+				$('#nickname-check-result').text("오류가 발생했습니다. 다시 시도해 주세요.").css("color", "red");
+			}
+		});
+	});	
+	
+	// 비밀번호 일치 체크
+	$('#passwd, #passwdCheck').on('input', function() {
+	       var passwd = $('#passwd').val();
+	       var passwdCheck = $('#passwdCheck').val();
+
+	       // 비밀번호와 비밀번호 확인 값이 일치하는지 확인
+		   if (passwd === passwdCheck) {
+		       $('#passwd-check-result').text("비밀번호 일치").css("color", "green");
+		   } else {
+		       $('#passwd-check-result').text("비밀번호 불일치").css("color", "red");
+		   }
+	   });
+	
 	
 	
 	

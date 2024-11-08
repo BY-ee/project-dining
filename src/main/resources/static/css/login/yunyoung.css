@@ -186,7 +186,7 @@ body {
 }
 
 
-.memberform-container, .ownerform-container, .findpwd-form-container  {
+.memberform-container, .ownerform-container, .findpwd-form-container {
   width: 600px;
   padding: 50px;
   background-color: #fff;
@@ -196,7 +196,7 @@ body {
  }
   
 .id-form {
-  display: flex; 
+  display: 165px; 
   justify-content: center; /* 중앙 정렬 */
   margin-bottom: 20px; /* 여백 추가 */
 }
@@ -222,6 +222,11 @@ body {
 
 .id-form input[type="button"]:hover {
   background-color: #c58b8b; /* 버튼 호버 시 색상 변경 */
+}
+
+.check-result{
+	margin-top : 10px;
+	font-size : 13px;
 }
 
 
@@ -260,27 +265,40 @@ body {
 }
 
 .email-form {
-  display: block; /* 블록 요소로 변경하여 줄바꿈 */
-  margin: 10px 0; /* 위아래 간격 추가 */
-
+  display: flex; /* 가로로 정렬 */
   justify-content: center; /* 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
-  margin-top: 20px; /* 여백 추가 */
-  margin-bottom: 20px; /* 여백 추가 */
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.email-input {
-  width: 120px; /* 입력 필드의 너비 설정 (30%로 조정) */
-  padding: 10px; /* 패딩을 기존 입력 필드와 맞춤 */
+.email-form input[type="text"] {
+  width: 130px;
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
-  margin-top : 20px;
-  height: 40px; /* 입력 박스 높이 맞춤 */
+  height: 40px;
 }
 
+
+.email-select {
+  width: 100px; 
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left : 5px;
+}
+
+
+
+
 .email-form button {
-  width: 50px;
+  width: 60px; /* 버튼 너비 */
   padding: 10px;
   background-color: #D8B2B2;
   color: #fff;
@@ -288,21 +306,20 @@ body {
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-  margin-top : 20px;
-  margin-left : 10px;
+  height: 40px;
+  margin-left:5px;
 }
-
 
 .email-form [type="button"]:hover {
   background-color: #c58b8b; /* 버튼 호버 시 색상 변경 */
 }
 
-
+	
 .verification-container {
   margin-top: 10px; /* 인증 버튼과 새 입력창 사이의 간격 */
 }
 
-#verificationCode {
+.verificationCode-text {
   width: 200px; /* 새 입력창의 너비 */
   padding: 10px;
   margin-bottom: 20px; /* 입력창과 '회원가입' 버튼 사이의 간격 */
@@ -314,19 +331,9 @@ body {
 .domain-symbol {
   margin: 0 5px; /* @ 기호와 입력 필드 및 선택 박스 간의 간격 추가 */
   font-size: 14px; /* @ 기호의 글꼴 크기 조정 */
-  margin-top : 20px;
+  margin-top : 30px;
+  margin-bottom : 30px;
 }
-
-.email-select {
-  width: 120px; /* 선택 박스의 너비 설정 (30%로 조정) */
-  padding: 10px; /* 패딩을 기존 입력 필드와 맞춤 */
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-left : 20px;
-  margin-top : 20px;
-  height: 40px; /* 선택 박스 높이 맞춤 */
-} 
 
 
 #confirmButton {
@@ -343,17 +350,6 @@ body {
   background-color: #c58b8b; /* 호버 시 색상 변경 */
 }
 
-
-.email-select {
-  width: 120px; /* 선택 박스의 너비 설정 (30%로 조정) */
-  padding: 10px; /* 패딩을 기존 입력 필드와 맞춤 */
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-left : 20px;
-  margin-top : 20px;
-  height: 40px; /* 선택 박스 높이 맞춤 */
-} 
 
 
 /* 사업자 가입 */
@@ -410,19 +406,14 @@ body {
   background-color: #c58b8b; /* 버튼 호버 시 색상 변경 */
 }
 
-.domain-symbol {
-  font-size: 14px; /* @ 기호의 글꼴 크기 조정 */
-  margin-top : 15px;
-
-}
 
 /* 비밀번호 찾기 -findPwd */
 
-.id-form {
-  display: flex; 
-  justify-content: center; /* 중앙 정렬 */
-  margin-bottom: 20px; /* 여백 추가 */
-}
+/* .id-form { */
+/*   display: flex;  */
+/*   justify-content: center; 중앙 정렬 */
+/*   margin-bottom: 20px; 여백 추가 */
+/* } */
 
 .findpwd-form input[type="text"] {
   width: 165px; /* 아이디 입력 필드의 너비를 70%로 설정 */

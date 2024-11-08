@@ -21,20 +21,22 @@
     <h1 class="memberform-logo">일반회원가입</h1>
   </div>
  <div class="id-form">
- 	<input type="text" placeholder="아이디" id="memberId" name= "memberId">
+ 	<input type="text" placeholder="아이디" id="member_id" name= "member_id">
  	<input type="button" value="아이디중복검사" id="idCheck-btn">
- 	<div id="id-check-result"></div>
+ 	<div id="id-check-result" class="check-result"></div> 
  </div>
 
 
  <div class="id-form">
  	<input type="text" placeholder="닉네임" id="nickname" name= "nickname">
- 	<input type="button" value="닉네임중복검사">
+ 	<input type="button" value="닉네임중복검사" id="nicknameCheck-btn">
+ 	<div id="nickname-check-result" class="check-result"></div> 
  </div> 
   
  <div class="passwd-form">
     <input type="password" placeholder="비밀번호" id="passwd" name= "passwd">
     <input type="password" placeholder="비밀번호 확인" id="passwdCheck" name= "passwdCheck">
+    <div id="passwd-check-result" class="check-result"></div> 
  </div> 
   
 

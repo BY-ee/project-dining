@@ -13,18 +13,25 @@ import lombok.RequiredArgsConstructor;
 public class LoginService {
 
 	private final LoginMapper loginMapper;
+	private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
+	
+	// memberId 중복조회
+	public int isUserIdCheck(String member_id) {
+		 return loginMapper.isUserIdCheck(member_id);
+	}
 
-	 private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
+	public int isUserNicknameCheck(String nickname) {
+		return loginMapper.isUserNicknameCheck(nickname);
+	}
+	 
+	 	
+//	 
+//	    // 사용자 조회
+//	    public LoginDomain getUser(String memberId) {
+//	        return loginMapper.getUser(memberId);
+//	    }
+//	    
 
-	    // 사용자 조회
-	    public LoginDomain getUser(String memberId) {
-	        return loginMapper.getUser(memberId);
-	    }
-	    
-
-		public boolean isUserIdCheck(String memberId) {
-			  return loginMapper.isUserIdCheck(memberId);
-		}
 
 
 	    

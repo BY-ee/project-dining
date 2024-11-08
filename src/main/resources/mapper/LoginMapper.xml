@@ -3,54 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.project.mapper.LoginMapper">
+<mapper namespace="com.project.mapper.LoginMapper">
 
-    <!-- 사용자 조회 쿼리 -->
-    <select id="getUser" parameterType="String" resultType="login">
-	    SELECT * FROM member WHERE member_id = #{memberId}
+	<!-- 아이디 중복조회 -->
+	<select id="isUserIdCheck" parameterType="string" resultType="int">
+		select count(*) from member where member_id = #{member_id}
 	</select>
 
-    <!-- 사용자 회원 가입 -->
-    <insert id="insertUser" parameterType="com.project.domain.LoginDomain">
-	    INSERT INTO member (
-	      id, 
-	      category, 
-	      registration_number, 
-	      member_id, 
-	      naver_id, 
-	      google_id, 
-	      kakao_id, 
-	      passwd, 
-	      nickname, 
-	      introduction, 
-	      email, 
-	      status, 
-	      created_at, 
-	      inactive_date, 
-	      reactive_date, 
-	      deleted_date, 
-	      profile_image, 
-	      point
-	    ) VALUES (
-	      member_seq.NEXTVAL, 
-	      #{category}, 
-		  #{registration_number, jdbcType=VARCHAR},
-	      #{member_id}, 
-		  #{naver_id, jdbcType=VARCHAR}, 
-		  #{google_id, jdbcType=VARCHAR}, 
-		  #{kakao_id, jdbcType=VARCHAR}, 
-	      #{passwd}, 
-	      #{nickname}, 
-	      #{introduction, jdbcType=VARCHAR}, 
-	      #{email}, 
-     	 'active',  
-	      SYSDATE, 
-	      #{inactive_date, jdbcType=DATE}, 
-	      #{reactive_date, jdbcType=DATE}, 
-	      #{deleted_date, jdbcType=DATE}, 
-	      #{profile_image, jdbcType=VARCHAR}, 
-      	  #{point, jdbcType=INTEGER}
-	    )
-	  </insert>
+	<select id="isUserNicknameCheck" parameterType="string" resultType="int">
+		select count(*) from member where nickname = #{nickname}
+	</select>
+
 
 </mapper>
