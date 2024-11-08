@@ -8,12 +8,12 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("ReviewDomain")
 public class ReviewDomain {
-	private int id;
-    private int userId;
+    private int id;
+    private Long memberId;
     private int storeId;
     private double score;
-    private String review;
+    private String content;
     private Timestamp createdAt;
+    private String nickname;
 }

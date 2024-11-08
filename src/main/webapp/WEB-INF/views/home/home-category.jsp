@@ -61,8 +61,6 @@
                     <a href="#">역삼역</a>
                 </div>
             </div>
-
-           
         </div>
 
         <!-- 메인 배너 슬라이드 -->
@@ -128,51 +126,51 @@
             <div class="store-list">
 				<div class="store-item-box" onclick="goToStoreDetail(1)">
 				    <div class="store-item"></div>
-				    <div class="store-name">모수</div>
+				    <div class="store-name">가게1</div>
 				</div>
 				<div class="store-item-box" onclick="goToStoreDetail(2)">
 				    <div class="store-item"></div>
-				    <div class="store-name">모수</div>
+				    <div class="store-name">가게1</div>
 				</div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">에드워드 리</div>
+                    <div class="store-name">가게2</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">물고기</div>
+                    <div class="store-name">가게3</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">모수</div>
+                    <div class="store-name">가게4</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">티앤미미</div>
+                    <div class="store-name">가게5</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">에드워드 리</div>
+                    <div class="store-name">가게6</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">물고기</div>
+                    <div class="store-name">가게7</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">모수</div>
+                    <div class="store-name">가게8</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">티앤미미</div>
+                    <div class="store-name">가게9</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">에드워드 리</div>
+                    <div class="store-name">가게10</div>
                 </div>
                 <div class="store-item-box">
                     <div class="store-item"></div>
-                    <div class="store-name">물고기</div>
+                    <div class="store-name">가게11</div>
                 </div>
             </div>
         </div>

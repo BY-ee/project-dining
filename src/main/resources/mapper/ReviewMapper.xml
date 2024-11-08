@@ -3,29 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ReviewMapper">
-
-<!-- 	<select id="getReviewsByStoreId" parameterType="int" resultType="ReviewDomain">
-        SELECT * FROM review WHERE store_id = #{storeId}
-    </select> -->
-    
-    
-   <!-- 수정된 쿼리: 리뷰와 닉네임을 함께 가져옴 -->
-	<select id="getReviewsByStoreId" parameterType="int" resultType="map">
-	    SELECT r.id AS review_id, r.user_id, r.store_id, r.score, 
-	           TO_CHAR(r.review) AS review, 
-	           TO_CHAR(r.created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at, 
-	           u.nickname
-	    FROM review r
-	    JOIN user_data u ON r.user_id = u.id
-	    WHERE r.store_id = #{storeId}
+	<select id="selectReviews" resultType="Review">
+		SELECT * FROM (
+		    SELECT m.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM review 
+		        ORDER BY id DESC
+		    ) m
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
-
-    
-    
-<!-- 리뷰 삽입 쿼리 -->
-    <insert id="insertReview" parameterType="ReviewDomain">
-        INSERT INTO review (id, user_id, store_id, score, review, created_at)
-        VALUES (review_seq.NEXTVAL, #{userId}, #{storeId}, #{score}, #{review}, #{createdAt})
+	
+	<select id="getReviewsByStoreId" resultType="com.project.domain.ReviewDomain">
+        SELECT r.id, 
+               r.member_id,  
+               r.store_id, 
+               r.score, 
+               r.content, 
+               r.created_at, 
+               m.nickname
+        FROM review r
+        JOIN member m ON r.member_id = m.id
+        WHERE r.store_id = #{store_id}
+        ORDER BY r.created_at DESC
+    </select>
+	
+	<insert id="insertReview" parameterType="com.project.domain.ReviewDomain">
+        INSERT INTO review (id, member_id, store_id, score, content, created_at)
+        VALUES (#{id}, #{memberId}, #{storeId}, #{score}, #{content}, #{createdAt})
     </insert>
+    
+	<select id="countReviews" resultType="long">
+		SELECT COUNT(*) FROM review
+	</select>
+	
+	<delete id="deleteReview" parameterType="map">
+	    DELETE FROM review 
+	    WHERE id = #{id} AND member_id = #{member_id}
+	</delete>
 	
 </mapper>
