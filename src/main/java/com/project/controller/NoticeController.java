@@ -5,9 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class NoticeController {
-
+	
 	@GetMapping("/noticeList")
 	public String noticeList() {
+		
 		return "notice/noticeList";
 	}
 	
