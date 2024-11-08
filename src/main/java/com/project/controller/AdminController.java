@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -121,9 +122,9 @@ public class AdminController {
 	// 공지사항 작성
 	@PostMapping("/notice/write")
 	@ResponseBody
-	public String writeNotice(@RequestBody Notice notice) {
+	public ResponseEntity<String> writeNotice(@RequestBody Notice notice) {
 		adminService.insertNotice(notice);
-		return "admin/adminNotice";
+		return ResponseEntity.ok("성공");
 	}
 	
 	// 공지사항 수정폼 페이지
