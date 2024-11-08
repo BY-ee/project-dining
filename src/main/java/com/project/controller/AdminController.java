@@ -20,6 +20,7 @@ import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.Pagination;
+import com.project.dto.RequestData;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,8 @@ public class AdminController {
 	
 	// 회원관리 페이지
 	@GetMapping("/members")
-	public String members(@RequestParam(value="page", defaultValue = "1") int page,
-						 Model model) {
-		int limit = 10;
-		Pagination<Member> members = adminService.selectMembers(page, limit);
+	public String members(RequestData requestData, Model model) {
+		Pagination<Member> members = adminService.selectMembers(requestData);
 		model.addAttribute("members", members);
 		
 		return "admin/adminMembers";
@@ -68,10 +67,8 @@ public class AdminController {
 	
 	// 게시글 관리 페이지
 	@GetMapping("/posts")
-	public String posts(@RequestParam(value="page", defaultValue = "1") int page,
-			 		   Model model) {
-		int limit = 10;
-		Pagination<Store> stores = adminService.selectStores(page, limit);
+	public String posts(RequestData requestData, Model model) {
+		Pagination<Store> stores = adminService.selectStores(requestData);
 		model.addAttribute("stores", stores);
 		
 		return "admin/adminPosts";
@@ -86,10 +83,9 @@ public class AdminController {
 	
 	// 리뷰 관리 페이지
 	@GetMapping("/reviews")
-	public String reviews(@RequestParam(value="page", defaultValue = "1") int page,
-	 		   			 Model model) {
+	public String reviews(RequestData requestData, Model model) {
 		int limit = 10;
-		Pagination<Review> reviews = adminService.selectReviews(page, limit);
+		Pagination<Review> reviews = adminService.selectReviews(requestData);
 		model.addAttribute("reviews", reviews);
 		
 		return "admin/adminReviews";
