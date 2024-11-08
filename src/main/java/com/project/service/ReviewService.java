@@ -21,10 +21,14 @@ public class ReviewService {
 	    return reviewMapper.getReviewsByStoreId(store_id);
 	}
 
-	// 리뷰저장
+	// 리뷰 저장
 	public void insertReview(ReviewDomain newReview) {
 		reviewMapper.insertReview(newReview);
 	}
 	
+	// 리뷰 삭제
+    public void deleteReview(Map<String, Object> reviewDetails) {
+        reviewMapper.deleteReview(reviewDetails);
+    }
 	
 }

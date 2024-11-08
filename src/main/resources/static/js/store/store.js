@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 */
-    function renderReviews() {
+/*    function renderReviews() {
         const reviewList = document.getElementById('review-list');
         reviewList.innerHTML = '';
 
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         renderPagination();
-    }
+    }*/
 
     function renderPagination() {
         const pagination = document.getElementById('pagination');

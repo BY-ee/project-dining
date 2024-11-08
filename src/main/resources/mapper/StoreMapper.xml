@@ -20,5 +20,4 @@
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store
 	</select>
-	
 </mapper>

@@ -14,26 +14,31 @@
 	</select>
 	
 	<select id="getReviewsByStoreId" resultType="com.project.domain.ReviewDomain">
-	    SELECT r.id, 
-	           r.member_id AS user_id, 
-	           r.store_id, 
-	           r.score, 
-	           r.content, 
-	           r.created_at, 
-	           m.nickname
-	    FROM review r
-	    JOIN member m ON r.member_id = m.id
-	    WHERE r.store_id = #{store_id}
-	    ORDER BY r.created_at DESC
-	</select>
+        SELECT r.id, 
+               r.member_id,  
+               r.store_id, 
+               r.score, 
+               r.content, 
+               r.created_at, 
+               m.nickname
+        FROM review r
+        JOIN member m ON r.member_id = m.id
+        WHERE r.store_id = #{store_id}
+        ORDER BY r.created_at DESC
+    </select>
 	
 	<insert id="insertReview" parameterType="com.project.domain.ReviewDomain">
         INSERT INTO review (id, member_id, store_id, score, content, created_at)
-        VALUES (#{id}, #{member_id}, #{store_id}, #{score}, #{content}, #{created_at})
+        VALUES (#{id}, #{memberId}, #{storeId}, #{score}, #{content}, #{createdAt})
     </insert>
     
 	<select id="countReviews" resultType="long">
 		SELECT COUNT(*) FROM review
 	</select>
+	
+	<delete id="deleteReview" parameterType="map">
+	    DELETE FROM review 
+	    WHERE id = #{id} AND member_id = #{member_id}
+	</delete>
 	
 </mapper>

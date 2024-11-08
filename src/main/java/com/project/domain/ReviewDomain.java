@@ -9,12 +9,11 @@ import lombok.Data;
 
 @Data
 public class ReviewDomain {
-	private int id;
-    private Long member_id;
-    private int store_id;
+    private int id;
+    private Long memberId;
+    private int storeId;
     private double score;
     private String content;
-    private Timestamp created_at;
-    private String nickname; // 추가된 필드
-
+    private Timestamp createdAt;
+    private String nickname;
 }

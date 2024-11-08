@@ -22,6 +22,8 @@ public interface ReviewMapper {
 	
 	List<Review> selectReviews(@Param("start") int start, @Param("end") int end);
 
+	// 리뷰 삭제
+    void deleteReview(Map<String, Object> reviewDetails); 
 
 	// 총 리뷰 개수
 	long countReviews();
