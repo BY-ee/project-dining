@@ -502,6 +502,7 @@ body {
     background-color: #0056b3;
 }
 
+
 .nickname-container {
     text-align: left;
     margin-bottom: 10px;
@@ -512,7 +513,7 @@ body {
 
 .nickname-container p {
     margin: 0;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .review-item {

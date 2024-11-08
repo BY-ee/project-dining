@@ -7,6 +7,9 @@
 <html lang="ko">
 <head>
     <title>게시글 관리</title>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/js/admin/adminPost.js"></script>
 </head>
 <body>
 
@@ -42,21 +45,64 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><a href="#">모수</a></td>
-                    <td>서울특별시 용산구</td>
-                    <td>02-111-1111</td>
-                    <td><a href="#">확인</a></td>
-                    <td>1234</td>
-                    <td>
-                        <button class="delete-btn">게시중단</button>
-                        <button class="edit-btn">재게시</button>
-                    </td>
-                    <td style="color: #f44;">게시중단</td>
-                </tr>
+                <c:forEach var="store" items="${stores.content}">
+                    <tr>
+                        <td>${store.id}</td>
+                        <td>${store.storeName}</td>
+                        <td>${store.address}</td>
+                        <td>${store.phoneNumber}</td>
+                        <td><a href="#" class="menu-link">확인</a></td>
+                        <td>${store.views}</td>
+                        <td>
+                            <button class="delete-btn">게시중단</button>
+                            <button class="edit-btn">재게시</button>
+                        </td>
+                        <td style="color: #f44;">게시중단</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="move-page-link">
+                <c:if test="${stores.currentPage > stores.start}">
+                    <a class="page-link" href="#">처음</a>
+                </c:if>
+
+                <a class="page-link" href="#">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${stores.start}" end="${stores.totalPages}">
+                    <c:choose>
+                        <c:when test="${page == stores.currentPage}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="#">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link" href="#">다음</a>
+
+                <c:if test="${stores.currentPage < stores.end}">
+                    <a class="page-link" href="#">끝</a>
+                </c:if>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메뉴 팝업 -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">X</button>
+            <h3 class="popup-title">가게 이름</h3>
+            <div id="menu-content"></div>
+        </div>
     </div>
 </body>
 </html>

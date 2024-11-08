@@ -17,4 +17,8 @@ public class StoreService {
 		return storeMapper.getStoreDetailById(storeId);
 	}
 	
+    public StoreDomain getStoreDetailById(int store_ID) {
+        return storeMapper.getStoreDetailById(store_ID); // Mapper 호출
+    }
+	
 }

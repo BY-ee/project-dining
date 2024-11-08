@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.domain.StoreDomain;
-import com.project.service.ReviewService;
 import com.project.service.StoreService;
 
 import jakarta.servlet.http.HttpSession;
@@ -30,12 +30,10 @@ public class StoreController {
 		StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
 		
 		// 세션에서 user_ID 가져오기 (로그인하지 않은 경우 null일 수 있음)
-		String userId = (String) session.getAttribute("user_ID");
-		String nickname = (String) session.getAttribute("nickname");
+		Long userId = (Long) session.getAttribute("user_ID");        
 		
 		// user_ID를 모델에 추가 (필요한 경우)
 		model.addAttribute("user_ID", userId);
-		model.addAttribute("nickname", nickname);
 		model.addAttribute("store_ID", storeId);
 		model.addAttribute("storeDetail", storeDetail);
 		
@@ -62,6 +60,9 @@ public class StoreController {
 //    	
 //    	return "store/store3"; // store3.jsp로 이동
 //    }
+    
+    
+// ===========================================================================================    
     
 //    @RequestMapping("/login")
 //    public String login() {

@@ -1,64 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/admin/templates/header.jsp" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <title>회원관리</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/js/admin/adminMember.js"></script>
 </head>
-
-<style>
-    /* 팝업 스타일 */
-    .popup-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .popup-content {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        width: 300px;
-        max-width: 80%;
-        text-align: center;
-    }
-    .popup-close {
-        background: #f00;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        float: right;
-        margin-top: -10px;
-        margin-right: -10px;
-    }
-</style>
-
-<script>
-    window.onload = () => {
-        document.querySelectorAll('.intro-link').forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const intro = event.target.getAttribute('data-intro');
-                document.getElementById('introText').innerText = intro;
-                document.getElementById('popupOverlay').style.display = 'flex';
-            });
-        });
-    }
-
-    function closePopup() {
-        document.getElementById('popupOverlay').style.display = 'none';
-    }
-</script>
 <body>
 
     <!-- Main Content -->
@@ -94,80 +46,71 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>3</td>
-                    <td>user1</td>
-                    <td>닉네임123</td>
-                    <td>user1@kakao.com</td>
-                    <td><a href="#" class="intro-link" data-intro="자기소개에 들어갈 내용을 jstl로 넣음">확인</a></td>
-                    <td>2024-10-29</td>
-                    <td></td>
-                    <td>
-                        <select name="user-ban-time">
-                            <option value="1">1일</option>
-                            <option value="3">3일</option>
-                            <option value="7">7일</option>
-                            <option value="30">30일</option>
-                            <option value="0">영구</option>
-                        </select>
-                        <button class="delete-btn">차단</button>
-                        <button class="edit-btn">차단 해제</button>
-                    </td>
-                    <td style="color: #5a7beb;">활동</td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>tnmm123</td>
-                    <td>tnmm11</td>
-                    <td>tnmm123@gmail.com</td>
-                    <td><a href="#">확인</a></td>
-                    <td>2024-01-05</td>
-                    <td>2024-10-30</td>
-                    <td>
-                        <select name="user-ban-time">
-                            <option value="1">1일</option>
-                            <option value="3">3일</option>
-                            <option value="7">7일</option>
-                            <option value="30">30일</option>
-                            <option value="0">영구</option>
-                        </select>
-                        <button class="delete-btn">차단</button>
-                        <button class="edit-btn">차단 해제</button>
-                    </td>
-                    <td style="color: #ff4b4b;">영구차단</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>dkdlel</td>
-                    <td>Nickname1</td>
-                    <td>dkdlel@naver.com</td>
-                    <td><a href="#">확인</a></td>
-                    <td>2012-05-05</td>
-                    <td></td>
-                    <td>
-                        <select name="user-ban-time">
-                            <option value="1">1일</option>
-                            <option value="3">3일</option>
-                            <option value="7">7일</option>
-                            <option value="30">30일</option>
-                            <option value="0">영구</option>
-                        </select>
-                        <button class="delete-btn">차단</button>
-                        <button class="edit-btn">차단 해제</button>
-                    </td>
-                    <td>차단 ( ~ 24.11.01 15:25)</td>
-                </tr>
+                <c:forEach var="member" items="${members.content}">
+                    <tr>
+                        <td>${member.id}</td>
+                        <td>${member.userid}</td>
+                        <td>${member.nickname}</td>
+                        <td>${member.email}</td>
+                        <td><a href="#" class="intro-link">확인</a></td>
+                        <td><fmt:formatDate value="${member.joinDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.leaveDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td>
+                            <select name="user-ban-time">
+                                <option value="1">1일</option>
+                                <option value="3">3일</option>
+                                <option value="7">7일</option>
+                                <option value="30">30일</option>
+                                <option value="0">영구</option>
+                            </select>
+                            <button class="delete-btn">차단</button>
+                            <button class="edit-btn">차단 해제</button>
+                        </td>
+                        <td style="color: #5a7beb;">${member.status}</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="move-page-link">
+                <c:if test="${members.currentPage > members.start}">
+                    <a class="page-link" href="#">처음</a>
+                </c:if>
+
+                <a class="page-link" href="#">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${members.start}" end="${members.totalPages}">
+                    <c:choose>
+                        <c:when test="${page == members.currentPage}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="#">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link" href="#">다음</a>
+
+                <c:if test="${members.currentPage < members.end}">
+                    <a class="page-link" href="#">끝</a>
+                </c:if>
+            </div>
+        </div>
     </div>
 
     <!-- 자기소개 팝업 -->
-    <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup()">X</button>
-            <p id="introText"></p>
+            <h3 class="popup-title">자기소개</h3>
+            <div id="intro-content"></div>
         </div>
     </div>
 </body>

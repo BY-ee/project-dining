@@ -8,8 +8,9 @@
 <title>리뷰 작성</title>
 
 <%
-    String userId = (String) session.getAttribute("user_ID");
-    String nickname = (String) session.getAttribute("nickname");
+	Long userIdLong = (Long) session.getAttribute("user_ID");
+	String userId = (userIdLong != null) ? userIdLong.toString() : null;
+    String nickname = (String) session.getAttribute("user_nickname");
 %>
 
 </head>
@@ -26,7 +27,7 @@
         <!-- 작성자 이름 필드에 nickname 값 자동 표시 -->
         <% if (userId != null) { %>
             <!-- 로그인된 사용자의 경우 닉네임을 텍스트로 출력 -->
-             <div class="nickname-container">
+            <div class="nickname-container">
                 <p><%= nickname %>님</p>
             </div>
         <% } %>
@@ -37,10 +38,10 @@
             <option value="2">2점 - 별로에요</option>
             <option value="1">1점 - 싫어요</option>
         </select>
-		<textarea name="review"
-		          placeholder="<%= userId == null ? "리뷰를 작성하려면 로그인을 해주세요" : "리뷰를 입력해주세요" %>"
-		          required <%= userId == null ? "disabled" : "" %>></textarea>
-		             
+        <textarea name="content"
+                  placeholder="<%= userId == null ? "리뷰를 작성하려면 로그인을 해주세요" : "리뷰를 입력해주세요" %>"
+                  required <%= userId == null ? "disabled" : "" %>></textarea>
+                     
         <% if (userId != null) { %>
             <button type="submit" onclick="checkDuplicateReview()">리뷰 작성</button>
         <% } %>
