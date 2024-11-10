@@ -1,13 +1,10 @@
 package com.project.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.project.domain.Notice;
 import com.project.domain.NoticePageRequest;
 import com.project.domain.NoticePageResponse;
 import com.project.service.NoticeService;
@@ -29,9 +26,14 @@ public class NoticeController {
 		return "notice/notice";
 	}
 	
-	@GetMapping("/eventList")
+	@GetMapping("/eventOnList")
 	public String eventList() {
-		return "notice/eventList";
+		return "notice/eventOnList";
+	}
+	
+	@GetMapping("/eventOffList")
+	public String eventOffList() {
+		return "notice/eventOffList";
 	}
 	
 	@GetMapping("/event")

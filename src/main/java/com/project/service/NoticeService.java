@@ -18,13 +18,23 @@ public class NoticeService {
 	public NoticePageResponse getNoticeList(NoticePageRequest noticePageRequest) {
 		
 		// DB에서 페이징 후 size 만큼 데이터를 가져와서 List에 담기 
-		int startRow = 1;
-		int endRow = 10;
-		List<Notice> noticeList = noticeMapper.getNoticeList(startRow,endRow);
+		int startRow = noticePageRequest.getSize() * (noticePageRequest.getPage()-1) + 1 ;
+		int endRow = noticePageRequest.getSize() * (noticePageRequest.getPage());
+		List<Notice> noticeList = noticeMapper.getNoticeList(startRow,endRow,noticePageRequest.getCategory());
 		
+		// 총 게시물 갯수 가져오기 and 총 페이지 갯수 계산
+		int countList = noticeMapper.getCountList(noticePageRequest.getCategory());
+		int totalPage = countList / noticePageRequest.getSize();
 		
+		System.out.print("totalPage = " + totalPage);
 		
-		return new NoticePageResponse(noticeList,1,1,1,1);
+		// 한번에 10개의 페이지번호만 보여주기 and 이전 버튼과 다음 버튼을 위한 startPage,endPage
+		int startPage =  (((noticePageRequest.getPage()-1)/10)*10) + 1;
+		int endPage = startPage + 9 ;
+		
+		System.out.println(" startPage = " + startPage + " endPage="  + endPage);
+		
+		return new NoticePageResponse(noticeList,noticePageRequest.getPage(),totalPage,startPage,endPage);
 	}
 	
 }

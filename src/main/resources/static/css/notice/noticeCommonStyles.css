@@ -1,19 +1,43 @@
 @charset "UTF-8";
 
 .navbar-menu {
-    display: flex;
-    gap: 20px;
+	display: flex;
+	gap: 20px;
+	justify-content: center; /* 가로로 가운데 정렬 */
+    padding: 10px 0; /* 위아래 여백 */
 }
 
 .menu-item {
-    font-size: 16px;
-    color: #666;
-    text-decoration: none;
-    padding: 5px 0;
+	font-size: 16px;
+	color: #666;
+	text-decoration: none;
+	padding: 10px 20px;
+	text-align: center;
 }
 
 .menu-item.active {
-    color: #333;
-    font-weight: bold;
-    border-bottom: 2px solid #333;
+	color: #333;
+	font-weight: bold;
+	border-bottom: 2px solid #333;
+}
+
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+	margin: 0 5px;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: black;
+}
+
+.pagination a.active {
+	background-color: black;
+	color: white;
+	border: 1px solid black;
 }

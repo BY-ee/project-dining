@@ -9,7 +9,13 @@
 			select notice.* , ROWNUM AS rn 
 			from notice 
 			where ROWNUM &lt; #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
+			and category = #{category} -- 추가 조건
 			)
 		 where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
+	</select>
+	<select id="getCountList" parameterType="String" resultType="int">
+		select count(*) from
+		notice
+		where category = #{category}
 	</select>
 </mapper>
