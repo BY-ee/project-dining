@@ -100,7 +100,7 @@ $(document).ready(function() {
 
     if ($('#verificationCode').length === 0) {
       $('#verification-input-container').html(
-        `<input type="text" id="verificationCode" class="email-input" placeholder="인증 코드를 입력하세요">
+        `<input type="text" id="verificationCode"  placeholder="인증 코드">
          <button type="button" id="confirmButton">확인</button>`
       );
     }

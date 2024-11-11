@@ -316,17 +316,29 @@ body {
 
 	
 .verification-container {
-  margin-top: 10px; /* 인증 버튼과 새 입력창 사이의 간격 */
+  margin-bottom: 20px; /* 입력창과 '회원가입' 버튼 사이의 간격 */
 }
 
-.verificationCode-text {
-  width: 200px; /* 새 입력창의 너비 */
+.verification-container input[type="text"] {
+  width: 130px;
   padding: 10px;
-  margin-bottom: 20px; /* 입력창과 '회원가입' 버튼 사이의 간격 */
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+  height: 40px;
 }
+
+
+
+/* .verification-input-container-text {
+   width: 200px;
+   padding: 10px; 
+   margin-bottom: 20px;
+   border: 1px solid #ddd; 
+   border-radius: 4px; 
+   font-size: 14px;
+}  */
+
 
 .domain-symbol {
   margin: 0 5px; /* @ 기호와 입력 필드 및 선택 박스 간의 간격 추가 */
