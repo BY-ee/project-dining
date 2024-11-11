@@ -24,7 +24,7 @@
     <h1 class="memberform-logo">일반회원가입</h1>
   </div>
  <div class="id-form">
- 	<input type="text" placeholder="아이디" id="member_id" name= "member_id">
+ 	<input type="text" placeholder="아이디" id="memberId" name= "memberId">
  	<input type="button" value="아이디중복검사" id="idCheck-btn">
  	<div id="id-check-result" class="check-result"></div> 
  </div>

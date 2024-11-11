@@ -6,15 +6,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Configuration
 public class SecurityConfig {
@@ -29,9 +33,9 @@ public class SecurityConfig {
         )
         .formLogin((form) -> 
                 form
-                    .loginPage("/loginForm")
+                    .loginPage("/login")
                     .permitAll()
-                    .successHandler(customAuthenticationSuccessHandler())
+                    .defaultSuccessUrl("/")
         )
         .logout((logout) -> 
                 logout
@@ -54,23 +58,37 @@ public class SecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                 Authentication authentication) throws IOException {
-                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-                
-                System.out.println(redirectUrl);
-                
+                // 인증된 사용자 정보 가져오기
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                String member_id = userDetails.getUsername(); // userDetails에서 member_id 또는 username 추출
+
+                // 세션에 member_id 추가
+                HttpSession session = request.getSession();
+                session.setAttribute("member_id", member_id );
+
+                String redirectUrl = (String) session.getAttribute("redirectUrl");
+
                 if (redirectUrl != null) {
-                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
-                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
+                    getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+                    session.removeAttribute("redirectUrl");
                 } else {
-                    // 기본 리디렉션 URL (초기 로그인 성공 시)
-                    getRedirectStrategy().sendRedirect(request, response, "/home.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+                    getRedirectStrategy().sendRedirect(request, response, "/chooseUserType");
                 }
             }
         };
     }
-    
+
+    // PasswordEncoder 설정
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();  // 비밀번호 암호화를 위한 BCrypt
+    }
+    
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        firewall.setAllowUrlEncodedDoubleSlash(true); // 이 설정이 필요함
+        return firewall;
     }
 }

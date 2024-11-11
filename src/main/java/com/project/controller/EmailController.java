@@ -41,7 +41,6 @@ public class EmailController {
     	    return "인증 코드가 만료되었습니다.";
     	}
 
-    	// 수정된 부분: verificationCode를 code로 변경
     	if (savedEmail.equals(userEmail) && savedCode.equals(code)) {
     	    session.removeAttribute("verificationCode");
     	    session.removeAttribute("userEmail");

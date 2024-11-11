@@ -7,7 +7,7 @@
 
 	<!-- 아이디 중복조회 -->
 	<select id="isUserIdCheck" parameterType="string" resultType="int">
-		select count(*) from member where member_id = #{member_id}
+		select count(*) from member where member_id = #{memberId}
 	</select>
 
 	<select id="isUserNicknameCheck" parameterType="string" resultType="int">
@@ -16,9 +16,8 @@
 
 	 <!-- 사용자 회원 가입 -->
 	 
-    <insert id="joinMember" parameterType="com.project.domain.LoginDomain">
+    <insert id="joinMember" parameterType="Login">
 	    INSERT INTO member (
-	      id, 
 	      category, 
 	      registration_number, 
 	      member_id, 
@@ -37,24 +36,29 @@
 	      profile_image, 
 	      point
 	    ) VALUES (
-	      member_seq.NEXTVAL, 
 	      #{category}, 
-		  #{registration_number, jdbcType=VARCHAR},
-	      #{member_id}, 
-		  #{naver_id, jdbcType=VARCHAR}, 
-		  #{google_id, jdbcType=VARCHAR}, 
-		  #{kakao_id, jdbcType=VARCHAR}, 
+		  #{registrationNumber, jdbcType=VARCHAR},
+	      #{memberId}, 
+		  #{naverId, jdbcType=VARCHAR}, 
+		  #{googleId, jdbcType=VARCHAR}, 
+		  #{kakaoId, jdbcType=VARCHAR}, 
 	      #{passwd}, 
 	      #{nickname}, 
 	      #{introduction, jdbcType=VARCHAR}, 
 	      #{email}, 
      	 'active',  
 	      SYSDATE, 
-	      #{inactive_date, jdbcType=DATE}, 
-	      #{reactive_date, jdbcType=DATE}, 
-	      #{deleted_date, jdbcType=DATE}, 
-	      #{profile_image, jdbcType=VARCHAR}, 
+	      #{inactiveDate, jdbcType=DATE}, 
+	      #{reactiveDate, jdbcType=DATE}, 
+	      #{deletedDate, jdbcType=DATE}, 
+	      #{profileImage, jdbcType=VARCHAR}, 
       	  #{point, jdbcType=INTEGER}
 	    )
 	</insert>
+	
+	<select id="getUser" parameterType="string" resultType="Login">
+		select * from member where member_id = #{memberId}
+	</select>
+	
+	
 </mapper>
