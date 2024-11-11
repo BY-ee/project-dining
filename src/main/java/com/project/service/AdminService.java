@@ -36,15 +36,15 @@ public class AdminService {
 	// 유저 조회
 	public Pagination<Member> selectMembers(RequestData requestData) {
 		int page = requestData.getPage();
-		int limit = requestData.getLimit();
+		int size = requestData.getSize();
 		
-		int start = (page - 1) * limit + 1;
-		int end = start + limit - 1;
+		int start = (page - 1) * size + 1;
+		int end = start + size - 1;
 		long totalCount = memberMapper.countMembers();
 		
 		List<Member> members = memberMapper.selectMembers(start, end);
 		
-		return new Pagination<>(members, page, limit, totalCount);
+		return new Pagination<>(members, page, size, totalCount);
 	}
 	
 	// 특정 유저 조회
@@ -65,15 +65,15 @@ public class AdminService {
 	// 가게 목록 조회
 	public Pagination<Store> selectStores(RequestData requestData) {
 		int page = requestData.getPage();
-		int limit = requestData.getLimit();
+		int size = requestData.getSize();
 		
-		int start = (page - 1) * limit + 1;
-		int end = start + limit - 1;
+		int start = (page - 1) * size + 1;
+		int end = start + size - 1;
 		long totalCount = storeMapper.countStores();
 		
 		List<Store> stores = storeMapper.selectStores(start, end);
 		
-		return new Pagination<>(stores, page, limit, totalCount);
+		return new Pagination<>(stores, page, size, totalCount);
 	}
 
 	// 메뉴 조희
@@ -84,14 +84,14 @@ public class AdminService {
 	// 리뷰 조회
 	public Pagination<Review> selectReviews(RequestData requestData) {
 		int page = requestData.getPage();
-		int limit = requestData.getLimit();
+		int size = requestData.getSize();
 		
-		int start = (page - 1) * limit + 1;
-		int end = start + limit - 1;
+		int start = (page - 1) * size + 1;
+		int end = start + size - 1;
 		long totalCount = reviewMapper.countReviews();
 		
 		List<Review> reviews = reviewMapper.selectReviews(start, end);
 		
-		return new Pagination<>(reviews, page, limit, totalCount);
+		return new Pagination<>(reviews, page, size, totalCount);
 	}
 }

@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class RequestData {
     private int page;
-    private int limit;
+    private int size;
     private String category;
     
     private RequestData() {
     	this.page = 1;
-    	this.limit = 10;
+    	this.size = 10;
     	this.category = "";
     }
 }

@@ -59,7 +59,7 @@
         <!-- Pagination -->
         <div class="pagination">
             <div class="move-page-link">
-                <c:if test="${reviews.currentPage > reviews.start}">
+                <c:if test="${reviews.page > reviews.start}">
                     <a class="page-link" href="#">처음</a>
                 </c:if>
 
@@ -69,7 +69,7 @@
             <div class="page">
                 <c:forEach var="page" begin="${reviews.start}" end="${reviews.totalPages}">
                     <c:choose>
-                        <c:when test="${page == reviews.currentPage}">
+                        <c:when test="${page == reviews.page}">
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
@@ -82,7 +82,7 @@
             <div class="move-page-link">
                 <a class="page-link" href="#">다음</a>
 
-                <c:if test="${reviews.currentPage < reviews.end}">
+                <c:if test="${reviews.page < reviews.end}">
                     <a class="page-link" href="#">끝</a>
                 </c:if>
             </div>

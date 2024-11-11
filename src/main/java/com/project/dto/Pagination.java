@@ -11,21 +11,21 @@ import lombok.Getter;
 @Getter
 public class Pagination<T> {
 	private final List<T> content;
-	private final int currentPage;
-	private final int limit;
+	private final int page;
+	private final int size;
 	private final int start;
 	private final int end;
 	private final long totalCount;
 	private final int totalPages;
 	
-	public Pagination(List<T> content, int currentPage, int limit, long totalCount) {
+	public Pagination(List<T> content, int page, int size, long totalCount) {
 		this.content = content;
-		this.currentPage = currentPage;
-		this.limit = limit;
+		this.page = page;
+		this.size = size;
 		
-		this.start = (currentPage - 1) * limit + 1;
-		this.end = Math.min(start + limit - 1, (int) totalCount);
+		this.start = (page - 1) * size + 1;
+		this.end = Math.min(start + size - 1, (int) totalCount);
 		this.totalCount = totalCount;
-		this.totalPages = (int) Math.ceil((double) totalCount / limit);
+		this.totalPages = (int) Math.ceil((double) totalCount / size);
 	}
 }
