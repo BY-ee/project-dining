@@ -7,15 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NoticePageResponse {
-	private List<Notice> noticeList;
+public class PageResponse<T> {
+	private List<T> list;
 	private int currentPage;
 	private int totalPage;
 	private int startPage;
 	private int endPage;
 	
-	public NoticePageResponse(List<Notice> noticeList, int currentPage, int totalPage, int startPage, int endPage) {
-		this.noticeList = noticeList;
+	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage) {
+		this.list = list;
 		this.currentPage = currentPage;
 		this.totalPage = totalPage;
 		this.startPage = startPage;

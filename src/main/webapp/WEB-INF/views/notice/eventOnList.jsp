@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,6 +40,16 @@
 		</div>
 
 		<div class="event-items">
+			<c:forEach var = "event" items = "${eventPageResponse.list}">
+				<div class="event-item">
+					<a href="/event" class="event-item">
+						<img src="images/image2.png">
+	                	<h3>${event.title}</h3>
+	                	<span>${event.startDate} ~ ${event.endDate}</span>
+	                	<span class="category">${event.category}</span>
+	                </a>	
+	            </div>
+			</c:forEach>	
 			<a href="/event" class="event-item">
 				<img src="images/image1.jpeg" alt="이벤트 이미지">
 				<h3>30주년 기념, 소주 3천원!</h3>

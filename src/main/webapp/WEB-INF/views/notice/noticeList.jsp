@@ -37,10 +37,10 @@
             <button class="search-button">검색</button>
         </div>
 
-		<c:forEach var = "notice" items = "${noticePageResponse.noticeList}">
+		<c:forEach var = "notice" items = "${noticePageResponse.list}">
 			<div class="notice-item">
-                <span class="notice-category">[${notice.category}]</span>
-                <a href="#" class="notice-title">${notice.title}</a>
+                <span class="notice-category">[공지]</span>
+                <a href="/notice" class="notice-title">${notice.title}</a>
                 <span class="notice-date">${notice.createdAt}</span>
                 <span class="notice-views">${notice.views}</span>
             </div>
@@ -51,7 +51,7 @@
         		<a href="/noticeList?page=${noticePageResponse.startPage-1}">이전</a>
         	</c:if>
         	<c:forEach var="i" begin="${noticePageResponse.startPage}" end ="${noticePageResponse.endPage}">
-        		<a href="/noticeList?page=${i}&category=공지" 
+        		<a href="/noticeList?page=${i}" 
         		 class = "${i == noticePageResponse.currentPage ? 'active' : ''}">${i}</a>
         	</c:forEach>
         	<c:if test="${noticePageResponse.endPage < noticePageResponse.totalPage}">
