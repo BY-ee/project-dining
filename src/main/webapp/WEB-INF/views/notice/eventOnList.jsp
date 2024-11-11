@@ -23,13 +23,13 @@
 	</header>
 	<nav class="navbar-menu">
 		<a href="/noticeList" class="menu-item">공지사항</a> 
-		<a href="/eventList" class="menu-item active">이벤트</a>
+		<a href="/eventOnList" class="menu-item active">이벤트</a>
 	</nav>
 	<!-- 이벤트 콘텐츠 -->
 	<div class="event-section">
 		<div class="tab-header">
-			<h2 class="active">진행중 이벤트</h2>
-			<h2>종료된 이벤트</h2>
+			<a class="active" href="/eventOnList">진행중 이벤트</a>
+			<a href="/eventOffList">종료된 이벤트</a>
 		</div>
 		<div class="category-tabs">
 			<button class="active">전체</button>

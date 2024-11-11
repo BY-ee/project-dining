@@ -1,5 +1,8 @@
 package com.project.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
 //import com.project.mapper.UserMapper;
 //import com.project.model.User;
 //import com.project.service.UserService;
@@ -69,7 +72,8 @@ public class HomeController {
     }
     
     @GetMapping("/myPage")
-    public String myPage() {
+    public String myPage(@AuthenticationPrincipal OAuth2User oauth2User) {
+    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
     	return "mypage/myPage";
     }
 
