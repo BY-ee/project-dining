@@ -25,9 +25,15 @@
     <input type="password" placeholder="비밀번호" id="passwd" name="passwd">
     <button type="submit" >로그인</button>
 
-	<div>
+	<div class="sns-container">
+    <a href="/oauth2/authorization/kakao">
+        <img src="/images/kakao_button.png" alt="카카오 간편 로그인" class="sns-login-btn">
+    </a>
+    <a href="/oauth2/authorization/google">
+        <img src="/images/google_button.png" alt="구글 간편 로그인" class="sns-login-btn">
+    </a>
     <a href="/oauth2/authorization/naver">
-        <img src="/images/naver_button.png" alt="네이버 간편 로그인" class="naver-login-btn">
+        <img src="/images/naver_button.png" alt="네이버 간편 로그인" class="sns-login-btn">
     </a>
 	</div>
 	
