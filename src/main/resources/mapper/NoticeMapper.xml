@@ -5,7 +5,7 @@
 
 <mapper namespace="com.project.mapper.NoticeMapper">
 	<insert id="insertNotice" parameterType="Notice">
-		INSERT INTO notice (id, category, title, content, "date", status, notice_image, kinds)
-		VALUES (notice_seq.NEXTVAL, #{category}, #{title}, #{content}, SYSDATE, '게시', 'image.jpg', 0)
+		INSERT INTO notice (category, title, content, start_date, end_date, status, notice_image, views)
+		VALUES (#{category}, #{title}, #{content}, SYSDATE, SYSDATE, 'active', 'image.jpg', 0)
 	</insert>
 </mapper>

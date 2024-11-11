@@ -8,6 +8,7 @@ import com.project.domain.Member;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.Pagination;
+import com.project.dto.RequestData;
 import com.project.domain.Menu;
 import com.project.domain.Notice;
 import com.project.mapper.MemberMapper;
@@ -33,7 +34,10 @@ public class AdminService {
 	}
 	
 	// 유저 조회
-	public Pagination<Member> selectMembers(int page, int limit) {
+	public Pagination<Member> selectMembers(RequestData requestData) {
+		int page = requestData.getPage();
+		int limit = requestData.getLimit();
+		
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
 		long totalCount = memberMapper.countMembers();
@@ -59,7 +63,10 @@ public class AdminService {
 	}
 	
 	// 가게 목록 조회
-	public Pagination<Store> selectStores(int page, int limit) {
+	public Pagination<Store> selectStores(RequestData requestData) {
+		int page = requestData.getPage();
+		int limit = requestData.getLimit();
+		
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
 		long totalCount = storeMapper.countStores();
@@ -75,7 +82,10 @@ public class AdminService {
 	}
 
 	// 리뷰 조회
-	public Pagination<Review> selectReviews(int page, int limit) {
+	public Pagination<Review> selectReviews(RequestData requestData) {
+		int page = requestData.getPage();
+		int limit = requestData.getLimit();
+		
 		int start = (page - 1) * limit + 1;
 		int end = start + limit - 1;
 		long totalCount = reviewMapper.countReviews();
