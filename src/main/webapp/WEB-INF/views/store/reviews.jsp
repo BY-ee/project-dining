@@ -70,7 +70,6 @@
 	
 	            // renderReviews 함수 호출 시 두 번째 인자로 전달합니다.
 	            renderReviews(reviews, userReviewIndex);
-	            checkDuplicateReview(userReviewIndex);
 	            $('#reviewCount').text(reviews.length);
 	        },
 	        error: function(xhr, status, error) {
@@ -172,6 +171,30 @@
         });
     }
     
+	// 중복 리뷰 확인 후 alert 메시지 표시
+    function checkDuplicateReview() {
+        $.ajax({
+            url: 'getReviews',
+            method: 'GET',
+            data: { store_id: storeId }, // storeId 전달
+            dataType: 'json',
+            success: function(reviews) {
+            	const existingReview = reviews.find(review => review.memberId.toString() === userId); // userId 변수는 세션에서 가져온 사용자 ID
+                if (existingReview) {
+                    alert("이미 리뷰를 작성하셨습니다."); // 중복 리뷰가 있을 경우 alert 메시지 표시
+                    window.location.reload();
+                } else {
+                    // 중복이 아닐 경우, 리뷰 입력을 위한 로직 수행
+                    submitReview(); // 실제 리뷰 제출 함수 호출
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('리뷰 데이터를 불러오는 중 오류가 발생했습니다: ', error);
+            }
+        });
+    }
+    
+    // 리뷰 삭제 함수
     function deleteReview(reviewId, memberId) {
         const reviewDetails = {
                 id: reviewId,

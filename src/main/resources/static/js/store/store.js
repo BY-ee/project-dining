@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 리뷰 정렬 및 렌더링 기능
-    let reviews = [];
-    let currentPage = 1;
-    const reviewsPerPage = 5;
+	//    let reviews = [];
+	//    let currentPage = 1;
+	//    const reviewsPerPage = 5;
 
 /*    function generateSampleReviews() {
         for (let i = 1; i <= 20; i++) {
@@ -132,103 +132,108 @@ document.addEventListener('DOMContentLoaded', function () {
         renderPagination();
     }*/
 
-    function renderPagination() {
-        const pagination = document.getElementById('pagination');
-        pagination.innerHTML = '';
-
-        const totalPages = Math.ceil(reviews.length / reviewsPerPage);
-
-        if (currentPage > 1) {
-            const prevButton = document.createElement('button');
-            prevButton.textContent = '이전';
-            prevButton.addEventListener('click', () => {
-                currentPage--;
-                renderReviews();
-            });
-            pagination.appendChild(prevButton);
-        }
-
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.textContent = i;
-
-            if (i === currentPage) {
-                pageButton.disabled = true;
-            }
-
-            pageButton.addEventListener('click', () => {
-                currentPage = i;
-                renderReviews();
-            });
-
-            pagination.appendChild(pageButton);
-        }
-
-        if (currentPage < totalPages) {
-            const nextButton = document.createElement('button');
-            nextButton.textContent = '다음';
-            nextButton.addEventListener('click', () => {
-                currentPage++;
-                renderReviews();
-            });
-            pagination.appendChild(nextButton);
-        }
-    }
-
-    function loadReviews() {
-        generateSampleReviews();
-        renderReviews();
-        document.getElementById('reviewCount').textContent = reviews.length;
-    }
-
-    loadReviews();
-
-    // 리뷰 작성 이벤트
-    document.getElementById('reviewForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        addReview();
-    });
-
-    function addReview() {
-        const reviewerName = document.getElementById('reviewerName').value;
-        const reviewRating = parseInt(document.getElementById('reviewRating').value);
-        const reviewText = document.getElementById('reviewText').value;
-        const reviewDate = new Date().toISOString().split('T')[0];
-
-        reviews.unshift({
-            author: reviewerName,
-            rating: reviewRating,
-            content: reviewText,
-            date: reviewDate
-        });
-        renderReviews();
-        document.getElementById('reviewCount').textContent = reviews.length;
-        document.getElementById('reviewForm').reset();
-    }
-
-    // 리뷰 정렬 함수 전역 설정
-    window.sortReviewsByDate = function () {
-        reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-        renderReviews();
-    };
-
-    window.sortReviewsByRating = function () {
-        reviews.sort((a, b) => b.rating - a.rating);
-        renderReviews();
-    };
+//    function renderPagination() {
+//        const pagination = document.getElementById('pagination');
+//        pagination.innerHTML = '';
+//
+//        const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+//
+//        if (currentPage > 1) {
+//            const prevButton = document.createElement('button');
+//            prevButton.textContent = '이전';
+//            prevButton.addEventListener('click', () => {
+//                currentPage--;
+//                renderReviews();
+//            });
+//            pagination.appendChild(prevButton);
+//        }
+//
+//        for (let i = 1; i <= totalPages; i++) {
+//            const pageButton = document.createElement('button');
+//            pageButton.textContent = i;
+//
+//            if (i === currentPage) {
+//                pageButton.disabled = true;
+//            }
+//
+//            pageButton.addEventListener('click', () => {
+//                currentPage = i;
+//                renderReviews();
+//            });
+//
+//            pagination.appendChild(pageButton);
+//        }
+//
+//        if (currentPage < totalPages) {
+//            const nextButton = document.createElement('button');
+//            nextButton.textContent = '다음';
+//            nextButton.addEventListener('click', () => {
+//                currentPage++;
+//                renderReviews();
+//            });
+//            pagination.appendChild(nextButton);
+//        }
+//    }
+//
+//    function loadReviews() {
+////        generateSampleReviews();
+//        renderReviews();
+//        document.getElementById('reviewCount').textContent = reviews.length;
+//    }
+//
+//    loadReviews();
+//
+//    // 리뷰 작성 이벤트
+//    document.getElementById('reviewForm').addEventListener('submit', function (e) {
+//        e.preventDefault();
+//        addReview();
+//    });
+//
+//    function addReview() {
+//        const reviewerName = document.getElementById('reviewerName').value;
+//        const reviewRating = parseInt(document.getElementById('reviewRating').value);
+//        const reviewText = document.getElementById('reviewText').value;
+//        const reviewDate = new Date().toISOString().split('T')[0];
+//
+//        reviews.unshift({
+//            author: reviewerName,
+//            rating: reviewRating,
+//            content: reviewText,
+//            date: reviewDate
+//        });
+//        renderReviews();
+//        document.getElementById('reviewCount').textContent = reviews.length;
+//        document.getElementById('reviewForm').reset();
+//    }
+//
+//    // 리뷰 정렬 함수 전역 설정
+//    window.sortReviewsByDate = function () {
+//        reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+//        renderReviews();
+//    };
+//
+//    window.sortReviewsByRating = function () {
+//        reviews.sort((a, b) => b.rating - a.rating);
+//        renderReviews();
+//    };
 });
+
 
 // 네이버 지도 초기화
 function initMap() {
     const mapContainer = document.getElementById('map');
+	
+	console.log("JS 파일에서 받은 latitude:", latitude);
+	console.log("JS 파일에서 받은 longitude:", longitude);
+	
     if (mapContainer) {
         const map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5013068, 127.0396),
+            center: new naver.maps.LatLng(latitude, longitude),
             zoom: 16
         });
 
         new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.5013068, 127.0396),
+            position: new naver.maps.LatLng(latitude, longitude),
             map: map
         });
     } else {

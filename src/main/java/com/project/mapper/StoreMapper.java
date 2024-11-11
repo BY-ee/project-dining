@@ -18,7 +18,7 @@ public interface StoreMapper{
     StoreDomain getStoreDetailById(int store_ID);
     
     // 메뉴정보 가져오기
-    Menu getMenuById(int storeId);
+    List<Menu> getMenuById(int storeId);
     
     
 	List<Store> selectStores(@Param("start") int start, @Param("end") int end);

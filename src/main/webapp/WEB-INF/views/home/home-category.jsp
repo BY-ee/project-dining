@@ -128,7 +128,7 @@
 				    <div class="store-item"><img src="images/store/damungalbi1.png" alt="가게1 이미지"></div>
 				    <div class="store-name">가게1</div>
 				</div>
-				<div class="store-item-box" onclick="goToStoreDetail(2)">
+				<div class="store-item-box" onclick="goToStoreDetail(36)">
 				    <div class="store-item"><img src="images/store/damungalbi2.png" alt="가게1 이미지"></div>
 				    <div class="store-name">가게2</div>
 				</div>
