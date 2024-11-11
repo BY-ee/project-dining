@@ -67,6 +67,33 @@
             </tbody>
         </table>
 
+        <!-- Pagination -->
+        <div class="pagination">
+            <!-- 클래스명을 동적으로 변경 -->
+            <div class="move-page-link">
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/notice?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/notice?page=${pagination.page - 1}">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${pagination.start}" end="${pagination.end}">
+                    <c:choose>
+                        <c:when test="${page == pagination.page}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="/admin/notice?page=${page}">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/notice?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/notice?page=${pagination.totalPages}">끝</a>
+            </div>
+        </div>
+
         <button class="btn edit-btn" style="margin-top: 40px;"
             onclick="location.href='/admin/notice/write'">공지작성</button>
     </div>

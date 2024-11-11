@@ -224,6 +224,11 @@ table button {
     padding: 0 10px;
 }
 
+.page-link.disabled {
+    pointer-events: none;
+    visibility: hidden;
+}
+
 .move-page-link {
     display: flex;
     gap: 10px;

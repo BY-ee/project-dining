@@ -46,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="member" items="${members.content}">
+                <c:forEach var="member" items="${pagination.content}">
                     <tr>
                         <td>${member.id}</td>
                         <td>${member.memberId}</td>
@@ -74,20 +74,16 @@
 
         <!-- Pagination -->
         <div class="pagination">
+            <!-- 클래스명을 동적으로 변경 -->
             <div class="move-page-link">
-                <c:if test="${members.isFirstPageBtnVisible()}">
-                    <a class="page-link" href="/admin/members?page=1">처음</a>
-                </c:if>
-
-                <c:if test="${members.page > 1}">
-                    <a class="page-link" href="/admin/members?page=${members.page - 1}">이전</a>
-                </c:if>
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/members?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/members?page=${pagination.page - 1}">이전</a>
             </div>
 
             <div class="page">
-                <c:forEach var="page" begin="${members.start}" end="${members.end}">
+                <c:forEach var="page" begin="${pagination.start}" end="${pagination.end}">
                     <c:choose>
-                        <c:when test="${page == members.page}">
+                        <c:when test="${page == pagination.page}">
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
@@ -98,13 +94,8 @@
             </div>
 
             <div class="move-page-link">
-                <c:if test="${members.page < members.totalPages}">
-                    <a class="page-link" href="/admin/members?page=${members.page + 1}">다음</a>
-                </c:if>
-
-                <c:if test="${members.isLastPageBtnVisible()}">
-                    <a class="page-link" href="/admin/members?page=${members.totalPages}">끝</a>
-                </c:if>
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/members?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/members?page=${pagination.totalPages}">끝</a>
             </div>
         </div>
     </div>

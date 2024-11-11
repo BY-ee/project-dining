@@ -35,7 +35,7 @@ public class AdminController {
 	@GetMapping("/members")
 	public String members(RequestData requestData, Model model) {
 		Pagination<Member> members = adminService.selectMembers(requestData);
-		model.addAttribute("members", members);
+		model.addAttribute("pagination", members);
 		
 		return "admin/adminMembers";
 	}
@@ -69,7 +69,7 @@ public class AdminController {
 	@GetMapping("/posts")
 	public String posts(RequestData requestData, Model model) {
 		Pagination<Store> stores = adminService.selectStores(requestData);
-		model.addAttribute("stores", stores);
+		model.addAttribute("pagination", stores);
 		
 		return "admin/adminPosts";
 	}
@@ -84,9 +84,8 @@ public class AdminController {
 	// 리뷰 관리 페이지
 	@GetMapping("/reviews")
 	public String reviews(RequestData requestData, Model model) {
-		int limit = 10;
 		Pagination<Review> reviews = adminService.selectReviews(requestData);
-		model.addAttribute("reviews", reviews);
+		model.addAttribute("pagination", reviews);
 		
 		return "admin/adminReviews";
 	}
