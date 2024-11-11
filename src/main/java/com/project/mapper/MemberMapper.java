@@ -18,7 +18,7 @@ public interface MemberMapper {
 	
 	// 총 회원수
 	long countMembers();
-
+	
 	// 회원 차단
 	void blockMember(long id);
 

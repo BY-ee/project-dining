@@ -27,7 +27,7 @@ function selectIndustry(industry) {
 function showSubCategoryOptions(industry) {
     const selectedIndustryOptions = document.getElementById("selectedIndustryOptions");
     selectedIndustryOptions.style.display = "block";
-    selectedIndustryOptions.innerHTML = `<h3>${industry} 세부 항목 선택</h3>`; // 새로운 업종에 맞는 타이틀 설정
+    selectedIndustryOptions.innerHTML = `<h3>${industry} 선택</h3>`; // 새로운 업종에 맞는 타이틀 설정
 
     // 업종에 따른 세부 항목 설정
     let options = [];

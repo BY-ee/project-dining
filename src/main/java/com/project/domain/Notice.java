@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Alias("Notice")
 public class Notice {
-    private Long id;
+    private int id;
     private String category;
     private String title;
     private String content;

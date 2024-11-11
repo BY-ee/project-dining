@@ -1,29 +1,23 @@
 package com.project.config;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.firewall.HttpFirewall;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import jakarta.servlet.DispatcherType;
-
-//spring security 관련 설정 파일
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
-
-    @Bean // Security의 StrictHttpFirewall에서 "//" 와 같은 "잠재적으로 악의적인 문자열"이 포함된 URL을
-    public HttpFirewall allowUrlEncodedDoubleSlash() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedDoubleSlash(true);
-        return firewall;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,22 +29,44 @@ public class SecurityConfig {
         )
         .formLogin((form) -> 
                 form
-                    .loginPage("/login")
+                    .loginPage("/loginForm")
                     .permitAll()
-                    .defaultSuccessUrl("/")
+                    .successHandler(customAuthenticationSuccessHandler())
         )
         .logout((logout) -> 
                 logout
                     .logoutSuccessUrl("/")
                     .permitAll()
         )
-//        .oauth2Login(oauth2 -> 
-//                oauth2
-//                    .defaultSuccessUrl("/loginSuccess") // 네이버 로그인 성공 시 리디렉션할 URL
-//        )
+        .oauth2Login(oauth2 -> 
+                oauth2
+                .successHandler(customAuthenticationSuccessHandler()) // 커스텀 성공 핸들러 사용 -> 간편로그인 성공후
+        )
         .csrf(csrf -> csrf.disable()); // CSRF 비활성화
 
         return http.build();
+    }
+    
+    // 커스텀 핸들러(API) 
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                Authentication authentication) throws IOException {
+                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+                
+                System.out.println(redirectUrl);
+                
+                if (redirectUrl != null) {
+                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
+                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
+                } else {
+                    // 기본 리디렉션 URL (초기 로그인 성공 시)
+                    getRedirectStrategy().sendRedirect(request, response, "/home.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+                }
+            }
+        };
     }
     
     @Bean
