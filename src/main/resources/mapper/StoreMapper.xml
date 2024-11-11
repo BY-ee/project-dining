@@ -15,7 +15,7 @@
 	</select>
 	
     <select id="getStoreDetailById" parameterType="int" resultType="com.project.domain.StoreDomain">
-    	SELECT * FROM store WHERE id = #{store_ID}
+    	SELECT * FROM store WHERE id = #{storeID}
     </select>
     
 	<select id="countStores" resultType="long">
@@ -23,7 +23,18 @@
 	</select>
 	
 	<select id="getMenuById" parameterType="int" resultType="com.project.domain.Menu">
-		SELECT * FROM menu WHERE store_id = #{store_ID}
+		SELECT * FROM menu WHERE store_id = #{storeID}
+	</select>
+	
+	<select id="findAllStores" resultType="com.project.domain.StoreDomain">
+		SELECT * FROM store
+	</select>
+	
+	<select id="findStoresByLocation" parameterType="String" resultType="Store">
+	    SELECT store.*
+	    FROM store
+	    JOIN local ON store.id = local.store_id
+	    WHERE local.local = #{location}
 	</select>
 	
 </mapper>

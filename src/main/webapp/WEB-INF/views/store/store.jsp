@@ -97,9 +97,9 @@
     <div class="section main-photo">
         <div class="section-title">가게 메인 사진</div>
         <div class="slider" id="slider">
-            <div class="slide"><img src="/img/store1.jpg"></div>
-            <div class="slide"><img src="/img/store2.jpg"></div>
-            <div class="slide"><img src="/img/store3.jpg"></div>
+            <div class="slide"><img src="/images/store/store1.jpg"></div>
+            <div class="slide"><img src="/images/store/store2.jpg"></div>
+            <div class="slide"><img src="/images/store/store3.jpg"></div>
         </div>
         <div class="slider-nav">
             <button aria-label="이전 슬라이드" onclick="moveToSlide(currentSlideIndex - 1)"></button>
@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="menu-card">
-            <img src="img/food.jpg">
+            <img src="/images/store/food.jpg">
             <div class="menu-info">
                 <p class="menu-name">육회</p>
                 <p class="menu-description">1++한우, 엔다이브, 배 잼</p>
@@ -142,7 +142,7 @@
             </div>
         </div>
         <div class="menu-card">
-            <img src="img/pizza.jpg">
+            <img src="/images/store/pizza.jpg">
             <div class="menu-info">
                 <p class="menu-name">시금치</p>
                 <p class="menu-description">시금치 페스토, 삼겹살, 오르끼에떼</p>
@@ -155,9 +155,9 @@
 <div class="section menu-photo-container">
     <div class="section-title">메뉴 사진 모음</div>
     <div class="menu-slider">
-        <div class="menu-slide"><img src="img/pasta.jpg"></div>
-        <div class="menu-slide"><img src="img/food.jpg"></div>
-        <div class="menu-slide"><img src="img/pizza.jpg"></div>
+        <div class="menu-slide"><img src="/images/store/pasta.jpg"></div>
+        <div class="menu-slide"><img src="/images/store/food.jpg"></div>
+        <div class="menu-slide"><img src="/images/store/pizza.jpg"></div>
     </div>
     <div class="menu-slider-nav">
     	<button class="prev-button" aria-label="이전 슬라이드">&#10094;</button>

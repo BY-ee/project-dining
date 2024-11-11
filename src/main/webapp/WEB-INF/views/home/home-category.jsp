@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Dining Recommendation</title>
     <link rel="stylesheet" type="text/css" href="/css/home/home-category.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/home/slider.js" defer></script>
     <script src="/js/home/userdropdown.js" defer></script>
 </head>
@@ -52,16 +53,18 @@
     <div class="content">
         <!-- 위치 및 카테고리 드롭다운 메뉴 -->
         <div class="filter-container">
-            <div class="location-dropdown">
-                <button class="location-btn">강남역</button>
-                <div class="location-menu">
-                    <a href="#">강남역</a>
-                    <a href="#">신사역</a>
-                    <a href="#">압구정역</a>
-                    <a href="#">역삼역</a>
-                </div>
-            </div>
-        </div>
+	        <div class="location-dropdown">
+	            <button class="location-btn">지역 선택</button>
+	            <div class="location-menu">
+    <a href="#" onclick="filterByLocation('MAPO')">마포구</a>
+    <a href="#" onclick="filterByLocation('SONGPA')">송파구</a>
+    <a href="#" onclick="filterByLocation('GANGNAM')">강남/서초구</a>
+    <a href="#" onclick="filterByLocation('SEONGBUK')">성북/종로구</a>
+    <a href="#" onclick="filterByLocation('GWANGJIN')">광진/성동구</a>
+</div>
+	        </div>
+	    </div>
+	    
 
         <!-- 메인 배너 슬라이드 -->
         
@@ -123,57 +126,11 @@
 		            
         <!-- 가게 목록 컨테이너 -->
         <div class="store-container">
-            <div class="store-list">
-				<div class="store-item-box" onclick="goToStoreDetail(27)">
-				    <div class="store-item"><img src="images/store/damungalbi1.png" alt="가게1 이미지"></div>
-				    <div class="store-name">가게1</div>
-				</div>
-				<div class="store-item-box" onclick="goToStoreDetail(2)">
-				    <div class="store-item"><img src="images/store/damungalbi2.png" alt="가게1 이미지"></div>
-				    <div class="store-name">가게2</div>
-				</div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/hyeonraejang_main2.jpeg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게3</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/hyeonraejang_main1.jpeg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게4</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/jinjia1.png" alt="가게1 이미지"></div>
-                    <div class="store-name">가게5</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/mapojanggun_main1.jpeg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게6</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/mapomokjang_main1.jpeg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게7</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/mapook_main1.jpeg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게8</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/neo1.png" alt="가게1 이미지"></div>
-                    <div class="store-name">가게9</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="images/store/seoriwon_main1.jpeg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게10</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="img/pizza.jpg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게11</div>
-                </div>
-                <div class="store-item-box">
-                    <div class="store-item"><img src="img/pasta.jpg" alt="가게1 이미지"></div>
-                    <div class="store-name">가게12</div>
-                </div>
-            </div>
-        </div>
+		    <div id="store-list-container" class="store-list">
+		        <jsp:include page="store_list.jsp" />
+		    </div>
+		</div>
+
 		
 		<!-- 푸터 섹션 -->
 		<div class="footer">
@@ -209,18 +166,38 @@
 
 	<script type="text/javascript">
 	    // JSP 표현식으로 user_ID 가져오기
-	    var userId = "<%= session.getAttribute("user_ID") != null ? session.getAttribute("user_ID") : "" %>"; 
+		var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
 	
-	    function goToStoreDetail(storeId) {
-	        console.log("Store ID: " + storeId);  // 확인용 콘솔 로그
-	        console.log("User ID: " + userId);  // 확인용 콘솔 로그
-	        
-	        // userId가 존재하는지 확인하여 URL 생성
+	    function goToStoreDetail(storeId) {	        
 	        var url = '/storeDetail?store_ID=' + storeId;
-	        if (userId && userId.trim() !== "") {  // userId가 비어있지 않을 때만 추가
+	        if (userId && userId.trim() !== "") {  
 	            url += '&user_ID=' + userId;
 	        }
-	        window.location.href = url;  // StoreDetail 페이지로 이동
+	        window.location.href = url;  
+	    }
+	    
+	    function filterByLocation(location) {
+	        $.ajax({
+	            url: "/storesByLocation",
+	            type: "GET",
+	            data: { location: location },
+	            success: function(stores) {
+
+	                let html = '';
+	                stores.forEach(function(store) {
+	                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+	                                '<div class="store-item">' +
+	                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+	                                '</div>' +
+	                                '<div class="store-name">' + store.storeName + '</div>' +
+	                            '</div>';
+	                });
+	                $("#store-list-container").html(html);
+	            },
+	            error: function() {
+	                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+	            }
+	        });
 	    }
 	</script>
     

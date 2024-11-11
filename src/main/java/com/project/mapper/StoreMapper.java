@@ -26,5 +26,9 @@ public interface StoreMapper{
 	// 총 가게 개수
 	long countStores();
 	
+	List<Store> findAllStores();
 	
+	
+    List<Store> findStoresByLocation(String location);
+    
 }

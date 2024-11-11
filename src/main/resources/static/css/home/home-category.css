@@ -11,6 +11,10 @@
         height: 100%;
 }
 
+.content {
+    min-height: calc(100vh - 120px); /* Make the content area at least the height of the screen minus the header/footer */
+}
+
 /* 헤더 스타일 */
 /*============================================================================*/
 .header {
@@ -334,6 +338,13 @@
     margin-bottom:1000px;
 }
 
+.store-list-container {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;  /* 가게 목록의 최대 너비 */
+    overflow-y: auto;  /* 가게 목록이 길어지면 스크롤바 표시 */
+}
+
 .store-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -359,7 +370,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
     overflow:hidden; /*임의 추가*/
 }
 
@@ -379,20 +389,17 @@
 /* Footer 스타일 */
 /*============================================================================*/
 .footer {
-	position: fixed;
-	width:100%;
+    width: 100%;
     background-color: #f8f8f8;
     padding: 40px 20px;
     color: #333;
     font-size: 14px;
-	bottom: 0%;
+    bottom: 0; /* Remove fixed positioning */
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    
 }
 
 .customer-center {
@@ -466,7 +473,6 @@
 .footer h3 a:visited,
 .footer h3 a:hover,
 .footer h3 a:active {
-    color: inherit;
     text-decoration: none;
 }
 
