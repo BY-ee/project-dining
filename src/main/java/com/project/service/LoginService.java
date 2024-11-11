@@ -23,6 +23,12 @@ public class LoginService {
 	public int isUserNicknameCheck(String nickname) {
 		return loginMapper.isUserNicknameCheck(nickname);
 	}
+
+	public int joinMember(LoginDomain login) {
+		login.setPasswd(passwordEncoder.encode(login.getPasswd()));
+		return loginMapper.joinMember(login);
+	}
+
 	 
 	 	
 //	 

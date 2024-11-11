@@ -13,7 +13,11 @@ public interface LoginMapper {
 	// 닉네임 증복조회
 	int isUserNicknameCheck(String nickname);
 	
-//
+	// 회원가입
+	int joinMember(LoginDomain login);
+	
+
+	
 //	LoginDomain getUser(String memberId);
 
 

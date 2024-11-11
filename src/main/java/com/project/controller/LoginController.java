@@ -1,8 +1,5 @@
 package com.project.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.domain.LoginDomain;
 import com.project.service.LoginService;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -58,22 +54,36 @@ public class LoginController {
 		return "login/findPwd";
 	}
 	
+	// 아이디 중복검사
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public ResponseEntity<Integer> idCheck(@RequestParam("member_id") String member_id)  {
-	    int result = loginService.isUserIdCheck(member_id); // 중복이면 1, 아니면 0 반환
+	    int result = loginService.isUserIdCheck(member_id); 
 	    return ResponseEntity.ok(result);
 	}
 	
+	// 닉네임 중복검사
 	@PostMapping("/nicknameCheck")
 	@ResponseBody
-	public ResponseEntity<Integer> nicknameCheck(@RequestParam("nickname") String nickname)  {
-	    int result = loginService.isUserNicknameCheck(nickname); // 중복이면 1, 아니면 0 반환
+	public ResponseEntity<Integer> nicknaCheck(@RequestParam("nickname") String nickname)  {
+	    int result = loginService.isUserNicknameCheck(nickname); 
 	    return ResponseEntity.ok(result);
 	}
 	
-	
-	
+	@PostMapping("/joinMember")
+	public String joinMember(@ModelAttribute("login") LoginDomain login, Model model) {
+		int result = 0;
+		result = loginService.joinMember(login);
+		
+		model.addAttribute("result", result);
+		
+		if(result == 1) {
+			return "login/joinResult";
+		}else {
+			return "login/joinResult";
+		}
+
+	}
     
 //    // 회원가입
 //    public String joinMember(LoginDomain login) {

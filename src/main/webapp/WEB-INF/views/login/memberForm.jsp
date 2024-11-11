@@ -14,7 +14,10 @@
     <script src="js/login/join.js"></script> 
     
 <body>
-<form method="post" action="joinMember">
+<form method="post" action="/joinMember">
+<input type="hidden" name="category" value="일반">
+<input type="hidden" name="email" id="email">
+
 <div class="memberform-container">
     
   <div class="memberform-header">
@@ -47,8 +50,8 @@
   <span class="domain-symbol">@</span>
   <input type="text" placeholder="도메인" class="email-input" id="domain" name="domain">
 
-  <select class="email-select" id="email">
-    <option value="">직접 입력</option>
+  <select class="email-select" id="emailSelect">
+    <option value="">직접입력</option>
     <option value="naver.com">네이버</option>
     <option value="kakao.com">카카오</option>
     <option value="gmail.com">구글</option>
@@ -64,7 +67,7 @@
     <!-- 인증 완료 메시지를 표시할 빈 div -->
   	<div id="verificationMessage" class="verification-message"></div>
     <!-- 회원가입 버튼 -->
-    <button type="submit" class="signcomplete" id="join-button" >회원가입</button>
+    <button type="submit" class="signcomplete" id="member-signup-button" >회원가입</button>
     </div>
 </form>
 
