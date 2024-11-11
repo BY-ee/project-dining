@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <title>게시글 승인</title>
-    <link rel="stylesheet" href="/css/admin/adminApprove.css" />
+    <link rel="stylesheet" href="/css/admin/adminApproval.css" />
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/registerStoreForm.js"></script>
 </head>
@@ -44,7 +44,7 @@
             <tbody>
                 <tr>
                     <td>2</td>
-                    <td><a href="#" class="approve-link">모수</a></td>
+                    <td><a href="#" class="approval-link">모수</a></td>
                     <td>서울특별시 용산구</td>
                     <td>02-111-1111</td>
                     <td>대기</td>
@@ -56,8 +56,8 @@
         <div class="pagination">
             <!-- 클래스명을 동적으로 변경 -->
             <div class="move-page-link">
-                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/approve?page=1">처음</a>
-                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/approve?page=${pagination.page - 1}">이전</a>
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/approval?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/approval?page=${pagination.page - 1}">이전</a>
             </div>
 
             <div class="page">
@@ -67,15 +67,15 @@
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
-                            <a class="page-link" href="/admin/approve?page=${page}">${page}</a>
+                            <a class="page-link" href="/admin/approval?page=${page}">${page}</a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </div>
 
             <div class="move-page-link">
-                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/approve?page=${pagination.page + 1}">다음</a>
-                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/approve?page=${pagination.totalPages}">끝</a>
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/approval?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/approval?page=${pagination.totalPages}">끝</a>
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup()">X</button>
-            <div id="approve-content"></div>
+            <div id="approval-content"></div>
         </div>
     </div>
 </body>

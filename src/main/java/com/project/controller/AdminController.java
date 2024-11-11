@@ -91,14 +91,21 @@ public class AdminController {
 	}
 	
 	// 게시글 승인 페이지
-	@GetMapping("/approve")
-	public String approve() {
-		return "admin/adminApprove";
+	@GetMapping("/approval")
+	public String showApprovalPage(RequestData requestData, Model model) {
+	    Pagination<Store> enrolledStores = adminService.selectEnrolledStores(requestData);
+	    model.addAttribute("pagination", enrolledStores);
+
+	    return "admin/adminApproval";
 	}
+
 	
 	// 공지사항 관리 페이지
 	@GetMapping("/notice")
-	public String notice() {
+	public String notice(RequestData requestData, Model model) {
+		Pagination<Notice> notice = adminService.selectNotice(requestData);
+		model.addAttribute("pagination", notice);
+		
 		return "admin/adminNotice";
 	}
 	

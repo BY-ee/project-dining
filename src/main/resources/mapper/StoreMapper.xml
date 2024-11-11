@@ -13,7 +13,23 @@
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
+	<select id="selectEnrolledStores" resultType="Store">
+		SELECT * FROM (
+		    SELECT m.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM store 
+		        WHERE enroll_status='enrolled'
+		        ORDER BY id DESC
+		    ) m
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store
+	</select>
+	
+	<select id="countEnrolledStores" resultType="long">
+		SELECT COUNT(*) FROM store
+		WHERE enroll_status='enrolled'
 	</select>
 </mapper>

@@ -41,9 +41,9 @@ public class AdminService {
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
 		long totalCount = memberMapper.countMembers();
-		
+
 		List<Member> members = memberMapper.selectMembers(start, end);
-		
+
 		return new Pagination<>(members, page, size, totalCount);
 	}
 	
@@ -94,4 +94,32 @@ public class AdminService {
 		
 		return new Pagination<>(reviews, page, size, totalCount);
 	}
+	
+	public Pagination<Store> selectEnrolledStores(RequestData requestData) {
+		int page = requestData.getPage();
+		int size = requestData.getSize();
+		
+		int start = (page - 1) * size + 1;
+		int end = start + size - 1;
+		long totalCount = storeMapper.countEnrolledStores();
+		
+		List<Store> enrolledStores = storeMapper.selectEnrolledStores(start, end);
+		
+		return new Pagination<>(enrolledStores, page, size, totalCount);
+	}
+
+	public Pagination<Notice> selectNotice(RequestData requestData) {
+		int page = requestData.getPage();
+		int size = requestData.getSize();
+		
+		int start = (page - 1) * size + 1;
+		int end = start + size - 1;
+		long totalCount = noticeMapper.countNotice();
+		
+		List<Notice> notice = noticeMapper.selectNotice(start, end);
+		
+		return new Pagination<>(notice, page, size, totalCount);
+	}
+
+
 }

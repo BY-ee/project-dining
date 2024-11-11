@@ -22,7 +22,7 @@
             <a href="/admin/members">회원관리</a>
             <a href="/admin/posts">게시글 관리</a>
             <a href="/admin/reviews">리뷰 관리</a>
-            <a href="/admin/approve">게시글 승인</a>
+            <a href="/admin/approval">게시글 승인</a>
             <a href="/admin/notice">공지사항 관리</a>
         </nav>
         <div>

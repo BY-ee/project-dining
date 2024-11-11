@@ -78,10 +78,10 @@ $(() => {
     `;
 
     // 게시글 승인 페이지의 가게이름 클릭 시 팝업창 띄우기
-    $('.approve-link').each((index, link) => {
+    $('.approval-link').each((index, link) => {
         $(link).on('click', (e) => {
             e.preventDefault();
-            $('#approve-content').html(form);
+            $('#approval-content').html(form);
             $('#popup-overlay').css('display', 'flex');
         });
     });

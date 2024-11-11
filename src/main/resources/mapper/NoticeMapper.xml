@@ -8,4 +8,18 @@
 		INSERT INTO notice (category, title, content, start_date, end_date, status, notice_image, views)
 		VALUES (#{category}, #{title}, #{content}, SYSDATE, SYSDATE, 'active', 'image.jpg', 0)
 	</insert>
+	
+	<select id="selectNotice" resultType="Notice">
+		SELECT * FROM (
+		    SELECT m.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM notice 
+		        ORDER BY id DESC
+		    ) m
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countNotice" resultType="long">
+		SELECT COUNT(*) FROM notice
+	</select>
 </mapper>
