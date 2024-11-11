@@ -10,24 +10,15 @@
 
 <%
     // 세션에서 user_ID 및 user_nickname 가져오기
-    Long userIdLong = (Long) session.getAttribute("user_ID");
-    String userId = (userIdLong != null) ? userIdLong.toString() : null;
+    Long userId = (Long) session.getAttribute("user_ID");
     String nickname = (String) session.getAttribute("user_nickname");
+    System.out.println("Session userId: " + userId);
+    System.out.println("Session nickname: " + nickname);
 %>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script>
-    // URL에서 store_ID 파라미터 추출 함수
-    function getParameterByName(name) {
-        const url = new URL(window.location.href);
-        return url.searchParams.get(name);
-    }
-
-    // URL에서 store_ID 파라미터 가져오기
-    var storeId = getParameterByName("store_ID");
-    var userId = "<%= userId %>";
-    var nickname = "<%= nickname %>";
 
     $(document).ready(function() {
         // storeId가 유효할 때만 리뷰 불러오기 실행
@@ -57,6 +48,7 @@
 	        dataType: 'json',
 	        success: function(reviews) {
 	            console.log("API Response:", reviews);
+	            console.log("userId:", userId);
 	            
 	            if (reviews.length > 0) {
 	                console.log("API Response: memberId", reviews[0].memberId);
@@ -65,7 +57,7 @@
 	            }	
 	            // userReviewIndex를 여기서 구합니다.
 	            var userReviewIndex = reviews.findIndex(function(review) {
-	                return review.memberId != null && review.memberId.toString() === userId;
+	                return review.memberId != null && review.memberId === userId;
 	            });
 	
 	            // renderReviews 함수 호출 시 두 번째 인자로 전달합니다.
@@ -94,9 +86,8 @@
 	            + '<div class="review-content">' + review.content + '</div>';
 	
 	        // 삭제 버튼 추가
-	        if (review.memberId != null && review.memberId.toString() === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
+	        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
 	            console.log("review.memberId ", review.memberId);
-	            console.log("userId ", userId);
 	            reviewItem += '<button class="delete-review-button" onclick="deleteReview(' + review.id + ', ' + review.memberId + ')">삭제</button>';
 	        }
 	
@@ -156,7 +147,7 @@
             data: { store_id: storeId }, // storeId 전달
             dataType: 'json',
             success: function(reviews) {
-            	const existingReview = reviews.find(review => review.memberId.toString() === userId); // userId 변수는 세션에서 가져온 사용자 ID
+            	const existingReview = reviews.find(review => review.memberId === userId); // userId 변수는 세션에서 가져온 사용자 ID
                 if (existingReview) {
                     alert("이미 리뷰를 작성하셨습니다."); // 중복 리뷰가 있을 경우 alert 메시지 표시
                     window.location.reload();
