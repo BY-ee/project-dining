@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.StoreMapper">
+
+	<select id="selectStores" resultType="Store">
+		SELECT * FROM (
+		    SELECT m.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM store 
+		        ORDER BY id DESC
+		    ) m
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+    <select id="getStoreDetailById" parameterType="int" resultType="com.project.domain.StoreDomain">
+    	SELECT * FROM store WHERE id = #{store_ID}
+    </select>
+    
+	<select id="countStores" resultType="long">
+		SELECT COUNT(*) FROM store
+	</select>
+	
+	<select id="getMenuById" parameterType="int" resultType="com.project.domain.Menu">
+		SELECT * FROM menu WHERE store_id = #{store_ID}
+	</select>
+	
+</mapper>

@@ -7,6 +7,9 @@
 <html lang="ko">
 <head>
     <title>리뷰 관리</title>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/js/admin/adminReview.js"></script>
 </head>
 <body>
 
@@ -40,25 +43,59 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2</td>
-                    <td><a href="/admin/members">2</a></td>
-                    <td><a href="/admin/posts">2</a></td>
-                    <td>1점</td>
-                    <td><a href="#">ㅇㅉ</a></td>
-                    <td style="color: #f44;">게시중단</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td><a href="/admin/members">1</a></td>
-                    <td><a href="/admin/posts">3</a></td>
-                    <td>5점</td>
-                    <td><a href="#">맛있었습니다</a></td>
-                    <td style="color: #5a7beb;">게시</td>
-                </tr>
+                <c:forEach var="review" items="${reviews.content}">
+                    <tr>
+                        <td>${review.id}</td>
+                        <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
+                        <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
+                        <td>${review.score}</td>
+                        <td><a href="#" class="review-link">확인</a></td>
+                        <td style="color: #f44;">게시중단</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="move-page-link">
+                <c:if test="${reviews.currentPage > reviews.start}">
+                    <a class="page-link" href="#">처음</a>
+                </c:if>
+
+                <a class="page-link" href="#">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${reviews.start}" end="${reviews.totalPages}">
+                    <c:choose>
+                        <c:when test="${page == reviews.currentPage}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="#">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link" href="#">다음</a>
+
+                <c:if test="${reviews.currentPage < reviews.end}">
+                    <a class="page-link" href="#">끝</a>
+                </c:if>
+            </div>
+        </div>
+    </div>
+
+    <!-- 리뷰 팝업 -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">X</button>
+            <h3 class="popup-title">유저 닉네임</h3>
+            <div id="review-content"></div>
+        </div>
     </div>
 </body>
 </html>
