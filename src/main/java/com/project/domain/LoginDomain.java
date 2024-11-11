@@ -1,6 +1,6 @@
 package com.project.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.apache.ibatis.type.Alias;
 
@@ -10,7 +10,7 @@ import lombok.Data;
 @Alias("login")
 public class LoginDomain {
 
-    private Long id;
+	private Long id;
     private String category;
     private String registration_number;
     private String member_id;
@@ -22,10 +22,16 @@ public class LoginDomain {
     private String introduction;
     private String email;
     private String status;
-    private Date created_at;
-    private Date inactive_date;
-    private Date reactive_date;
-    private Date deleted_date;
+    private LocalDateTime created_at;
+    private LocalDateTime inactive_date;
+    private LocalDateTime reactive_date;
+    private LocalDateTime deleted_date;
     private String profile_image;
-    private Integer point;
+    private Long point;
+    
+    // 비밀번호 체크
+    private String passwdCheck;
+    private String mailid;
+    private String domain;
 }
+
