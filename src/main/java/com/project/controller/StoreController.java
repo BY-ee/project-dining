@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,25 +29,38 @@ public class StoreController {
 		
 		System.out.println("storeId: " + storeId);
 		
-		// StoreService를 통해 가게 상세 정보 가져오기
-		StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
-		
-		// 메뉴 정보 가져오기
-		Menu menu = storeService.getMenulById(storeId);
-		
 		// 세션에서 user_ID 가져오기 (로그인하지 않은 경우 null일 수 있음)
 		Long userId = (Long) session.getAttribute("user_ID");        
+		
+		// 가게 및 메뉴 정보 가져오기
+        StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
+        List<Menu> menuList = storeService.getMenuById(storeId);
+        
+        System.out.println("storeDetail값:"+ storeDetail);
+
+        // 가게 이미지 경로 앞에 /img/를 붙이기
+        if (storeDetail.getMainImage1() != null) {
+            storeDetail.setMainImage1("/img/" + storeDetail.getMainImage1());
+        }
+        if (storeDetail.getMainImage2() != null) {
+            storeDetail.setMainImage2("/img/" + storeDetail.getMainImage2());
+        }
+
+        // 각 메뉴의 이미지 경로에 "/img/" 추가
+        for (Menu menu : menuList) {
+            if (menu.getMenuImage() != null) {
+                menu.setMenuImage("/img/" + menu.getMenuImage());
+            }
+        }
 		
 		// user_ID를 모델에 추가 (필요한 경우)
 		model.addAttribute("user_ID", userId);
 		model.addAttribute("store_ID", storeId);
 		model.addAttribute("storeDetail", storeDetail);
-		model.addAttribute("menu", menu);
+		model.addAttribute("menuList", menuList);
 		
 		return "store/store"; 
 	}
-	
-	
 	
 	
 	
