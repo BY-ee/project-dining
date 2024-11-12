@@ -1,11 +1,12 @@
 package com.project.service;
 
+import java.sql.Timestamp;
 import java.util.List;
-import com.project.domain.Store;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.domain.MemberLike;
 import com.project.domain.Menu;
 import com.project.domain.StoreDomain;
 import com.project.mapper.StoreMapper;
@@ -18,12 +19,25 @@ public class StoreService {
 
 	private final StoreMapper storeMapper;
 
-	public StoreDomain getStoreDetailById(int store_ID) {
+	public StoreDomain getStoreDetailById(long store_ID) {
 		return storeMapper.getStoreDetailById(store_ID);
 	}
 
-	public Menu getMenulById(int storeId) {
+	public List<Menu> getMenuById(long storeId) {
 		return storeMapper.getMenuById(storeId);
+	}
+
+	public void addLike(long memberId, long storeId) {
+		MemberLike like = new MemberLike();
+		like.setMemberId(memberId);
+		like.setStoreId(storeId);
+		like.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		
+		storeMapper.save(like);
+	}
+
+	public void removeLike(long memberId, long storeId) {
+		storeMapper.deleteByMemberIdAndStoreId(memberId, storeId);
 	}
 	
 	public List<Store> findAllStores() {

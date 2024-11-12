@@ -15,13 +15,15 @@
     <% 
         // 세션에서 userId와 storeId 가져오기
         Long userId = (Long) session.getAttribute("user_ID");
-        Integer storeId = (Integer) request.getAttribute("store_ID");
+    	Long storeId = (Long) request.getAttribute("store_ID");
     %>
 
     <!-- JavaScript에서 사용할 userId와 storeId -->
     <script type="text/javascript">
         var userId = <%= userId != null ? userId : "null" %>;
         var storeId = <%= storeId %>;
+        var latitude = ${storeDetail.latitude != null ? storeDetail.latitude : "null"};
+        var longitude = ${storeDetail.longitude != null ? storeDetail.longitude : "null"};
     </script>
     
 </head>
@@ -31,7 +33,7 @@
 <div class="header">
     <h1><a href="/" style="text-decoration: none;">가게 상세페이지</a></h1>
     <div class="nav">
-        <button>로그인/회원가입</button>
+        <a href="loginForm.do"><button>로그인/회원가입</button></a>
         <button>☰</button>
     </div>
 </div>
@@ -86,8 +88,8 @@
     <% } %>
 </div>
 
-<div class="container">
     <!-- 가게 이름과 찜 버튼 -->
+<div class="container">
     <div class="store-header">
         <h2>가게 이름: ${storeDetail.storeName} </h2>
         <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">0</span></button>
@@ -97,9 +99,8 @@
     <div class="section main-photo">
         <div class="section-title">가게 메인 사진</div>
         <div class="slider" id="slider">
-            <div class="slide"><img src="/images/store/store1.jpg"></div>
-            <div class="slide"><img src="/images/store/store2.jpg"></div>
-            <div class="slide"><img src="/images/store/store3.jpg"></div>
+            <div class="slide"><img src="${storeDetail.mainImage1}"></div>
+            <div class="slide"><img src="${storeDetail.mainImage2}"></div>
         </div>
         <div class="slider-nav">
             <button aria-label="이전 슬라이드" onclick="moveToSlide(currentSlideIndex - 1)"></button>
@@ -114,56 +115,34 @@
         </div>
     </div>
 
-    <!-- 메뉴 메뉴 섹션 -->
+    <!-- 대표 메뉴 섹션 -->
     <div class="section menu-price-section">
         <div class="section-title">대표 메뉴</div>
-        <div class="menu-card">
-            <img src="${menu.menuImage1 }">
-            <div class="menu-info">
-                <p class="menu-name">${menu.menuName}</p>
-                <p class="menu-description">${menu.menuDescription }</p>
-                <p class="menu-price">${menu.menuPrice}원</p>
-            </div>
-        </div>
-        <div class="menu-card">
-            <img src="/images/store/food.jpg">
-            <div class="menu-info">
-                <p class="menu-name">육회</p>
-                <p class="menu-description">1++한우, 엔다이브, 배 잼</p>
-                <p class="menu-price">19,000원</p>
-            </div>
-        </div>
-        <div class="menu-card">
-            <div class="default-image">🍴</div>
-            <div class="menu-info">
-                <p class="menu-name">골뱅이</p>
-                <p class="menu-description">골뱅이, 마늘, 버터, 링귀니</p>
-                <p class="menu-price">19,000원</p>
-            </div>
-        </div>
-        <div class="menu-card">
-            <img src="/images/store/pizza.jpg">
-            <div class="menu-info">
-                <p class="menu-name">시금치</p>
-                <p class="menu-description">시금치 페스토, 삼겹살, 오르끼에떼</p>
-                <p class="menu-price">19,000원</p>
-            </div>
-        </div>
+        <c:forEach var="menu" items="${menuList}">
+	        <div class="menu-card">
+	            <img src="${menu.menuImage }">
+	            <div class="menu-info">
+	                <p class="menu-name">${menu.menuName}</p>
+	                <p class="menu-description">${menu.menuDescription }</p>
+	                <p class="menu-price">${menu.menuPrice}원</p>
+	            </div>
+        	</div>
+        </c:forEach>
     </div>
 	
 	<!-- 메뉴 음식 사진 슬라이더 섹션 -->
-<div class="section menu-photo-container">
-    <div class="section-title">메뉴 사진 모음</div>
-    <div class="menu-slider">
-        <div class="menu-slide"><img src="/images/store/pasta.jpg"></div>
-        <div class="menu-slide"><img src="/images/store/food.jpg"></div>
-        <div class="menu-slide"><img src="/images/store/pizza.jpg"></div>
-    </div>
-    <div class="menu-slider-nav">
-    	<button class="prev-button" aria-label="이전 슬라이드">&#10094;</button>
-	    <button class="next-button" aria-label="다음 슬라이드">&#10095;</button>
-</div>
-    </div>
+	<div class="section menu-photo-container">
+	    <div class="section-title">메뉴 사진 모음</div>
+	    <div class="menu-slider">
+	    <c:forEach var="menu" items="${menuList}">
+	        <div class="menu-slide"><img src="${menu.menuImage }"></div>
+	    </c:forEach>
+	    </div>
+	    <div class="menu-slider-nav">
+	    	<button class="prev-button" aria-label="이전 슬라이드">&#10094;</button>
+		    <button class="next-button" aria-label="다음 슬라이드">&#10095;</button>
+	</div>
+	    </div>
 
     <!-- 지도 섹션 -->
     <div class="section map-section">
@@ -176,6 +155,8 @@
 
 	<!-- 리뷰 입력 섹션 -->
 	<jsp:include page="reviewInput.jsp" />
+	
+</div>
 
 <!-- 외부 JS 파일 연결 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=eyf1ptej0y"></script>

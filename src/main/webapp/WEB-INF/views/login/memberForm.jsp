@@ -1,14 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원가입</title>
+  <title>Login</title>
   <link rel="stylesheet" href="css/login/yunyoung.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/login/join.js"></script> 
+
 </head>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/login/join.js"></script> 
+    
 <body>
 <form method="post" action="/joinMember">
 <input type="hidden" name="category" value="일반">
@@ -25,10 +29,6 @@
  	<div id="id-check-result" class="check-result"></div> 
  </div>
 
-  <!-- 회원가입 폼 -->
-  <form action="/register" method="POST">
-    <input type="hidden" name="category" value="일반">
-    <input type="hidden" name="email">
 
  <div class="id-form">
  	<input type="text" placeholder="닉네임" id="nickname" name= "nickname">
@@ -43,15 +43,12 @@
  </div> 
   
 
-    <div class="id-form">
-      <input type="text" placeholder="닉네임" id="nickname" name="nickname" required>
-      <input type="button" value="닉네임 중복 검사" onclick="checkDuplicateNickname()">
-    </div> 
 
-    <div class="passwd-form">
-      <input type="password" placeholder="비밀번호" name="passwd" required>
-      <input type="password" placeholder="비밀번호 확인" name="confirm_passwd" required>
-    </div>
+<div class="email-form">
+  
+  <input type="text" placeholder="이메일" class="email-input" id="mailid" name="mailid">
+  <span class="domain-symbol">@</span>
+  <input type="text" placeholder="도메인" class="email-input" id="domain" name="domain">
 
   <select class="email-select" id="emailSelect">
     <option value="">직접입력</option>
@@ -60,9 +57,6 @@
     <option value="gmail.com">구글</option>
   </select>
 
-    <!-- 인증 관련 입력과 메시지 -->
-    <div id="verification-input-container" class="verification-container"></div>
-    <div id="verificationMessage" class="verification-message"></div>
 
     <!-- 인증하기 버튼 -->
     <button type="button"  id="verifyButton"  >인증</button>

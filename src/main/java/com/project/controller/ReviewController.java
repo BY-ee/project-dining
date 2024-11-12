@@ -28,7 +28,7 @@ public class ReviewController {
 
     @RequestMapping("/getReviews")
     @ResponseBody
-    public List<ReviewDomain> getReviews(@RequestParam("store_id") int storeId) {
+    public List<ReviewDomain> getReviews(@RequestParam("store_id") long storeId) {
     	
         System.out.println("Getting reviews for store ID: " + storeId);
 
@@ -37,7 +37,7 @@ public class ReviewController {
 
     @PostMapping("/submitReview")
     public String submitReview(
-            @RequestParam("storeId") int storeId,
+            @RequestParam("storeId") long storeId,
             @RequestParam("score") double score,
             @RequestParam("content") String content,
             HttpSession session,
