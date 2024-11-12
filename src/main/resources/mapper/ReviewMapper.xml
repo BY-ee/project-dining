@@ -37,6 +37,32 @@
         INSERT INTO review (member_id, store_id, score, content, created_at, review_image)
         VALUES (#{memberId}, #{storeId}, #{score}, #{content}, #{createdAt}, #{reviewImage,jdbcType=VARCHAR})
     </insert>
+        SELECT r.id, 
+               r.member_id,  
+               r.store_id, 
+               r.score, 
+               r.content, 
+               r.created_at, 
+               r.status,    
+               m.nickname
+        FROM review r
+        JOIN member m ON r.member_id = m.id
+        WHERE r.store_id = #{store_id}
+        ORDER BY r.created_at DESC
+    </select>
+    
+    <select id="findReviewByUserAndStore" parameterType="map" resultType="com.project.domain.ReviewDomain">
+	    SELECT * 
+	    FROM review 
+	    WHERE member_id = #{memberId} 
+	      AND store_id = #{storeId} 
+	      AND ROWNUM = 1
+	</select>
+	
+	<insert id="insertReview" parameterType="com.project.domain.ReviewDomain">
+	    INSERT INTO review (id, member_id, store_id, score, content, created_at)
+	    VALUES (#{id}, #{memberId}, #{storeId}, #{score}, #{content}, #{createdAt})
+	</insert>
     
 	<select id="countReviews" resultType="long">
 		SELECT COUNT(*) FROM review

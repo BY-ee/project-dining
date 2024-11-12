@@ -42,6 +42,10 @@ public class ReviewService {
     public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
         return reviewMapper.findReviewByUserAndStore(memberId, storeId);
     }
+    
+    public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
+        return reviewMapper.findReviewByUserAndStore(memberId, storeId);
+    }
 
     // 리뷰 수정
 	public void updateReview(ReviewDomain reviewDomain) {

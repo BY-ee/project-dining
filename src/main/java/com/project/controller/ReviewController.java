@@ -69,6 +69,34 @@ public class ReviewController {
 		newReview.setScore(score);
 		newReview.setContent(content);
 		newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+        Long memberId = (Long) session.getAttribute("user_ID");
+     
+        if (memberId == null) {
+            return "redirect:/loginForm.do";
+        }
+        
+        ReviewDomain existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
+        boolean pointGiven = false; // 포인트 지급 여부를 저장할 변수
+        
+        if (existingReview != null) {
+            if ("active".equals(existingReview.getStatus())) {
+                redirectAttributes.addFlashAttribute("duplicateReviewMessage", "이미 리뷰를 작성하셨습니다.");
+                return "redirect:/storeDetail?store_ID=" + storeId;
+            } else if("hidden".equals(existingReview.getStatus())) {
+                reviewService.deleteReview(existingReview.getId());
+            }
+        } else {        	
+        	PointDomain newPoint = new PointDomain();
+            newPoint.setMemberId(memberId);
+            newPoint.setCategory("일반리뷰");  // 지급 유형 설정
+            newPoint.setPoint(100L);  // 지급할 포인트 설정 (예: 100포인트)
+            newPoint.setType("지급");  // 포인트 지급 타입
+            newPoint.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+            newPoint.setStatus("active");
+            
+            pointService.insertPoint(newPoint);
+            pointGiven = true; // 포인트 지급됨
+        }
 
 		// 이미지가 존재할 경우에만 파일 처리 수행
 	    if (images != null && !images.isEmpty()) {
@@ -77,6 +105,13 @@ public class ReviewController {
 
 	        // 업로드 디렉토리가 존재하지 않으면 생성
 	        new File(uploadDir).mkdirs();
+        
+        // 리뷰 저장
+        reviewService.insertReview(newReview);
+        
+        if (pointGiven) {
+            redirectAttributes.addFlashAttribute("pointMessage", "리뷰 작성으로 100포인트가 지급되었습니다!");
+        }
 
 	        // images 리스트에서 각 파일 처리
 	        for (MultipartFile image : images) {
@@ -117,6 +152,27 @@ public class ReviewController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정에 실패했습니다.");
         }
+//    리뷰 삭제 요청 처리
+//    @PostMapping("/deleteReview")
+//    public ResponseEntity<?> deleteReview(@RequestBody Map<String, Object> reviewDetails) {
+//        try {
+//            reviewService.deleteReview(reviewDetails); // 서비스에서 삭제 메서드 호출
+//            return ResponseEntity.ok().build(); // 성공적인 응답 반환
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 삭제에 실패했습니다.");
+//        }
+//    }
+    
+    
+    @PostMapping("/hiddenReview")
+    public ResponseEntity<?> hiddenReview(@RequestBody Map<String, Object> reviewDetails) {
+    	try {
+    		Long reviewId = Long.parseLong(reviewDetails.get("id").toString());
+            reviewService.hiddenReview(reviewId); // 숨김 처리 메서드 호출
+            return ResponseEntity.ok().build();
+    	} catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 삭제에 실패했습니다.");
+    	}
     }
 
     
