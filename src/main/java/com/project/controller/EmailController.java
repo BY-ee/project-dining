@@ -21,34 +21,34 @@ public class EmailController {
     private final EmailService emailService;
     private final EmailContentService emailContentService;
 	
-    @PostMapping("/verifyCode")
-    @ResponseBody
-    public String verifyCode(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session) {
-    	String savedCode = (String) session.getAttribute("verificationCode");
-    	String savedEmail = (String) session.getAttribute("userEmail");
-    	LocalDateTime expiryTime = (LocalDateTime) session.getAttribute("expiryTime");
-
-    	if (savedCode == null || savedEmail == null || expiryTime == null) {
-
-    	    return "인증 코드가 만료되었거나 존재하지 않습니다.";
-    	}
-
-    	// 만료 시간 확인
-    	if (LocalDateTime.now().isAfter(expiryTime)) {
-    	    session.removeAttribute("verificationCode");
-    	    session.removeAttribute("userEmail");
-    	    session.removeAttribute("expiryTime");
-    	    return "인증 코드가 만료되었습니다.";
-    	}
-
-    	// 수정된 부분: verificationCode를 code로 변경
-    	if (savedEmail.equals(userEmail) && savedCode.equals(code)) {
-    	    session.removeAttribute("verificationCode");
-    	    session.removeAttribute("userEmail");
-    	    return "인증에 성공했습니다.";
-    	} else {
-    	    return "인증 코드가 올바르지 않습니다.";
-    	}}
+//    @PostMapping("/verifyCode")
+//    @ResponseBody
+//    public String verifyCode(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session) {
+//    	String savedCode = (String) session.getAttribute("verificationCode");
+//    	String savedEmail = (String) session.getAttribute("userEmail");
+//    	LocalDateTime expiryTime = (LocalDateTime) session.getAttribute("expiryTime");
+//
+//    	if (savedCode == null || savedEmail == null || expiryTime == null) {
+//
+//    	    return "인증 코드가 만료되었거나 존재하지 않습니다.";
+//    	}
+//
+//    	// 만료 시간 확인
+//    	if (LocalDateTime.now().isAfter(expiryTime)) {
+//    	    session.removeAttribute("verificationCode");
+//    	    session.removeAttribute("userEmail");
+//    	    session.removeAttribute("expiryTime");
+//    	    return "인증 코드가 만료되었습니다.";
+//    	}
+//
+//    	// 수정된 부분: verificationCode를 code로 변경
+//    	if (savedEmail.equals(userEmail) && savedCode.equals(code)) {
+//    	    session.removeAttribute("verificationCode");
+//    	    session.removeAttribute("userEmail");
+//    	    return "인증에 성공했습니다.";
+//    	} else {
+//    	    return "인증 코드가 올바르지 않습니다.";
+//    	}}
 	
     @PostMapping("/send-verification-email")
     @ResponseBody

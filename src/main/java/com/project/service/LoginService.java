@@ -57,9 +57,6 @@ public class LoginService {
         mailSender.send(message);
     }
 
-	private final LoginMapper loginMapper;
-	private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
-	
 	// memberId 중복조회
 	public int isUserIdCheck(String member_id) {
 		 return loginMapper.isUserIdCheck(member_id);

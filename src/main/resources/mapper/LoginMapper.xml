@@ -10,10 +10,6 @@
 	    SELECT * FROM member WHERE member_id = #{member_id}
 	</select>
 
-    <!-- 사용자 회원 가입 -->
-    <insert id="insertUser" parameterType="com.project.domain.LoginDomain">
-<mapper namespace="com.project.mapper.LoginMapper">
-
 	<!-- 아이디 중복조회 -->
 	<select id="isUserIdCheck" parameterType="string" resultType="int">
 		select count(*) from member where member_id = #{member_id}
@@ -67,5 +63,4 @@
 	    )
 	  </insert>
 
-	</insert>
 </mapper>
