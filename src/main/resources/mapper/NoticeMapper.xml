@@ -5,8 +5,8 @@
 
 <mapper namespace="com.project.mapper.NoticeMapper">
 	<insert id="insertNotice" parameterType="Notice">
-		INSERT INTO notice (category, title, content, start_date, end_date, status, notice_image, views)
-		VALUES (#{category}, #{title}, #{content}, SYSDATE, SYSDATE, 'active', 'image.jpg', 0)
+		INSERT INTO notice (title, content, status, notice_image, views)
+		VALUES (#{title}, #{content}, 'active', #{noticeImage, jdbcType=VARCHAR}, 0)
 	</insert>
 	
 	<select id="selectNotice" resultType="Notice">
@@ -37,5 +37,10 @@
 		select count(*) from
 		notice
 		where category = #{category}
+	</select>
+	
+	<select id="selectNoticeById" resultType="Notice">
+		SELECT * FROM notice
+		WHERE id=#{id}
 	</select>
 </mapper>

@@ -22,4 +22,7 @@ public interface NoticeMapper {
 	List<Notice> getNoticeList(@Param("startRow") int startRow,@Param("endRow") int endRow,@Param("category") String category);
 
 	int getCountList(String category);
+
+	// 특정 공지 조회
+	Notice selectNoticeById(long id);
 }

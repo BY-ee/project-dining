@@ -153,4 +153,9 @@ public class AdminService {
 		
 		return new Pagination<>(notice, page, size, totalCount);
 	}
+
+	// 특정 공지 조회
+	public Notice selectNoticeById(long id) {
+		return noticeMapper.selectNoticeById(id);
+	}
 }

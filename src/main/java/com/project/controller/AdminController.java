@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.domain.Member;
 import com.project.domain.Menu;
@@ -165,8 +167,11 @@ public class AdminController {
 	}
 	
 	// 공지사항 상세 페이지
-	@GetMapping("/notice/id")
-	public String noticeDetail() {
+	@GetMapping("/notice/{id}")
+	public String noticeDetail(@PathVariable("id") long id, Model model) {
+		Notice notice = adminService.selectNoticeById(id);
+		model.addAttribute("notice", notice);
+		
 		return "admin/adminNoticeDetail";
 	}
 	
@@ -177,10 +182,38 @@ public class AdminController {
 	}
 	
 	// 공지사항 작성
-	@PostMapping("/notice/write")
-	@ResponseBody
-	public ResponseEntity<String> writeNotice(@RequestBody Notice notice) {
-		adminService.insertNotice(notice);
+	@PostMapping(value = "/notice/write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> writeNotice(
+	        @RequestParam("title") String title,
+	        @RequestParam("content") String content,
+	        @RequestParam(value = "noticeImage", required = false) MultipartFile noticeImage) {
+		
+	    // 파일을 저장할 경로 설정 (예: /uploads/)
+	    String filePath = null;
+	    if (noticeImage != null && !noticeImage.isEmpty()) {
+	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
+	        filePath = "/uploads/" + fileName;
+	        File file = new File(filePath);
+	        
+	        try {
+	            // 파일 저장
+	            noticeImage.transferTo(file);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 저장 실패");
+	        }
+	    }
+
+	    // Notice 객체 생성 후 데이터베이스에 저장
+	    Notice notice = new Notice();
+	    notice.setTitle(title);
+	    notice.setContent(content);
+	    notice.setNoticeImage(filePath); // 파일 경로를 Notice 객체에 설정
+	    
+	    // 데이터베이스에 Notice 객체 저장 (서비스 호출 예시)
+	    adminService.insertNotice(notice);
+	    
+//	    adminService.insertNotice(null);
 		return ResponseEntity.ok("성공");
 	}
 	

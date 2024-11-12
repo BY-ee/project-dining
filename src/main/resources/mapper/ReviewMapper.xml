@@ -49,7 +49,7 @@
 	<select id="selectReviewMemberById" parameterType="long" resultType="com.project.dto.ReviewMemberDTO">
 		SELECT r.*, m.nickname
 		FROM Review r
-		JOIN Member m ON r.member_id = m.member_id
+		JOIN Member m ON r.member_id = m.id
 	    WHERE r.member_id = #{memberId}
 	</select>
 	
