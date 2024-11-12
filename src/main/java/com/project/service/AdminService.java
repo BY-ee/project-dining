@@ -105,6 +105,11 @@ public class AdminService {
 		return new Pagination<>(reviews, page, size, totalCount);
 	}
 	
+	// 특정 리뷰 확인
+	public Review selectDetailReview(long id) {
+		return reviewMapper.selectReviewById(id);
+	}
+	
 	// 게시 신청한 가게 조회
 	public Pagination<Store> selectEnrolledStores(RequestData requestData) {
 		int page = requestData.getPage();

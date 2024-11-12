@@ -21,19 +21,24 @@ $(() => {
     $('.review-link').each((index, link) => {
         $(link).on('click', (e) => {
             e.preventDefault();
-            $('#review-content').html(review);
-            $('#popup-overlay').css('display', 'flex');
+            const reviewId = $(link).data('id');
+            selectDetailReview(reviewId);
         });
     });
 });
 
-// 회원의 자기소개 가져오는 함수
-function getIntroduction() {
+// 상세리뷰 데이터를 가져오는 함수
+function selectDetailReview(reviewId) {
     $.ajax({
-        url: ``,
+        url: `/admin/reviews/detail/${reviewId}`,
         type: 'GET',
-        success: (introduction) => {
-            
+        success: (review) => {
+            console.log(review);
+            $('#review-content').html(review.content);
+            $('#popup-overlay').css('display', 'flex');
+        },
+        error: (e) => {
+            console.error(e.responseText);
         }
     });
 }

@@ -37,8 +37,12 @@
 	</select>
 	
 	<delete id="deleteReview" parameterType="map">
-	    DELETE FROM review 
+	    DELETE FROM review
 	    WHERE id = #{id} AND member_id = #{member_id}
 	</delete>
 	
+	<select id="selectReviewById" parameterType="long" resultType="Review">
+		SELECT * FROM review
+		WHERE id = #{id}
+	</select>
 </mapper>

@@ -39,6 +39,7 @@
                     <th>가게 ID</th>
                     <th>평점</th>
                     <th>리뷰</th>
+                    <th>관리</th>
                     <th>상태</th>
                 </tr>
             </thead>
@@ -49,8 +50,12 @@
                         <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
                         <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
                         <td>${review.score}</td>
-                        <td><a href="#" class="review-link">확인</a></td>
-                        <td style="color: #f44;">게시중단</td>
+                        <td><a href="#" data-id="${review.id}" class="review-link">확인</a></td>
+                        <td>
+                            <button class="delete-btn inactivate-btn" data-id="${review.id}">게시중단</button>
+                            <button class="edit-btn reactivate-btn" data-id="${review.id}">재게시</button>
+                        </td>
+                        <td class="review-status" data-id="${review.id}" data-status="${review.status}">${review.status}</td>
                     </tr>
                 </c:forEach>
             </tbody>

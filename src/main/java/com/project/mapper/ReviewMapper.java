@@ -19,6 +19,7 @@ public interface ReviewMapper {
 	// 리뷰 삽입
 	void insertReview(ReviewDomain newReview);
 	
+	// 리뷰 조회
 	List<Review> selectReviews(@Param("start") int start, @Param("end") int end);
 
 	// 리뷰 삭제
@@ -26,4 +27,7 @@ public interface ReviewMapper {
 
 	// 총 리뷰 개수
 	long countReviews();
+
+	// 특정 리뷰 확인
+	public Review selectReviewById(long id);
 }

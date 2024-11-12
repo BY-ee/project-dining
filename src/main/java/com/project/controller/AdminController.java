@@ -108,6 +108,16 @@ public class AdminController {
 		return "admin/adminReviews";
 	}
 	
+	// 상세리뷰 조회
+	@GetMapping("/reviews/detail/{id}")
+	@ResponseBody
+	public ResponseEntity<Review> detailReview(@PathVariable("id") long id) {
+		System.out.println("id:" + id);
+		Review review = adminService.selectDetailReview(id);
+		
+		return ResponseEntity.ok(review);
+	}
+	
 	// 게시글 승인 페이지
 	@GetMapping("/approval")
 	public String showApprovalPage(RequestData requestData, Model model) {
