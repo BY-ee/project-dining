@@ -85,9 +85,10 @@
 	            + '</div>'
 	            + '<div class="review-content">' + review.content + '</div>';
 	
-	        // 삭제 버튼 추가
+	        // 수정, 삭제 버튼 추가
 	        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
 	            console.log("review.memberId ", review.memberId);
+	            reviewItem += '<button class="edit-review-button" onclick="editReview(' + review.id + ', \'' + review.content + '\')">수정</button>';
 	            reviewItem += '<button class="delete-review-button" onclick="deleteReview(' + review.id + ', ' + review.memberId + ')">삭제</button>';
 	        }
 	
@@ -113,7 +114,7 @@
             data: { store_id: storeId },
             dataType: 'json',
             success: function(reviews) {
-                reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 renderReviews(reviews);
             },
             error: function(xhr, status, error) {
@@ -162,6 +163,45 @@
         });
     }
     
+    function editReview(reviewId, currentContent) {
+    	console.log("Edit button clicked for review ID:", reviewId);
+    	console.log("Current content:", currentContent);
+
+        var reviewContent = $('#review-content-' + reviewId);
+        reviewContent.html('<textarea id="edit-content-' + reviewId + '">' + currentContent + '</textarea><br>'
+            + '<button onclick="saveReview(' + reviewId + ')">저장</button>'
+            + '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent + '\')">취소</button>');
+    }
+
+    function saveReview(reviewId) {
+        var newContent = $('#edit-content-' + reviewId).val();
+        $.ajax({
+            url: '/updateReview',  // 리뷰 수정 요청 URL
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: reviewId, content: newContent }),
+            success: function(response) {
+                alert("리뷰가 수정되었습니다.");
+                loadReviews();
+            },
+            error: function(xhr, status, error) {
+                alert("리뷰 수정에 실패했습니다: " + error);
+            }
+        });
+    }
+
+    function cancelEdit(reviewId, originalContent) {
+        $('#review-content-' + reviewId).text(originalContent);
+    }
+
+    function deleteReview(reviewId, memberId) {
+        const reviewDetails = {
+            id: reviewId,
+            member_id: memberId
+        };
+    }
+	
+	
     // 리뷰 삭제 함수
     function deleteReview(reviewId, memberId) {
         const reviewDetails = {

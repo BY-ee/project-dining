@@ -33,7 +33,7 @@
 <div class="header">
     <h1><a href="/" style="text-decoration: none;">가게 상세페이지</a></h1>
     <div class="nav">
-        <button>로그인/회원가입</button>
+        <a href="loginForm.do"><button>로그인/회원가입</button></a>
         <button>☰</button>
     </div>
 </div>
