@@ -28,9 +28,10 @@
     </select>
 	
 	<insert id="insertReview" parameterType="com.project.domain.ReviewDomain">
-        INSERT INTO review (id, member_id, store_id, score, content, created_at)
-        VALUES (#{id}, #{memberId}, #{storeId}, #{score}, #{content}, #{createdAt})
+        INSERT INTO review (id, member_id, store_id, score, content, created_at, review_image)
+        VALUES (#{id}, #{memberId}, #{storeId}, #{score}, #{content}, #{createdAt}, #{reviewImage})
     </insert>
+    
     
 	<select id="countReviews" resultType="long">
 		SELECT COUNT(*) FROM review

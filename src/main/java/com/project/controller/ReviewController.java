@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.domain.ReviewDomain;
 import com.project.service.ReviewService;
@@ -40,6 +41,7 @@ public class ReviewController {
             @RequestParam("storeId") long storeId,
             @RequestParam("score") double score,
             @RequestParam("content") String content,
+            @RequestParam(value = "images", required = false) List<MultipartFile> images,
             HttpSession session,
             Model model) {
 
@@ -49,21 +51,8 @@ public class ReviewController {
         // 디버깅용 출력
         System.out.println("submitReview 메서드에서 가져온 memberId: " + memberId);
 
-        if (memberId == null) {
-            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-            return "redirect:/loginForm.do";
-        }
-
-        // ReviewDomain 객체 생성 및 값 설정
-        ReviewDomain newReview = new ReviewDomain();
-        newReview.setMemberId(memberId);
-        newReview.setStoreId(storeId);
-        newReview.setScore(score);
-        newReview.setContent(content);
-        newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
-
         // 리뷰 저장
-        reviewService.insertReview(newReview);
+        reviewService.submitReview(memberId, storeId, score, content, images);
 
         // 다시 원래 페이지로 리디렉션
         return "redirect:/storeDetail?store_ID=" + storeId;

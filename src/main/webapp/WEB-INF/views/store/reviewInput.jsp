@@ -31,6 +31,8 @@
                 <p><%= nickname %>님</p>
             </div>
         <% } %>
+        
+        <!-- 리뷰 점수 선택 -->
         <select name="score" <%= userId == null ? "disabled" : "" %>>
             <option value="5">5점 - 아주 좋아요</option>
             <option value="4">4점 - 좋아요</option>
@@ -38,9 +40,14 @@
             <option value="2">2점 - 별로에요</option>
             <option value="1">1점 - 싫어요</option>
         </select>
+        
+        <!-- 리뷰 내용 입력 -->
         <textarea name="content"
                   placeholder="<%= userId == null ? "리뷰를 작성하려면 로그인을 해주세요" : "리뷰를 입력해주세요" %>"
                   required <%= userId == null ? "disabled" : "" %>></textarea>
+                     
+         <!-- 이미지 파일 업로드 -->
+        <input type="file" name="images" accept="images/*" multiple <%= userId == null ? "disabled" : "" %> >
                      
         <% if (userId != null) { %>
             <button type="submit" onclick="checkDuplicateReview()">리뷰 작성</button>
