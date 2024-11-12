@@ -48,6 +48,8 @@
                 </div>
                 <div class="profile-name">야미</div>
                 <input type="file" id="fileInput" style="display:none">
+                <div class="prifile-point">내 포인트 : 500p</div>
+                <div class="profile-intro">안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.</div>
             </div>
 
             <!-- 메인 콘텐츠 부분 -->

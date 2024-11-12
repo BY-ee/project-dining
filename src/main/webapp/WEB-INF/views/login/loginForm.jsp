@@ -15,10 +15,9 @@
     	<button type="button"  class="gosignup-button">회원가입 </button>
     </a>
 
-    
-  <div class="login-header">
-    <h1 class="login-logo">Login</h1>
-  </div>
+    <div class="login-header">
+        <h1 class="login-logo">Login</h1>
+    </div>
   
   <form class="login-form" method="post" action="login_ok.do">
     <input type="text" placeholder="아이디" id="memberId" name="memberId">

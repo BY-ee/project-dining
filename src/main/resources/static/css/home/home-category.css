@@ -11,6 +11,10 @@
         height: 100%;
 }
 
+.content {
+    min-height: calc(100vh - 120px); /* Make the content area at least the height of the screen minus the header/footer */
+}
+
 /* 헤더 스타일 */
 /*============================================================================*/
 .header {
@@ -81,19 +85,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left:45px;
+    margin-top:30px;
+    margin-bottom:20px;
 }
 
 /* 드롭다운 메뉴 스타일 */
 .location-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 90%;
     left: 0;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     min-width: 150px;
+    margin-left:38px;
     z-index: 1;
 }
 
@@ -168,7 +176,7 @@
     transition: transform 0.5s ease;
     width: 400%; /* 이미지 4개의 전체 너비 */
     position: relative;
-    min-width: 1000px; /* 슬라이더 전체의 최소 너비를 1000px로 설정 */
+    min-width: 500px; /* 슬라이더 전체의 최소 너비를 1000px로 설정 */
     
 }
 
@@ -224,6 +232,8 @@
 .category-select-container {
     position: relative;
     margin: 20px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .category-select-btn {
@@ -234,13 +244,16 @@
     cursor: pointer;
     border-radius: 4px;
     font-size: 16px;
+	margin-top:30px;
+	margin-bottom:30px;
 }
 
 .category-popup {
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
     background-color: #f5f5f5;
     padding: 20px;
     margin-top: 5px;
@@ -248,21 +261,34 @@
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.category-step {
+    width: 100%;
+    flex-direction: column;
 }
 
 .category-step h3 {
     margin-bottom: 10px;
     color: #333;
+    text-align: center;
 }
 
 .category-step button {
     background-color: #b07c83;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 25px;
     margin: 5px;
     cursor: pointer;
     border-radius: 4px;
+    width: fit-content;
+    margin-right:15px;
+    
 }
 
 .selected-industry-options {
@@ -270,7 +296,7 @@
 }
 
 .selected-industry-options h3 {
-	margin-top: 10px;
+	margin-top: 20px;
     margin-bottom: 10px;
     color: #333;
 }
@@ -279,11 +305,13 @@
     background-color: #b07c83;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 25px;
     margin: 5px;
     cursor: pointer;
     border-radius: 4px;
-    margin-bottom:10px;
+    width: fit-content;
+    margin-right: 15px;
+    margin-bottom: 25px;
 }
 
 .search-btn {
@@ -294,17 +322,27 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-top: 40px; 
+    margin-left: 350px;
 }
 
 /* 가게 목록 컨테이너 스타일 */
 /*============================================================================*/
 .store-container {
-    max-height: 500px;
+    max-height: 800px;
     overflow-y: auto;
     margin: 20px auto;
     padding: 10px;
     border: 1px solid #ddd;
     width: 95%;
+    margin-bottom:1000px;
+}
+
+.store-list-container {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;  /* 가게 목록의 최대 너비 */
+    overflow-y: auto;  /* 가게 목록이 길어지면 스크롤바 표시 */
 }
 
 .store-list {
@@ -327,11 +365,19 @@
     width: 80%;
     height: 220px;
     background-color: #f0f0f0;
-    border: 1px dashed #ccc;
+    border: None;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow:hidden; /*임의 추가*/
+}
+
+/* 임의 추가*/
+.store-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .store-name {
@@ -343,19 +389,17 @@
 /* Footer 스타일 */
 /*============================================================================*/
 .footer {
-	position: fixed;
-	width:100%;
+    width: 100%;
     background-color: #f8f8f8;
     padding: 40px 20px;
     color: #333;
     font-size: 14px;
-	bottom: 0%;
+    bottom: 0; /* Remove fixed positioning */
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .customer-center {
@@ -429,7 +473,6 @@
 .footer h3 a:visited,
 .footer h3 a:hover,
 .footer h3 a:active {
-    color: inherit;
     text-decoration: none;
 }
 

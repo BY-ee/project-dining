@@ -225,7 +225,7 @@ public class LoginController {
 
             }
           
-            return "redirect:/home.do";
+            return "redirect:/";
         } else {
             return "redirect:/login_ok.do";
         }

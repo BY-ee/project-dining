@@ -27,21 +27,33 @@ $(() => {
                 alert('공지를 작성하였습니다.');
                 location.href = '/admin/notice';
             },
-            error: (error) => {
-                alert(`공지 작성 실패: ${error.responseJSON?.message || '알 수 없는 오류'}`);
+            error: (e) => {
+                alert(`공지 작성 실패: ${e.message || '알 수 없는 오류'}`);
             }
         });
     });
-});
 
-function showFileName() {
-    const fileInput = document.getElementById('file-upload');
-    const fileNameDisplay = document.getElementById('file-name');
-    
-    // 선택된 파일의 이름을 표시
-    if (fileInput.files.length > 0) {
-        fileNameDisplay.textContent = fileInput.files[0].name;
-    } else {
-        fileNameDisplay.textContent = '선택된 파일이 없습니다.';
-    }
-}
+    // 파일 업로드 이벤트
+    $('#file-upload').on('change', () => {
+        const $fileInput = $('#file-upload');
+        const $fileNameDisplay = $('#file-name');
+        
+        // 선택된 파일의 이름을 표시
+        if ($fileInput.get(0).files.length > 0) {
+            const fileName = $fileInput.get(0).files[0].name;
+            const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp']; // 허용하는 확장자 목록
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+        
+            // 파일 확장자가 유효한지 검사
+            if (validExtensions.includes(fileExtension)) {
+                $fileNameDisplay.text(fileName); // 파일 이름 표시
+            } else {
+                alert('사진 파일을 선택해 주세요.');
+                $fileNameDisplay.text('선택된 파일이 없습니다.');
+                $fileInput.val(''); // 파일 입력 필드 초기화
+            }
+        } else {
+            $fileNameDisplay.text('선택된 파일이 없습니다.');
+        }
+    });
+});

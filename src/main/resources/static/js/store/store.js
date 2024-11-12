@@ -1,102 +1,267 @@
-var mapOptions = { center: new naver.maps.LatLng(37.498095, 127.027610), zoom: 15 };
-var map = new naver.maps.Map('map', mapOptions);
+document.addEventListener('DOMContentLoaded', function() {
+	// 메인 사진 슬라이드 기능 설정
+	const slidesContainer = document.querySelector('.slider');
+	const slides = document.querySelectorAll('.slide');
+	const slideButtons = document.querySelectorAll('.slider-nav button');
+	let currentSlideIndex = 0;
 
-let currentIndex = 0;
-const slides = document.querySelectorAll('#slider .slide');
-let slideInterval = setInterval(nextSlide, 3000);
+	function moveToMainPhotoSlide(slideIndex) {
+		slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+		slideButtons.forEach(button => button.classList.remove('active'));
+		slideButtons[slideIndex].classList.add('active');
+		currentSlideIndex = slideIndex;
+	}
 
-function showSlide(index) {
-    slides.forEach((slide, i) => { slide.style.transform = `translateX(-${index * 100}%)`; });
+	slideButtons.forEach((button, index) => {
+		button.addEventListener('click', function() {
+			moveToMainPhotoSlide(index);
+		});
+	});
+
+	moveToMainPhotoSlide(0);
+
+	// 메뉴 사진 슬라이더 기능 설정
+	const menuSlides = document.querySelectorAll('.menu-slide');
+	const totalMenuSlides = menuSlides.length;
+	const menuSlider = document.querySelector('.menu-slider');
+	let currentMenuSlide = 0;
+
+	function showMenuSlide(index) {
+		menuSlider.style.transform = `translateX(-${index * 100}%)`;
+		currentMenuSlide = index;
+	}
+
+	showMenuSlide(currentMenuSlide);
+
+	// 메뉴 슬라이더 버튼 이벤트 설정
+	const nextButton = document.querySelector('.next-button');
+	const prevButton = document.querySelector('.prev-button');
+
+	if (nextButton && prevButton) {
+		nextButton.addEventListener('click', function() {
+			showMenuSlide((currentMenuSlide + 1) % totalMenuSlides);
+		});
+
+		prevButton.addEventListener('click', function() {
+			showMenuSlide((currentMenuSlide - 1 + totalMenuSlides) % totalMenuSlides);
+		});
+	} else {
+		console.error('슬라이더 내비게이션 버튼을 찾을 수 없습니다.');
+	}
+
+	// 찜하기 버튼 기능
+	const likeButton = document.getElementById('likeButton');
+	let isLiked = false;
+	let likeCount = 0;
+
+	if (likeButton) {
+		likeButton.addEventListener('click', () => {
+			isLiked = !isLiked;
+			likeCount += isLiked ? 1 : -1;
+			document.getElementById('likeCount').textContent = likeCount;
+			likeButton.classList.toggle('liked', isLiked);
+
+			$.ajax({
+				url: '/likeStore',  // 서버의 API 엔드포인트
+				method: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({
+					memberId: userId,  // 세션에서 받아온 userId
+					storeId: storeId,
+					isLiked: isLiked  // 찜 상태 전달
+				}),
+				success: function(response) {
+					console.log('찜 상태가 DB에 저장되었습니다.');
+				},
+				error: function(xhr, status, error) {
+					console.error('찜 상태 저장에 실패했습니다:', error);
+				}
+			});
+		});
+	}
+
+	// 리뷰 정렬 및 렌더링 기능
+	//    let reviews = [];
+	//    let currentPage = 1;
+	//    const reviewsPerPage = 5;
+
+	/*    function generateSampleReviews() {
+			for (let i = 1; i <= 20; i++) {
+				reviews.push({
+					author: `사용자${i}`,
+					rating: Math.floor(Math.random() * 5) + 1,
+					content: `이것은 샘플 리뷰 내용입니다. 리뷰 번호: ${i}`,
+					date: `2023-10-${(i % 30) + 1}`
+				});
+			}
+		}
+	*/
+	/*    function renderReviews() {
+			const reviewList = document.getElementById('review-list');
+			reviewList.innerHTML = '';
+	
+			const startIndex = (currentPage - 1) * reviewsPerPage;
+			const endIndex = startIndex + reviewsPerPage;
+			const currentReviews = reviews.slice(startIndex, endIndex);
+	
+			currentReviews.forEach(review => {
+				const reviewItem = document.createElement('div');
+				reviewItem.classList.add('review-item');
+	
+				const reviewHeader = document.createElement('div');
+				reviewHeader.classList.add('review-header');
+	
+				const reviewAuthor = document.createElement('span');
+				reviewAuthor.classList.add('review-author');
+				reviewAuthor.textContent = review.author;
+	
+				const reviewRating = document.createElement('div');
+				reviewRating.classList.add('review-rating');
+	
+				for (let i = 1; i <= 5; i++) {
+					const star = document.createElement('span');
+					star.classList.add('star');
+					star.textContent = '★';
+					if (i <= review.rating) {
+						star.classList.add('filled');
+					}
+					reviewRating.appendChild(star);
+				}
+	
+				reviewHeader.appendChild(reviewAuthor);
+				reviewHeader.appendChild(reviewRating);
+	
+				const reviewDate = document.createElement('div');
+				reviewDate.classList.add('review-date');
+				reviewDate.textContent = review.date;
+	
+				const reviewContent = document.createElement('div');
+				reviewContent.classList.add('review-content');
+				reviewContent.textContent = review.content;
+	
+				reviewItem.appendChild(reviewHeader);
+				reviewItem.appendChild(reviewDate);
+				reviewItem.appendChild(reviewContent);
+	
+				reviewList.appendChild(reviewItem);
+			});
+	
+			renderPagination();
+		}*/
+
+	//    function renderPagination() {
+	//        const pagination = document.getElementById('pagination');
+	//        pagination.innerHTML = '';
+	//
+	//        const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+	//
+	//        if (currentPage > 1) {
+	//            const prevButton = document.createElement('button');
+	//            prevButton.textContent = '이전';
+	//            prevButton.addEventListener('click', () => {
+	//                currentPage--;
+	//                renderReviews();
+	//            });
+	//            pagination.appendChild(prevButton);
+	//        }
+	//
+	//        for (let i = 1; i <= totalPages; i++) {
+	//            const pageButton = document.createElement('button');
+	//            pageButton.textContent = i;
+	//
+	//            if (i === currentPage) {
+	//                pageButton.disabled = true;
+	//            }
+	//
+	//            pageButton.addEventListener('click', () => {
+	//                currentPage = i;
+	//                renderReviews();
+	//            });
+	//
+	//            pagination.appendChild(pageButton);
+	//        }
+	//
+	//        if (currentPage < totalPages) {
+	//            const nextButton = document.createElement('button');
+	//            nextButton.textContent = '다음';
+	//            nextButton.addEventListener('click', () => {
+	//                currentPage++;
+	//                renderReviews();
+	//            });
+	//            pagination.appendChild(nextButton);
+	//        }
+	//    }
+	//
+	//    function loadReviews() {
+	////        generateSampleReviews();
+	//        renderReviews();
+	//        document.getElementById('reviewCount').textContent = reviews.length;
+	//    }
+	//
+	//    loadReviews();
+	//
+	//    // 리뷰 작성 이벤트
+	//    document.getElementById('reviewForm').addEventListener('submit', function (e) {
+	//        e.preventDefault();
+	//        addReview();
+	//    });
+	//
+	//    function addReview() {
+	//        const reviewerName = document.getElementById('reviewerName').value;
+	//        const reviewRating = parseInt(document.getElementById('reviewRating').value);
+	//        const reviewText = document.getElementById('reviewText').value;
+	//        const reviewDate = new Date().toISOString().split('T')[0];
+	//
+	//        reviews.unshift({
+	//            author: reviewerName,
+	//            rating: reviewRating,
+	//            content: reviewText,
+	//            date: reviewDate
+	//        });
+	//        renderReviews();
+	//        document.getElementById('reviewCount').textContent = reviews.length;
+	//        document.getElementById('reviewForm').reset();
+	//    }
+	//
+	//    // 리뷰 정렬 함수 전역 설정
+	//    window.sortReviewsByDate = function () {
+	//        reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+	//        renderReviews();
+	//    };
+	//
+	//    window.sortReviewsByRating = function () {
+	//        reviews.sort((a, b) => b.rating - a.rating);
+	//        renderReviews();
+	//    };
+});
+
+
+// 네이버 지도 초기화
+function initMap() {
+	const mapContainer = document.getElementById('map');
+
+	console.log("JS 파일에서 받은 latitude:", latitude);
+	console.log("JS 파일에서 받은 longitude:", longitude);
+
+	if (mapContainer) {
+		const map = new naver.maps.Map('map', {
+			center: new naver.maps.LatLng(latitude, longitude),
+			zoom: 16
+		});
+
+		new naver.maps.Marker({
+			position: new naver.maps.LatLng(latitude, longitude),
+			map: map
+		});
+	} else {
+		console.error('지도를 표시할 #map 요소를 찾을 수 없습니다.');
+	}
 }
 
-function nextSlide() { currentIndex = (currentIndex + 1) % slides.length; showSlide(currentIndex); }
-function prevSlide() { currentIndex = (currentIndex - 1 + slides.length) % slides.length; showSlide(currentIndex); }
-
-function increaseLike(element) {
-    const likeCount = element.querySelector(".like-count");
-    likeCount.textContent = parseInt(likeCount.textContent) + 1;
-}
-
-function sortReviewsByDate() {
-    reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-    renderReviews(currentPage);
-}
-
-function sortReviewsByRating() {
-    reviews.sort((a, b) => b.rating - a.rating);
-    renderReviews(currentPage);
-}
-
-// 페이징 기능을 포함한 리뷰 표시
-const reviews = [
-    { reviewer: "김철수", date: "2024-10-01", rating: 4, text: "맛있고 분위기 좋은 가게였습니다!" },
-    { reviewer: "박영희", date: "2024-10-02", rating: 5, text: "친절한 직원들과 깔끔한 인테리어가 마음에 들었어요." },
-    { reviewer: "이민수", date: "2024-10-03", rating: 3, text: "가격 대비 훌륭한 맛이었습니다." },
-    { reviewer: "최준혁", date: "2024-10-04", rating: 5, text: "정말 멋진 경험이었어요!" },
-    { reviewer: "김하나", date: "2024-10-05", rating: 4, text: "친절한 서비스에 감사드립니다." },
-    { reviewer: "박수빈", date: "2024-10-06", rating: 2, text: "음식이 조금 기대 이하였습니다." },
-    { reviewer: "이서준", date: "2024-10-07", rating: 4, text: "매우 만족스럽습니다." },
-    { reviewer: "오현우", date: "2024-10-08", rating: 3, text: "보통이었어요." },
-    { reviewer: "정예지", date: "2024-10-09", rating: 5, text: "훌륭한 분위기와 맛있는 음식!" },
-    { reviewer: "조민아", date: "2024-10-10", rating: 4, text: "가격 대비 만족했습니다." },
-    { reviewer: "최민수", date: "2024-10-11", rating: 3, text: "가격에 비해 조금 아쉬웠어요." },
-    { reviewer: "홍길동", date: "2024-10-12", rating: 5, text: "완벽한 경험이었습니다!" },
-    { reviewer: "김영희", date: "2024-10-13", rating: 4, text: "재방문하고 싶습니다." },
-    { reviewer: "박찬호", date: "2024-10-14", rating: 5, text: "추천드려요!" },
-    { reviewer: "이유진", date: "2024-10-15", rating: 3, text: "보통입니다." },
-    { reviewer: "정수민", date: "2024-10-16", rating: 2, text: "조금 아쉬웠어요." },
-    { reviewer: "김다현", date: "2024-10-17", rating: 4, text: "전반적으로 만족합니다." },
-    { reviewer: "박세훈", date: "2024-10-18", rating: 5, text: "정말 좋아요!" },
-    { reviewer: "윤지훈", date: "2024-10-19", rating: 3, text: "괜찮은 가게입니다." },
-    { reviewer: "장수현", date: "2024-10-20", rating: 4, text: "친구들과 함께 가기 좋습니다." }
-];
-
-const reviewsPerPage = 10;
-let currentPage = 1;
-
-function renderReviews(page) {
-    const reviewList = document.getElementById("review-list");
-    reviewList.innerHTML = "";
-
-    const start = (page - 1) * reviewsPerPage;
-    const end = start + reviewsPerPage;
-    const paginatedReviews = reviews.slice(start, end);
-
-    paginatedReviews.forEach(review => {
-        const reviewItem = document.createElement("div");
-        reviewItem.className = "review-item";
-        reviewItem.setAttribute("data-date", review.date);
-        reviewItem.setAttribute("data-rating", review.rating);
-        reviewItem.innerHTML = `
-            <div class="reviewer">${review.reviewer} <span class="star-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span></div>
-            <div class="review-date">작성일자: ${review.date}</div>
-            <div class="review-text">${review.text}</div>
-            <div class="like-button" onclick="increaseLike(this)">❤️ 좋아요 <span class="like-count">0</span></div>
-        `;
-        reviewList.appendChild(reviewItem);
-    });
-
-    renderPagination();
-}
-
-function renderPagination() {
-    const pagination = document.getElementById("pagination");
-    pagination.innerHTML = "";
-
-    const totalPages = Math.ceil(reviews.length / reviewsPerPage);
-
-    for (let i = 1; i <= totalPages; i++) {
-        const button = document.createElement("button");
-        button.innerText = i;
-        if (i === currentPage) {
-            button.style.fontWeight = 'bold';
-        }
-        button.onclick = () => {
-            currentPage = i;
-            renderReviews(currentPage);
-        };
-        pagination.appendChild(button);
-    }
-}
-
-renderReviews(currentPage);
+document.addEventListener('DOMContentLoaded', function() {
+	if (typeof naver !== 'undefined' && naver.maps) {
+		naver.maps.onJSContentLoaded = initMap;
+	} else {
+		console.error('네이버 맵을 초기화할 수 없습니다.');
+	}
+});

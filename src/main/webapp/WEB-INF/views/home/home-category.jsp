@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>Dining Recommendation</title>
     <link rel="stylesheet" type="text/css" href="/css/home/home-category.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/home/slider.js" defer></script>
     <script src="/js/home/userdropdown.js" defer></script>
 </head>
@@ -52,16 +53,18 @@
     <div class="content">
         <!-- 위치 및 카테고리 드롭다운 메뉴 -->
         <div class="filter-container">
-            <div class="location-dropdown">
-                <button class="location-btn">강남역</button>
-                <div class="location-menu">
-                    <a href="#">강남역</a>
-                    <a href="#">신사역</a>
-                    <a href="#">압구정역</a>
-                    <a href="#">역삼역</a>
-                </div>
-            </div>
-        </div>
+	        <div class="location-dropdown">
+	            <button class="location-btn" id="location-btn">지역 선택</button>
+	            <div class="location-menu">
+				    <a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구</a>
+				    <a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
+				    <a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
+				    <a href="#" onclick="filterByLocation('SEONGBUK', '성복/종로구')">성북/종로구</a>
+				    <a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
+				</div>
+	        </div>
+	    </div>
+	    
 
         <!-- 메인 배너 슬라이드 -->
         <div class="main-banner">
@@ -110,16 +113,11 @@
 		            
         <!-- 가게 목록 컨테이너 -->
         <div class="store-container">
-            <div class="store-list">
-                <!-- 가게 목록 예시 -->
-                <c:forEach var="i" begin="1" end="12">
-                    <div class="store-item-box" onclick="goToStoreDetail(${i})">
-                        <div class="store-item"><img src="images/store/store${i}.jpg" alt="가게${i} 이미지"></div>
-                        <div class="store-name">가게${i}</div>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
+		    <div id="store-list-container" class="store-list">
+		        <jsp:include page="store_list.jsp" />
+		    </div>
+		</div>
+
 		
 		<!-- 푸터 섹션 -->
 		<div class="footer">
@@ -150,19 +148,45 @@
 </body>
 
 	<script type="text/javascript">
-	    var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}"; 
+	    // JSP 표현식으로 user_ID 가져오기
+		var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
 	
-	    function goToStoreDetail(storeId) {
-	        console.log("Store ID: " + storeId);  // 확인용 콘솔 로그
-	        console.log("User ID: " + userId);  // 확인용 콘솔 로그
-	        
+	    function goToStoreDetail(storeId) {	        
 	        var url = '/storeDetail?store_ID=' + storeId;
-	        if (userId && userId.trim() !== "") {  // userId가 비어있지 않을 때만 추가
+	        if (userId && userId.trim() !== "") {  
 	            url += '&user_ID=' + userId;
 	        }
-	        window.location.href = url;
+	        window.location.href = url;  
+	    }
+	    
+	    function filterByLocation(locationCode, locationName) {
+	        console.log("Selected location:", locationName); // 로그 추가
+	        document.getElementById("location-btn").innerText = locationName;
+
+	        $.ajax({
+	            url: "/storesByLocation",
+	            type: "GET",
+	            data: { location: locationCode },
+	            success: function(stores) {
+
+	                let html = '';
+	                stores.forEach(function(store) {
+	                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+	                                '<div class="store-item">' +
+	                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+	                                '</div>' +
+	                                '<div class="store-name">' + store.storeName + '</div>' +
+	                            '</div>';
+	                });
+	                $("#store-list-container").html(html);
+	            },
+	            error: function() {
+	                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+	            }
+	        });
 	    }
 	</script>
+    
     
     <script src="js/home/home-category.js"></script>
 </html>

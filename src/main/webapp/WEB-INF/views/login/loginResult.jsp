@@ -13,7 +13,7 @@
 <c:if test="${result == 1 }">
 	<script>
 		alert("로그인 성공");
-		location.href="home.do";
+		location.href="/";
 	</script>
 </c:if>
 

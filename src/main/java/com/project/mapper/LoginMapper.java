@@ -31,11 +31,4 @@ public interface LoginMapper {
 	void insertKakaoJoin(Login login);
 	void insertGoogleJoin(Login login);
 
-
-
-	
-
-
-
-
 }
