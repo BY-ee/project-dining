@@ -1,5 +1,7 @@
 package com.project.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.domain.Login;
@@ -19,6 +21,11 @@ public interface LoginMapper {
 	// 회원조회
 	Login getUser(String memberId);
 
+	Login getNaverUser(String tempId);
+
+	Login insertNaverJoin(Login login);
+
+	
 
 
 

@@ -56,9 +56,53 @@
 	    )
 	</insert>
 	
-	<select id="getUser" parameterType="string" resultType="Login">
+	<select id= "getUser" parameterType="string" resultType="Login">
 		select * from member where member_id = #{memberId}
 	</select>
 	
+	<select id="getNaverUser" parameterType="string" resultType="Login">
+	    select * from member where naver_id = #{value}
+	</select>
+		
+<insert id="insertNaverJoin" parameterType="Login">
+    INSERT INTO member (
+      category, 
+      registration_number, 
+      member_id, 
+      naver_id, 
+      google_id, 
+      kakao_id, 
+      passwd, 
+      nickname, 
+      introduction, 
+      email, 
+      status, 
+      created_at, 
+      inactive_date, 
+      reactive_date, 
+      deleted_date, 
+      profile_image, 
+      point
+    ) VALUES (
+      '일반', 
+      #{registrationNumber, jdbcType=VARCHAR},
+      #{memberId, jdbcType=VARCHAR}, 
+      #{memberId, jdbcType=VARCHAR},  <!-- naver_id에 memberId를 넣음 -->
+      #{googleId, jdbcType=VARCHAR}, 
+      #{kakaoId, jdbcType=VARCHAR}, 
+      #{passwd, jdbcType=VARCHAR}, 
+      #{nickname, jdbcType=VARCHAR}, 
+      #{introduction, jdbcType=VARCHAR}, 
+      #{email, jdbcType=VARCHAR}, 
+      'active',  
+      SYSDATE, 
+      #{inactiveDate, jdbcType=DATE}, 
+      #{reactiveDate, jdbcType=DATE}, 
+      #{deletedDate, jdbcType=DATE}, 
+      #{profileImage, jdbcType=VARCHAR}, 
+      #{point, jdbcType=INTEGER}
+    )
+</insert>
+
 	
 </mapper>
