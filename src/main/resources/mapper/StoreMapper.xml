@@ -22,7 +22,7 @@
 		SELECT COUNT(*) FROM store
 	</select>
 	
-	<select id="getMenuById" parameterType="int" resultType="com.project.domain.Menu">
+	<select id="getMenuById" parameterType="long" resultType="com.project.domain.Menu">
 		SELECT * FROM menu WHERE store_id = #{storeID}
 	</select>
 	

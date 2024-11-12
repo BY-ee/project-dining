@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.domain.MemberLike;
 import com.project.domain.Menu;
+import com.project.domain.Store;
 import com.project.domain.StoreDomain;
 import com.project.mapper.StoreMapper;
 

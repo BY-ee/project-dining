@@ -46,16 +46,16 @@ public class StoreController {
 
         // 가게 이미지 경로 앞에 /img/를 붙이기
         if (storeDetail.getMainImage1() != null) {
-            storeDetail.setMainImage1("/img/" + storeDetail.getMainImage1());
+            storeDetail.setMainImage1("/images/store/" + storeDetail.getMainImage1());
         }
         if (storeDetail.getMainImage2() != null) {
-            storeDetail.setMainImage2("/img/" + storeDetail.getMainImage2());
+            storeDetail.setMainImage2("/images/store/" + storeDetail.getMainImage2());
         }
 
         // 각 메뉴의 이미지 경로에 "/img/" 추가
         for (Menu menu : menuList) {
             if (menu.getMenuImage() != null) {
-                menu.setMenuImage("/img/" + menu.getMenuImage());
+                menu.setMenuImage("/images/store/" + menu.getMenuImage());
             }
         }
 		
