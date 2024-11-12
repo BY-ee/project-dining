@@ -22,8 +22,21 @@ public interface ReviewMapper {
 	List<Review> selectReviews(@Param("start") int start, @Param("end") int end);
 
 	// 리뷰 삭제
-    void deleteReview(Map<String, Object> reviewDetails); 
+	// void deleteReview(Map<String, Object> reviewDetails); 
+	
+	
+	// 리뷰 삭제 (포인트 추가작업에 따른 로직)
+    void deleteReview(@Param("reviewId") Long reviewId);
+
 
 	// 총 리뷰 개수
 	long countReviews();
+	
+	// 리뷰 숨김 처리 메서드
+    int updateReviewStatusToHidden(@Param("id") long id);
+    
+    
+    ReviewDomain findReviewByUserAndStore(@Param("memberId") Long memberId, @Param("storeId") Long storeId);
+
+	
 }

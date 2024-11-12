@@ -27,8 +27,22 @@ public class ReviewService {
 	}
 	
 	// 리뷰 삭제
-    public void deleteReview(Map<String, Object> reviewDetails) {
-        reviewMapper.deleteReview(reviewDetails);
+//    public void deleteReview(Map<String, Object> reviewDetails) {
+//        reviewMapper.deleteReview(reviewDetails);
+//    }
+	
+	// 리뷰 삭제
+	public void deleteReview(long reviewId) {
+	    reviewMapper.deleteReview(reviewId);
+	}
+	
+    
+    public void hiddenReview(long reviewId) {
+    	reviewMapper.updateReviewStatusToHidden(reviewId);
+    }
+    
+    public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
+        return reviewMapper.findReviewByUserAndStore(memberId, storeId);
     }
 	
 }

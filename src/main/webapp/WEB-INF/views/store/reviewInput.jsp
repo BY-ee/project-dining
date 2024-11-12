@@ -16,6 +16,7 @@
 </head>
 <body>
 
+
 <!-- 리뷰 섹션 -->
 <div class="review-input-section">
     <h3>리뷰 작성하기</h3>
@@ -43,7 +44,7 @@
                   required <%= userId == null ? "disabled" : "" %>></textarea>
                      
         <% if (userId != null) { %>
-            <button type="submit" onclick="checkDuplicateReview()">리뷰 작성</button>
+            <button type="submit">리뷰 작성</button>
         <% } %>
     </form>
 </div>

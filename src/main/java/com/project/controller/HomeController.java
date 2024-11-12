@@ -35,7 +35,7 @@ public class HomeController {
     }
     
     @GetMapping("/storesByLocation")
-    @ResponseBody // JSON으로 응답을 보내도록 설정
+    @ResponseBody 
     public List<Store> getStoresByLocation(@RequestParam("location") String location) {
         try {
             location = URLDecoder.decode(location, StandardCharsets.UTF_8.toString());

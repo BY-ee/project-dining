@@ -38,6 +38,16 @@
     </div>
 </div>
 
+<c:if test="${not empty pointMessage}">
+    <script>
+        alert("${pointMessage}");
+    </script>
+</c:if>
+
+<c:if test="${not empty duplicateReviewMessage}">
+    <script>alert("${duplicateReviewMessage}");</script>
+</c:if>
+
 <!-- 이동경로 섹션 -->
 <%
     String region = (String) request.getAttribute("region");
