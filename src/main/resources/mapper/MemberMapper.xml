@@ -21,4 +21,14 @@
 	<select id="countMembers" resultType="long">
 		SELECT COUNT(*) FROM member
 	</select>
+	
+	<update id="blockMember" parameterType="long">
+		UPDATE member SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="unblockMember" parameterType="long">
+		UPDATE member SET status='active'
+		WHERE id=#{id}
+	</update>
 </mapper>

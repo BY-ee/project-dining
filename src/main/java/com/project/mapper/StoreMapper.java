@@ -20,7 +20,7 @@ public interface StoreMapper{
     // 메뉴정보 가져오기
     Menu getMenuById(int storeId);
     
-    
+    // 가게 조회
 	List<Store> selectStores(@Param("start") int start, @Param("end") int end);
 
 	// 게시 신청한 가게 목록 조회
@@ -31,4 +31,10 @@ public interface StoreMapper{
 
 	// 게시 신청한 가게의 총 개수
 	long countEnrolledStores();
+
+	// 가게 게시글 게시중단
+	void inactivateStore(long id);
+
+	// 가게 게시글 재게시
+	void reactivateStore(long id);
 }

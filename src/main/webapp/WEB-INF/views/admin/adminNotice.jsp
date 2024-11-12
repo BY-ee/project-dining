@@ -37,12 +37,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><a href="#">[공지] 11월 19일(일) 사이트 점검 안내</a></td>
-                    <td>24.10.30 15:23</td>
-                    <td style="color: #f44;">게시중단</td>
-                </tr>
+                <c:forEach var="notice" items="${pagination.content}">
+                    <tr>
+                        <td>${notice.id}</td>
+                        <td><a href="/admin/notice/${notice.id}">${notice.title}</a></td>
+                        <td>${notice.createdAt}</td>
+                        <td class="notice-status" data-id="${notice.id}" data-status="${notice.status}">${notice.status}</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
 

@@ -50,28 +50,46 @@ public class AdminController {
 	// 회원 차단
 	@PostMapping("/members/{id}/block")
 	@ResponseBody
-	public String blockMember(@PathVariable("id") long id) {
+	public ResponseEntity<String> blockMember(@PathVariable("id") long id) {
 		adminService.blockMember(id);
 		
-		return "inactive";
+		return ResponseEntity.ok("inactive");
 	}
 	
 	// 회원 차단해제
 	@PostMapping("/members/{id}/unblock")
 	@ResponseBody
-	public String unblockMember(@PathVariable("id") long id) {
+	public ResponseEntity<String> unblockMember(@PathVariable("id") long id) {
 		adminService.unblockMember(id);
 		
-		return "active";
+		return ResponseEntity.ok("active");
 	}
 	
-	// 게시글 관리 페이지
-	@GetMapping("/posts")
-	public String posts(RequestData requestData, Model model) {
+	// 가게 관리 페이지
+	@GetMapping("/stores")
+	public String stores(RequestData requestData, Model model) {
 		Pagination<Store> stores = adminService.selectStores(requestData);
 		model.addAttribute("pagination", stores);
 		
-		return "admin/adminPosts";
+		return "admin/adminStores";
+	}
+	
+	// 가게 게시글 게시중단
+	@PostMapping("/stores/{id}/inactivate")
+	@ResponseBody
+	public ResponseEntity<String> inactivateStore(@PathVariable("id") long id) {
+		adminService.inactivateStore(id);
+		
+		return ResponseEntity.ok("inactive");
+	}
+	
+	// 가게 게시글 재게시
+	@PostMapping("/stores/{id}/reactivate")
+	@ResponseBody
+	public ResponseEntity<String> reactivateStore(@PathVariable("id") long id) {
+		adminService.reactivateStore(id);
+		
+		return ResponseEntity.ok("active");
 	}
 	
 	// 메뉴 조회

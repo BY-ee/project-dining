@@ -41,4 +41,14 @@
 	<select id="getMenuById" parameterType="int" resultType="com.project.domain.Menu">
 		SELECT * FROM menu WHERE store_id = #{store_ID}
 	</select>
+	
+	<update id="inactivateStore" parameterType="long">
+		UPDATE store SET post_status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateStore" parameterType="long">
+		UPDATE store SET post_status='active'
+		WHERE id=#{id}
+	</update>
 </mapper>

@@ -55,7 +55,6 @@ $(() => {
         }
     });
 
-
     // 회원 차단 버튼 클릭
     $('.block-btn').on('click', function() {
         const memberId = $(this).data('id');

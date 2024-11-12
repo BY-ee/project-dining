@@ -75,6 +75,16 @@ public class AdminService {
 		
 		return new Pagination<>(stores, page, size, totalCount);
 	}
+	
+	// 가게 게시글 게시중단
+	public void inactivateStore(long id) {
+		storeMapper.inactivateStore(id);
+	}
+
+	// 가게 게시글 재게시
+	public void reactivateStore(long id) {
+		storeMapper.reactivateStore(id);
+	}
 
 	// 메뉴 조희
 	public List<Menu> selectMenus(long storeId) {
@@ -95,6 +105,7 @@ public class AdminService {
 		return new Pagination<>(reviews, page, size, totalCount);
 	}
 	
+	// 게시 신청한 가게 조회
 	public Pagination<Store> selectEnrolledStores(RequestData requestData) {
 		int page = requestData.getPage();
 		int size = requestData.getSize();
@@ -108,6 +119,7 @@ public class AdminService {
 		return new Pagination<>(enrolledStores, page, size, totalCount);
 	}
 
+	// 공지 조회
 	public Pagination<Notice> selectNotice(RequestData requestData) {
 		int page = requestData.getPage();
 		int size = requestData.getSize();
@@ -120,6 +132,4 @@ public class AdminService {
 		
 		return new Pagination<>(notice, page, size, totalCount);
 	}
-
-
 }
