@@ -27,5 +27,4 @@ public class Member {
     private Date joinDate;
     private Date leaveDate;
     private String profileImage;
-    private Integer point;
 }

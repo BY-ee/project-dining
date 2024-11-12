@@ -13,13 +13,15 @@ public class PageResponse<T> {
 	private int totalPage;
 	private int startPage;
 	private int endPage;
+	private String category;
 	
-	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage) {
+	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage,String category) {
 		this.list = list;
 		this.currentPage = currentPage;
 		this.totalPage = totalPage;
 		this.startPage = startPage;
 		this.endPage = endPage;
+		this.category = category;
 	}
 	
 }

@@ -31,13 +31,16 @@ public class NoticeController {
 	
 	@GetMapping("/eventOnList")
 	public String eventList(Model model, PageRequest eventPageRequest) {
-		PageResponse<Event> eventPageResponse = noticeService.getEventList(eventPageRequest);
+		PageResponse<Event> eventPageResponse = noticeService.getEventOnList(eventPageRequest);
 		model.addAttribute("eventPageResponse",eventPageResponse);
 		return "notice/eventOnList";
 	}
 	
 	@GetMapping("/eventOffList")
-	public String eventOffList() {
+	public String eventOffList(Model model,PageRequest eventPageRequest) {
+		eventPageRequest.setStatus("deleted");
+		PageResponse<Event> eventPageResponse = noticeService.getEventOnList(eventPageRequest);
+		model.addAttribute("eventPageResponse",eventPageResponse);
 		return "notice/eventOffList";
 	}
 	

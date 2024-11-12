@@ -36,25 +36,30 @@ public class NoticeService {
 		
 		System.out.println(" startPage = " + startPage + " endPage="  + endPage);
 		
-		return new PageResponse<>(list,pageRequest.getPage(),totalPage,startPage,endPage);
+		return new PageResponse<>(list,pageRequest.getPage(),totalPage,startPage,endPage,pageRequest.getCategory());
 	}
 	
-	public PageResponse<Event> getEventList(PageRequest pageRequest) {
+	public PageResponse<Event> getEventOnList(PageRequest pageRequest) {
 		
 		// DB에서 페이징 후 size 만큼 데이터를 가져와서 List에 담기 
 		int startRow = pageRequest.getSize() * (pageRequest.getPage()-1) + 1 ;
 		int endRow = pageRequest.getSize() * (pageRequest.getPage());
-		List<Event> list = noticeMapper.getEventList(startRow,endRow);
+		List<Event> list = noticeMapper.getEventList(startRow,endRow,pageRequest.getStatus(),pageRequest.getCategory());
 		
 		// 총 게시물 갯수 가져오기 and 총 페이지 갯수 계산
-		int countList = noticeMapper.getEventCountList();
-		int totalPage = countList / pageRequest.getSize();
+		int countList = noticeMapper.getEventCountList(pageRequest.getStatus(),pageRequest.getCategory());
+		int totalPage =(int)Math.ceil((double)countList / pageRequest.getSize());
+		
+		System.out.print("totalPage = " + totalPage);
 		
 		// 한번에 10개의 페이지번호만 보여주기 and 이전 버튼과 다음 버튼을 위한 startPage,endPage
 		int startPage =  (((pageRequest.getPage()-1)/10)*10) + 1;
-		int endPage = startPage + 9 ;
+		int endPage = Math.min(totalPage,startPage+9);
 		
-		return new PageResponse<>(list,pageRequest.getPage(),totalPage,startPage,endPage);
+		
+		System.out.println(" startPage = " + startPage + " endPage="  + endPage);
+		
+		return new PageResponse<>(list,pageRequest.getPage(),totalPage,startPage,endPage,pageRequest.getCategory());
 	}
 	
 }

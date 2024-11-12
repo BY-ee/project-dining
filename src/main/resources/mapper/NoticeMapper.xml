@@ -8,7 +8,7 @@
 		select * from (
 			select notice.* , ROWNUM AS rn 
 			from notice 
-			where ROWNUM &lt; #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
+			where ROWNUM &lt;= #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
 			)
 		 where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
 	</select>
@@ -17,17 +17,26 @@
 		select * from (
 			select event.* , ROWNUM AS rn 
 			from event 
-			where ROWNUM &lt; #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
+			where status = #{status}
+			
+			<!-- category 값이 있을 때만 조건 추가 -->
+			<if test="category != null and category != ''">
+				and category = #{category}
+			</if> 
+			and ROWNUM &lt;= #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
 			)
-		 where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
+		 	where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
 	</select>
 	
 	<select id="getNoticeCountList" resultType="int">
 		select count(*) from notice
 	</select>
 	
-	<select id="getEventCountList" resultType="int">
-		select count(*) from event
+	<select id="getEventCountList" resultType="int" parameterType="String">
+		select count(*) from event where status= #{status}
+		<if test="category != null and category != ''">
+			and category = #{category}
+		</if>
 	</select>
 	
 </mapper>
