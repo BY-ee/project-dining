@@ -113,7 +113,7 @@
             data: { store_id: storeId },
             dataType: 'json',
             success: function(reviews) {
-                reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                 renderReviews(reviews);
             },
             error: function(xhr, status, error) {

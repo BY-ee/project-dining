@@ -20,20 +20,18 @@
 			<h3>소셜계정 연동</h3>
 			<p>사용하시는 소셜 및 인증 제공자들과 계정을 연동하고 손쉽게 로그인하세요.</p>
 			<div class="social-connect-buttons">
-				<button>카카오 연결하기</button>
-				<button>구글 연결하기</button>
-				<button>네이버 연결하기</button>
+				<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/myPage')"><img src="/images/naver_button.png" alt="네이버 간편 로그인" class="login-btn"></a>
+				<a href="/oauth2/authorization/kakao" onclick="setRedirectUrl('/myPage')"><img src="/images/카카오.png" alt="카카오 간편 로그인" class="login-btn"></a>
+				<a href="/oauth2/authorization/google" onclick="setRedirectUrl('/myPage')"><img src="/images/구글.png" alt="구글 간편 로그인" class="login-btn"></a>
 			</div>
 		</div>
 
 		<div class="security-settings">
 			<h3>비밀번호설정</h3>
 			<div class="security-setting-item">
-				<label for="current_password">현재 비밀번호</label> <input type="text"
-					id="current_password"> <label for="new_password">새
-					비밀번호</label> <input type="text" id="new_password"> <label
-					for="new_password_verify">비밀번호 확인</label> <input type="text"
-					id="new_password_verify">
+				<label for="current_password">현재 비밀번호</label> <input type="text" id="current_password"> 
+				<label for="new_password">새비밀번호</label> <input type="text" id="new_password"> 
+				<label for="new_password_verify">비밀번호 확인</label> <input type="text" id="new_password_verify">
 				<button>수정</button>
 			</div>
 		</div>
@@ -49,5 +47,17 @@
 			<button class="email-verify-button">회원탈퇴</button>
 		</div>
 	</div>
+	<script>
+        // 클릭 시 `redirectUrl`을 세션에 저장하기 위한 함수
+        function setRedirectUrl(url) {
+            fetch('/setRedirectUrl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ redirectUrl: url })
+            });
+        }
+    </script>
 </body>
 </html>

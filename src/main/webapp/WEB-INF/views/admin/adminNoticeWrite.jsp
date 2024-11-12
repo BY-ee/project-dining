@@ -21,8 +21,8 @@
                 <label for="category">주제</label>
                 <select id="category" name="category">
                     <option value="">주제 선택</option>
-                    <option value="notice">공지</option>
-                    <option value="event">이벤트</option>
+                    <option value="공지">공지</option>
+                    <option value="이벤트">이벤트</option>
                 </select>
             </div>
 
@@ -38,7 +38,7 @@
 
             <div class="upload-form text-left">
                 <label for="file-upload" class="custom-file-upload">파일 선택</label>
-                <input id="file-upload" type="file" name="file" onchange="showFileName()">
+                <input id="file-upload" type="file" name="noticeImage">
                 <div class="file-name" id="file-name">선택된 파일이 없습니다.</div>
             </div>
 

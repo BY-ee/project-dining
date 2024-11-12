@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 public class RedirectController {
 	@PostMapping("/setRedirectUrl")
-	public void setRedirectUrl(@RequestBody Map<String, String> payload, HttpServletRequest request) {
-		String redirectUrl = payload.get("redirectUrl");
-		request.getSession().setAttribute("redirectUrl", redirectUrl);
-	}
+    public void setRedirectUrl(@RequestBody Map<String, String> payload, HttpServletRequest request) {
+        String redirectUrl = payload.get("redirectUrl");
+        request.getSession().setAttribute("redirectUrl", redirectUrl);
+    }
 }

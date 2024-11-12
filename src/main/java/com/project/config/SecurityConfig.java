@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.firewall.HttpFirewall;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,9 +29,9 @@ public class SecurityConfig {
         )
         .formLogin((form) -> 
                 form
-                    .loginPage("/login")
+                    .loginPage("/loginForm")
                     .permitAll()
-                    .defaultSuccessUrl("/")
+                    .successHandler(customAuthenticationSuccessHandler())
         )
         .logout((logout) -> 
                 logout
@@ -58,6 +56,8 @@ public class SecurityConfig {
                                                 Authentication authentication) throws IOException {
                 String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
                 
+                System.out.println(redirectUrl);
+                
                 if (redirectUrl != null) {
                     getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
                     request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
@@ -72,13 +72,5 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();  // 비밀번호 암호화를 위한 BCrypt
-    }
-    
-    @Bean
-    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedSlash(true);
-        firewall.setAllowUrlEncodedDoubleSlash(true); // 이 설정이 필요함
-        return firewall;
     }
 }

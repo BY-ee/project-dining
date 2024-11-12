@@ -3,23 +3,21 @@ package com.project.controller;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.project.service.EmailVerificationService;
 
 import jakarta.servlet.http.HttpSession;
 
-@Controller
+@RestController
 public class EmailVerificationController {
 	@Autowired
 	private EmailVerificationService emailVerificationService;
 	
 	// 회원가입 - 이메일 인증
 		@PostMapping("sendVerificationEmail")
-	    @ResponseBody
 		public String sendVerificationEmail(@RequestParam("email") String email, HttpSession session) {
 		    // 인증 코드 생성 및 전송
 	        String verificationCode = emailVerificationService.sendVerificationCode(email);
@@ -36,7 +34,6 @@ public class EmailVerificationController {
 		}
 		
 		@PostMapping("verifyCode")
-	    @ResponseBody
 	    public String verifyCode(@RequestParam("email") String email, @RequestParam("code") String code, HttpSession session) {
 	        String savedCode = (String) session.getAttribute("verificationCode");
 	        String savedEmail = (String) session.getAttribute("email");
