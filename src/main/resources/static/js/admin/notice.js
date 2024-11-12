@@ -28,7 +28,7 @@ $(() => {
                 location.href = '/admin/notice';
             },
             error: (e) => {
-                alert(`공지 작성 실패: ${e.message || '알 수 없는 오류'}`);
+                alert(`공지 작성 실패: ${e.responseText || '알 수 없는 오류'}`);
             }
         });
     });

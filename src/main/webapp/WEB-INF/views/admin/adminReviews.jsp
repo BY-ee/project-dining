@@ -50,7 +50,7 @@
                         <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
                         <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
                         <td>${review.score}</td>
-                        <td><a href="#" data-id="${review.id}" class="review-link">확인</a></td>
+                        <td><a href="#" data-id="${review.memberId}" class="review-link">확인</a></td>
                         <td>
                             <button class="delete-btn inactivate-btn" data-id="${review.id}">게시중단</button>
                             <button class="edit-btn reactivate-btn" data-id="${review.id}">재게시</button>

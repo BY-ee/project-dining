@@ -9,6 +9,7 @@ import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
+import com.project.dto.ReviewMemberDTO;
 import com.project.domain.Menu;
 import com.project.domain.Notice;
 import com.project.mapper.MemberMapper;
@@ -108,6 +109,21 @@ public class AdminService {
 	// 특정 리뷰 확인
 	public Review selectDetailReview(long id) {
 		return reviewMapper.selectReviewById(id);
+	}
+	
+	// 작성자 정보가 추가된 상세리뷰 조회
+	public ReviewMemberDTO selectDetailReviewMember(long id) {
+		return reviewMapper.selectReviewMemberById(id);
+	}
+	
+	// 리뷰 게시중단
+	public void inactivateReview(long id) {
+		reviewMapper.inactivateReview(id);
+	}
+	
+	// 리뷰 재게시 
+	public void reactivateReview(long id) {
+		reviewMapper.reactivateReview(id);
 	}
 	
 	// 게시 신청한 가게 조회

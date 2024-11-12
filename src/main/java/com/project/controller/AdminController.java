@@ -21,6 +21,7 @@ import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
+import com.project.dto.ReviewMemberDTO;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -112,10 +113,36 @@ public class AdminController {
 	@GetMapping("/reviews/detail/{id}")
 	@ResponseBody
 	public ResponseEntity<Review> detailReview(@PathVariable("id") long id) {
-		System.out.println("id:" + id);
 		Review review = adminService.selectDetailReview(id);
 		
 		return ResponseEntity.ok(review);
+	}
+	
+	// 작성자 정보가 추가된 상세리뷰 조회
+	@GetMapping("/reviews/detail-with-member/{id}")
+	@ResponseBody
+	public ResponseEntity<ReviewMemberDTO> detailReviewMember(@PathVariable("id") long id) {
+		ReviewMemberDTO review = adminService.selectDetailReviewMember(id);
+		
+		return ResponseEntity.ok(review);
+	}
+	
+	// 리뷰 게시중단
+	@PostMapping("/reviews/{id}/inactivate")
+	@ResponseBody
+	public ResponseEntity<String> inactivateReview(@PathVariable("id") long id) {
+		adminService.inactivateReview(id);
+		
+		return ResponseEntity.ok("inactive");
+	}
+	
+	// 리뷰 재게시
+	@PostMapping("/reviews/{id}/reactivate")
+	@ResponseBody
+	public ResponseEntity<String> reactivateReview(@PathVariable("id") long id) {
+		adminService.reactivateReview(id);
+		
+		return ResponseEntity.ok("active");
 	}
 	
 	// 게시글 승인 페이지

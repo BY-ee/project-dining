@@ -45,4 +45,21 @@
 		SELECT * FROM review
 		WHERE id = #{id}
 	</select>
+	
+	<select id="selectReviewMemberById" parameterType="long" resultType="com.project.dto.ReviewMemberDTO">
+		SELECT r.*, m.nickname
+		FROM Review r
+		JOIN Member m ON r.member_id = m.member_id
+	    WHERE r.member_id = #{memberId}
+	</select>
+	
+	<update id="inactivateReview" parameterType="long">
+		UPDATE review SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateReview" parameterType="long">
+		UPDATE review SET status='active'
+		WHERE id=#{id}
+	</update>
 </mapper>

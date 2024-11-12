@@ -73,7 +73,7 @@ $(() => {
                 });
             },
             error: (e) => {
-                alert('Error occurred' + e.message);
+                console.error(e.responseText);
             }
         });
     });
@@ -91,7 +91,7 @@ $(() => {
                 });
             },
             error: (e) => {
-                alert('Error occurred' + e.message);
+                console.error(e.responseText);
             }
         });
     });

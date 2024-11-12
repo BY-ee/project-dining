@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.Review;
 import com.project.domain.ReviewDomain;
+import com.project.dto.ReviewMemberDTO;
 
 
 @Mapper
@@ -30,4 +31,13 @@ public interface ReviewMapper {
 
 	// 특정 리뷰 확인
 	public Review selectReviewById(long id);
+	
+	// 작성자 정보가 추가된 상세리뷰 조회
+	public ReviewMemberDTO selectReviewMemberById(long id);
+
+	// 리뷰 게시중단
+	public void inactivateReview(long id);
+
+	// 리뷰 재게시
+	public void reactivateReview(long id);
 }
