@@ -55,9 +55,7 @@ public class SecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                 Authentication authentication) throws IOException {
-            	
-            	
-            	
+
             	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
 
                 
