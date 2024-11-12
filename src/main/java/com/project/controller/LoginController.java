@@ -56,10 +56,10 @@ public class LoginController {
         return "login/ownerForm";
     }
 
-    @RequestMapping("home.do")
-    public String home() {
-        return "home/home-category";
-    }
+//    @RequestMapping("home.do")
+//    public String home() {
+//        return "home/home-category";
+//    }
 
     @RequestMapping("findPwd.do")
     public String findPwd() {
@@ -153,7 +153,7 @@ public class LoginController {
                         db = loginService.getUser(tempId);
                         
                         session.setAttribute("loginUser", db);
-                        session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                        session.setAttribute("user_ID", db.getId());
                         session.setAttribute("user_nickname", db.getNickname());
                     
                     }
@@ -161,10 +161,10 @@ public class LoginController {
                     // 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인
                     // db는 내가 로그인한 정보를 담은 객체
                     session.setAttribute("loginUser", db);
-                    session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                    session.setAttribute("user_ID", db.getId());  
                     session.setAttribute("user_nickname", db.getNickname());
                     
-                    return "redirect:/home.do";
+                    return "redirect:/";
    
                 }
             } else if ("kakao".equals(registrationId)) {
@@ -184,13 +184,13 @@ public class LoginController {
                     db = loginService.getUser(tempId);
                     
                     session.setAttribute("loginUser", db);
-                    session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                    session.setAttribute("user_ID", db.getId());  // memberId를 세션에 저장
                     session.setAttribute("user_nickname", db.getNickname());
                 
                 }
                 	
 	                session.setAttribute("loginUser", db);
-	                session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+	                session.setAttribute("user_ID", db.getId());  // memberId를 세션에 저장
 	                session.setAttribute("user_nickname", db.getNickname());
                 
                 
@@ -210,7 +210,7 @@ public class LoginController {
                     db = loginService.getUser(tempId);
                     
                     session.setAttribute("loginUser", db);
-                    session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                    session.setAttribute("user_ID", db.getId()); 
                     session.setAttribute("user_nickname", db.getNickname());
                 
                 }
@@ -218,10 +218,10 @@ public class LoginController {
                 // 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인
                 // db는 내가 로그인한 정보를 담은 객체
                 session.setAttribute("loginUser", db);
-                session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                session.setAttribute("user_ID", db.getId());  
                 session.setAttribute("user_nickname", db.getNickname());
                 
-                return "redirect:/home.do";
+                return "redirect:/";
 
             }
           

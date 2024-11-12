@@ -8,6 +8,7 @@ function toggleCategoryPopup() {
     categoryPopup.style.display = categoryPopup.style.display === "none" ? "block" : "none";
 }
 
+
 // 업종 선택
 function selectIndustry(industry) {
     selectedIndustry = industry;
@@ -70,3 +71,46 @@ function searchStores() {
     alert(`검색: 업종 - ${selectedIndustry}, 세부 항목 - ${selectedSubCategory}, 테마 - ${selectedTheme}`);
     // 검색 결과 표시 로직 추가 가능
 }
+
+
+
+	var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
+
+    function goToStoreDetail(storeId) {	        
+        var url = '/storeDetail?store_ID=' + storeId;
+        if (userId && userId.trim() !== "") {  
+            url += '&user_ID=' + userId;
+        }
+        window.location.href = url;  
+    }
+    
+    function filterByLocation(locationCode, locationName) {
+        console.log("Selected location:", locationName); // 로그 추가
+        document.getElementById("location-btn").innerText = locationName;
+
+        $.ajax({
+            url: "/storesByLocation",
+            type: "GET",
+            data: { location: locationCode === "ALL" ? "" : locationCode },
+            success: function(stores) {
+
+                let html = '';
+                stores.forEach(function(store) {
+                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+                                '<div class="store-item">' +
+                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+                                '</div>' +
+                                '<div class="store-name">' + store.storeName + '</div>' +
+                            '</div>';
+                });
+                $("#store-list-container").html(html);
+            },
+            error: function() {
+                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+            }
+        });
+    }
+	
+	
+	
+	/* 정렬 기능 구현*/

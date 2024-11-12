@@ -40,8 +40,16 @@ public class HomeController {
         try {
             location = URLDecoder.decode(location, StandardCharsets.UTF_8.toString());
             System.out.println("Decoded location in Controller: " + location);
-            
-            List<Store> stores = storeService.findStoresByLocation(location);
+
+            List<Store> stores;
+            if (location.isEmpty()) {
+                // location이 빈 문자열일 경우 모든 가게를 조회
+                stores = storeService.findAllStores();
+            } else {
+                // 특정 지역 가게 조회
+                stores = storeService.findStoresByLocation(location);
+            }
+
             System.out.println("Number of stores found: " + stores.size()); // 결과 개수 출력
             return stores;
         } catch (Exception e) {
@@ -49,7 +57,6 @@ public class HomeController {
             return List.of(); // 오류 발생 시 빈 리스트 반환
         }
     }
-
     @GetMapping("/csr")
     public String csr() {
     	return "home/csr";
