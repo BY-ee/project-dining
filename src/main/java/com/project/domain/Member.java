@@ -11,20 +11,21 @@ import lombok.Setter;
 @Setter
 @Alias("Member")
 public class Member {
-	
-    private Long id;	
+    private Long id;
     private String category;
     private String registrationNumber;
-    private String userid;
+    private String memberId;
     private String naverId;
     private String googleId;
     private String kakaoId;
-    private String userpwd;
+    private String passwd;
     private String nickname;
     private String introduction;
     private String email;
     private String status;
-    private Date joinDate;
-    private Date leaveDate;
+    private Date createdAt;
+    private Date inactiveDate;
+    private Date reactiveDate;
+    private Date deletedDate;
     private String profileImage;
 }

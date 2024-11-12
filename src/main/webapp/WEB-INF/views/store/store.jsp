@@ -11,6 +11,19 @@
     <title>가게 상세페이지</title>
     <!-- 외부 CSS 파일 연결 -->
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
+    
+    <% 
+        // 세션에서 userId와 storeId 가져오기
+        Long userId = (Long) session.getAttribute("user_ID");
+        Integer storeId = (Integer) request.getAttribute("store_ID");
+    %>
+
+    <!-- JavaScript에서 사용할 userId와 storeId -->
+    <script type="text/javascript">
+        var userId = <%= userId != null ? userId : "null" %>;
+        var storeId = <%= storeId %>;
+    </script>
+    
 </head>
 
 <body>
@@ -24,7 +37,6 @@
 </div>
 
 <!-- 이동경로 섹션 -->
-
 <%
     String region = (String) request.getAttribute("region");
     String category = (String) request.getAttribute("category");
@@ -77,7 +89,7 @@
 <div class="container">
     <!-- 가게 이름과 찜 버튼 -->
     <div class="store-header">
-        <h2>가게 이름: 냐미냐미 </h2>
+        <h2>가게 이름: ${storeDetail.storeName} </h2>
         <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">0</span></button>
     </div>
 
@@ -94,22 +106,23 @@
             <button aria-label="다음 슬라이드" onclick="moveToSlide(currentSlideIndex + 1)"></button>
         </div>
         <div class="store-info">
-            <strong>가게주소:</strong> 서울 강남구 테헤란로7길 7 에스코빌딩 5~7층<br>
-            <strong>영업시간:</strong> 월 ~ 토 02:00에 영업종료<br>
-            <strong>전화번호:</strong> 02-1234-5678<br>
-            <strong>가게설명:</strong> 분위기 좋은 레스토랑<br>
+            <strong>가게주소:</strong> ${storeDetail.address}<br>
+            <strong>상세주소:</strong> ${storeDetail.detailAddress}<br>
+            <strong>전화번호:</strong> ${storeDetail.tel}<br>
+            <strong>영업시간:</strong> ${storeDetail.openTime}<br>
+            <strong>가게설명:</strong> ${storeDetail.storeDescription}<br>
         </div>
     </div>
 
     <!-- 메뉴 메뉴 섹션 -->
     <div class="section menu-price-section">
-        <div class="section-title">메뉴 메뉴</div>
+        <div class="section-title">대표 메뉴</div>
         <div class="menu-card">
-            <img src="img/pasta.jpg">
+            <img src="${menu.menuImage1 }">
             <div class="menu-info">
-                <p class="menu-name">감자</p>
-                <p class="menu-description">감자, 간장 글레이즈, 수제 아이올리</p>
-                <p class="menu-price">9,000원</p>
+                <p class="menu-name">${menu.menuName}</p>
+                <p class="menu-description">${menu.menuDescription }</p>
+                <p class="menu-price">${menu.menuPrice}원</p>
             </div>
         </div>
         <div class="menu-card">

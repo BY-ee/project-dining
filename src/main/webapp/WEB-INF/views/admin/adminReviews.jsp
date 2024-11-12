@@ -43,10 +43,10 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="review" items="${reviews}">
+                <c:forEach var="review" items="${reviews.content}">
                     <tr>
                         <td>${review.id}</td>
-                        <td><a href="/admin/members/${review.userId}">${review.userId}</a></td>
+                        <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
                         <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
                         <td>${review.score}</td>
                         <td><a href="#" class="review-link">확인</a></td>
@@ -55,6 +55,38 @@
                 </c:forEach>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="move-page-link">
+                <c:if test="${reviews.currentPage > reviews.start}">
+                    <a class="page-link" href="#">처음</a>
+                </c:if>
+
+                <a class="page-link" href="#">이전</a>
+            </div>
+
+            <div class="page">
+                <c:forEach var="page" begin="${reviews.start}" end="${reviews.totalPages}">
+                    <c:choose>
+                        <c:when test="${page == reviews.currentPage}">
+                            <span class="current-page">${page}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="page-link" href="#">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+
+            <div class="move-page-link">
+                <a class="page-link" href="#">다음</a>
+
+                <c:if test="${reviews.currentPage < reviews.end}">
+                    <a class="page-link" href="#">끝</a>
+                </c:if>
+            </div>
+        </div>
     </div>
 
     <!-- 리뷰 팝업 -->
