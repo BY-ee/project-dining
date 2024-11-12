@@ -54,14 +54,14 @@
         <!-- 위치 및 카테고리 드롭다운 메뉴 -->
         <div class="filter-container">
 	        <div class="location-dropdown">
-	            <button class="location-btn">지역 선택</button>
+	            <button class="location-btn" id="location-btn">지역 선택</button>
 	            <div class="location-menu">
-    <a href="#" onclick="filterByLocation('MAPO')">마포구</a>
-    <a href="#" onclick="filterByLocation('SONGPA')">송파구</a>
-    <a href="#" onclick="filterByLocation('GANGNAM')">강남/서초구</a>
-    <a href="#" onclick="filterByLocation('SEONGBUK')">성북/종로구</a>
-    <a href="#" onclick="filterByLocation('GWANGJIN')">광진/성동구</a>
-</div>
+				    <a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구</a>
+				    <a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
+				    <a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
+				    <a href="#" onclick="filterByLocation('SEONGBUK', '성복/종로구')">성북/종로구</a>
+				    <a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
+				</div>
 	        </div>
 	    </div>
 	    
@@ -176,11 +176,14 @@
 	        window.location.href = url;  
 	    }
 	    
-	    function filterByLocation(location) {
+	    function filterByLocation(locationCode, locationName) {
+	        console.log("Selected location:", locationName); // 로그 추가
+	        document.getElementById("location-btn").innerText = locationName;
+
 	        $.ajax({
 	            url: "/storesByLocation",
 	            type: "GET",
-	            data: { location: location },
+	            data: { location: locationCode },
 	            success: function(stores) {
 
 	                let html = '';
