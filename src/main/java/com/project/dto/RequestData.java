@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RequestData<T> {
+public class RequestData {
     private int page;
     private int size;
     private String category;
