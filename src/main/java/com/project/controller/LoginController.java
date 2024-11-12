@@ -141,20 +141,25 @@ public class LoginController {
                 if (response != null) {
                     tempId = (String) response.get("id");
                     tempEmail = (String) response.get("email");
-                    
-                    int result =0;
+
                     Login db = loginService.getNaverUser(tempId); // naverId 란에 tempId 있는지 조회
                     
                     
                     if(db == null) { // 첫 로그인
                         String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
-                    	db = loginService.insertNaverJoin(tempId, tempEmail, randomNickname);
-                    	 session.setAttribute("loginUser", db);
-                         session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
-                         session.setAttribute("user_nickname", db.getNickname());
+                        
+                        loginService.insertNaverJoin(tempId, tempEmail, randomNickname);
+                        
+                        db = loginService.getUser(tempId);
+                        
+                        session.setAttribute("loginUser", db);
+                        session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                        session.setAttribute("user_nickname", db.getNickname());
                     
                     }
-                
+                    
+                    // 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인
+                    // db는 내가 로그인한 정보를 담은 객체
                     session.setAttribute("loginUser", db);
                     session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
                     session.setAttribute("user_nickname", db.getNickname());
@@ -168,12 +173,57 @@ public class LoginController {
                 if (kakaoAccount != null) {
                     tempEmail = (String) kakaoAccount.get("email");
                 }
+                
+                Login db = loginService.getKakaoUser(tempId); // naverId 란에 tempId 있는지 조회
+                
+                if(db == null) { // 첫 로그인
+                    String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
+                    
+                    loginService.insertKakaoJoin(tempId, tempEmail, randomNickname);
+                    
+                    db = loginService.getUser(tempId);
+                    
+                    session.setAttribute("loginUser", db);
+                    session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                    session.setAttribute("user_nickname", db.getNickname());
+                
+                }
+                	
+	                session.setAttribute("loginUser", db);
+	                session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+	                session.setAttribute("user_nickname", db.getNickname());
+                
+                
             } else if ("google".equals(registrationId)) {
                 tempId = (String) userInfo.get("sub");
                 tempEmail = (String) userInfo.get("email");
 
-            }
 
+                Login db = loginService.getGoogleUser(tempId); // naverId 란에 tempId 있는지 조회
+                
+                
+                if(db == null) { // 첫 로그인
+                    String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
+                    
+                    loginService.insertGoogleJoin(tempId, tempEmail, randomNickname);
+                    
+                    db = loginService.getUser(tempId);
+                    
+                    session.setAttribute("loginUser", db);
+                    session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                    session.setAttribute("user_nickname", db.getNickname());
+                
+                }
+                
+                // 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인
+                // db는 내가 로그인한 정보를 담은 객체
+                session.setAttribute("loginUser", db);
+                session.setAttribute("user_ID", db.getMemberId());  // memberId를 세션에 저장
+                session.setAttribute("user_nickname", db.getNickname());
+                
+                return "redirect:/home.do";
+
+            }
           
             return "redirect:/home.do";
         } else {

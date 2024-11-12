@@ -25,9 +25,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests((requests) -> 
                 requests
                     .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                    .requestMatchers("/", "/**", "/login", "/logout").permitAll() // 경로를 인증 없이 접근 가능하도록 설정 
+                    .requestMatchers("/", "/**", "/login", "/logout").permitAll() // 경로를 인증 없이 접근 가능하도록 설	 
                     .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
-        )
+        ) 
         .formLogin((form) -> 
                 form
                     .loginPage("/loginForm")

@@ -9,100 +9,61 @@
 	<select id="isUserIdCheck" parameterType="string" resultType="int">
 		select count(*) from member where member_id = #{memberId}
 	</select>
-
+	
+	<!-- 닉네임 중복조회 -->
 	<select id="isUserNicknameCheck" parameterType="string" resultType="int">
 		select count(*) from member where nickname = #{nickname}
 	</select>
 
 	 <!-- 사용자 회원 가입 -->
-	 
-    <insert id="joinMember" parameterType="Login">
-	    INSERT INTO member (
-	      category, 
-	      registration_number, 
-	      member_id, 
-	      naver_id, 
-	      google_id, 
-	      kakao_id, 
-	      passwd, 
-	      nickname, 
-	      introduction, 
-	      email, 
-	      status, 
-	      created_at, 
-	      inactive_date, 
-	      reactive_date, 
-	      deleted_date, 
-	      profile_image, 
-	      point
-	    ) VALUES (
-	      #{category}, 
-		  #{registrationNumber, jdbcType=VARCHAR},
-	      #{memberId}, 
-		  #{naverId, jdbcType=VARCHAR}, 
-		  #{googleId, jdbcType=VARCHAR}, 
-		  #{kakaoId, jdbcType=VARCHAR}, 
-	      #{passwd}, 
-	      #{nickname}, 
-	      #{introduction, jdbcType=VARCHAR}, 
-	      #{email}, 
-     	 'active',  
-	      SYSDATE, 
-	      #{inactiveDate, jdbcType=DATE}, 
-	      #{reactiveDate, jdbcType=DATE}, 
-	      #{deletedDate, jdbcType=DATE}, 
-	      #{profileImage, jdbcType=VARCHAR}, 
-      	  #{point, jdbcType=INTEGER}
-	    )
+	 <insert id="joinMember" parameterType="Login"> 
+		 insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, point)
+		 values (#{category}, #{registrationNumber, jdbcType=VARCHAR}, #{memberId}, #{naverId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd}, #{nickname}, #{introduction, jdbcType=VARCHAR},
+		 #{email}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, #{point, jdbcType=INTEGER})
 	</insert>
-	
+	 
+
+	<!-- 사용자조회 -->
 	<select id= "getUser" parameterType="string" resultType="Login">
 		select * from member where member_id = #{memberId}
 	</select>
 	
+	
+	<!-- 네이버, 카카오, 구글 SNS 유무 계정 조회 -->
 	<select id="getNaverUser" parameterType="string" resultType="Login">
 	    select * from member where naver_id = #{value}
 	</select>
-		
-<insert id="insertNaverJoin" parameterType="Login">
-    INSERT INTO member (
-      category, 
-      registration_number, 
-      member_id, 
-      naver_id, 
-      google_id, 
-      kakao_id, 
-      passwd, 
-      nickname, 
-      introduction, 
-      email, 
-      status, 
-      created_at, 
-      inactive_date, 
-      reactive_date, 
-      deleted_date, 
-      profile_image, 
-      point
-    ) VALUES (
-      '일반', 
-      #{registrationNumber, jdbcType=VARCHAR},
-      #{memberId, jdbcType=VARCHAR}, 
-      #{memberId, jdbcType=VARCHAR},  <!-- naver_id에 memberId를 넣음 -->
-      #{googleId, jdbcType=VARCHAR}, 
-      #{kakaoId, jdbcType=VARCHAR}, 
-      #{passwd, jdbcType=VARCHAR}, 
-      #{nickname, jdbcType=VARCHAR}, 
-      #{introduction, jdbcType=VARCHAR}, 
-      #{email, jdbcType=VARCHAR}, 
-      'active',  
-      SYSDATE, 
-      #{inactiveDate, jdbcType=DATE}, 
-      #{reactiveDate, jdbcType=DATE}, 
-      #{deletedDate, jdbcType=DATE}, 
-      #{profileImage, jdbcType=VARCHAR}, 
-      #{point, jdbcType=INTEGER}
-    )
-</insert>
-
+	
+	<select id="getKakaoUser" parameterType="string" resultType="Login">
+	    select * from member where kakao_id = #{value}
+	</select>
+	
+	<select id="getGoogleUser" parameterType="string" resultType="Login">
+	    select * from member where google_id = #{value}
+	</select>
+	
+	
+	<!--  네이버, 카카오, 구글 SNS 최초 회원가입 -->
+	<insert id="insertNaverJoin" parameterType="Login">
+		insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, point)
+		values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname,
+		jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, #{point, jdbcType=INTEGER})
+	 </insert>
+	 
+	<insert id="insertKakaoJoin" parameterType="Login">
+		insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, point)
+		values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{naverId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname,
+		jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, #{point, jdbcType=INTEGER})
+	 </insert>
+	 
+	 <insert id="insertGoogleJoin" parameterType="Login">
+		insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, point)
+		values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{naverId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname,
+		jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, #{point, jdbcType=INTEGER})
+	 </insert>
+	
+	
+	
+	
 	
 </mapper>

@@ -37,23 +37,45 @@ public class LoginService {
 	public Login getUser(String memberId) {
 		return loginMapper.getUser(memberId);
 	}
-
+	
+	// 네이버, 카카오, 구글 SNS 유무 계정 조회
 	public Login getNaverUser(String tempId) {
 		return loginMapper.getNaverUser(tempId);
 	} 
+	public Login getKakaoUser(String tempId) {
+		return loginMapper.getKakaoUser(tempId);
+	}
+	public Login getGoogleUser(String tempId) {
+		return loginMapper.getGoogleUser(tempId);
+	}
 
-	public Login insertNaverJoin(String tempId, String tempEmail, String randomNickname) {
+	// 네이버, 카카오, 구글 SNS 최초 회원가입
+	public void insertNaverJoin(String tempId, String tempEmail, String randomNickname) {
 	    Login login = new Login();
 	    login.setMemberId(tempId);      // memberId에 tempId 저장
 	    login.setEmail(tempEmail);
 	    login.setNickname(randomNickname);
 	    login.setStatus("active");
 
-	    // 데이터베이스에 새 사용자 삽입
-	    loginMapper.insertNaverJoin(login);
+	   loginMapper.insertNaverJoin(login);
+	}
+	public void insertKakaoJoin(String tempId, String tempEmail, String randomNickname) {
+		 Login login = new Login();
+		 login.setMemberId(tempId);      
+		 login.setEmail(tempEmail);
+		 login.setNickname(randomNickname);
+		 login.setStatus("active");
 
-	    // 삽입 후, 저장된 사용자의 정보를 다시 조회하여 반환
-	    return loginMapper.getUser(tempId); // getUser 메서드로 저장된 사용자 반환
+		 loginMapper.insertKakaoJoin(login);
+	}
+	public void insertGoogleJoin(String tempId, String tempEmail, String randomNickname) {
+		 Login login = new Login();
+		 login.setMemberId(tempId);      
+		 login.setEmail(tempEmail);
+		 login.setNickname(randomNickname);
+		 login.setStatus("active");
+
+		 loginMapper.insertGoogleJoin(login);
 	} 
 
 
@@ -66,4 +88,3 @@ public class LoginService {
 
 
 	 
-
