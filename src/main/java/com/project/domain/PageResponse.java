@@ -14,14 +14,18 @@ public class PageResponse<T> {
 	private int startPage;
 	private int endPage;
 	private String category;
+	private String searchKeyword;
+	private String searchType;
 	
-	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage,String category) {
+	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage,String category,String searchType,String searchKeyword) {
 		this.list = list;
 		this.currentPage = currentPage;
 		this.totalPage = totalPage;
 		this.startPage = startPage;
 		this.endPage = endPage;
 		this.category = category;
+		this.searchKeyword = searchKeyword;
+		this.searchType = searchType;
 	}
 	
 }

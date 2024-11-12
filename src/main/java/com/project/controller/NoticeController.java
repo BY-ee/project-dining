@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.project.domain.Event;
 import com.project.domain.Notice;
@@ -20,12 +21,21 @@ public class NoticeController {
 	@GetMapping("/noticeList")
 	public String noticeList(Model model, PageRequest noticePageRequest) {
 		PageResponse<Notice> noticePageResponse = noticeService.getNoticeList(noticePageRequest);
+		System.out.println(noticePageResponse.getSearchKeyword());
 		model.addAttribute("noticePageResponse",noticePageResponse);
 		return "notice/noticeList";
 	}
 	
-	@GetMapping("/notice")
-	public String notice() {
+	@GetMapping("/notice/{id}")
+	public String notice(@PathVariable("id")Long id,Model model) {
+		Notice notice = noticeService.getNotice(id);
+		Notice preNotice = noticeService.getPreNotice(id);
+		System.out.println("pre = " + preNotice.getId());
+		Notice nextNotice = noticeService.getNextNotice(id);
+		System.out.println("next = " + nextNotice.getId());
+		model.addAttribute("notice",notice);
+		model.addAttribute("preNotice",preNotice);
+		model.addAttribute("nextNotice",nextNotice);
 		return "notice/notice";
 	}
 	
@@ -44,8 +54,10 @@ public class NoticeController {
 		return "notice/eventOffList";
 	}
 	
-	@GetMapping("/event")
-	public String event() {
+	@GetMapping("/event/{id}")
+	public String event(@PathVariable("id")Long id,Model model) {
+		Event event = noticeService.getEvent(id);
+		model.addAttribute("event",event);
 		return "notice/event";
 	}
 }

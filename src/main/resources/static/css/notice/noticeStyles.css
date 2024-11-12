@@ -27,8 +27,16 @@
 }
 
 .notice-content {
-    line-height: 1.6;
-    margin-bottom: 20px;
+	word-wrap: break-word; /* 긴 단어가 강제로 줄을 넘겨 표시됩니다 */
+    overflow-wrap: break-word; /* 최신 속성, 동일한 역할을 합니다 */
+    font-family: 'Arial', sans-serif; /* 깔끔한 폰트 사용 */
+    font-size: 16px; /* 적절한 폰트 크기 설정 */
+    line-height: 1.6; /* 줄 간격을 넓혀 가독성 향상 */
+    color: #333; /* 글자 색을 조금 더 어둡게 설정해서 눈에 잘 들어오도록 */
+    background-color: #f9f9f9; /* 부드러운 배경색으로 글을 돋보이게 함 */
+    padding: 20px; /* 여백 추가하여 내용이 빡빡하지 않게 */
+    border-radius: 8px; /* 모서리를 둥글게 하여 부드러운 느낌 주기 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 가벼운 그림자로 시각적인 깊이 부여 */
 }
 
 .highlight {

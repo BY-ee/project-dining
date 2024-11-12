@@ -7,7 +7,23 @@
 	<select id="getNoticeList" resultType="com.project.domain.Notice">
 		select * from (
 			select notice.* , ROWNUM AS rn 
-			from notice 
+			from ( select * from notice
+					<if test="pageRequest.searchKeyword != null and pageRequest.searchKeyword !=''">
+						<choose>
+							<when test="pageRequest.searchType == '제목'">
+								where title like '%' || #{pageRequest.searchKeyword} || '%'
+							</when>
+							<when test="pageRequest.searchType == '내용'">
+								where content like '%' || #{pageRequest.searchKeyword} || '%'
+							</when>
+							<when test="pageRequest.searchType == '제목 + 내용'">
+								where title like '%' || #{pageRequest.searchKeyword} || '%'
+								or content like '%' || #{pageRequest.searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+					order by created_at desc
+				) notice
 			where ROWNUM &lt;= #{endRow}   <!-- <= 부분을 &lt;= 로 변경 -->
 			)
 		 where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
@@ -30,6 +46,20 @@
 	
 	<select id="getNoticeCountList" resultType="int">
 		select count(*) from notice
+			<if test="pageRequest.searchKeyword != null and pageRequest.searchKeyword !=''">
+				<choose>
+					<when test="pageRequest.searchType == '제목'">
+						where title like '%' || #{pageRequest.searchKeyword} || '%'
+					</when>
+					<when test="pageRequest.searchType == '내용'">
+						where content like '%' || #{pageRequest.searchKeyword} || '%'
+					</when>
+					<when test="pageRequest.searchType == '제목 + 내용'">
+						where title like '%' || #{pageRequest.searchKeyword} || '%'
+						or content like '%' || #{pageRequest.searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
 	</select>
 	
 	<select id="getEventCountList" resultType="int" parameterType="String">
@@ -39,4 +69,33 @@
 		</if>
 	</select>
 	
+	<select id="getEvent" resultType="Event" parameterType="Long">
+		select * from event where id = #{id}
+	</select>
+	
+	<select id="getNotice" resultType="Notice" parameterType="Long">
+		select * from notice where id = #{id}
+	</select>
+	
+	<select id="getPreNotice" resultType="Notice" parameterType="Long">
+		select * from
+		(
+			select id,title
+			from notice
+			where id &lt; #{id}
+			order by created_at desc
+		)
+		where rownum = 1
+	</select>
+	
+	<select id="getNextNotice" resultType="Notice" parameterType="Long">
+		select * from
+		(
+			select id,title
+			from notice
+			where id &gt; #{id}
+			order by created_at desc
+		)
+		where rownum = 1
+	</select>
 </mapper>

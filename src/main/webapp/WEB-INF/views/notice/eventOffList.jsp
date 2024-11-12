@@ -47,7 +47,7 @@
 				<span>2024-09-02 ~ 2024-12-31</span> <span class="category">할인</span>
 			</a>
 			<c:forEach var = "event" items = "${eventPageResponse.list}">
-				<a href="/event" class="event-item">
+				<a href="/event/${event.id}" class="event-item">
 					<img src="images/image2.png">
                 	<h3>${event.title}</h3>
                 	<span>${event.startDate} ~ ${event.endDate}</span>
