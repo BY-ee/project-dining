@@ -13,4 +13,5 @@ public class MemberLike {
 	private Timestamp createdAt;
 	public boolean isLiked;
 	
+	public long likeCount;
 }

@@ -49,5 +49,16 @@ public class StoreService {
     public List<Store> findStoresByLocation(String location) {
         return storeMapper.findStoresByLocation(location); // StoreMapper에서 특정 지역의 가게 목록 가져오기
     }
+
+	// 찜좋아요 수 가져오기
+	public long getLikeCountByStoreId(Long storeId) {
+	    Long count = storeMapper.getLikeCountByStoreId(storeId);
+	    return (count != null) ? count : 0;
+	}
+	
+	// 특정 사용자가 특정 가게를 찜했는지 확인
+	public boolean isMemberLikedStore(Long storeId, Long memberId) {
+		return storeMapper.isMemberLikedStore(storeId, memberId) > 0;
+	}
 	
 }

@@ -51,4 +51,22 @@
         WHERE member_id = #{memberId} AND store_id = #{storeId}
     </delete>
 	
+	<!-- 찜 좋아요 수 가져오기 -->
+	<select id="getLikeCountByStoreId" parameterType="long" resultType="java.lang.Long">
+	SELECT 
+        store_id AS storeId,
+        COUNT(*) AS likeCount
+    FROM Member_Like
+    WHERE store_id = #{storeId}
+    GROUP BY store_id
+	</select>
+	
+	<!-- 특정 사용자가 특정 가게를 찜했는지 확인 -->
+    <select id="checkIfMemberLikedStore" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM Member_Like
+        WHERE store_id = #{storeId}
+          AND member_id = #{memberId}
+    </select>
+	
 </mapper>

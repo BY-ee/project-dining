@@ -92,7 +92,7 @@
 <div class="container">
     <div class="store-header">
         <h2>가게 이름: ${storeDetail.storeName} </h2>
-        <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">0</span></button>
+        <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">${memberLike.likeCount}</span></button>
     </div>
 
     <!-- 메인 사진 섹션 -->

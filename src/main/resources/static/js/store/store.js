@@ -54,15 +54,42 @@ document.addEventListener('DOMContentLoaded', function() {
 	let isLiked = false;
 	let likeCount = 0;
 
+	// 초기 상태 설정
+	window.addEventListener('DOMContentLoaded', () => {
+		$.ajax({
+			url: '/getLikeStatus',  // 초기 찜 상태와 누적 찜 수를 가져오는 API 엔드포인트
+			method: 'GET',
+			data: {
+				memberId: userId,
+				storeId: storeId
+			},
+			success: function(response) {
+				isLiked = response.isLiked; // 서버에서 받은 초기 찜 상태
+				likeCount = response.likeCount; // 서버에서 받은 storeId에 대한 누적 찜 수
+
+				// UI 업데이트
+				document.getElementById('likeCount').textContent = likeCount;
+				likeButton.classList.toggle('liked', isLiked); // 찜 상태에 따라 버튼 색상 변경
+			},
+			error: function(xhr, status, error) {
+				console.error('초기 찜 상태를 가져오는 데 실패했습니다:', error);
+			}
+		});
+	});
+
 	if (likeButton) {
 		likeButton.addEventListener('click', () => {
-			isLiked = !isLiked;
-			likeCount += isLiked ? 1 : -1;
+			isLiked = !isLiked; // 현재 찜 상태 반전
+			likeCount += isLiked ? 1 : -1;  // 찜 상태에 따라 카운트 증가 또는 감소
+
+			// UI 업데이트
 			document.getElementById('likeCount').textContent = likeCount;
 			likeButton.classList.toggle('liked', isLiked);
 
+			
+			// 서버에 찜 상태 전송 및 최신 카운트 요청
 			$.ajax({
-				url: '/likeStore',  // 서버의 API 엔드포인트
+				url: 'likeStore',  // 서버의 API 엔드포인트
 				method: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify({
@@ -71,7 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					isLiked: isLiked  // 찜 상태 전달
 				}),
 				success: function(response) {
-					console.log('찜 상태가 DB에 저장되었습니다.');
+					likeCount = response.likeCount; // 서버에서 반환된 최신 카운트 값 반영
+					document.getElementById('likeCount').textContent = likeCount; // UI 업데이트
+					console.log('찜 상태와 누적 카운트가 DB에 저장되었습니다.');
 				},
 				error: function(xhr, status, error) {
 					console.error('찜 상태 저장에 실패했습니다:', error);
