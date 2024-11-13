@@ -17,7 +17,7 @@
     <div class="header">
         <!-- 페이지 이름 및 로고 -->
         <div class="page-name">
-        	<h1><a href="/">냐미냐미</a></h1>
+        	<a href="/"><img src="/images/home/NYUMINYUMI.png" alt="냐미냐미"></a>
         </div>
         
         <!-- 인증 버튼 -->
@@ -100,9 +100,9 @@
 		        <div id="selectedIndustryOptions" class="selected-industry-options" style="display: none;">
 		            <!-- 업종에 따른 세부 항목이 여기에 추가됨 -->
 		        </div>
-		        <div class="category-step" id="themeStep" style="display: none;">
+		        <div class="category-step" id="themeStep">
 		            <h3>테마 선택</h3>
-		            <button onclick="selectTheme('솔로')">솔로</button>
+		            <button onclick="selectTheme('혼밥')">혼밥</button>
 		            <button onclick="selectTheme('데이트')">데이트</button>
 		            <button onclick="selectTheme('친구')">친구</button>
 		            <button onclick="selectTheme('회식')">회식</button>
@@ -150,6 +150,8 @@
 	<script type="text/javascript">
 	    // JSP 표현식으로 user_ID 가져오기
 		var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
+		let selectedLocation = ""; // 추가된 변수
+
 	
 	    function goToStoreDetail(storeId) {	        
 	        var url = '/storeDetail?store_ID=' + storeId;
@@ -160,13 +162,14 @@
 	    }
 	    
 	    function filterByLocation(locationCode, locationName) {
+	        selectedLocation = locationCode; // 지역 값 저장
 	        console.log("Selected location:", locationName); // 로그 추가
 	        document.getElementById("location-btn").innerText = locationName;
 
 	        $.ajax({
 	            url: "/storesByLocation",
 	            type: "GET",
-	            data: { location: locationCode },
+	            data: { location: selectedLocation },
 	            success: function(stores) {
 
 	                let html = '';
@@ -185,6 +188,42 @@
 	            }
 	        });
 	    }
+	    
+	    function filterByCategory(industry, subCategory, theme) {
+	    	
+	        console.log("Sending filter criteria:", {
+	            industry: industry,
+	            subCategory: subCategory,
+	            themes: theme.join(",")
+	        });
+	        
+	        $.ajax({
+	            url: "/storesByCategory",
+	            type: "GET",
+	            data: {
+	                industry: industry,
+	                subCategory: subCategory,
+	                theme: theme.join(","),
+	                location: selectedLocation  // selectedLocation이 필요하다면 이 변수도 정의되어 있어야 합니다.
+	            },
+	            success: function(stores) {
+	                let html = '';
+	                stores.forEach(function(store) {
+	                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+	                                '<div class="store-item">' +
+	                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+	                                '</div>' +
+	                                '<div class="store-name">' + store.storeName + '</div>' +
+	                            '</div>';
+	                });
+	                $("#store-list-container").html(html);
+	            },
+	            error: function() {
+	                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+	            }
+	        });
+	    }
+	    
 	</script>
     
     
