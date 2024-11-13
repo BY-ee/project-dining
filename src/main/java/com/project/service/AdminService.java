@@ -1,12 +1,18 @@
 package com.project.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.domain.Member;
 import com.project.domain.Review;
 import com.project.domain.Store;
+import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
@@ -30,7 +36,28 @@ public class AdminService {
 	private final ReviewMapper reviewMapper;
 
 	// 공지 작성
-	public void insertNotice(Notice notice) {
+	public void insertNotice(NoticeDTO noticeDTO) {
+	    // 파일을 저장할 경로 설정 (예: /uploads/)
+	    String filePath = null;
+	    MultipartFile noticeImage = noticeDTO.getImagePath();
+	    if (noticeImage != null && !noticeImage.isEmpty()) {
+	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
+	        filePath = "/uploads/" + fileName;
+	        File file = new File(filePath);
+	        
+	        try {
+	            // 파일 저장
+	            noticeImage.transferTo(file);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    Notice notice = new Notice();
+	    notice.setTitle(noticeDTO.getTitle());
+	    notice.setContent(noticeDTO.getContent());
+	    notice.setNoticeImage(filePath);	    
+	    
 		noticeMapper.insertNotice(notice);
 	}
 	

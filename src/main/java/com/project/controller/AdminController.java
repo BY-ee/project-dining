@@ -21,6 +21,7 @@ import com.project.domain.Menu;
 import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
+import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
@@ -183,37 +184,9 @@ public class AdminController {
 	
 	// 공지사항 작성
 	@PostMapping(value = "/notice/write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<String> writeNotice(
-	        @RequestParam("title") String title,
-	        @RequestParam("content") String content,
-	        @RequestParam(value = "noticeImage", required = false) MultipartFile noticeImage) {
-		
-	    // 파일을 저장할 경로 설정 (예: /uploads/)
-	    String filePath = null;
-	    if (noticeImage != null && !noticeImage.isEmpty()) {
-	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/uploads/" + fileName;
-	        File file = new File(filePath);
-	        
-	        try {
-	            // 파일 저장
-	            noticeImage.transferTo(file);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 저장 실패");
-	        }
-	    }
-
-	    // Notice 객체 생성 후 데이터베이스에 저장
-	    Notice notice = new Notice();
-	    notice.setTitle(title);
-	    notice.setContent(content);
-	    notice.setNoticeImage(filePath); // 파일 경로를 Notice 객체에 설정
+	public ResponseEntity<String> writeNotice(NoticeDTO noticeDTO) {
+	    adminService.insertNotice(noticeDTO);
 	    
-	    // 데이터베이스에 Notice 객체 저장 (서비스 호출 예시)
-	    adminService.insertNotice(notice);
-	    
-//	    adminService.insertNotice(null);
 		return ResponseEntity.ok("성공");
 	}
 	

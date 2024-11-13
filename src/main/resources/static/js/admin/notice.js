@@ -14,11 +14,10 @@ $(() => {
     
         // FormData 객체 생성 및 데이터 추가
         const formData = new FormData();
-        // formData.append("category", category);
         formData.append("title", title);
         formData.append("content", content);
         if (noticeImageInput) {
-            formData.append("noticeImage", noticeImageInput);
+            formData.append("imagePath", noticeImageInput);
         }
     
         // 공지글 작성
@@ -30,7 +29,7 @@ $(() => {
             contentType: false, // FormData는 contentType을 설정하지 않음
             success: () => {
                 alert('공지를 작성하였습니다.');
-                location.href = '/admin/notice';
+                // location.href = '/admin/notice';
             },
             error: (e) => {
                 alert(`공지 작성 실패: ${e.responseText || '알 수 없는 오류'}`);
