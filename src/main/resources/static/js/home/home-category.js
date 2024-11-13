@@ -73,9 +73,9 @@ function searchStores() {
 }
 
 
-
+	// 가게 상세 페이지로 이동
 	var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
-
+	
     function goToStoreDetail(storeId) {	        
         var url = '/storeDetail?store_ID=' + storeId;
         if (userId && userId.trim() !== "") {  
@@ -84,33 +84,72 @@ function searchStores() {
         window.location.href = url;  
     }
     
-    function filterByLocation(locationCode, locationName) {
-        console.log("Selected location:", locationName); // 로그 추가
-        document.getElementById("location-btn").innerText = locationName;
-
-        $.ajax({
-            url: "/storesByLocation",
-            type: "GET",
-            data: { location: locationCode === "ALL" ? "" : locationCode },
-            success: function(stores) {
-
-                let html = '';
-                stores.forEach(function(store) {
-                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
-                                '<div class="store-item">' +
-                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
-                                '</div>' +
-                                '<div class="store-name">' + store.storeName + '</div>' +
-                            '</div>';
-                });
-                $("#store-list-container").html(html);
-            },
-            error: function() {
-                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
-            }
-        });
-    }
+	// 필터링 통합 기능 구현
+	function storeFiltering(){
+		$.ajax({
+		      url: "/storeFiltering",
+		      type: "GET",
+		      data: {
+		          ...filterOptions, // 필터링 조건 (location, industry, theme)
+		      },
+		      success: function(stores) {
+		          let html = '';
+		          stores.forEach(function(store) {
+		              html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+		                          '<div class="store-item">' +
+		                              '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+		                          '</div>' +
+		                          '<div class="store-name">' + store.storeName + '</div>' +
+		                      '</div>';
+		          });
+		          $("#store-list-container").html(html);
+		      },
+		      error: function() {
+		          alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+		      }
+		  });
+	}
+	
+	// 정렬 기능 구현
+	function orderByCriteria(orderOptions){
+		
+	}
 	
 	
 	
-	/* 정렬 기능 구현*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//   function filterByLocation(locationCode, locationName) {
+	//        console.log("Selected location:", locationName); // 로그 추가
+	//        document.getElementById("location-btn").innerText = locationName;
+	//
+	//        $.ajax({
+	//            url: "/storesByLocation",
+	//            type: "GET",
+	//            data: { location: locationCode === "ALL" ? "" : locationCode },
+	//            success: function(stores) {
+	//
+	//                let html = '';
+	//                stores.forEach(function(store) {
+	//                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+	//                                '<div class="store-item">' +
+	//                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+	//                                '</div>' +
+	//                                '<div class="store-name">' + store.storeName + '</div>' +
+	//                            '</div>';
+	//                });
+	//                $("#store-list-container").html(html);
+	//            },
+	//            error: function() {
+	//                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+	//            }
+	//        });
+	//    }
+	//	

@@ -71,7 +71,7 @@ public class HomeController {
     @GetMapping("/emailInquery")
     public String emailInquery() {
     	return "home/emailInquery";
-    }
+    }	
     
     @GetMapping("/storeRegistration")
     public String storeRegistration() {
@@ -83,5 +83,6 @@ public class HomeController {
     	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
     	return "mypage/myPage";
     }
+    
 
 }

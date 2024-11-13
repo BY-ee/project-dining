@@ -21,6 +21,7 @@ public class EmailController {
     private final EmailService emailService;
     private final EmailContentService emailContentService;
 	
+    // 이메일 인증코드 인증
     @PostMapping("/verifyCode")
     @ResponseBody
     public String verifyCode(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session) {
@@ -49,6 +50,7 @@ public class EmailController {
     	    return "인증 코드가 올바르지 않습니다.";
     	}}
 	
+ // 이메일 인증코드 전송
     @PostMapping("/send-verification-email")
     @ResponseBody
     public String sendVerificationEmail(@RequestParam("userEmail") String userEmail, HttpSession session) {
@@ -60,10 +62,10 @@ public class EmailController {
         session.setAttribute("userEmail", userEmail);
         session.setAttribute("expiryTime", LocalDateTime.now().plusMinutes(10)); // 예: 10분 후 만료
         
-        
         return "인증 이메일이 발송되었습니다.";
     }
-
+    	
+    // 비밀번호 초기화
     @PostMapping("/send-password-reset-email")
     @ResponseBody
     public String sendPasswordResetEmail(@RequestParam("userEmail") String userEmail) {

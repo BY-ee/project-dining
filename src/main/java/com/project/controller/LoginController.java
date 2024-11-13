@@ -253,6 +253,25 @@ public class LoginController {
         return response.getBody();
     }   
     
+    // 비밀번호 찾기 (이메일 링크)
+    @PostMapping("/sendPwdResetEmail")
+    @ResponseBody
+    public int sendPwdResetEmail(@ModelAttribute("Login") Login login) {
+    	
+    	// 입력한 아이디의 정보를 db에 저장
+    	Login db = loginService.getUser(login.getMemberId());
+
+    	if(db == null) { // 입력한 아이디가 존재하지않을 경우
+    		return "입력한 아이디가 존재하지않습니다.";
+    	}else {
+    		if(db.getEmail().equals(login.getEmail())) { // 입력한 아이디가 존재하고 이메일 데이터와도 일치할 경우
+    			return 1;
+    		}else {  // 입력한 아이디는 존재하는데 이메일 데이터와 일치하지 않을 경우
+    			return -2;
+    		}
+    	}
+    }
+    
     
     
 }

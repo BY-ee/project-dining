@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="findpwd-form-container">
-    
+ <form method="post"> 
   <div class="findpwd-header">
     <h1 class="findpwd-logo">비밀번호 찾기</h1>
   </div>
@@ -18,7 +18,7 @@
  <div class="findpwd-form">
   	<p class="instruction-text"> 찾고자 하는 아이디와 비밀번호를 받을 이메일 주소를 입력하세요. </p>
 
- 	<input type="text" placeholder="아이디" id="loginId" name= "id">
+ 	<input type="text" placeholder="아이디" id="memberId" name= "memberId">
  </div>
  
  
@@ -32,9 +32,8 @@
     <option value="custom">직접 입력</option>
   </select>
 </div>
-    <button type="submit" class="signcomplete">비밀번호 찾기</button>
-
-
+    <button type="submit" class="signcomplete" id="findPwd-btn">비밀번호 찾기</button>
 </div>
+</form>
 </body>
 </html>

@@ -299,8 +299,6 @@
 		        return;
 		    }
 
-
-
 		    // hidden 필드에 이메일과 사업자 등록번호 설정
 		    if (isEmailVerified && fullEmail === verifiedEmail) {
 		        $("#email").val(fullEmail); // 이메일 설정
@@ -310,5 +308,30 @@
 		    }
 		});
 
+		// 비밀번호 찾기
+		$('#findPwd-btn').on('click', function() {
+			const mailid = $('#mailid').val().trim();
+			const domain = $('#domain').val().trim();
+
+			const fullEmail = `${mailid}@${domain}`;
+
+
+			// 이메일 서버에 전송
+			$.ajax({
+				url: '/sendPwdResetEmail',
+				type: 'POST',
+				data: { userEmail: fullEmail },
+				success: function(response) {
+					alert(response);
+				},
+				error: function(error) {
+					alert("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
+				}
+			});
+		});
+
+		
+		
+		
 	  
 	}); // js end
