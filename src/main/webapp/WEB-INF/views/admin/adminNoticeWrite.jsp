@@ -18,17 +18,7 @@
     <script src="/js/admin/notice.js"></script>
 </head>
 <body>
-    <!-- Main Content -->
-    <div class="content">
-        <div class="form-group">
-            <label for="category">주제</label>
-            <select id="category" name="category">
-                <option value="">주제 선택</option>
-                <option value="공지">공지</option>
-                <option value="이벤트">이벤트</option>
-            </select>
-        </div>
-        
+    <div class="content">        
         <div class="form-group">
             <div class="notice-header mb-0">
                 <label for="title">제목</label>

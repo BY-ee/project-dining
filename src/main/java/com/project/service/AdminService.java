@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.domain.Event;
 import com.project.domain.Member;
 import com.project.domain.Review;
 import com.project.domain.Store;
@@ -34,32 +35,6 @@ public class AdminService {
 	private final StoreMapper storeMapper;
 	private final MenuMapper menuMapper;
 	private final ReviewMapper reviewMapper;
-
-	// 공지 작성
-	public void insertNotice(NoticeDTO noticeDTO) {
-	    // 파일을 저장할 경로 설정 (예: /uploads/)
-	    String filePath = null;
-	    MultipartFile noticeImage = noticeDTO.getImagePath();
-	    if (noticeImage != null && !noticeImage.isEmpty()) {
-	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/uploads/" + fileName;
-	        File file = new File(filePath);
-	        
-	        try {
-	            // 파일 저장
-	            noticeImage.transferTo(file);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    
-	    Notice notice = new Notice();
-	    notice.setTitle(noticeDTO.getTitle());
-	    notice.setContent(noticeDTO.getContent());
-	    notice.setNoticeImage(filePath);	    
-	    
-		noticeMapper.insertNotice(notice);
-	}
 	
 	// 유저 조회
 	public Pagination<Member> selectMembers(RequestData requestData) {
@@ -184,5 +159,79 @@ public class AdminService {
 	// 특정 공지 조회
 	public Notice selectNoticeById(long id) {
 		return noticeMapper.selectNoticeById(id);
+	}
+	
+	// 공지 작성
+	public void insertNotice(NoticeDTO noticeDTO) {
+	    // 파일을 저장할 경로 설정 (예: /uploads/)
+	    String filePath = null;
+	    MultipartFile noticeImage = noticeDTO.getImagePath();
+	    if (noticeImage != null && !noticeImage.isEmpty()) {
+	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
+	        filePath = "/uploads/" + fileName;
+	        File file = new File(filePath);
+	        
+	        try {
+	            // 파일 저장
+	            noticeImage.transferTo(file);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    Notice notice = new Notice();
+	    notice.setTitle(noticeDTO.getTitle());
+	    notice.setContent(noticeDTO.getContent());
+	    notice.setNoticeImage(filePath);	    
+	    
+		noticeMapper.insertNotice(notice);
+	}
+	
+	// 공지 수정
+	public void updateNotice(NoticeDTO noticeDTO, int id) {
+		// 파일을 저장할 경로 설정 (예: /uploads/)
+	    String filePath = null;
+	    MultipartFile noticeImage = noticeDTO.getImagePath();
+	    if (noticeImage != null && !noticeImage.isEmpty()) {
+	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
+	        filePath = "/uploads/" + fileName;
+	        File file = new File(filePath);
+	        
+	        try {
+	            // 파일 저장
+	            noticeImage.transferTo(file);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    Notice notice = new Notice();
+	    notice.setTitle(noticeDTO.getTitle());
+	    notice.setContent(noticeDTO.getContent());
+	    notice.setNoticeImage(filePath);
+	    
+		noticeMapper.updateNotice(notice, id);
+	}
+	
+	public void inactivateNotice(long id) {
+		noticeMapper.inactivateNotice(id);
+	}
+
+	public void reactivateNotice(long id) {
+		noticeMapper.reactivateNotice(id);
+	}
+
+	// 이벤트 조회
+	public Pagination<Event> selectEvents(RequestData requestData) {
+		int page = requestData.getPage();
+		int size = requestData.getSize();
+		
+		int start = (page - 1) * size + 1;
+		int end = start + size - 1;
+		long totalCount = noticeMapper.countEvents();
+		
+		List<Event> notice = noticeMapper.selectEvents(start, end);
+		
+		return new Pagination<>(notice, page, size, totalCount);
 	}
 }

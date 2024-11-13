@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.domain.Event;
 import com.project.domain.Notice;
 
 @Mapper
@@ -14,6 +15,18 @@ public interface NoticeMapper {
 	// 공지글 조회
 	List<Notice> selectNotice(@Param("start") int start, @Param("end") int end);
 	
+	// 특정 공지 조회
+	Notice selectNoticeById(long id);
+	
+	// 공지 수정
+	void updateNotice(@Param("notice") Notice notice, @Param("id") int id);
+	
+	// 공지 게시중단
+	void inactivateNotice(long id);
+	
+	// 공지 재게시
+	void reactivateNotice(long id);
+	
 	// 총 공지글 개수
 	long countNotice();
 	
@@ -23,6 +36,11 @@ public interface NoticeMapper {
 
 	int getCountList(String category);
 
-	// 특정 공지 조회
-	Notice selectNoticeById(long id);
+
+	// 이벤트 조회
+	List<Event> selectEvents(@Param("start") int start, @Param("end") int end);
+
+	// 총 이벤트글 개수
+	long countEvents();
+
 }

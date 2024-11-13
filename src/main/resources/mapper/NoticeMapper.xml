@@ -15,9 +15,19 @@
 		        SELECT * FROM notice 
 		        ORDER BY id DESC
 		    ) m
-		) 
+		)
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
+	
+	<update id="updateNotice" parameterType="Notice">
+	    UPDATE notice
+	    SET title = #{notice.title},
+	        content = #{notice.content},
+	        status = 'active',
+	        notice_image = #{notice.noticeImage},
+	        views = 0
+	    WHERE id = #{id}
+	</update>
 	
 	<select id="countNotice" resultType="long">
 		SELECT COUNT(*) FROM notice
@@ -42,5 +52,29 @@
 	<select id="selectNoticeById" resultType="Notice">
 		SELECT * FROM notice
 		WHERE id=#{id}
+	</select>
+	
+	<update id="inactivateNotice" parameterType="long">
+		UPDATE notice SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateNotice" parameterType="long">
+		UPDATE notice SET status='active'
+		WHERE id=#{id}
+	</update>
+	
+	<select id="selectEvents" resultType="Event">
+		SELECT * FROM (
+		    SELECT e.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM event 
+		        ORDER BY id DESC
+		    ) e
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+		
+	<select id="countEvents" resultType="long">
+		SELECT COUNT(*) FROM event
 	</select>
 </mapper>

@@ -12,12 +12,8 @@
     <script src="/js/admin/adminMember.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
         <h2>회원관리</h2>
-
-        <!-- Search Box -->
         <div class="search-box">
             <select name="search-keywords">
                 <option value="id">ID</option>
@@ -30,7 +26,6 @@
             <button>검색</button>
         </div>
 
-        <!-- Table -->
         <table>
             <thead>
                 <tr>

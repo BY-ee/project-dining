@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.domain.Event;
 import com.project.domain.Member;
 import com.project.domain.Menu;
 import com.project.domain.Notice;
@@ -191,14 +192,48 @@ public class AdminController {
 	}
 	
 	// 공지사항 수정폼 페이지
-	@GetMapping("/notice/edit/id")
-	public String editNoticePage() {
+	@GetMapping("/notice/{id}/edit")
+	public String editNoticePage(@PathVariable("id") long id, Model model) {
+		Notice notice = adminService.selectNoticeById(id);
+		model.addAttribute("notice", notice);
+		
 		return "admin/adminNoticeEdit";
 	}
 	
 	// 공지사항 수정
-	@PostMapping("/notice/edit")
-	public String EditNotice() {
-		return "admin/adminNotice";
+	@PostMapping(value = "/notice/{id}/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> editNotice(
+			@PathVariable("id") int id,
+			NoticeDTO noticeDTO) {
+	    adminService.updateNotice(noticeDTO, id);
+	    
+		return ResponseEntity.ok("성공");
+	}
+	
+	// 공지 게시중단
+	@PostMapping("/notice/{id}/inactivate")
+	@ResponseBody
+	public ResponseEntity<String> inactivateNotice(@PathVariable("id") long id) {
+		adminService.inactivateNotice(id);
+		
+		return ResponseEntity.ok("inactive");
+	}
+	
+	// 공지 재게시
+	@PostMapping("/notice/{id}/reactivate")
+	@ResponseBody
+	public ResponseEntity<String> reactivateNotice(@PathVariable("id") long id) {
+		adminService.reactivateNotice(id);
+		
+		return ResponseEntity.ok("active");
+	}
+	
+	// 이벤트 관리 페이지
+	@GetMapping("/events")
+	public String events(RequestData requestData, Model model) {
+		Pagination<Event> events = adminService.selectEvents(requestData);
+		model.addAttribute("pagination", events);
+		
+		return "admin/adminEvents";
 	}
 }
