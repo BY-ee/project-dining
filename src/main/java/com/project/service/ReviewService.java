@@ -22,6 +22,10 @@ public class ReviewService {
 	public void insertReview(ReviewDomain newReview) {
 		reviewMapper.insertReview(newReview);
 	}
+	
+	public void submitReview(ReviewDomain newReview) {
+        reviewMapper.insertReview(newReview);
+    }
 
 	
 	// 리뷰 삭제
