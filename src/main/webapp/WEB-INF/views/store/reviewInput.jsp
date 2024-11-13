@@ -20,7 +20,7 @@
 <div class="review-input-section">
     <h3>리뷰 작성하기</h3>
     <!-- form 태그에 있는 action 속성으로 서버에 데이터를 전송 -->
-    <form action="/submitReview" method="post" enctype="multipart/form-data">
+    <form action="submitReview" method="post" enctype="multipart/form-data">
         <!-- 숨겨진 필드: storeId -->
         <input type="hidden" name="storeId" value="${store_ID}">
 

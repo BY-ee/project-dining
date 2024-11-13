@@ -563,8 +563,9 @@ body {
 
 /* 리뷰 이미지 */
 .review-images img {
-	width: 220px;
+	width: 225px;
 	height: 250px;
 	margin: 5px;
+	margin-bottom: 35px;
 	border-radius: 5px;
 }

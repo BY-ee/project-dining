@@ -93,7 +93,7 @@
 	                reviewItem += '<div class="review-images">';
 	                images.forEach(function(imagePath) {
 	                    if (imagePath.trim() !== '') {
-	                        reviewItem += '<img src="' + imagePath.trim() + '" alt="리뷰 이미지" />';
+	                        reviewItem += '<img src="upload/' + imagePath.trim() + '" alt="리뷰 이미지" />';
 	                    }
 	                });
 	                reviewItem += '</div>';
