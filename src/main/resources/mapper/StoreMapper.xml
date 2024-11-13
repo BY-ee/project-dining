@@ -6,10 +6,15 @@
 
 	<select id="selectStores" resultType="Store">
 		SELECT * FROM (
-		    SELECT m.*, ROWNUM AS rnum FROM (
-		        SELECT * FROM store 
+		    SELECT s.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM store
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
-		    ) m
+		    ) s
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
@@ -18,7 +23,12 @@
 		SELECT * FROM (
 		    SELECT m.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM store 
-		        WHERE enroll_status='enrolled'
+                <where>
+                	enroll_status = 'enrolled'
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    AND ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
 		    ) m
 		) 
@@ -31,11 +41,21 @@
     
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
 	
 	<select id="countEnrolledStores" resultType="long">
 		SELECT COUNT(*) FROM store
-		WHERE enroll_status='enrolled'
+        <where>
+        	enroll_status = 'enrolled'
+	        <if test="keyword != null and keyword != ''">
+	            AND ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
 
 	<select id="getMenuById" parameterType="int" resultType="com.project.domain.Menu">

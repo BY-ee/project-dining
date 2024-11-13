@@ -75,10 +75,10 @@ $(() => {
         // 공지글 작성
         const path = window.location.pathname;
         const pathParts = path.split('/');
-        const id = pathParts[3];
+        const noticeId = pathParts[3];
 
         $.ajax({
-            url: `/admin/notice/${id}/edit`,
+            url: `/admin/notice/${noticeId}/edit`,
             type: 'POST',
             data: formData,
             processData: false,
@@ -96,7 +96,7 @@ $(() => {
     // 공지 게시중단 버튼 클릭
     $('.inactive-notice').on('click', function(e) {
         e.preventDefault();
-        const noticeId = $(this).data('id');
+        const noticeId = $(this).data('noticeId');
         $.ajax({
             url: `/admin/notice/${noticeId}/inactivate`,
             type: 'POST',
@@ -112,7 +112,7 @@ $(() => {
     // 공지 재게시 버튼 클릭
     $('.reactive-notice').on('click', function(e) {
         e.preventDefault();
-        const noticeId = $(this).data('id');
+        const noticeId = $(this).data('noticeId');
         $.ajax({
             url: `/admin/notice/${noticeId}/reactivate`,
             type: 'POST',

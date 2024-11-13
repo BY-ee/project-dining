@@ -12,25 +12,23 @@
     <script src="/js/admin/adminReview.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
         <h2>리뷰 관리</h2>
-
-        <!-- Search Box -->
+        
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="userId">유저 ID</option>
-                <option value="storeId">가게 ID</option>
-                <option value="score">평점</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/reviews">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="userId">유저 ID</option>
+                    <option value="storeId">가게 ID</option>
+                    <option value="score">평점</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
-        <!-- Product Table -->
         <table>
             <thead>
                 <tr>

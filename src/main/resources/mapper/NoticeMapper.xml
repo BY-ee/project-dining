@@ -11,10 +11,15 @@
 	
 	<select id="selectNotice" resultType="Notice">
 		SELECT * FROM (
-		    SELECT m.*, ROWNUM AS rnum FROM (
-		        SELECT * FROM notice 
+		    SELECT n.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM notice
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
-		    ) m
+		    ) n
 		)
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
@@ -29,6 +34,11 @@
 	
 	<select id="countNotice" resultType="long">
 		SELECT COUNT(*) FROM notice
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
 
 	<select id="getNoticeList" resultType="com.project.domain.Notice">
@@ -65,7 +75,12 @@
 	<select id="selectEvents" resultType="Event">
 		SELECT * FROM (
 		    SELECT e.*, ROWNUM AS rnum FROM (
-		        SELECT * FROM event 
+		        SELECT * FROM event
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
 		    ) e
 		) 
@@ -105,5 +120,10 @@
 		
 	<select id="countEvents" resultType="long">
 		SELECT COUNT(*) FROM event
+        <where>
+            <if test="keyword != null and keyword != ''">
+                ${column} LIKE '%' || #{keyword} || '%'
+            </if>
+    	</where>
 	</select>
 </mapper>

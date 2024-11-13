@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.Review;
 import com.project.domain.ReviewDomain;
+import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
 
 
@@ -21,13 +22,16 @@ public interface ReviewMapper {
 	void insertReview(ReviewDomain newReview);
 	
 	// 리뷰 조회
-	List<Review> selectReviews(@Param("start") int start, @Param("end") int end);
+	List<Review> selectReviews(
+			@Param("start") int start,
+			@Param("end") int end,
+			@Param("requestData") RequestData requestData);
 
 	// 리뷰 삭제
     void deleteReview(Map<String, Object> reviewDetails); 
 
 	// 총 리뷰 개수
-	long countReviews();
+	long countReviews(RequestData requestData);
 
 	// 특정 리뷰 확인
 	public Review selectReviewById(long id);

@@ -7,29 +7,28 @@
 <html lang="ko">
 <head>
     <title>가게 관리</title>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminStore.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
         <h2>가게 관리</h2>
 
-        <!-- Search Box -->
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="storeName">가게 이름</option>
-                <option value="address">주소</option>
-                <option value="tel">전화번호</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/stores">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="storeName">가게 이름</option>
+                    <option value="address">주소</option>
+                    <option value="tel">전화번호</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
-        <!-- Product Table -->
         <table>
             <thead>
                 <tr>

@@ -44,9 +44,9 @@ public class AdminService {
 		
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
-		long totalCount = memberMapper.countMembers();
+		long totalCount = memberMapper.countMembers(requestData);
 
-		List<Member> members = memberMapper.selectMembers(start, end);
+		List<Member> members = memberMapper.selectMembers(start, end, requestData);
 
 		return new Pagination<>(members, page, size, totalCount);
 	}
@@ -73,9 +73,9 @@ public class AdminService {
 		
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
-		long totalCount = storeMapper.countStores();
+		long totalCount = storeMapper.countStores(requestData);
 		
-		List<Store> stores = storeMapper.selectStores(start, end);
+		List<Store> stores = storeMapper.selectStores(start, end, requestData);
 		
 		return new Pagination<>(stores, page, size, totalCount);
 	}
@@ -102,9 +102,9 @@ public class AdminService {
 		
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
-		long totalCount = reviewMapper.countReviews();
+		long totalCount = reviewMapper.countReviews(requestData);
 		
-		List<Review> reviews = reviewMapper.selectReviews(start, end);
+		List<Review> reviews = reviewMapper.selectReviews(start, end, requestData);
 		
 		return new Pagination<>(reviews, page, size, totalCount);
 	}
@@ -136,9 +136,9 @@ public class AdminService {
 		
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
-		long totalCount = storeMapper.countEnrolledStores();
+		long totalCount = storeMapper.countEnrolledStores(requestData);
 		
-		List<Store> enrolledStores = storeMapper.selectEnrolledStores(start, end);
+		List<Store> enrolledStores = storeMapper.selectEnrolledStores(start, end, requestData);
 		
 		return new Pagination<>(enrolledStores, page, size, totalCount);
 	}
@@ -150,9 +150,9 @@ public class AdminService {
 		
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
-		long totalCount = noticeMapper.countNotice();
+		long totalCount = noticeMapper.countNotice(requestData);
 		
-		List<Notice> notice = noticeMapper.selectNotice(start, end);
+		List<Notice> notice = noticeMapper.selectNotice(start, end, requestData);
 		
 		return new Pagination<>(notice, page, size, totalCount);
 	}
@@ -168,7 +168,7 @@ public class AdminService {
 	    MultipartFile noticeImage = noticeDTO.getImagePath();
 	    if (noticeImage != null && !noticeImage.isEmpty()) {
 	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/images/notice/" + fileName;
+	        filePath = "/images/" + fileName;
 	        File file = new File(filePath);
 	        
 	        try {
@@ -193,7 +193,7 @@ public class AdminService {
 	    MultipartFile noticeImage = noticeDTO.getImagePath();
 	    if (noticeImage != null && !noticeImage.isEmpty()) {
 	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/images/notice/" + fileName;
+	        filePath = "/images/" + fileName;
 	        File file = new File(filePath);
 	        
 	        try {
@@ -229,9 +229,9 @@ public class AdminService {
 		
 		int start = (page - 1) * size + 1;
 		int end = start + size - 1;
-		long totalCount = noticeMapper.countEvents();
+		long totalCount = noticeMapper.countEvents(requestData);
 		
-		List<Event> notice = noticeMapper.selectEvents(start, end);
+		List<Event> notice = noticeMapper.selectEvents(start, end, requestData);
 		
 		return new Pagination<>(notice, page, size, totalCount);
 	}
@@ -247,7 +247,7 @@ public class AdminService {
 	    MultipartFile eventImage = eventDTO.getImagePath();
 	    if (eventImage != null && !eventImage.isEmpty()) {
 	        String fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
-	        filePath = "/images/event/" + fileName;
+	        filePath = "/images/" + fileName;
 	        File file = new File(filePath);
 	        
 	        try {
@@ -272,7 +272,7 @@ public class AdminService {
 	    MultipartFile eventImage = eventDTO.getImagePath();
 	    if (eventImage != null && !eventImage.isEmpty()) {
 	        String fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
-	        filePath = "/images/event/" + fileName;
+	        filePath = "/images/" + fileName;
 	        File file = new File(filePath);
 	        
 	        try {

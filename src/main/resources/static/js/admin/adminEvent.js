@@ -23,6 +23,8 @@ $(() => {
         const startDate = $('#start-date').val();
         const endDate = $('#end-date').val();
         const eventImageInput = $('#event-image')[0].files[0];
+        console.dir(startDate);
+        console.dir(endDate);
     
         // 유효성 검증
         if (!category || !title || !content || !startDate || !endDate) {
@@ -87,10 +89,10 @@ $(() => {
         // 이벤트글 작성
         const path = window.location.pathname;
         const pathParts = path.split('/');
-        const id = pathParts[3];
+        const eventId = pathParts[3];
 
         $.ajax({
-            url: `/admin/events/${id}/edit`,
+            url: `/admin/events/${eventId}/edit`,
             type: 'POST',
             data: formData,
             processData: false,
@@ -108,7 +110,7 @@ $(() => {
     // 이벤트글 게시중단 버튼 클릭
     $('.inactive-event').on('click', function(e) {
         e.preventDefault();
-        const eventId = $(this).data('id');
+        const eventId = $(this).data('eventId');
         $.ajax({
             url: `/admin/events/${eventId}/inactivate`,
             type: 'POST',
@@ -124,7 +126,7 @@ $(() => {
     // 이벤트글 재게시 버튼 클릭
     $('.reactive-event').on('click', function(e) {
         e.preventDefault();
-        const eventId = $(this).data('id');
+        const eventId = $(this).data('eventId');
         $.ajax({
             url: `/admin/events/${eventId}/reactivate`,
             type: 'POST',

@@ -8,6 +8,7 @@
 <html lang="ko">
 <head>
     <title>이벤트 관리</title>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminEvent.js"></script>
 </head>
@@ -16,14 +17,17 @@
         <h2>이벤트 관리</h2>
 
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="title">제목</option>
-                <option value="category">분류</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/events">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="category">카테고리</option>
+                    <option value="title">제목</option>
+                    <option value="category">분류</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
         <table>

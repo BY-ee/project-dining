@@ -9,28 +9,26 @@
     <title>게시글 승인</title>
     <link rel="stylesheet" href="/css/admin/adminApproval.css" />
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/registerStoreForm.js"></script>
+    <script src="/js/admin/adminApproval.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
         <h2>게시글 승인</h2>
 
-        <!-- Search Box -->
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="storeName">가게 이름</option>
-                <option value="address">주소</option>
-                <option value="tel">전화번호</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/approval">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="storeName">가게 이름</option>
+                    <option value="address">주소</option>
+                    <option value="tel">전화번호</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
-        <!-- Product Table -->
         <table>
             <thead>
                 <tr>
@@ -42,13 +40,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2</td>
-                    <td><a href="#" class="approval-link">모수</a></td>
-                    <td>서울특별시 용산구</td>
-                    <td>02-111-1111</td>
-                    <td>대기</td>
-                </tr>
+                <c:forEach var="store" items="${pagination.content}">
+                    <tr>
+                        <td>${store.id}</td>
+                        <td><a href="#" class="approval-link">${store.storeName}</a></td>
+                        <td>${store.address}</td>
+                        <td>${store.tel}</td>
+                        <td class="store-status" data-id="${store.id}" data-status="${store.enrollStatus}">${store.enrollStatus}</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
 

@@ -70,7 +70,7 @@ a:hover {
 .search-box {
     margin-bottom: 20px;
 }
-.search-box select[name="search-keywords"] {
+.search-box select {
     padding: 9px 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
