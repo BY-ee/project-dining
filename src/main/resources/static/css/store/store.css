@@ -309,7 +309,7 @@ body {
 }
 
 .review-content {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .review-rating .star {
@@ -561,3 +561,10 @@ body {
     background-color: #005070; /* 호버 시 색상 변경 */
 }
 
+/* 리뷰 이미지 */
+.review-images img {
+	width: 220px;
+	height: 250px;
+	margin: 5px;
+	border-radius: 5px;
+}
