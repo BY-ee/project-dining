@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.project.domain.Member;
 import com.project.domain.MypageLike;
+import com.project.domain.PageRequest;
+import com.project.domain.PageResponse;
 import com.project.mapper.MypageMapper;
 
 @Service
-public class MypageService {
+public class MypageService{
 	@Autowired
 	MypageMapper mypageMapper;
 	
@@ -18,7 +20,17 @@ public class MypageService {
 		return mypageMapper.getMember(memberId);
 	}
 
-	public List<MypageLike> getMypageLike(int memberId) {
-		return mypageMapper.getMypageLike(memberId);
+	public PageResponse<MypageLike> getMypageLike(PageRequest pageRequest) {
+		
+		int startRow = pageRequest.getSize() * (pageRequest.getPage()-1);
+		int endRow = pageRequest.getSize() * pageRequest.getPage() ;
+		
+		List<MypageLike> list = mypageMapper.getMypageLike(pageRequest,startRow,endRow);
+		
+		int countList = mypageMapper.getCountMypageLike(pageRequest.getMemberId());
+		int totalPage = (int)Math.ceil((double)countList/pageRequest.getSize());
+		int startPage = (pageRequest.getPage()-1)/5*5 + 1;
+		int endPage = Math.min(totalPage, startPage);
+		return new PageResponse<>(list,pageRequest.getPage(),totalPage,startPage,endPage);
 	}
 }

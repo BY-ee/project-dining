@@ -11,9 +11,20 @@
 	</select>
 	
 	<select id="getMypageLike" resultType="MypageLike">
-		select ml.*,s.main_image1 
+		select * from
+		(
+		select ml.*,s.main_image1,ROWNUM AS rn 
 		from member_like ml join store s
 		on ml.store_id = s.id
-		where ml.member_id = #{memberId}
+		where ml.member_id = #{pageRequest.memberId}
+		order by created_at desc
+		)
+		where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id ="getCountMypageLike" resultType="int">
+		select count(*) from
+		member_like
+		where member_id = #{id}
 	</select>
 </mapper>

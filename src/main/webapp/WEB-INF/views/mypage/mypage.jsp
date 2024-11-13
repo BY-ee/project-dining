@@ -46,10 +46,10 @@
 	                <div id="my-check" class="section">
 						<h3>좋아요</h3>
 						<div class="likes-slider">
-							<c:forEach var="mypageLike" items= "${mypageLike}">
+							<c:forEach var="mypageLike" items= "${likePageResponse.list}">
 								<div class="item">
-									<a href="/store/${myPageLike.storeId}">
-										<img src="images/${myPageLike.storeImage}">
+									<a href="/store/${mypageLike.storeId}">
+										<img src="images/${mypageLike.mainImage1}">
 									</a>
 								</div>
 							</c:forEach>

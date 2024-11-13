@@ -17,6 +17,18 @@ public class PageResponse<T> {
 	private String searchKeyword;
 	private String searchType;
 	
+
+
+	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage) {
+		this.list = list;
+		this.currentPage = currentPage;
+		this.totalPage = totalPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+	}
+	
+	
+	
 	public PageResponse(List<T> list, int currentPage, int totalPage, int startPage, int endPage,String category,String searchType,String searchKeyword) {
 		this.list = list;
 		this.currentPage = currentPage;
@@ -27,5 +39,5 @@ public class PageResponse<T> {
 		this.searchKeyword = searchKeyword;
 		this.searchType = searchType;
 	}
-	
+
 }
