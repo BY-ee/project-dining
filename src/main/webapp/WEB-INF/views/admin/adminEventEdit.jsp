@@ -15,7 +15,7 @@
     </style>
     
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/adminNotice.js"></script>
+    <script src="/js/admin/adminEvent.js"></script>
 </head>
 <body>
     <div class="content">

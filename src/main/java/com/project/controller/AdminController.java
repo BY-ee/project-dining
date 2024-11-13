@@ -22,6 +22,7 @@ import com.project.domain.Menu;
 import com.project.domain.Notice;
 import com.project.domain.Review;
 import com.project.domain.Store;
+import com.project.dto.EventDTO;
 import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
@@ -235,5 +236,65 @@ public class AdminController {
 		model.addAttribute("pagination", events);
 		
 		return "admin/adminEvents";
+	}
+	
+	// 이벤트 상세 페이지
+	@GetMapping("/events/{id}")
+	public String eventDetail(@PathVariable("id") long id, Model model) {
+		Event event = adminService.selectEventById(id);
+		model.addAttribute("event", event);
+		
+		return "admin/adminEventDetail";
+	}
+	
+	// 이벤트 작성폼 페이지
+	@GetMapping("/events/write")
+	public String eventForm() {
+		return "admin/adminEventWrite";
+	}
+	
+	// 이벤트 글 작성
+	@PostMapping(value = "/events/write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> writeEvent(EventDTO eventDTO) {
+	    adminService.insertEvent(eventDTO);
+	    
+		return ResponseEntity.ok("성공");
+	}
+	
+	// 이벤트 수정폼 페이지
+	@GetMapping("/events/{id}/edit")
+	public String editEventPage(@PathVariable("id") long id, Model model) {
+		Event event = adminService.selectEventById(id);
+		model.addAttribute("event", event);
+		
+		return "admin/adminEventEdit";
+	}
+	
+	// 공지사항 수정
+	@PostMapping(value = "/events/{id}/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> editEvent(
+			@PathVariable("id") int id,
+			EventDTO eventDTO) {
+	    adminService.updateEvent(eventDTO, id);
+	    
+		return ResponseEntity.ok("성공");
+	}
+	
+	// 공지 게시중단
+	@PostMapping("/events/{id}/inactivate")
+	@ResponseBody
+	public ResponseEntity<String> inactivateEvent(@PathVariable("id") long id) {
+		adminService.inactivateEvent(id);
+		
+		return ResponseEntity.ok("inactive");
+	}
+	
+	// 공지 재게시
+	@PostMapping("/events/{id}/reactivate")
+	@ResponseBody
+	public ResponseEntity<String> reactivateEvent(@PathVariable("id") long id) {
+		adminService.reactivateEvent(id);
+		
+		return ResponseEntity.ok("active");
 	}
 }

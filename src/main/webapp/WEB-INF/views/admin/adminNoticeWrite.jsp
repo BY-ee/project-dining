@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <title>작성폼</title>
-    <link rel="stylesheet" href="/css/admin/adminNotice.css">
+    <link rel="stylesheet" href="/css/admin/adminWriteForm.css">
     <style>
         .mb-0 {
             margin-bottom: 0;
@@ -15,19 +15,19 @@
     </style>
     
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/notice.js"></script>
+    <script src="/js/admin/adminNotice.js"></script>
 </head>
 <body>
-    <div class="content">        
+    <div class="main-content">        
         <div class="form-group">
-            <div class="notice-header mb-0">
+            <div class="header mb-0">
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" placeholder="제목을 입력하세요." />
             </div>
         </div>
 
         <div class="form-group">
-            <div class="notice-content">
+            <div class="content">
                 <label for="content">내용</label>
                 <textarea id="content" name="content" placeholder="내용을 입력하세요."></textarea>
             </div>

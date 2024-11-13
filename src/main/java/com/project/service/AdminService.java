@@ -13,6 +13,7 @@ import com.project.domain.Event;
 import com.project.domain.Member;
 import com.project.domain.Review;
 import com.project.domain.Store;
+import com.project.dto.EventDTO;
 import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
@@ -163,12 +164,11 @@ public class AdminService {
 	
 	// 공지 작성
 	public void insertNotice(NoticeDTO noticeDTO) {
-	    // 파일을 저장할 경로 설정 (예: /uploads/)
 	    String filePath = null;
 	    MultipartFile noticeImage = noticeDTO.getImagePath();
 	    if (noticeImage != null && !noticeImage.isEmpty()) {
 	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/uploads/" + fileName;
+	        filePath = "/images/notice/" + fileName;
 	        File file = new File(filePath);
 	        
 	        try {
@@ -189,12 +189,11 @@ public class AdminService {
 	
 	// 공지 수정
 	public void updateNotice(NoticeDTO noticeDTO, int id) {
-		// 파일을 저장할 경로 설정 (예: /uploads/)
 	    String filePath = null;
 	    MultipartFile noticeImage = noticeDTO.getImagePath();
 	    if (noticeImage != null && !noticeImage.isEmpty()) {
 	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/uploads/" + fileName;
+	        filePath = "/images/notice/" + fileName;
 	        File file = new File(filePath);
 	        
 	        try {
@@ -213,10 +212,12 @@ public class AdminService {
 		noticeMapper.updateNotice(notice, id);
 	}
 	
+	// 공지 게시중단
 	public void inactivateNotice(long id) {
 		noticeMapper.inactivateNotice(id);
 	}
 
+	// 공지 재게시
 	public void reactivateNotice(long id) {
 		noticeMapper.reactivateNotice(id);
 	}
@@ -233,5 +234,70 @@ public class AdminService {
 		List<Event> notice = noticeMapper.selectEvents(start, end);
 		
 		return new Pagination<>(notice, page, size, totalCount);
+	}
+	
+	// 특정 이벤트 조회
+	public Event selectEventById(long id) {
+		return noticeMapper.selectEventById(id);
+	}
+	
+	// 이벤트 글 작성
+	public void insertEvent(EventDTO eventDTO) {
+	    String filePath = null;
+	    MultipartFile eventImage = eventDTO.getImagePath();
+	    if (eventImage != null && !eventImage.isEmpty()) {
+	        String fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
+	        filePath = "/images/event/" + fileName;
+	        File file = new File(filePath);
+	        
+	        try {
+	            // 파일 저장
+	            eventImage.transferTo(file);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    Event event = new Event();
+	    event.setTitle(eventDTO.getTitle());
+	    event.setContent(eventDTO.getContent());
+	    event.setEventImage(filePath);	    
+	    
+		noticeMapper.insertEvent(event);
+	}
+	
+	// 이벤트 수정
+	public void updateEvent(EventDTO eventDTO, int id) {
+	    String filePath = null;
+	    MultipartFile eventImage = eventDTO.getImagePath();
+	    if (eventImage != null && !eventImage.isEmpty()) {
+	        String fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
+	        filePath = "/images/event/" + fileName;
+	        File file = new File(filePath);
+	        
+	        try {
+	            // 파일 저장
+	            eventImage.transferTo(file);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    Event event = new Event();
+	    event.setTitle(eventDTO.getTitle());
+	    event.setContent(eventDTO.getContent());
+	    event.setEventImage(filePath);
+	    
+		noticeMapper.updateEvent(event, id);
+	}
+	
+	// 이벤트 글 게시중단
+	public void inactivateEvent(long id) {
+		noticeMapper.inactivateEvent(id);
+	}
+
+	// 이벤트 글 재게시
+	public void reactivateEvent(long id) {
+		noticeMapper.reactivateEvent(id);
 	}
 }

@@ -9,14 +9,14 @@ import com.project.domain.Notice;
 
 @Mapper
 public interface NoticeMapper {
-	// 공지 작성
-	void insertNotice(Notice notice);
-
 	// 공지글 조회
 	List<Notice> selectNotice(@Param("start") int start, @Param("end") int end);
 	
 	// 특정 공지 조회
 	Notice selectNoticeById(long id);
+	
+	// 공지 작성
+	void insertNotice(Notice notice);
 	
 	// 공지 수정
 	void updateNotice(@Param("notice") Notice notice, @Param("id") int id);
@@ -40,6 +40,21 @@ public interface NoticeMapper {
 	// 이벤트 조회
 	List<Event> selectEvents(@Param("start") int start, @Param("end") int end);
 
+	// 특정 이벤트 조회
+	Event selectEventById(long id);
+	
+	// 이벤트 작성
+	void insertEvent(Event event);
+	
+	// 이벤트 글 수정
+	void updateEvent(@Param("event") Event event, @Param("id") int id);
+	
+	// 이벤트 글 게시중단
+	void inactivateEvent(long id);
+	
+	// 이벤트 글 재게시
+	void reactivateEvent(long id);
+	
 	// 총 이벤트글 개수
 	long countEvents();
 

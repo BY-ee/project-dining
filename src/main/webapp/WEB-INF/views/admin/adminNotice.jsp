@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/admin/templates/header.jsp" %>
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 <head>
     <title>공지사항 관리</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/notice.js"></script>
+    <script src="/js/admin/adminNotice.js"></script>
 </head>
 <body>
     <div class="main-content">
@@ -30,7 +31,7 @@
                 <tr>
                     <th>ID</th>
                     <th>제목</th>
-                    <th>날짜</th>
+                    <th>게시일</th>
                     <th>사진유무</th>
                     <th>조회수</th>
                     <th>상태</th>
@@ -41,7 +42,7 @@
                     <tr>
                         <td>${notice.id}</td>
                         <td><a href="/admin/notice/${notice.id}">${notice.title}</a></td>
-                        <td>${notice.createdAt}</td>
+                        <td><fmt:formatDate value="${notice.createdAt}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
                         <td>
                             <c:choose>
                                 <c:when test="${not empty notice.noticeImage}">O</c:when>
