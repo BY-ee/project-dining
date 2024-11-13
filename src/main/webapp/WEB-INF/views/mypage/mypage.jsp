@@ -27,29 +27,32 @@
                 <div class="profile-pic" onclick="document.getElementById('fileInput').click()">
                 	<span class="profile-overlay">프로필 변경</span>
                 </div>
-                <div class="profile-name">야미</div>
+                <div class="profile-name">${member.nickname}</div>
                 <input type="file" id="fileInput" style="display:none">
                 <div class="prifile-point">내 포인트 : 500p</div>
-                <div class="profile-intro">안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.</div>
+                <div class="profile-intro">${member.introduction}</div>
             </div>
 
             <!-- 메인 콘텐츠 부분 -->
             <div class="main-content">
             	<!-- 탭 메뉴 -->
                 <div class="tabs">
-                    <button class="tab" id="defaultTab">내 활동</button>
-                    <button class="tab">프로필</button>
-                    <button class="tab">계정 정보</button>
+                    <button class="tab" id="defaultTab" onclick="location.href='/mypage'">내 활동</button>
+                    <button class="tab" onclick="location.href='/profile'">프로필</button>
+                    <button class="tab" onclick="location.href='/accountSettings'">계정 정보</button>
                 </div>
                 <div class="expanded-content">
 	                <!-- 내 활동 섹션 -->
 	                <div id="my-check" class="section">
 						<h3>좋아요</h3>
 						<div class="likes-slider">
-							<div class="item">좋아요(가게1)</div>
-							<div class="item">좋아요(가게2)</div>
-							<div class="item">좋아요(가게3)</div>
-							<div class="item">좋아요(가게4)</div>
+							<c:forEach var="mypageLike" items= "${mypageLike}">
+								<div class="item">
+									<a href="/store/${myPageLike.storeId}">
+										<img src="images/${myPageLike.storeImage}">
+									</a>
+								</div>
+							</c:forEach>
 						</div>
 						<!-- 페이지네이션 -->
 						<div class="pagination" id="likes-pagination">

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="css/mypage/myPageStyles.css">
+<link rel="stylesheet" href="css/mypage/commonStyles.css">
 </head>
 <body>
 	<!-- 상단바 -->
@@ -35,9 +37,9 @@
 			<div class="main-content">
 				<!-- 탭 메뉴 -->
 				<div class="tabs">
-					<button class="tab" id="defaultTab">내 활동</button>
-					<button class="tab">프로필</button>
-					<button class="tab">계정 정보</button>
+					<button class="tab" onclick="location.href='/mypage'">내 활동</button>
+					<button class="tab" onclick="location.href='/profile'">프로필</button>
+					<button class="tab" onclick="location.href='/accountSettings'">계정 정보</button>
 				</div>
 				<div class="expanded-content">
 					<!-- 계정 정보 섹션 -->
