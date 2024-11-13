@@ -360,7 +360,28 @@
 			});
 		});
 
+		// 아이디 찾기
+		$('#findId-btn').on('click', function() {
+			const mailid = $('#mailid').val().trim();
+			const domain = $('#domain').val().trim();
+			const fullEmail = `${mailid}@${domain}`;
 
-		
+
+			// 아이디 알림창 띄우기
+			$.ajax({
+				url: '/showId',
+				type: 'POST',
+				data: {
+					email : fullEmail
+				},
+				success: function(response) {
+					alert(response);
+				},
+				error: function(error) {
+					alert("아이디 조회에 실패하였습니다.");
+				}
+			});
+		});
+
 	  
 	}); // js end

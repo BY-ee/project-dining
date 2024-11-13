@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>비밀번호 찾기</title>
+  <title>아이디 찾기</title>
   <link rel="stylesheet" href="css/login/yunyoung.css">
 </head>
 
@@ -15,14 +15,10 @@
 <body>
 <div class="findpwd-form-container">
   <div class="findpwd-header">
-    <h1 class="findpwd-logo">비밀번호 찾기</h1>
+    <h1 class="findpwd-logo">아이디 찾기</h1>
   </div>
 
- <div class="findpwd-form">
-  	<p class="instruction-text"> 찾고자 하는 아이디와 비밀번호를 받을 이메일 주소를 입력하세요. </p>
-
- 	<input type="text" placeholder="아이디" id="memberId" name= "memberId">
- </div>
+ 	<p class="instruction-text"> 회원가입 시 사용한 이메일을 입력해주세요 </p>
 
 <div class="email-form">
 
@@ -38,11 +34,10 @@
   </select>
 
 </div>
-    <input type="button" class="signcomplete" id="findPwd-btn" value="비밀번호 찾기">
+    <input type="button" class="signcomplete" id="findId-btn" value="아이디 찾기">
     <input type="button" class="signcomplete" value="로그인 화면으로 돌아가기" 
     onClick = "location.href = '/loginForm.do' ">
 </div>
-
 
 </body>
 </html>

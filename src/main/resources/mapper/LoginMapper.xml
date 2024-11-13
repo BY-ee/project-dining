@@ -67,5 +67,9 @@
 		update member set passwd = #{passwd} where member_id = #{memberId}
 	</update>
 	
+	<!-- 아이디 찾기 -->
+	<select id="getFindId" parameterType="string" resultType="Login">
+		select * from member where email = #{email }
+	</select>
 	
 </mapper>

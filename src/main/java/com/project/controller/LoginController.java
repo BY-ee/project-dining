@@ -60,7 +60,13 @@ public class LoginController {
 //    public String home() {
 //        return "home/home-category";
 //    }
-
+    
+    // 아이디 찾기
+    @RequestMapping("findId.do")
+    public String findId() {
+        return "login/findId";
+    }   
+    // 비밀번호 찾기
     @RequestMapping("findPwd.do")
     public String findPwd() {
         return "login/findPwd";
@@ -276,6 +282,33 @@ public class LoginController {
         loginService.updaptePassword(login);
         return "비밀번호 재설정이 완료되었습니다.";
     }
+    
+    // 아이디 찾기
+    @PostMapping("/showId")
+    @ResponseBody // AJAX 요청에 응답을 문자열로 반환
+    public String showId(@ModelAttribute("Login") Login login) {
+        
+    	if(login.getEmail() == "@") {
+    		return "이메일을 입력해주세요.";
+    	}
+    	
+    	// 해당 이메일로 찾은 회원의 모든 정보 조회
+    	Login db = loginService.getFindId(login.getEmail());
+    	
+    	if(db == null) {
+    		return "해당 이메일 정보를 가진 회원이 존재하지 않습니다";
+    	}
+    		
+    	String memberId = db.getMemberId();
+    	if(memberId.length() > 15) {
+    		return " 간편 로그인 회원입니다. ";
+    	}
+    	
+
+        return "당신의 아이디는 " + db.getMemberId() + "입니다.";
+    }
+    
+    
     
     
 }

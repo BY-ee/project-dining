@@ -82,7 +82,12 @@ public class LoginService {
 	public void updaptePassword(Login login) {
 		login.setPasswd(passwordEncoder.encode(login.getPasswd()));
 		loginMapper.updatePassword(login);
-	} 
+	}
+
+	public Login getFindId(String email) {
+		return loginMapper.getFindId(email);
+	}
+
 
 }
 
