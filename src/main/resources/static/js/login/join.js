@@ -312,15 +312,15 @@
 		$('#findPwd-btn').on('click', function() {
 			const mailid = $('#mailid').val().trim();
 			const domain = $('#domain').val().trim();
-
+			const memberId = $('#memberId').val().trim();
 			const fullEmail = `${mailid}@${domain}`;
-
 
 			// 이메일 서버에 전송
 			$.ajax({
 				url: '/sendPwdResetEmail',
 				type: 'POST',
-				data: { userEmail: fullEmail },
+				data: { memberId : memberId,
+					    userEmail: fullEmail },
 				success: function(response) {
 					alert(response);
 				},
@@ -330,8 +330,37 @@
 			});
 		});
 
-		
-		
+		// 비밀번호 변경
+		$('#updatePwd-btn').on('click', function() {
+			const memberId = $('#memberId').val().trim();
+			const passwd = $('#passwd').val().trim();    
+			const passwdCheck = $('#passwdCheck').val().trim();
+
+			// 비밀번호 확인
+			if (passwd !== passwdCheck) {
+			    alert("비밀번호가 일치하지 않습니다.");
+			    return; // 일치하지 않으면 AJAX 요청을 보내지 않음
+			}
+
+			// 이메일 서버에 전송
+			$.ajax({
+				url: '/updatePassword',
+				type: 'POST',
+				data: {
+					memberId: memberId,
+					passwd: passwd,
+				},
+				success: function(response) {
+					alert(response);
+					window.close();
+				},
+				error: function(error) {
+					alert("비밀번호 변경에 실패하였습니다.");
+				}
+			});
+		});
+
+
 		
 	  
 	}); // js end

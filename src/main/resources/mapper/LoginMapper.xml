@@ -62,8 +62,10 @@
 		jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR})
 	 </insert>
 	
-	
-	
+	<!-- 비밀번호 재설정 -->
+	<update id="updatePassword" parameterType="Login">
+		update member set passwd = #{passwd} where member_id = #{memberId}
+	</update>
 	
 	
 </mapper>

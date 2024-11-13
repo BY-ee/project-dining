@@ -81,7 +81,8 @@ public class LoginController {
         int result = loginService.isUserNicknameCheck(nickname);
         return ResponseEntity.ok(result);
     }
-
+    
+    // 회원가입
     @PostMapping("/joinMember")
     public String joinMember(@ModelAttribute("Login") Login login, Model model) {
         int result = 0;
@@ -253,25 +254,28 @@ public class LoginController {
         return response.getBody();
     }   
     
-    // 비밀번호 찾기 (이메일 링크)
-    @PostMapping("/sendPwdResetEmail")
-    @ResponseBody
-    public int sendPwdResetEmail(@ModelAttribute("Login") Login login) {
-    	
-    	// 입력한 아이디의 정보를 db에 저장
-    	Login db = loginService.getUser(login.getMemberId());
+    // 비밀번호 재설정 링크
+    @GetMapping("/reset-password")
+    public String resetPassword(@RequestParam("token") String token, @RequestParam("memberId") String memberId, HttpSession session) {
+        String sessionToken = (String) session.getAttribute("passwordResetToken");
+        String sessionMemberId = (String) session.getAttribute("memberId");
 
-    	if(db == null) { // 입력한 아이디가 존재하지않을 경우
-    		return "입력한 아이디가 존재하지않습니다.";
-    	}else {
-    		if(db.getEmail().equals(login.getEmail())) { // 입력한 아이디가 존재하고 이메일 데이터와도 일치할 경우
-    			return 1;
-    		}else {  // 입력한 아이디는 존재하는데 이메일 데이터와 일치하지 않을 경우
-    			return -2;
-    		}
-    	}
+        if (sessionToken != null && sessionToken.equals(token) && sessionMemberId.equals(memberId)) {
+            // 토큰과 아이디가 일치하는 경우 비밀번호 재설정 페이지로 이동
+            return "login/pwdReset"; // 비밀번호 재설정 페이지로 이동
+        } else {
+            // 유효하지 않은 토큰
+            return "invalidToken";
+        }
     }
     
+    // 비밀번호 재설정
+    @PostMapping("/updatePassword")
+    @ResponseBody // AJAX 요청에 응답을 문자열로 반환
+    public String updatePassword(@ModelAttribute("Login") Login login) {
+        loginService.updaptePassword(login);
+        return "비밀번호 재설정이 완료되었습니다.";
+    }
     
     
 }

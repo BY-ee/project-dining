@@ -30,5 +30,8 @@ public interface LoginMapper {
 	void insertNaverJoin(Login login);
 	void insertKakaoJoin(Login login);
 	void insertGoogleJoin(Login login);
+	
+	// 비밀번호 재설정
+	void updatePassword(Login login);
 
 }
