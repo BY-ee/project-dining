@@ -141,7 +141,7 @@
         });
     }
     
-	// 중복 리뷰 확인 후 alert 메시지 표시
+	// 중복 리뷰 확인 후 alert 메시지 표시 (사용 안하는 중)
     function checkDuplicateReview() {
         $.ajax({
             url: 'getReviews',
@@ -200,7 +200,7 @@
     }
 	
 	
-    // 리뷰 삭제 함수
+    // 리뷰 삭제 함수 (사용 안하는 중)
     function deleteReview(reviewId, memberId) {
         const reviewDetails = {
                 id: reviewId,
