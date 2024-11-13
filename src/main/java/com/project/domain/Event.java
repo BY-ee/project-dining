@@ -1,6 +1,6 @@
 package com.project.domain;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
@@ -15,9 +15,9 @@ public class Event {
     private String category;
     private String title;
     private String content;
-    private Timestamp createdAt;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private Date createdAt;
+    private Date startDate;
+    private Date endDate;
     private String status;
     private String eventImage;
     private int views;

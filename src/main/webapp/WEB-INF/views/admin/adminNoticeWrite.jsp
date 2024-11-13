@@ -19,15 +19,15 @@
 </head>
 <body>
     <div class="main-content">        
-        <div class="form-group">
-            <div class="header mb-0">
+        <div class="main-content-header mb-0">
+            <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" placeholder="제목을 입력하세요." />
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="content">
+        <div class="main-content-content">
+            <div class="form-group">
                 <label for="content">내용</label>
                 <textarea id="content" name="content" placeholder="내용을 입력하세요."></textarea>
             </div>

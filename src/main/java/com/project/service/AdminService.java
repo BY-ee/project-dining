@@ -2,6 +2,8 @@ package com.project.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -259,8 +261,11 @@ public class AdminService {
 	    }
 	    
 	    Event event = new Event();
+	    event.setCategory(eventDTO.getCategory());
 	    event.setTitle(eventDTO.getTitle());
 	    event.setContent(eventDTO.getContent());
+	    event.setStartDate(Date.from(eventDTO.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
+	    event.setEndDate(Date.from(eventDTO.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
 	    event.setEventImage(filePath);	    
 	    
 		noticeMapper.insertEvent(event);
@@ -284,8 +289,11 @@ public class AdminService {
 	    }
 	    
 	    Event event = new Event();
+	    event.setCategory(eventDTO.getCategory());
 	    event.setTitle(eventDTO.getTitle());
 	    event.setContent(eventDTO.getContent());
+	    event.setStartDate(Date.from(eventDTO.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
+	    event.setEndDate(Date.from(eventDTO.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
 	    event.setEventImage(filePath);
 	    
 		noticeMapper.updateEvent(event, id);

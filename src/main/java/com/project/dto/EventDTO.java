@@ -1,6 +1,7 @@
 package com.project.dto;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ public class EventDTO {
     private String category;
     private String title;
     private String content;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private MultipartFile imagePath;
 }

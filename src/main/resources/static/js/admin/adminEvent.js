@@ -20,8 +20,8 @@ $(() => {
         const category = $('#category').val();
         const title = $('#title').val();
         const content = $('#content').val();
-        const startDate = $('#start-date').val();
-        const endDate = $('#end-date').val();
+        const startDate = new Date($('#start-date').val()).toISOString().slice(0, -1);
+        const endDate = new Date($('#end-date').val()).toISOString().slice(0, -1);
         const eventImageInput = $('#event-image')[0].files[0];
         console.dir(startDate);
         console.dir(endDate);
@@ -65,8 +65,8 @@ $(() => {
         const category = $('#category').val();
         const title = $('#title').val();
         const content = $('#content').val();
-        const startDate = $('#start-date').val();
-        const endDate = $('#end-date').val();
+        const startDate = new Date($('#start-date').val()).toISOString();
+        const endDate = new Date($('#end-date').val()).toISOString();
         const eventImageInput = $('#event-image')[0].files[0];
     
         // 유효성 검증

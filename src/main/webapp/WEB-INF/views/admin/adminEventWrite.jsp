@@ -30,12 +30,12 @@
                 </select>
             </div>
 
-            <div style="display: flex; gap: 20px;">
-                <div class="form-group">
+            <div class="form-group">
+                <div style="display: flex; gap: 20px;">
                     <label for="start-date">시작일자</label>
                     <input type="date" id="start-date" name="startDate" />
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="end-date">종료일자</label>
                     <input type="date" id="end-date" name="endDate" />
                 </div>
