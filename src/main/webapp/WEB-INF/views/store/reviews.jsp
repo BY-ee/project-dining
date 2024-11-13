@@ -84,6 +84,18 @@
 		            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
 		            + '</div>'
 		            + '<div class="review-content">' + review.content + '</div>';
+                    	            
+	            // 이미지가 있는 경우 표시
+	            if (review.reviewImage) {
+	                var images = review.reviewImage.split(',');
+	                reviewItem += '<div class="review-images">';
+	                images.forEach(function(imagePath) {
+	                    if (imagePath.trim() !== '') {
+	                        reviewItem += '<img src="' + imagePath.trim() + '" alt="리뷰 이미지" />';
+	                    }
+	                });
+	                reviewItem += '</div>';
+	            }
 		
 		        // 수정, 삭제 버튼 추가
 		        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
