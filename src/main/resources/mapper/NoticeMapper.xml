@@ -94,7 +94,7 @@
 			select id,title
 			from notice
 			where id &gt; #{id}
-			order by created_at desc
+			order by created_at asc
 		)
 		where rownum = 1
 	</select>

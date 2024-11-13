@@ -30,9 +30,7 @@ public class NoticeController {
 	public String notice(@PathVariable("id")Long id,Model model) {
 		Notice notice = noticeService.getNotice(id);
 		Notice preNotice = noticeService.getPreNotice(id);
-		System.out.println("pre = " + preNotice.getId());
 		Notice nextNotice = noticeService.getNextNotice(id);
-		System.out.println("next = " + nextNotice.getId());
 		model.addAttribute("notice",notice);
 		model.addAttribute("preNotice",preNotice);
 		model.addAttribute("nextNotice",nextNotice);

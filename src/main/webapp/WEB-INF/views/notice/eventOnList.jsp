@@ -39,12 +39,6 @@
 			<button onclick = "location.href='/eventOnList?category=기타'" class="${param.category == '기타'? 'active' : ''}">기타</button>
 		</div>
 		<div class="event-items">
-			<a href="/event" class="event-item">
-				<img src="images/image1.jpeg" alt="이벤트 이미지">
-				<h3>30주년 기념, 소주 3천원!</h3>
-				<p>가게 정보를 확인하세요</p>
-				<span>2024-09-02 ~ 2024-12-31</span> <span class="category">할인</span>
-			</a>
 			<c:forEach var = "event" items = "${eventPageResponse.list}">
 				<a href="/event/${event.id}" class="event-item">
 					<img src="images/image2.png">

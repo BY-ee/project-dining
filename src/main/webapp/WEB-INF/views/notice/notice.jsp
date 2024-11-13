@@ -45,8 +45,16 @@
         <div class="related-notices">
             <p><strong>관련 공지</strong></p>
             <ul>
-                <li>이전글<a href="/notice/${nextNotice.id}">${nextNotice.title}</a></li>
-                <li>다음글<a href="/notice/${preNotice.id}">${preNotice.title}</a></li>
+            	<c:if test="${nextNotice.id != null}">
+            		<li class="related-notices-item">
+            			이전글<a href="/notice/${nextNotice.id}"> ${nextNotice.title}</a>
+            		</li>
+            	</c:if>
+                <c:if test="${preNotice.id != null}">
+                	<li class="related-notices-item">
+                		다음글<a href="/notice/${preNotice.id}"> ${preNotice.title}</a>
+                	</li>
+                </c:if>
             </ul>
         </div>
 

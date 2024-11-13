@@ -80,6 +80,16 @@ ul {
     text-decoration: underline;
 }
 
+.related-notices-item{
+	padding: 8px 0;
+    border-bottom: 1px solid #eee; /* 항목 간 구분선 추가 */
+    margin-bottom: 5px;
+}
+
+.related-notices-item:last-child{
+	 border-bottom: none; /* 마지막 항목은 구분선 제거 */
+}
+
 /* 목록으로 돌아가기 버튼 */
 .back-button {
     text-align: center;
