@@ -83,7 +83,19 @@
 		            + '<span class="review-date">' + review.createdAt + '</span>'
 		            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
 		            + '</div>'
-		            + '<div class="review-content">' + review.content + '</div>';
+                    + '<div id="review-content-' + review.id + '" class="review-content">' + review.content + '</div>';
+                    	            
+	            // 이미지가 있는 경우 표시
+	            if (review.reviewImage) {
+	                var images = review.reviewImage.split(',');
+	                reviewItem += '<div class="review-images">';
+	                images.forEach(function(imagePath) {
+	                    if (imagePath.trim() !== '') {
+	                        reviewItem += '<img src="upload/' + imagePath.trim() + '" alt="리뷰 이미지" />';
+	                    }
+	                });
+	                reviewItem += '</div>';
+	            }
 		
 		        // 수정, 삭제 버튼 추가
 		        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
@@ -166,10 +178,17 @@
     
 	// 리뷰 수정 버튼 함수
     function editReview(reviewId, currentContent) {
-        var reviewContent = $('#review-content-' + reviewId);
-        reviewContent.html('<textarea id="edit-content-' + reviewId + '">' + currentContent + '</textarea><br>'
-            + '<button onclick="saveReview(' + reviewId + ')">저장</button>'
-            + '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent + '\')">취소</button>');
+    	// 수정, 삭제 버튼 숨기기
+        $('.edit-review-button, .delete-review-button').hide();
+    	
+        // 리뷰 내용을 인라인 폼으로 변경
+        var reviewContentDiv = $('#review-content-' + reviewId);
+        
+        reviewContentDiv.html(
+            '<textarea id="edit-content-' + reviewId + '" rows="4" cols="50">' + currentContent + '</textarea><br>' +
+            '<button onclick="saveReview(' + reviewId + ')">저장</button>' +
+            '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent.replace(/'/g, "\\'") + '\')">취소</button>'
+        );
     }
 	
  	// 리뷰 수정 저장버튼 함수

@@ -38,6 +38,14 @@
         VALUES (#{memberId}, #{storeId}, #{score}, #{content}, #{createdAt}, #{reviewImage,jdbcType=VARCHAR})
     </insert>
     
+    <select id="findReviewByUserAndStore" parameterType="map" resultType="com.project.domain.ReviewDomain">
+	    SELECT * 
+	    FROM review 
+	    WHERE member_id = #{memberId} 
+	      AND store_id = #{storeId} 
+	      AND ROWNUM = 1
+	</select>
+	
 	<select id="countReviews" resultType="long">
 		SELECT COUNT(*) FROM review
         <where>

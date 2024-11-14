@@ -56,19 +56,53 @@ public class ReviewController {
             @RequestParam("content") String content,
             @RequestParam(value = "images", required = false) List<MultipartFile> images,
             HttpSession session,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
-		// 세션에서 user_ID 가져오기
-		Long memberId = (Long) session.getAttribute("user_ID");
+        Long memberId = (Long) session.getAttribute("user_ID");
+     
+        if (memberId == null) {
+            return "redirect:/loginForm.do";
+        }
+        
+        ReviewDomain existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
+        boolean pointGiven = false; // 포인트 지급 여부를 저장할 변수
+        
+        if (existingReview != null) {
+            if ("active".equals(existingReview.getStatus())) {
+                redirectAttributes.addFlashAttribute("duplicateReviewMessage", "이미 리뷰를 작성하셨습니다.");
+                return "redirect:/storeDetail?store_ID=" + storeId;
+            } else if("hidden".equals(existingReview.getStatus())) {
+                reviewService.deleteReview(existingReview.getId());
+            }
+        } else {        	
+        	PointDomain newPoint = new PointDomain();
+            newPoint.setMemberId(memberId);
+            newPoint.setCategory("일반리뷰");  // 지급 유형 설정
+            newPoint.setPoint(100L);  // 지급할 포인트 설정 (예: 100포인트)
+            newPoint.setType("지급");  // 포인트 지급 타입
+            newPoint.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+            newPoint.setStatus("active");
+            
+            pointService.insertPoint(newPoint);
+            pointGiven = true; // 포인트 지급됨
+        }
 
-		// ReviewDomain 객체 생성 및 값 설정
-		ReviewDomain newReview = new ReviewDomain();
-		newReview.setMemberId(memberId);
-		newReview.setStoreId(storeId);
-		newReview.setScore(score);
-		newReview.setContent(content);
-		newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+        // ReviewDomain 객체 생성 및 값 설정
+        ReviewDomain newReview = new ReviewDomain();
+        newReview.setMemberId(memberId);
+        newReview.setStoreId(storeId);
+        newReview.setScore(score);
+        newReview.setContent(content);
+        newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
+
+        
+        // 리뷰 저장
+        reviewService.insertReview(newReview);
+        
+        if (pointGiven) {
+            redirectAttributes.addFlashAttribute("pointMessage", "리뷰 작성으로 100포인트가 지급되었습니다!");
+        }
 
 		// 이미지가 존재할 경우에만 파일 처리 수행
 	    if (images != null && !images.isEmpty()) {
@@ -107,7 +141,6 @@ public class ReviewController {
 	    return "redirect:/storeDetail?store_ID=" + storeId;
 	}
     
-    
     // 리뷰 수정 요청 처리
     @PostMapping("/updateReview")
     public ResponseEntity<String> updateReview(@RequestBody ReviewDomain reviewDomain) {
@@ -119,9 +152,6 @@ public class ReviewController {
         }
     }
 
-    
-    
-    
 //    리뷰 삭제 요청 처리
 //    @PostMapping("/deleteReview")
 //    public ResponseEntity<?> deleteReview(@RequestBody Map<String, Object> reviewDetails) {

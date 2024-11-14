@@ -19,6 +19,10 @@ public class ReviewService {
 	}
 
 	// 리뷰 저장
+	public void insertReview(ReviewDomain newReview) {
+		reviewMapper.insertReview(newReview);
+	}
+	
 	public void submitReview(ReviewDomain newReview) {
         reviewMapper.insertReview(newReview);
     }
