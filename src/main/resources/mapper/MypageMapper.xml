@@ -7,17 +7,20 @@
 	<select id="getMember" resultType="Member">
 		select * from member
 		where
-		member_id=#{memberId}
+		id=#{id}
 	</select>
 	
 	<select id="getMypageLike" resultType="MypageLike">
 		select * from
 		(
-		select ml.*,s.main_image1,ROWNUM AS rn 
-		from member_like ml join store s
-		on ml.store_id = s.id
-		where ml.member_id = #{pageRequest.memberId}
-		order by created_at desc
+		select inner_query.*,ROWNUM as rn
+			from(
+				select ml.*,s.main_image1,s.store_name
+				from member_like ml join store s
+				on ml.store_id = s.id
+				where ml.member_id = #{pageRequest.memberId}
+				order by created_at desc
+			) inner_query
 		)
 		where rn between #{startRow} and #{endRow}
 	</select>
@@ -26,5 +29,32 @@
 		select count(*) from
 		member_like
 		where member_id = #{id}
+	</select>
+	
+	<select id="getMypageReview" resultType="MypageReview">
+		select * from
+		(
+			select inner_query.*,ROWNUM as rn
+			from(
+				select r.*,s.main_image1,s.store_name
+				from review r join store s
+				on r.store_id = s.id
+				where r.member_id = #{pageRequest.memberId}
+				order by created_at desc
+			) inner_query
+		)
+		where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id ="getCountMypageReview" resultType="int">
+		select count(*) from
+		review
+		where member_id = #{id}
+	</select>
+	
+	<select id="getStore" resultType="store">
+		select * from
+		store
+		where member_id = #{memberId}
 	</select>
 </mapper>

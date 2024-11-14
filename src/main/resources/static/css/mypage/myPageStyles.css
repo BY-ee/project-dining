@@ -149,15 +149,30 @@
 }
 
 .item {
-	padding: 10px; /* 아이템 내부 여백 */
-	margin: 10px; /* 아이템 외부 여백 */
+	display:flex;
+	flex-direction: column; /* 세로로 이미지와 텍스트 정렬 */
+    align-items: center;
+    height: auto; /* 높이를 자동으로 설정하여 텍스트와 이미지가 모두 포함되도록 */
+	margin: 0; /* 아이템 외부 여백 */
 	box-sizing: border-box; /* 패딩과 여백이 전체 크기에 포함되도록 */
-	height: 150px; /* 높이를 증가시켜 전체적인 크기를 조절 */
-	background-color: #dcdcdc;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
+	/* height: 150px; 높이를 증가시켜 전체적인 크기를 조절 */
+	width:100%;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
+	transition: transform 0.3s;
+}
+
+.item:hover{
+	transform: translateY(-5px);
+}
+
+.item img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* 이미지를 박스에 꽉 채우기 */
+	border-radius: 8px; /* 이미지에도 모서리 둥글게 */
 }
 
 /* 탭 버튼 스타일 */
@@ -205,9 +220,9 @@
 }
 
 .pagination button.active {
-	background-color: #0073e6;
-	color: #fff;
-	border-color: #0073e6;
+	background-color: black;
+	color: white;
+	border: 1px solid black;
 }
 
 /* 메인 콘텐츠 확장 스타일 */
@@ -403,10 +418,22 @@
     color: #fff;
 }
 
+.failed .progress-icon {
+    background-color: #ff0000; /* 완료된 단계의 색 */
+    color: #fff;
+}
+
 .line {
     flex: 1;
     height: 2px;
     background-color: #dcdcdc;
+    margin: 0 10px;
+}
+
+.lineNo {
+    flex: 1;
+    height: 2px;
+    background-color: white;
     margin: 0 10px;
 }
 
@@ -418,6 +445,11 @@
 /* 진행 중인 단계 강조 */
 .step.completed + .line {
     background-color: #0073e6; /* 완료된 선의 색 */
+}
+
+/* 진행 중인 단계 강조 */
+.step.failed + .line {
+    background-color: #ff0000; /* 완료된 선의 색 */
 }
 
 

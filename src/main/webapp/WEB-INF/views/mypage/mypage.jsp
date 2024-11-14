@@ -27,7 +27,7 @@
                 <div class="profile-pic" onclick="document.getElementById('fileInput').click()">
                 	<span class="profile-overlay">프로필 변경</span>
                 </div>
-                <div class="profile-name">${member.nickname}</div>
+               <div class="profile-name">${member.nickname}</div>
                 <input type="file" id="fileInput" style="display:none">
                 <div class="prifile-point">내 포인트 : 500p</div>
                 <div class="profile-intro">${member.introduction}</div>
@@ -51,57 +51,80 @@
 									<a href="/store/${mypageLike.storeId}">
 										<img src="images/${mypageLike.mainImage1}">
 									</a>
+									${mypageLike.storeName }
 								</div>
 							</c:forEach>
 						</div>
 						<!-- 페이지네이션 -->
 						<div class="pagination" id="likes-pagination">
-							<button onclick="loadLikesPage('prev')">이전</button>
-							<button onclick="loadLikesPage(1)">1</button>
-							<button onclick="loadLikesPage(2)">2</button>
-							<button onclick="loadLikesPage(3)">3</button>
-							<button onclick="loadLikesPage(4)">4</button>
-							<button onclick="loadLikesPage('next')">다음</button>
+							<c:if test="${likPageResponse.startPage > 1}">
+								<button onclick="location.href='/mypage?${likePageResponse.startPage-1}'">이전</button>
+							</c:if>
+							<c:forEach var="i" begin="${likePageResponse.startPage}" end="${likePageResponse.endPage}">
+								<button onclick="location.href='/mypage?likePage=${i}&reviewPage=${reviewPageResponse.currentPage}'" 
+								class = "${i == likePageResponse.currentPage ? 'active' : ''}">${i}</button>
+							</c:forEach>
+							<c:if test="${likePageResponse.endPage < likePageResponse.totalPage}">
+								<button onclick="location.href='/mypage?${likePageResponse.endPage+1}'">다음</button>
+							</c:if>
 						</div>
 						<h3>리뷰</h3>
 						<div class="review-slider">
-							<div class="item">리뷰(가게1)</div>
-							<div class="item">리뷰(가게2)</div>
-							<div class="item">리뷰(가게3)</div>
-							<div class="item">리뷰(가게4)</div>
+							<c:forEach var="mypageReview" items= "${reviewPageResponse.list}">
+								<div class="item">
+									<a href="/store/${mypageReview.storeId}">
+										<img src="images/${mypageReview.mainImage1}">
+									</a>
+									${mypageReview.storeName}
+								</div>
+							</c:forEach>
 						</div>
 						<!-- 페이지네이션 -->
-						<div class="pagination" id="reviews-pagination">
-							<button onclick="loadReviewsPage('prev')">이전</button>
-							<button onclick="loadReviewsPage(1)">1</button>
-							<button onclick="loadReviewsPage(2)">2</button>
-							<button onclick="loadReviewsPage(3)">3</button>
-							<button onclick="loadReviewsPage(4)">4</button>
-							<button onclick="loadReviewsPage('next')">다음</button>
+						<div class="pagination" id="likes-pagination">
+							<c:if test="${reviewPageResponse.startPage > 1}">
+								<button onclick="location.href='/mypage?${reviewPageResponse.startPage-1}'">이전</button>
+							</c:if>
+							<c:forEach var="i" begin="${reviewPageResponse.startPage}" end="${reviewPageResponse.endPage}">
+								<button onclick="location.href='/mypage?likePage=${likePageResponse.currentPage}&reviewPage=${i}'" 
+								class = "${i == reviewPageResponse.currentPage ? 'active' : ''}">${i}</button>
+							</c:forEach>
+							<c:if test="${likePageResponse.endPage < likePageResponse.totalPage}">
+								<button onclick="location.href='/mypage?${reviewPageResponse.endPage+1}'">다음</button>
+							</c:if>
 						</div>
 						<!-- 사업자 회원에게만 보이는 가게 등록 바 -->
-						<h3>내 가게 신청현황</h3>
-						<div class="progress-bar">
-							<div class="step completed">
-								<div class="progress-icon">1</div>
-								<p>가게 등록 요청</p>
+						<c:if test="${store != null}">
+							<h3>내 가게 신청현황</h3>
+							<div class="progress-bar">
+								<div class="${store.enrollStatus=='wait' ? 'step completed': 'step'}">
+									<div class="progress-icon">1</div>
+									<p>가게 등록 요청</p>
+								</div>
+								<div class="line"></div>
+								<div class="${store.enrollStatus=='read' ? 'step completed': 'step'}">
+									<div class="progress-icon">2</div>
+									<p>서류 심사 중</p>
+								</div>
+								<div class="line"></div>
+								<div class="${store.enrollStatus=='enrolled' ? 'step completed':'step'}">
+									<div class="progress-icon">3</div>
+									<p>승인</p>
+								</div>
+								<div class="lineNo"></div>
+								<div class="${store.enrollStatus=='withdrawal' ? 'step failed':'step'}">
+									<div class="progress-icon">4</div>
+									<p>거절</p>
+								</div>
 							</div>
-							<div class="line"></div>
-							<div class="step">
-								<div class="progress-icon">2</div>
-								<p>서류 심사 중</p>
+							<div>
+								<p>신청 가게 이름: ${store.storeName}</p>
+								<br> 
+								<p>가게 설명 : ${store.storeDescription}</p> 
 							</div>
-							<div class="line"></div>
-							<div class="step">
-								<div class="progress-icon">3</div>
-								<p>등록 승인</p>
+							<div>
+								내 가게 보러가기 : <button onclick="location.href='/store/${store.id}'">바로가기</button>
 							</div>
-							<div class="line"></div>
-							<div class="step">
-								<div class="progress-icon">4</div>
-								<p>등록 완료</p>
-							</div>
-						</div>
+						</c:if>
 					</div>    
                 </div>
             </div>
