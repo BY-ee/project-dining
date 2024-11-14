@@ -7,14 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.nimbusds.oauth2.sdk.Request;
 import com.project.domain.MemberLike;
 import com.project.domain.Menu;
 import com.project.domain.StoreDomain;
 import com.project.service.StoreService;
-import com.project.domain.Store;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,18 +83,21 @@ public class StoreController {
 		return "store/store"; 
 	}
 	
-	// 초기 찜 상태와 찜 수 가져오기
-    @GetMapping("/getLikeStatus")
-    public ResponseEntity<?> getLikeStatus(@RequestParam("user_ID") Long memberId,
-                                           @RequestParam("store_ID") Long storeId) {
+	@GetMapping("/getLikeStatus")
+	public ResponseEntity<MemberLike> getLikeStatus(@RequestParam("user_ID") Long memberId,
+	                                                @RequestParam("store_ID") Long storeId) {
+	    boolean isLiked = storeService.isMemberLikedStore(storeId, memberId);
+	    long likeCount = storeService.getLikeCountByStoreId(storeId);
+	    
+	    // MemberLike 객체 생성 및 반환
+	    MemberLike memberLike = new MemberLike();
+	    memberLike.setStoreId(storeId);
+	    memberLike.setMemberId(memberId);
+	    memberLike.setLikeCount(likeCount);
+	    memberLike.setLiked(isLiked);
 
-        boolean isLiked = storeService.isMemberLikedStore(storeId, memberId);
-        long likeCount = storeService.getLikeCountByStoreId(storeId);
-
-        
-        // JSON 형식으로 반환
-        return ResponseEntity.ok(new MemberLike(storeId, memberId, likeCount, isLiked));
-    }
+	    return ResponseEntity.ok(memberLike);
+	}
 
     // 찜기능
     @PostMapping("/likeStore")
@@ -107,7 +106,7 @@ public class StoreController {
         boolean isLiked = memberLike.isLiked();
 
         // isLiked 상태에 따라 찜 추가 또는 삭제
-        if (!isLiked) {
+        if (isLiked) {
             storeService.addLike(memberLike.getMemberId(), memberLike.getStoreId());
         } else {
             storeService.removeLike(memberLike.getMemberId(), memberLike.getStoreId());

@@ -29,12 +29,16 @@ public class StoreService {
 	}
 
 	public void addLike(long memberId, long storeId) {
-		MemberLike like = new MemberLike();
-		like.setMemberId(memberId);
-		like.setStoreId(storeId);
-		like.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		
-		storeMapper.save(like);
+		if (storeMapper.isMemberLikedStore(storeId, memberId) == 0) { // 중복 확인
+	        MemberLike like = new MemberLike();
+	        like.setMemberId(memberId);
+	        like.setStoreId(storeId);
+	        like.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+	        
+	        storeMapper.save(like);
+	    } else {
+	        System.out.println("이미 찜한 상태입니다.");
+	    }
 	}
 
 	public void removeLike(long memberId, long storeId) {
