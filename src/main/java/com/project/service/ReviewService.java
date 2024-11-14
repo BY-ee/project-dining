@@ -19,9 +19,9 @@ public class ReviewService {
 	}
 
 	// 리뷰 저장
-	public void submitReview(ReviewDomain newReview) {
-        reviewMapper.insertReview(newReview);
-    }
+	public void insertReview(ReviewDomain newReview) {
+		reviewMapper.insertReview(newReview);
+	}
 
 	
 	// 리뷰 삭제
@@ -37,10 +37,6 @@ public class ReviewService {
     
     public void hiddenReview(long reviewId) {
     	reviewMapper.updateReviewStatusToHidden(reviewId);
-    }
-    
-    public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
-        return reviewMapper.findReviewByUserAndStore(memberId, storeId);
     }
     
     public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
