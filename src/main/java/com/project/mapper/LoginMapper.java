@@ -1,31 +1,40 @@
 package com.project.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import com.project.domain.LoginDomain;
+import com.project.domain.Login;
 
 @Mapper
 public interface LoginMapper {
-    LoginDomain getUser(String member_id);  // 사용자 조회
-    void insertUser(LoginDomain user);     // 사용자 등록
-
 	
 	// 아이디 중복조회
-	int isUserIdCheck(String member_id);
+	int isUserIdCheck(String memberId);
 	
 	// 닉네임 증복조회
 	int isUserNicknameCheck(String nickname);
 	
 	// 회원가입
-	int joinMember(LoginDomain login);
+	int joinMember(Login login);
 	
-
+	// 회원조회
+	Login getUser(String memberId);
 	
-//	LoginDomain getUser(String memberId);
-
-
-
-
-
+	// 네이버, 카카오, 구글 SNS 계정조회
+	Login getNaverUser(String tempId);
+	Login getKakaoUser(String tempId);
+	Login getGoogleUser(String tempId);
+	
+	// 네이버, 카카오, 구글 SNS 최초 로그인 시 회원가입
+	void insertNaverJoin(Login login);
+	void insertKakaoJoin(Login login);
+	void insertGoogleJoin(Login login);
+	
+	// 비밀번호 재설정
+	void updatePassword(Login login);
+	
+	// 아이디 찾기
+	Login getFindId(String email);
 
 }

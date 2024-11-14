@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -32,70 +33,36 @@
 			<a class="active" href="/eventOffList">종료된 이벤트</a>
 		</div>
 		<div class="category-tabs">
-			<button class="active">전체</button>
-			<button>할인</button>
-			<button>포인트</button>
-			<button>기타</button>
+			<button onclick = "location.href='/eventOffList'" class="${empty param.category ? 'active' : ''}">전체</button>
+			<button onclick = "location.href='/eventOffList?category=할인'" class="${param.category == '할인' ? 'active' : ''}">할인</button>
+			<button onclick = "location.href='/eventOffList?category=포인트'" class="${param.category == '포인트'? 'active' : ''}">포인트</button>
+			<button onclick = "location.href='/eventOffList?category=기타'" class="${param.category == '기타'? 'active' : ''}">기타</button>
 		</div>
 
 		<div class="event-items">
-			<a href="/event" class="event-item">
-				<img src="images/image1.jpeg" alt="이벤트 이미지">
-				<h3>30주년 기념, 소주 3천원!</h3>
-				<p>가게 정보를 확인하세요</p>
-				<span>2024-09-02 ~ 2024-12-31</span> <span class="category">할인</span>
-			</a>
-			<!-- 반복해서 아이템 6개 생성 -->
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<!-- 추가 아이템들 -->
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
-			<a href="/event" class="event-item">
-				<img src="images/image2.png" alt="이벤트 이미지">
-				<h3>1주년 이벤트</h3>
-				<p>포인트 받아가세요~!</p>
-				<span>2024-10-31 ~ 2024-12-09</span> <span class="category">포인트</span>
-			</a>
+			<c:forEach var = "event" items = "${eventPageResponse.list}">
+				<a href="/event/${event.id}" class="event-item">
+					<img src="images/image2.png">
+                	<h3>${event.title}</h3>
+                	<span>${event.startDate} ~ ${event.endDate}</span>
+                	<span>${event.views}</span>
+                	<span class="category">${event.category}</span>
+                </a>	
+			</c:forEach>
 		</div>
+		<!-- 페이지네이션 -->
+        <div class="pagination">
+        	<c:if test="${eventPageResponse.startPage > 1}">
+        		<a href="/eventOffList?page=${eventPageResponse.startPage-1}&category=${eventPageResponse.category}">이전</a>
+        	</c:if>
+        	<c:forEach var="i" begin="${eventPageResponse.startPage}" end ="${eventPageResponse.endPage}">
+        		<a href="/eventOffList?page=${i}&category=${eventPageResponse.category}" 
+        		 class = "${i == eventPageResponse.currentPage ? 'active' : ''}">${i}</a>
+        	</c:forEach>
+        	<c:if test="${eventPageResponse.endPage < eventPageResponse.totalPage}">
+        		<a href="/eventOffList?page=${eventPageResponse.endPage+1}&category=${eventPageResponse.category}">다음</a>
+        	</c:if>
+        </div>
 	</div>
 </body>
 </html>

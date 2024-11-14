@@ -23,7 +23,7 @@
 <form method="post" action="/joinMember">
 <input type="hidden" name="category" value="사업자">
 <input type="hidden" name="email" id="email">
-<input type="hidden" name="registration_number" id="registration_number">
+<input type="hidden" name="registrationNumber" id="registrationNumber">
 <div class="owner-num">
 	<input type="text" placeholder="사업자" id="ownerCode1">
     <span class="owner-symbol" >-</span>
@@ -35,7 +35,7 @@
 <div id="validationMessage" class="instruction-text"></div>
  
   <div class="id-form">
- 	<input type="text" placeholder="아이디" id="member_id" name= "member_id">
+ 	<input type="text" placeholder="아이디" id="memberId" name= "memberId">
  	<input type="button" value="아이디중복검사" id="idCheck-btn">
  	<div id="id-check-result" class="check-result"></div> 
  </div>

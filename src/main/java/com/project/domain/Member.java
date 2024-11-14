@@ -1,6 +1,6 @@
 package com.project.domain;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.apache.ibatis.type.Alias;
 
@@ -23,10 +23,9 @@ public class Member {
     private String introduction;
     private String email;
     private String status;
-    private Date createdAt;
-    private Date inactiveDate;
-    private Date reactiveDate;
-    private Date deletedDate;
+    private Timestamp createdAt;
+    private Timestamp inactiveDate;
+    private Timestamp reactiveDate;
+    private Timestamp deletedDate;
     private String profileImage;
-    private Integer point;
 }

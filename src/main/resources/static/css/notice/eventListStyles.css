@@ -18,10 +18,11 @@
 	margin-bottom: 20px; /* 회색 줄과 주요 콘텐츠 사이의 간격 */
 }
 
-.tab-header h2 {
+.tab-header a {
 	font-size: 24px;
 	cursor: pointer;
 	color: #888;
+	text-decoration: none;
 }
 
 .tab-header .active {

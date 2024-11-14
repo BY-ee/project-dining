@@ -9,9 +9,9 @@
 		
 		// 아이디 중복검사
 		$("#idCheck-btn").on('click', function() {
-		           var member_id = $('#member_id').val().trim();
+		           var memberId = $('#memberId').val().trim();
 	
-		           if (member_id === "") {
+		           if (memberId === "") {
 		               $('#id-check-result').text("아이디를 입력해 주세요.").css("color", "red");
 		               return;
 		           }
@@ -19,7 +19,7 @@
 		           $.ajax({
 		               type: 'POST', 
 		               url: '/idCheck', 
-		               data: { member_id: member_id }, 
+		               data: { memberId: memberId }, 
 		               success: function(response) {
 		                   if (response === 1) { 
 		                       $('#id-check-result').text("이미 사용 중인 아이디입니다.").css("color", "red");
@@ -34,7 +34,7 @@
 		           });
 		       });
 			   
-		$("#member_id").on('keyup', function() {
+		$("#memberId").on('keyup', function() {
 			$('#id-check-result').text(""); // 중복 확인 메시지를 초기화
 			isIdValid = false; 
 		});
@@ -174,7 +174,7 @@
 		    if (businessNumber !== validatedBusinessNumber) {
 		        $('#validationMessage').text(""); // 메시지 초기화
 		        validatedBusinessNumber = ""; // 인증 상태 초기화
-		        $('#registration_number').val(""); // hidden 필드 초기화
+		        $('#registrationNumber').val(""); // hidden 필드 초기화
 		    }
 
 		    // API 요청 데이터
@@ -195,7 +195,7 @@
 		                if (status === '01') { // 01: 계속사업자
 		                    $('#validationMessage').text('인증되었습니다.');
 		                    validatedBusinessNumber = businessNumber; // 인증된 사업자등록번호 저장
-		                    $('#registration_number').val(businessNumber); // hidden 필드에 값 설정
+		                    $('#registrationNumber').val(businessNumber); // hidden 필드에 값 설정
 		                } else {
 		                    $('#validationMessage').text('영업 중인 사업자가 아닙니다.');
 		                }
@@ -299,15 +299,88 @@
 		        return;
 		    }
 
-
-
 		    // hidden 필드에 이메일과 사업자 등록번호 설정
 		    if (isEmailVerified && fullEmail === verifiedEmail) {
 		        $("#email").val(fullEmail); // 이메일 설정
 		    }
 		    if (validatedBusinessNumber && businessNumber === validatedBusinessNumber) {
-		        $("#registration_number").val(businessNumber); // 사업자 등록번호 설정
+		        $("#registrationNumber").val(businessNumber); // 사업자 등록번호 설정
 		    }
+		});
+
+		// 비밀번호 찾기
+		$('#findPwd-btn').on('click', function() {
+			const mailid = $('#mailid').val().trim();
+			const domain = $('#domain').val().trim();
+			const memberId = $('#memberId').val().trim();
+			const fullEmail = `${mailid}@${domain}`;
+
+			// 이메일 서버에 전송
+			$.ajax({
+				url: '/sendPwdResetEmail',
+				type: 'POST',
+				data: { memberId : memberId,
+					    userEmail: fullEmail },
+				success: function(response) {
+					alert(response);
+				},
+				error: function(error) {
+					alert("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
+				}
+			});
+		});
+
+		// 비밀번호 변경
+		$('#updatePwd-btn').on('click', function() {
+			const memberId = $('#memberId').val().trim();
+			const passwd = $('#passwd').val().trim();    
+			const passwdCheck = $('#passwdCheck').val().trim();
+
+			// 비밀번호 확인
+			if (passwd !== passwdCheck) {
+			    alert("비밀번호가 일치하지 않습니다.");
+			    return; // 일치하지 않으면 AJAX 요청을 보내지 않음
+			}
+
+			// 이메일 서버에 전송
+			$.ajax({
+				url: '/updatePassword',
+				type: 'POST',
+				data: {
+					memberId: memberId,
+					passwd: passwd,
+				},
+				success: function(response) {
+					alert(response);
+					window.close();
+				},
+				error: function(error) {
+					alert("비밀번호 변경에 실패하였습니다.");
+				}
+			});
+		});
+
+		// 아이디 찾기
+		$('#findId-btn').on('click', function() {
+			const mailid = $('#mailid').val().trim();
+			const domain = $('#domain').val().trim();
+			const fullEmail = `${mailid}@${domain}`;
+
+
+			// 아이디 알림창 띄우기
+			$.ajax({
+				url: '/showId',
+				type: 'POST',
+				data: {
+					email : fullEmail
+				},
+				success: function(response) {
+					alert(response);
+				},
+				error: function(error) {
+					alert("아이디 조회에 실패하였습니다.");
+				}
+			});
 		});
 
 	  

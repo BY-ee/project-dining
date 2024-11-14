@@ -12,25 +12,23 @@
     <script src="/js/admin/adminReview.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
         <h2>리뷰 관리</h2>
-
-        <!-- Search Box -->
+        
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="userId">유저 ID</option>
-                <option value="storeId">가게 ID</option>
-                <option value="score">평점</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/reviews">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="userId">유저 ID</option>
+                    <option value="storeId">가게 ID</option>
+                    <option value="score">평점</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
-        <!-- Product Table -->
         <table>
             <thead>
                 <tr>
@@ -39,18 +37,23 @@
                     <th>가게 ID</th>
                     <th>평점</th>
                     <th>리뷰</th>
+                    <th>관리</th>
                     <th>상태</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="review" items="${reviews.content}">
+                <c:forEach var="review" items="${pagination.content}">
                     <tr>
                         <td>${review.id}</td>
                         <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
                         <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
                         <td>${review.score}</td>
-                        <td><a href="#" class="review-link">확인</a></td>
-                        <td style="color: #f44;">게시중단</td>
+                        <td><a href="#" data-id="${review.memberId}" class="review-link">확인</a></td>
+                        <td>
+                            <button class="delete-btn inactivate-btn" data-id="${review.id}">게시중단</button>
+                            <button class="edit-btn reactivate-btn" data-id="${review.id}">재게시</button>
+                        </td>
+                        <td class="review-status" data-id="${review.id}" data-status="${review.status}">${review.status}</td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -58,33 +61,28 @@
 
         <!-- Pagination -->
         <div class="pagination">
+            <!-- 클래스명을 동적으로 변경 -->
             <div class="move-page-link">
-                <c:if test="${reviews.currentPage > reviews.start}">
-                    <a class="page-link" href="#">처음</a>
-                </c:if>
-
-                <a class="page-link" href="#">이전</a>
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/reviews?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/reviews?page=${pagination.page - 1}">이전</a>
             </div>
 
             <div class="page">
-                <c:forEach var="page" begin="${reviews.start}" end="${reviews.totalPages}">
+                <c:forEach var="page" begin="${pagination.start}" end="${pagination.end}">
                     <c:choose>
-                        <c:when test="${page == reviews.currentPage}">
+                        <c:when test="${page == pagination.page}">
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
-                            <a class="page-link" href="#">${page}</a>
+                            <a class="page-link" href="/admin/reviews?page=${page}">${page}</a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </div>
 
             <div class="move-page-link">
-                <a class="page-link" href="#">다음</a>
-
-                <c:if test="${reviews.currentPage < reviews.end}">
-                    <a class="page-link" href="#">끝</a>
-                </c:if>
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/reviews?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/reviews?page=${pagination.totalPages}">끝</a>
             </div>
         </div>
     </div>

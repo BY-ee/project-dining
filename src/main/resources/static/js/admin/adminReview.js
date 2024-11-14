@@ -1,39 +1,78 @@
 $(() => {
-    // 임시 데이터 (db 연동 시 함수로 데이터를 가져옴)
-    const review = `
-    <p style="margin-bottom: 10px">
-        In my last blog I discussed the need for referencing in articles submitted to the journal.
-        One of the reasons for referencing that I mentioned was that it gives credibility to your work.
-        The process of reviewing also lends credibility because, by the time a paper is published,
-        it has been through a rigorous screening (review) process.
-        The method of reviewing papers is one of the reasons that it can take quite some time before a paper is finally published.
-    </p>
-
-    <p style="margin-bottom: 10px">
-        Over the next few blogs, I will explain the review process of the IAFOR Journal of Education and also outline
-        what is included in the review form. This should be of assistance for those of you submitting papers
-        and also for anyone who hopes to become a reviewer. This week concentrates on the start of the process.
-        A flowchart of the full review process can be found at https://iafor.org/journal/iafor-journal-of-education/publication-process-flowchart/.
-    </p>
-    `;
-
     // 리뷰관리의 리뷰 클릭 시 팝업창 띄우기
     $('.review-link').each((index, link) => {
         $(link).on('click', (e) => {
             e.preventDefault();
-            $('#review-content').html(review);
-            $('#popup-overlay').css('display', 'flex');
+            const reviewId = $(link).data('id');
+            selectDetailReview(reviewId);
+        });
+    });
+
+    // 리뷰 게시 상태에 따라 글자색 변경
+    const statusColor = {
+        'active': '#79f',
+        'inactive': '#f66'
+    }
+
+    $('.review-status').each(function() {
+        const status = $(this).data('status');
+        const color = statusColor[status];
+        if (color) {
+            $(this).css({
+                'color': color
+            });
+        }
+    });
+
+    // 리뷰의 게시중단 버튼 클릭
+    $('.inactivate-btn').on('click', function() {
+        const reviewId = $(this).data('id');
+        $.ajax({
+            url: `/admin/reviews/${reviewId}/inactivate`,
+            type: 'POST',
+            success: (result) => {
+                const $statusTd = $(`.review-status[data-id="${reviewId}"]`);
+                $statusTd.text(result).css({
+                    'color': '#f66'
+                });
+            },
+            error: (e) => {
+                console.error(e.responseText);
+            }
+        });
+    });
+
+    // 리뷰의 재게시 버튼 클릭
+    $('.reactivate-btn').on('click', function() {
+        const reviewId = $(this).data('id');
+        $.ajax({
+            url: `/admin/reviews/${reviewId}/reactivate`,
+            type: 'POST',
+            success: (result) => {
+                const $statusTd = $(`.review-status[data-id="${reviewId}"]`);
+                $statusTd.text(result).css({
+                    'color': '#79f'
+                });
+            },
+            error: (e) => {
+                console.error(e.responseText);
+            }
         });
     });
 });
 
-// 회원의 자기소개 가져오는 함수
-function getIntroduction() {
+// 상세리뷰 데이터를 가져와서 페이지에 데이터 추가
+function selectDetailReview(reviewId) {
     $.ajax({
-        url: ``,
+        url: `/admin/reviews/detail-with-member/${reviewId}`,
         type: 'GET',
-        success: (introduction) => {
-            
+        success: (review) => {
+            $('.popup-title').text(review.nickname);
+            $('#review-content').html(review.content);
+            $('#popup-overlay').css('display', 'flex');
+        },
+        error: (e) => {
+            console.error(e.responseText);
         }
     });
 }

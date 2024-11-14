@@ -14,6 +14,7 @@ public class SendEmailService implements EmailService {
 
     private final JavaMailSender mailSender;
 
+    // 이메일 인증 이메일
     @Override
     public void sendEmail(String userEmail, String subject, String content) {
         try {
@@ -28,4 +29,10 @@ public class SendEmailService implements EmailService {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
 }

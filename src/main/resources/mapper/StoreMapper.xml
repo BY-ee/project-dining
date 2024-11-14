@@ -6,24 +6,149 @@
 
 	<select id="selectStores" resultType="Store">
 		SELECT * FROM (
+		    SELECT s.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM store
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
+		        ORDER BY id DESC
+		    ) s
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectEnrolledStores" resultType="Store">
+		SELECT * FROM (
 		    SELECT m.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM store 
+                <where>
+                	enroll_status = 'enrolled'
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    AND ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
 		    ) m
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-    <select id="getStoreDetailById" parameterType="int" resultType="com.project.domain.StoreDomain">
+    <select id="getStoreDetailById" parameterType="long" resultType="com.project.domain.StoreDomain">
     	SELECT * FROM store WHERE id = #{store_ID}
     </select>
     
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
 	
-	<select id="getMenuById" parameterType="int" resultType="com.project.domain.Menu">
-		SELECT * FROM menu WHERE store_id = #{store_ID}
+	<select id="countEnrolledStores" resultType="long">
+		SELECT COUNT(*) FROM store
+        <where>
+        	enroll_status = 'enrolled'
+	        <if test="keyword != null and keyword != ''">
+	            AND ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
+	
+	<update id="inactivateStore" parameterType="long">
+		UPDATE store SET post_status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateStore" parameterType="long">
+		UPDATE store SET post_status='active'
+		WHERE id=#{id}
+	</update>
+	
+	<select id="getMenuById" parameterType="long" resultType="com.project.domain.Menu">
+		SELECT * FROM menu WHERE store_id = #{storeID}
+	</select>
+	
+	<!-- 홈페이지 가게 게시판 -->
+	<select id="findAllStores" resultType="com.project.domain.StoreDomain">
+		SELECT * FROM store
+	</select>
+	
+	<!-- 홈페이지 가게 게시판 (카테고리 지역)-->
+	<select id="findStoresByLocation" parameterType="String" resultType="Store">
+	    SELECT store.*
+	    FROM store
+	    JOIN local ON store.id = local.store_id
+	    WHERE local.local = #{location}
+	</select>
+	
+	<!-- 찜 추가 -->
+    <insert id="save" parameterType="com.project.domain.MemberLike">
+        INSERT INTO member_like (member_id, store_id, created_at)
+        VALUES (#{memberId}, #{storeId}, #{createdAt})
+    </insert>
+	
+	<!-- 찜 취소 -->
+    <delete id="deleteByMemberIdAndStoreId">
+        DELETE FROM member_like
+        WHERE member_id = #{memberId} AND store_id = #{storeId}
+    </delete>
+    
+	<select id="findStoresByFilters" resultType="com.project.domain.Store">
+	    SELECT DISTINCT s.*
+        FROM store s
+        LEFT JOIN local l ON s.id = l.store_id
+        LEFT JOIN industry i ON s.id = i.store_id
+        LEFT JOIN theme t ON s.id = t.store_id
+        <where>
+            <if test="location != null and location != ''">
+                AND l.local = #{location}
+            </if>
+            
+            <!-- 업종 카테고리 필터 (업종 카테고리만 선택 했을 경우)-->
+            <if test="industry != null and industry != ''">
+	            AND i.industry = #{industry}
+	        </if>
+	        
+	        <!-- 세부 카테고리 필터 (업종과 세부 카테고리를 같이 선택 했을 경우)-->
+	        <if test="subCategory != null and subCategory != ''">
+	            <choose>
+	                <when test="industry == '음식점'">
+	                    AND s.id IN (SELECT store_id FROM restaurant WHERE restaurant = #{subCategory})
+	                </when>
+	                <when test="industry == '카페'">
+	                    AND s.id IN (SELECT store_id FROM cafe WHERE cafe = #{subCategory})
+	                </when>
+	                <when test="industry == '술집'">
+	                    AND s.id IN (SELECT store_id FROM bar WHERE bar = #{subCategory})
+	                </when>
+	            </choose>
+	        </if>
+	
+	        <!-- 테마 필터 조건: 테마가 선택된 경우에만 적용 -->
+	        <if test="themeArray != null and themeArray.size() > 0">
+	            AND t.theme IN
+	            <foreach item="theme" collection="themeArray" open="(" separator="," close=")">
+	                #{theme}
+	            </foreach>
+	        </if>
+        </where>
+    </select>
+	
+	<!-- 찜 좋아요 수 가져오기 -->
+	<select id="getLikeCountByStoreId" parameterType="long" resultType="java.lang.Long">
+		SELECT COUNT(*) FROM Member_Like WHERE store_id = #{storeId}
+	</select>
+	
+	<!-- 특정 사용자가 특정 가게를 찜했는지 확인 -->
+    <select id="isMemberLikedStore" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM Member_Like
+        WHERE store_id = #{storeId}
+          AND member_id = #{memberId}
+    </select>
 	
 </mapper>

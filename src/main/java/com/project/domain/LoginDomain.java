@@ -7,26 +7,26 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("login")
+@Alias("LoginDomain")
 public class LoginDomain {
 
 	private Long id;
     private String category;
-    private String registration_number;
-    private String member_id;
-    private String naver_id;
-    private String google_id;
-    private String kakao_id;
+    private String registrationNumber;
+    private String memberId;
+    private String naverId;
+    private String googleId;
+    private String kakaoId;
     private String passwd;
     private String nickname;
     private String introduction;
     private String email;
     private String status;
-    private LocalDateTime created_at;
-    private LocalDateTime inactive_date;
-    private LocalDateTime reactive_date;
-    private LocalDateTime deleted_date;
-    private String profile_image;
+    private LocalDateTime createdAt;
+    private LocalDateTime inactiveDate;
+    private LocalDateTime reactiveDate;
+    private LocalDateTime deletedDate;
+    private String profileImage;
     private Long point;
     
     // 비밀번호 체크
