@@ -2,10 +2,8 @@ package com.project.mapper;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import com.project.domain.Review;
 import com.project.domain.ReviewDomain;
 import com.project.dto.RequestData;
@@ -56,4 +54,7 @@ public interface ReviewMapper {
     
     
     ReviewDomain findReviewByUserAndStore(@Param("memberId") Long memberId, @Param("storeId") Long storeId);
+
+	// 리뷰 수정
+	void updateReview(ReviewDomain reviewDomain);
 }

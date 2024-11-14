@@ -1,24 +1,34 @@
+let currentSlideIndex = 0;
+
+function moveToMainPhotoSlide(slideIndex) {
+    const slidesContainer = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
+
+    // 슬라이드 범위 제한
+    if (slideIndex < 0) {
+        slideIndex = slides.length - 1;
+    }
+    if (slideIndex >= slides.length) {
+        slideIndex = 0;
+    }
+
+    // 슬라이드 이동
+    slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+    currentSlideIndex = slideIndex;
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
-	// 메인 사진 슬라이드 기능 설정
-	const slidesContainer = document.querySelector('.slider');
-	const slides = document.querySelectorAll('.slide');
-	const slideButtons = document.querySelectorAll('.slider-nav button');
-	let currentSlideIndex = 0;
+    const slideButtons = document.querySelectorAll('.slider-nav button');
 
-	function moveToMainPhotoSlide(slideIndex) {
-		slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
-		slideButtons.forEach(button => button.classList.remove('active'));
-		slideButtons[slideIndex].classList.add('active');
-		currentSlideIndex = slideIndex;
-	}
+    slideButtons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            moveToMainPhotoSlide(index);
+        });
+    });
 
-	slideButtons.forEach((button, index) => {
-		button.addEventListener('click', function() {
-			moveToMainPhotoSlide(index);
-		});
-	});
-
-	moveToMainPhotoSlide(0);
+    // 초기 슬라이드 설정
+    moveToMainPhotoSlide(0);
 
 	// 메뉴 사진 슬라이더 기능 설정
 	const menuSlides = document.querySelectorAll('.menu-slide');
@@ -49,36 +59,68 @@ document.addEventListener('DOMContentLoaded', function() {
 		console.error('슬라이더 내비게이션 버튼을 찾을 수 없습니다.');
 	}
 
-	// 찜하기 버튼 기능
-	const likeButton = document.getElementById('likeButton');
-	let isLiked = false;
-	let likeCount = 0;
 
-	if (likeButton) {
-		likeButton.addEventListener('click', () => {
-			isLiked = !isLiked;
-			likeCount += isLiked ? 1 : -1;
-			document.getElementById('likeCount').textContent = likeCount;
-			likeButton.classList.toggle('liked', isLiked);
+	// 찜 상태 초기 설정
+	    const likeButton = document.getElementById('likeButton');
+	    let isLiked = false;
+	    let likeCount = 0;
+	    const data = { store_ID: storeId };
+	    
+	    if (userId) {
+	        data.user_ID = userId;
+	    }
 
-			$.ajax({
-				url: '/likeStore',  // 서버의 API 엔드포인트
-				method: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify({
-					memberId: userId,  // 세션에서 받아온 userId
-					storeId: storeId,
-					isLiked: isLiked  // 찜 상태 전달
-				}),
-				success: function(response) {
-					console.log('찜 상태가 DB에 저장되었습니다.');
-				},
-				error: function(xhr, status, error) {
-					console.error('찜 상태 저장에 실패했습니다:', error);
-				}
-			});
-		});
-	}
+	    // AJAX 요청으로 초기 찜 상태 확인
+	    $.ajax({
+	        url: '/getLikeStatus',
+	        method: 'GET',
+	        data: data,
+	        success: function(response) {
+	            isLiked = response.liked;
+	            likeCount = response.likeCount;
+
+	            // 초기 UI 상태 업데이트
+	            document.getElementById('likeCount').textContent = likeCount;
+	            likeButton.classList.toggle('liked', isLiked);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('초기 찜 상태를 가져오는 데 실패했습니다:', error);
+	        }
+	    });
+
+	    // 찜 버튼 클릭 이벤트
+	    likeButton.addEventListener('click', () => {
+	        if (!userId) {
+	            alert('로그인 후 가능합니다.');
+	            return;
+	        }
+
+	        isLiked = !isLiked;
+	        likeCount += isLiked ? 1 : -1;
+
+	        document.getElementById('likeCount').textContent = likeCount;
+	        likeButton.classList.toggle('liked', isLiked);
+
+	        $.ajax({
+	            url: '/likeStore',
+	            method: 'POST',
+	            contentType: 'application/json',
+	            data: JSON.stringify({
+	                memberId: userId,
+	                storeId: storeId,
+	                liked: isLiked
+	            }),
+	            success: function(response) {
+	                likeCount = response.likeCount;
+	                document.getElementById('likeCount').textContent = likeCount;
+	                console.log('찜 상태와 누적 카운트가 DB에 저장되었습니다.');
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('찜 상태 저장에 실패했습니다:', error);
+	            }
+	        });
+	    });
+
 
 	// 리뷰 정렬 및 렌더링 기능
 	//    let reviews = [];
@@ -233,35 +275,24 @@ document.addEventListener('DOMContentLoaded', function() {
 	//        reviews.sort((a, b) => b.rating - a.rating);
 	//        renderReviews();
 	//    };
-});
 
 
 // 네이버 지도 초기화
-function initMap() {
-	const mapContainer = document.getElementById('map');
-
-	console.log("JS 파일에서 받은 latitude:", latitude);
-	console.log("JS 파일에서 받은 longitude:", longitude);
-
-	if (mapContainer) {
-		const map = new naver.maps.Map('map', {
-			center: new naver.maps.LatLng(latitude, longitude),
-			zoom: 16
-		});
-
-		new naver.maps.Marker({
-			position: new naver.maps.LatLng(latitude, longitude),
-			map: map
-		});
-	} else {
-		console.error('지도를 표시할 #map 요소를 찾을 수 없습니다.');
-	}
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-	if (typeof naver !== 'undefined' && naver.maps) {
-		naver.maps.onJSContentLoaded = initMap;
-	} else {
-		console.error('네이버 맵을 초기화할 수 없습니다.');
-	}
+    if (typeof naver !== 'undefined' && naver.maps) {
+        const mapContainer = document.getElementById('map');
+        if (mapContainer) {
+            const map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(latitude, longitude),
+                zoom: 16
+            });
+            new naver.maps.Marker({
+                position: new naver.maps.LatLng(latitude, longitude),
+                map: map
+            });
+        } else {
+            console.error('지도를 표시할 #map 요소를 찾을 수 없습니다.');
+        }
+    } else {
+        console.error('네이버 맵을 초기화할 수 없습니다.');
+    }
 });

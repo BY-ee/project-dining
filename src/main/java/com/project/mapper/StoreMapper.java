@@ -58,6 +58,13 @@ public interface StoreMapper{
 	
 	
     List<Store> findStoresByLocation(String location);
+
+    // 찜 좋아요 수 가져오기
+	Long getLikeCountByStoreId(@Param("storeId") Long storeId);
+
+	// 특정 사용자가 특정 가게를 찜했는지 확인
+	int isMemberLikedStore(@Param("storeId") Long storeId, @Param("memberId") Long memberId);
+
     
     List<Store> findStoresByFilters(
             @Param("location") String location,

@@ -102,28 +102,31 @@
 <div class="container">
     <div class="store-header">
         <h2>가게 이름: ${storeDetail.storeName} </h2>
-        <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">0</span></button>
+        <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">${memberLike.likeCount}</span></button>
     </div>
 
     <!-- 메인 사진 섹션 -->
     <div class="section main-photo">
-        <div class="section-title">가게 메인 사진</div>
+    <div class="section-title">가게 메인 사진</div>
+    <div class="slider-container"> <!-- 슬라이더 컨테이너 추가 -->
         <div class="slider" id="slider">
-            <div class="slide"><img src="${storeDetail.mainImage1}"></div>
-            <div class="slide"><img src="${storeDetail.mainImage2}"></div>
-        </div>
-        <div class="slider-nav">
-            <button aria-label="이전 슬라이드" onclick="moveToSlide(currentSlideIndex - 1)"></button>
-            <button aria-label="다음 슬라이드" onclick="moveToSlide(currentSlideIndex + 1)"></button>
-        </div>
-        <div class="store-info">
-            <strong>가게주소:</strong> ${storeDetail.address}<br>
-            <strong>상세주소:</strong> ${storeDetail.detailAddress}<br>
-            <strong>전화번호:</strong> ${storeDetail.tel}<br>
-            <strong>영업시간:</strong> ${storeDetail.openTime}<br>
-            <strong>가게설명:</strong> ${storeDetail.storeDescription}<br>
+            <div class="slide"><img src="${storeDetail.mainImage1}" alt="Main Image 1"></div>
+            <div class="slide"><img src="${storeDetail.mainImage2}" alt="Main Image 2"></div>
         </div>
     </div>
+    <div class="slider-nav">
+        <button aria-label="이전 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex - 1)"></button>
+        <button aria-label="다음 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex + 1)"></button>
+    </div>
+    <div class="store-info">
+        <strong>가게주소:</strong> ${storeDetail.address}<br>
+        <strong>상세주소:</strong> ${storeDetail.detailAddress}<br>
+        <strong>전화번호:</strong> ${storeDetail.tel}<br>
+        <strong>영업시간:</strong> ${storeDetail.openTime}<br>
+        <strong>가게설명:</strong> ${storeDetail.storeDescription}<br>
+    </div>
+</div>
+
 
     <!-- 대표 메뉴 섹션 -->
     <div class="section menu-price-section">

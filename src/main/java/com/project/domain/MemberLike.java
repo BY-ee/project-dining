@@ -11,6 +11,8 @@ public class MemberLike {
 	private long storeId;
 	private long memberId;	
 	private Timestamp createdAt;
+	public boolean liked;
 	public boolean isLiked;
 	
+	public long likeCount;
 }

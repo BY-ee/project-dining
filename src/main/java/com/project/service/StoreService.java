@@ -34,12 +34,16 @@ public class StoreService {
 	}
 
 	public void addLike(long memberId, long storeId) {
-		MemberLike like = new MemberLike();
-		like.setMemberId(memberId);
-		like.setStoreId(storeId);
-		like.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		
-		storeMapper.save(like);
+		if (storeMapper.isMemberLikedStore(storeId, memberId) == 0) { // 중복 확인
+	        MemberLike like = new MemberLike();
+	        like.setMemberId(memberId);
+	        like.setStoreId(storeId);
+	        like.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+	        
+	        storeMapper.save(like);
+	    } else {
+	        System.out.println("이미 찜한 상태입니다.");
+	    }
 	}
 
 	public void removeLike(long memberId, long storeId) {
@@ -54,6 +58,17 @@ public class StoreService {
     public List<Store> findStoresByLocation(String location) {
         return storeMapper.findStoresByLocation(location); // StoreMapper에서 특정 지역의 가게 목록 가져오기
     }
+
+	// 찜좋아요 수 가져오기
+	public long getLikeCountByStoreId(Long storeId) {
+	    Long count = storeMapper.getLikeCountByStoreId(storeId);
+	    return (count != null) ? count : 0;
+	}
+	
+	// 특정 사용자가 특정 가게를 찜했는지 확인
+	public boolean isMemberLikedStore(Long storeId, Long memberId) {
+		return storeMapper.isMemberLikedStore(storeId, memberId) > 0;
+	}
 	
     @Transactional // 트랜잭션 활성화
     public List<Store> getStoresByFilters(String location, String industry, String subCategory, String[] themeArray) {

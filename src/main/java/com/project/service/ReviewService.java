@@ -2,12 +2,9 @@ package com.project.service;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Service;
-
 import com.project.domain.ReviewDomain;
 import com.project.mapper.ReviewMapper;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,9 +19,10 @@ public class ReviewService {
 	}
 
 	// 리뷰 저장
-	public void insertReview(ReviewDomain newReview) {
-		reviewMapper.insertReview(newReview);
-	}
+	public void submitReview(ReviewDomain newReview) {
+        reviewMapper.insertReview(newReview);
+    }
+
 	
 	// 리뷰 삭제
 //    public void deleteReview(Map<String, Object> reviewDetails) {
@@ -44,5 +42,11 @@ public class ReviewService {
     public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
         return reviewMapper.findReviewByUserAndStore(memberId, storeId);
     }
+
+    // 리뷰 수정
+	public void updateReview(ReviewDomain reviewDomain) {
+		reviewMapper.updateReview(reviewDomain);
+	}
+
 	
 }

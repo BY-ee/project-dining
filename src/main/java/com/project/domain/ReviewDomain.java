@@ -13,5 +13,5 @@ public class ReviewDomain {
     private String content;
     private Timestamp createdAt;
     private String nickname;
-    private String status;
+    private String reviewImage;
 }
