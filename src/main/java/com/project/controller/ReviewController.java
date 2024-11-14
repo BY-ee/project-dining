@@ -102,50 +102,41 @@ public class ReviewController {
             redirectAttributes.addFlashAttribute("pointMessage", "리뷰 작성으로 100포인트가 지급되었습니다!");
         }
 
-		if (images != null && !images.isEmpty()) {
-			StringBuilder imagePaths = new StringBuilder();
+		// 이미지가 존재할 경우에만 파일 처리 수행
+	    if (images != null && !images.isEmpty()) {
+	        StringBuilder imagePaths = new StringBuilder();
+	        String uploadDir = session.getServletContext().getRealPath("upload");
 
-			String uploadDir = session.getServletContext().getRealPath("upload");
+	        // 업로드 디렉토리가 존재하지 않으면 생성
+	        new File(uploadDir).mkdirs();
 
-			// 디렉토리가 존재하지 않으면 생성
-			File dir = new File(uploadDir);
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
+	        // images 리스트에서 각 파일 처리
+	        for (MultipartFile image : images) {
+	            if (!image.isEmpty()) {  // 빈 파일 체크
+	                try {
+	                    String safeFileName = System.currentTimeMillis() + "_" +
+	                            image.getOriginalFilename().replaceAll("[^a-zA-Z0-9.]", "_");
+	                    String filePath = uploadDir + "/" + safeFileName;
 
-			for (MultipartFile image : images) {
-				try {
-					String originalFileName = image.getOriginalFilename();
-					System.out.println("originalFileName:" + originalFileName);
+	                    image.transferTo(new File(filePath));  // 파일 저장
+	                    imagePaths.append(safeFileName).append(",");  // 파일명 추가
+	                } catch (IOException e) {
+	                    e.printStackTrace();  // 파일 저장 실패 시 오류 출력
+	                }
+	            }
+	        }
 
-					// 파일 이름에서 특수 문자 및 공백을 제거하여 안전하게 처리
-					String safeFileName = originalFileName.replaceAll("[^a-zA-Z0-9.]", "_");
-					String fileName = System.currentTimeMillis() + "_" + safeFileName;
-					String filePath = uploadDir + "/" + fileName;
+	        // 이미지 경로 설정 (마지막 쉼표 제거)
+	        newReview.setReviewImage(imagePaths.length() > 0 ? imagePaths.substring(0, imagePaths.length() - 1) : null);
+	    } else {
+	        newReview.setReviewImage(null);  // 이미지가 없을 경우 null 설정
+	    }
 
-					System.out.println("filePath: " + filePath);
-					// 파일 저장
-					image.transferTo(new File(filePath));
+	    // 리뷰 저장
+	    reviewService.submitReview(newReview);
 
-					// 웹에서 접근할 수 있는 경로 설정
-					String webPath = fileName;
-					imagePaths.append(webPath).append(",");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			// 마지막 쉼표 제거
-			if (imagePaths.length() > 0) {
-				imagePaths.setLength(imagePaths.length() - 1);
-			}
-			newReview.setReviewImage(imagePaths.toString());
-		}
-
-		// 리뷰 저장
-		reviewService.submitReview(newReview);
-
-		// 다시 원래 페이지로 리디렉션
-		return "redirect:/storeDetail?store_ID=" + storeId;
+	    // 다시 원래 페이지로 리디렉션
+	    return "redirect:/storeDetail?store_ID=" + storeId;
 	}
     
     
