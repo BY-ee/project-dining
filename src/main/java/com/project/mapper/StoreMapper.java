@@ -20,7 +20,7 @@ public interface StoreMapper{
     StoreDomain getStoreDetailById(long store_ID);
     
     // 메뉴정보 가져오기
-    List<Menu> getMenuById(int storeId);
+    List<Menu> getMenuById(long storeId);
     
     // 가게 조회
 	List<Store> selectStores(
