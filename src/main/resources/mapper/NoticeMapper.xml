@@ -4,6 +4,43 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.NoticeMapper">
+	<insert id="insertNotice" parameterType="Notice">
+		INSERT INTO notice (title, content, status, notice_image, views)
+		VALUES (#{title}, #{content}, 'active', #{noticeImage, jdbcType=VARCHAR}, 0)
+	</insert>
+	
+	<select id="selectNotice" resultType="Notice">
+		SELECT * FROM (
+		    SELECT n.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM notice
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
+		        ORDER BY id DESC
+		    ) n
+		)
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<update id="updateNotice">
+	    UPDATE notice
+	    SET title = #{notice.title},
+	        content = #{notice.content},
+	        notice_image = #{notice.noticeImage}
+	    WHERE id = #{id}
+	</update>
+	
+	<select id="countNotice" resultType="long">
+		SELECT COUNT(*) FROM notice
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
+	</select>
+
 	<select id="getNoticeList" resultType="com.project.domain.Notice">
 		select * from (
 			select notice.* , ROWNUM AS rn 
@@ -13,9 +50,80 @@
 			)
 		 where rn &gt;= #{startRow} <!-- > 부분을 &gt; 로 변경 -->
 	</select>
+	
 	<select id="getCountList" parameterType="String" resultType="int">
 		select count(*) from
 		notice
 		where category = #{category}
+	</select>
+	
+	<select id="selectNoticeById" resultType="Notice">
+		SELECT * FROM notice
+		WHERE id=#{id}
+	</select>
+	
+	<update id="inactivateNotice" parameterType="long">
+		UPDATE notice SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateNotice" parameterType="long">
+		UPDATE notice SET status='active'
+		WHERE id=#{id}
+	</update>
+	
+	<select id="selectEvents" resultType="Event">
+		SELECT * FROM (
+		    SELECT e.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM event
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
+		        ORDER BY id DESC
+		    ) e
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<insert id="insertEvent" parameterType="Event">
+		INSERT INTO event (category, title, content, start_date, end_date, status, event_image, views)
+		VALUES (#{category}, #{title}, #{content}, #{startDate}, #{endDate}, 'active', #{eventImage, jdbcType=VARCHAR}, 0)
+	</insert>
+	
+	<update id="updateEvent">
+	    UPDATE event
+	    SET category = #{event.category},
+	    	title = #{event.title},
+	        content = #{event.content},
+	        start_date = #{event.startDate},
+	        end_date = #{event.endDate},
+	        event_image = #{event.eventImage}
+	    WHERE id = #{id}
+	</update>
+	
+	<select id="selectEventById" resultType="Event">
+		SELECT * FROM event
+		WHERE id=#{id}
+	</select>
+	
+	<update id="inactivateEvent" parameterType="long">
+		UPDATE event SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateEvent" parameterType="long">
+		UPDATE event SET status='active'
+		WHERE id=#{id}
+	</update>
+		
+	<select id="countEvents" resultType="long">
+		SELECT COUNT(*) FROM event
+        <where>
+            <if test="keyword != null and keyword != ''">
+                ${column} LIKE '%' || #{keyword} || '%'
+            </if>
+    	</where>
 	</select>
 </mapper>

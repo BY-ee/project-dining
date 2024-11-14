@@ -1,4 +1,4 @@
-package com.project.domain;
+package com.project.dto;
 
 import java.sql.Timestamp;
 
@@ -9,12 +9,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Member")
-public class Member {
-    private Long id;
+@Alias("ReviewMember")
+public class ReviewMemberDTO {
+    private Long reviewId;
+    private long memberId;
+    private long storeId;
+    private double score;
+    private String content;
+    private Timestamp createdAt;
+    private String reviewImage;
+    private String reviewStatus;
     private String category;
     private String registrationNumber;
-    private String memberId;
     private String naverId;
     private String googleId;
     private String kakaoId;
@@ -22,8 +28,7 @@ public class Member {
     private String nickname;
     private String introduction;
     private String email;
-    private String status;
-    private Timestamp createdAt;
+    private String memberStatus;
     private Timestamp inactiveDate;
     private Timestamp reactiveDate;
     private Timestamp deletedDate;

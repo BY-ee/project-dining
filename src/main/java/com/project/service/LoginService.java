@@ -56,9 +56,6 @@ public class LoginService {
         message.setText("인증 코드: " + code + "\n\n해당 인증번호는 10분간 유효합니다.");
         mailSender.send(message);
     }
-
-	private final LoginMapper loginMapper;
-	private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
 	
 	// memberId 중복조회
 	public int isUserIdCheck(String member_id) {

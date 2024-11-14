@@ -5,11 +5,16 @@
 <mapper namespace="com.project.mapper.ReviewMapper">
 	<select id="selectReviews" resultType="Review">
 		SELECT * FROM (
-		    SELECT m.*, ROWNUM AS rnum FROM (
-		        SELECT * FROM review 
+		    SELECT r.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM review
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
-		    ) m
-		) 
+		    ) r
+		)
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -34,11 +39,37 @@
     
 	<select id="countReviews" resultType="long">
 		SELECT COUNT(*) FROM review
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
 	
 	<delete id="deleteReview" parameterType="map">
-	    DELETE FROM review 
+	    DELETE FROM review
 	    WHERE id = #{id} AND member_id = #{member_id}
 	</delete>
 	
+	<select id="selectReviewById" parameterType="long" resultType="Review">
+		SELECT * FROM review
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectReviewMemberById" parameterType="long" resultType="com.project.dto.ReviewMemberDTO">
+		SELECT r.*, m.nickname
+		FROM Review r
+		JOIN Member m ON r.member_id = m.id
+	    WHERE r.member_id = #{memberId}
+	</select>
+	
+	<update id="inactivateReview" parameterType="long">
+		UPDATE review SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateReview" parameterType="long">
+		UPDATE review SET status='active'
+		WHERE id=#{id}
+	</update>
 </mapper>

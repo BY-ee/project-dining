@@ -1,6 +1,6 @@
 package com.project.domain;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
@@ -9,13 +9,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Notice")
-public class Notice {
+@Alias("Event")
+public class Event {
     private int id;
+    private String category;
     private String title;
     private String content;
-    private Timestamp createdAt;
+    private Date createdAt;
+    private Date startDate;
+    private Date endDate;
     private String status;
-    private String noticeImage;
+    private String eventImage;
     private int views;
 }

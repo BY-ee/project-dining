@@ -7,45 +7,41 @@
 <html lang="ko">
 <head>
     <title>작성폼</title>
-    <link rel="stylesheet" href="/css/admin/adminNotice.css">
+    <link rel="stylesheet" href="/css/admin/adminWriteForm.css">
+    <style>
+        .mb-0 {
+            margin-bottom: 0;
+        }
+    </style>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/notice.js"></script>
+    <script src="/js/admin/adminNotice.js"></script>
 </head>
 <body>
-    <!-- Main Content -->
-    <div class="main-content">
-        <h2>공지 작성</h2>
-
-        <div class="form-container">
-            <div class="form-group">
-                <label for="category">주제</label>
-                <select id="category" name="category">
-                    <option value="">주제 선택</option>
-                    <option value="공지">공지</option>
-                    <option value="이벤트">이벤트</option>
-                </select>
-            </div>
-
+    <div class="main-content">        
+        <div class="main-content-header mb-0">
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" placeholder="제목을 입력하세요." />
             </div>
+        </div>
 
+        <div class="main-content-content">
             <div class="form-group">
                 <label for="content">내용</label>
                 <textarea id="content" name="content" placeholder="내용을 입력하세요."></textarea>
             </div>
+        </div>
 
-            <div class="upload-form text-left">
-                <label for="file-upload" class="custom-file-upload">파일 선택</label>
-                <input id="file-upload" type="file" name="noticeImage">
-                <div class="file-name" id="file-name">선택된 파일이 없습니다.</div>
-            </div>
+        <div class="upload-form text-left">
+            <label for="notice-image" class="custom-file-upload">파일 선택</label>
+            <input id="notice-image" type="file" name="noticeImage">
+            <div class="file-name" id="file-name">선택된 파일이 없습니다.</div>
+        </div>
 
-            <div>
-                <button class="btn edit-btn" id="write-notice-btn">작성</button>
-                <button class="btn delete-btn" onclick="location.href='/admin/notice'">돌아가기</button>
-            </div>
+        <div class="button-container">
+            <a class="active-btn" id="write-notice-btn">작성</a>
+            <a class="active-btn" href='/admin/notice'>목록</a>
         </div>
     </div>
 </body>

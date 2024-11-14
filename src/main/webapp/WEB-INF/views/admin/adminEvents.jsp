@@ -7,19 +7,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>공지사항 관리</title>
+    <title>이벤트 관리</title>
     
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/adminNotice.js"></script>
+    <script src="/js/admin/adminEvent.js"></script>
 </head>
 <body>
     <div class="main-content">
-        <h2>공지사항 관리</h2>
+        <h2>이벤트 관리</h2>
 
         <div class="search-box">
-            <form method="get" action="/admin/notice">
+            <form method="get" action="/admin/events">
                 <select name="column">
                     <option value="id">ID</option>
+                    <option value="category">카테고리</option>
                     <option value="title">제목</option>
                     <option value="category">분류</option>
                     <option value="status">상태</option>
@@ -33,27 +34,31 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>카테고리</th>
                     <th>제목</th>
-                    <th>게시일</th>
+                    <th>시작일자</th>
+                    <th>종료일자</th>
                     <th>사진유무</th>
                     <th>조회수</th>
                     <th>상태</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="notice" items="${pagination.content}">
+                <c:forEach var="event" items="${pagination.content}">
                     <tr>
-                        <td>${notice.id}</td>
-                        <td><a href="/admin/notice/${notice.id}">${notice.title}</a></td>
-                        <td><fmt:formatDate value="${notice.createdAt}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td>${event.id}</td>
+                        <td>${event.category}</td>
+                        <td><a href="/admin/events/${event.id}">${event.title}</a></td>
+                        <td><fmt:formatDate value="${event.startDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${event.endDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
                         <td>
                             <c:choose>
-                                <c:when test="${not empty notice.noticeImage}">O</c:when>
+                                <c:when test="${not empty event.eventImage}">O</c:when>
                                 <c:otherwise>X</c:otherwise>
                             </c:choose>
-                        </td>                        
-                        <td>${notice.views}</td>
-                        <td class="notice-status" data-id="${notice.id}" data-status="${notice.status}">${notice.status}</td>
+                        </td>
+                        <td>${event.views}</td>
+                        <td class="event-status" data-id="${event.id}" data-status="${event.status}">${event.status}</td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -63,8 +68,8 @@
         <div class="pagination">
             <!-- 클래스명을 동적으로 변경 -->
             <div class="move-page-link">
-                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/notice?page=1">처음</a>
-                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/notice?page=${pagination.page - 1}">이전</a>
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/events?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/events?page=${pagination.page - 1}">이전</a>
             </div>
 
             <div class="page">
@@ -74,20 +79,20 @@
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
-                            <a class="page-link" href="/admin/notice?page=${page}">${page}</a>
+                            <a class="page-link" href="/admin/events?page=${page}">${page}</a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </div>
 
             <div class="move-page-link">
-                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/notice?page=${pagination.page + 1}">다음</a>
-                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/notice?page=${pagination.totalPages}">끝</a>
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/events?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/events?page=${pagination.totalPages}">끝</a>
             </div>
         </div>
 
         <button class="btn edit-btn" style="margin-top: 40px;"
-            onclick="location.href='/admin/notice/write'">공지작성</button>
+            onclick="location.href='/admin/events/write'">이벤트작성</button>
     </div>
 </body>
 </html>
