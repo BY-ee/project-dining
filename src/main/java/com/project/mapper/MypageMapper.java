@@ -21,4 +21,8 @@ public interface MypageMapper {
 	int getCountMypageReview(long memberId);
 	
 	Store getStore(long memberId);
+
+	int updateMember(Member member);
+
+	int updatePassword(Member member);
 }

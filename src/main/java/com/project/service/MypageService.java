@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.project.domain.Member;
 import com.project.domain.MypageLike;
@@ -16,6 +17,8 @@ import com.project.mapper.MypageMapper;
 public class MypageService{
 	@Autowired
 	MypageMapper mypageMapper;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	public Member getMember(long id) {
 		return mypageMapper.getMember(id);
@@ -50,5 +53,19 @@ public class MypageService{
 
 	public Store getStore(long memberId) {
 		return mypageMapper.getStore(memberId);
+	}
+
+	public int updateMember(Member member) {
+		return mypageMapper.updateMember(member);
+	}
+
+	public boolean changePassword(long id,String currentPassword,String newPassword) {
+		Member member = mypageMapper.getMember(id);
+		
+		if(!(passwordEncoder.matches(currentPassword,member.getPasswd()))) return false;
+		
+		member.setPasswd(passwordEncoder.encode(newPassword));
+		int i = mypageMapper.updatePassword(member);
+		return true;
 	}
 }

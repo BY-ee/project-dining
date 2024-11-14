@@ -57,4 +57,20 @@
 		store
 		where member_id = #{memberId}
 	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		update
+		member
+		set
+		introduction = #{introduction}
+		where nickname = #{nickname}
+	</update>
+	
+	<update id="updatePassword" parameterType="Member">
+		update
+		member
+		set
+		passwd = #{passwd}
+		where id = #{id}
+	</update>
 </mapper>

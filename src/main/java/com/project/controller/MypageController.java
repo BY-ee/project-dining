@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.project.domain.Member;
 import com.project.domain.MypageLike;
 import com.project.domain.MypageReview;
@@ -63,8 +65,10 @@ public class MypageController {
     }
 	
 	@PostMapping("/profile")
-	public String profileEdit(Member member) {
-		//mypageService.updateMember();
+	public String profileEdit(Member member,RedirectAttributes redirectAttributes) {
+		int i = mypageService.updateMember(member);
+		if(i != 1)redirectAttributes.addFlashAttribute("message","변경에 실패하였습니다.");
+		else redirectAttributes.addFlashAttribute("message","변경에 성공하였습니다.");
 		return "redirect:/profile";
 	}
 	
@@ -76,4 +80,16 @@ public class MypageController {
     	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
     	return "mypage/accountSettings";
     }
+	
+	@PostMapping("/accountSettings")
+	public String accountUpdate(@RequestParam(value="current_password",required = false) String currentPassword,
+								@RequestParam(value="new_password",required = false) String newPassword
+			,RedirectAttributes redirectAttributes) {
+		
+		System.out.println("현재 = " + currentPassword);
+		boolean b = mypageService.changePassword(24,currentPassword,newPassword);
+		if(b) redirectAttributes.addFlashAttribute("message","비밀번호가 변경 되었습니다.");
+		else redirectAttributes.addFlashAttribute("message","비밀번호가 맞지 않습니다.");
+		return "redirect:/accountSettings";
+	}
 }
