@@ -68,4 +68,12 @@ public class MypageService{
 		int i = mypageMapper.updatePassword(member);
 		return true;
 	}
+
+	public int deleteMember(long id) {
+		return mypageMapper.deleteMember(id);
+	}
+
+	public int fileUpload(Member member) {
+		return mypageMapper.fileUpload(member);
+	}
 }

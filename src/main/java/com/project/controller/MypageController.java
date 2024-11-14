@@ -1,7 +1,12 @@
 package com.project.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -9,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.Member;
@@ -57,6 +64,36 @@ public class MypageController {
     	return "mypage/mypage";
     }
 	
+	@PostMapping("/uploadProfilePic")
+	@ResponseBody
+	public ResponseEntity<Map<String,Object>> uploadProfilePic(@RequestParam("profilePic") MultipartFile file,Member member){
+		Map<String,Object> response = new HashMap<>();
+		try {
+			String uploadDir = new File("src/main/resources/static/images/").getAbsolutePath();
+			String fileName = UUID.randomUUID().toString()+"_"+file.getOriginalFilename();
+			String filePath = uploadDir + File.separator +fileName;
+			
+			// 파일 저장
+			file.transferTo(new File(filePath));
+			
+			String fileUrl = "/images/" + fileName; 
+			
+			member.setId((long)24);
+			member.setProfileImage(fileUrl);
+			
+			int i = mypageService.fileUpload(member);
+					
+			response.put("success", true);
+			response.put("profilePicUrl", fileUrl);
+			
+		}catch(Exception e) {
+			response.put("success", false);
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok(response);
+	}
+	
+	
 	@GetMapping("/profile")
     public String profile(@AuthenticationPrincipal OAuth2User oauth2User,Model model) {
 		Member member = mypageService.getMember(24);
@@ -91,5 +128,11 @@ public class MypageController {
 		if(b) redirectAttributes.addFlashAttribute("message","비밀번호가 변경 되었습니다.");
 		else redirectAttributes.addFlashAttribute("message","비밀번호가 맞지 않습니다.");
 		return "redirect:/accountSettings";
+	}
+	
+	@PostMapping("/deleteAccount")
+	public String deleteAccount(RedirectAttributes redirectAttributes) {
+		int i = mypageService.deleteMember(24);
+		return "redirect:/";
 	}
 }

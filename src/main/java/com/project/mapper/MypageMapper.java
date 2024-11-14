@@ -25,4 +25,8 @@ public interface MypageMapper {
 	int updateMember(Member member);
 
 	int updatePassword(Member member);
+
+	int deleteMember(long id);
+
+	int fileUpload(Member member);
 }

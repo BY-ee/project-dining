@@ -8,6 +8,31 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
+<script>
+function uploadFile(event){
+	const file = event.target.files[0];
+	
+	if(file){
+		const formData = new FromData();
+		formData.append("profilePic",file);
+		
+		// ajax 요청으로 서버에 파일 업로드
+		fetch('/uploadProfilePic',{
+			method:'POST',
+			body:formData
+		})
+		.then(response => response.json())
+		.then(data => {
+			if(data.success){
+				document.querySelector('.profile-pic').style.backgroundImage = `url(${data.profilePicUrl})`;
+			} else{
+				alert("업로드에 실패했습니다.다시 시도해주세요");
+			}
+		})
+		.catch(error => console.error => ('Error:',error));
+	}
+}
+</script>
 </head>
 <body>
 	<!-- 상단바 -->
@@ -27,8 +52,8 @@
                 <div class="profile-pic" onclick="document.getElementById('fileInput').click()">
                 	<span class="profile-overlay">프로필 변경</span>
                 </div>
-               <div class="profile-name">${member.nickname}</div>
-                <input type="file" id="fileInput" style="display:none">
+                <input type="file" id="fileInput" style="display:none" onchange="uploadFile(event)">
+               	<div class="profile-name">${member.nickname}</div>
                 <div class="prifile-point">내 포인트 : 500p</div>
                 <div class="profile-intro">${member.introduction}</div>
             </div>
