@@ -20,6 +20,7 @@
         </div>
 
         <div class="notice-content">
+            <img src="${event.eventImage}" style="width: 80%; margin: 0 10%;" alt="event" />
             ${event.content}
         </div>
 
