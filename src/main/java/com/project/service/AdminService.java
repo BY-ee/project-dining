@@ -59,8 +59,8 @@ public class AdminService {
 	}
 
 	// 회원 차단
-	public void blockMember(long id) {
-		memberMapper.blockMember(id);
+	public void blockMember(long id, int banTime) {
+		memberMapper.blockMember(id, banTime);
 	}
 	
 	// 회원 차단해제

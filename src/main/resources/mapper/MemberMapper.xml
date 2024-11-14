@@ -32,13 +32,19 @@
     	</where>
 	</select>
 	
-	<update id="blockMember" parameterType="long">
-		UPDATE member SET status='inactive'
+	<update id="blockMember">
+		UPDATE member
+		SET status='inactive',
+			inactive_date=SYSDATE,
+			reactive_date=SYSDATE + #{banTime}
 		WHERE id=#{id}
 	</update>
 	
-	<update id="unblockMember" parameterType="long">
-		UPDATE member SET status='active'
+	<update id="unblockMember">
+		UPDATE member
+		SET status='active',
+			inactive_date=null,
+			reactive_date=null
 		WHERE id=#{id}
 	</update>
 </mapper>

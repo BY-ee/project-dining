@@ -24,7 +24,7 @@ public interface MemberMapper {
 	long countMembers(RequestData requestData);
 	
 	// 회원 차단
-	void blockMember(long id);
+	void blockMember(@Param("id") long id, @Param("banTime") int banTime);
 
 	// 회원 차단해제
 	void unblockMember(long id);
