@@ -35,7 +35,7 @@
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-    <select id="getStoreDetailById" parameterType="int" resultType="com.project.domain.StoreDomain">
+    <select id="getStoreDetailById" parameterType="long" resultType="com.project.domain.StoreDomain">
     	SELECT * FROM store WHERE id = #{store_ID}
     </select>
     
@@ -71,4 +71,34 @@
 		UPDATE store SET post_status='active'
 		WHERE id=#{id}
 	</update>
+	
+	<select id="getMenuById" parameterType="long" resultType="com.project.domain.Menu">
+		SELECT * FROM menu WHERE store_id = #{storeID}
+	</select>
+	
+	<!-- 홈페이지 가게 게시판 -->
+	<select id="findAllStores" resultType="com.project.domain.StoreDomain">
+		SELECT * FROM store
+	</select>
+	
+	<!-- 홈페이지 가게 게시판 (카테고리 지역)-->
+	<select id="findStoresByLocation" parameterType="String" resultType="Store">
+	    SELECT store.*
+	    FROM store
+	    JOIN local ON store.id = local.store_id
+	    WHERE local.local = #{location}
+	</select>
+	
+	<!-- 찜 추가 -->
+    <insert id="save" parameterType="com.project.domain.MemberLike">
+        INSERT INTO member_like (member_id, store_id, created_at)
+        VALUES (#{memberId}, #{storeId}, #{createdAt})
+    </insert>
+	
+	<!-- 찜 취소 -->
+    <delete id="deleteByMemberIdAndStoreId">
+        DELETE FROM member_like
+        WHERE member_id = #{memberId} AND store_id = #{storeId}
+    </delete>
+	
 </mapper>

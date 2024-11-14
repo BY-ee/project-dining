@@ -11,6 +11,10 @@
         height: 100%;
 }
 
+.content {
+    min-height: calc(100vh - 120px); /* Make the content area at least the height of the screen minus the header/footer */
+}
+
 /* 헤더 스타일 */
 /*============================================================================*/
 .header {
@@ -18,25 +22,23 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    padding-top: 20px; /* 상단 여백 추가 */
+    padding-bottom: 30px; /* 하단 여백 추가 */
     background-color: #fff;
     border-bottom: 1px solid #ddd;
 }
-
-
-/* 페이지 이름 스타일 */
-.page-name a {
-    font-size: 24px;
-    color: #b07c83;
-    color: inherit; /* 부모 요소의 색상을 따라감 */
-    text-decoration: none; /* 밑줄 제거 */
+.main-logo img {
+    width: 250px;  
+    height:  flex; 
 }
 
-.page-name a:visited,
-.page-name a:hover,
-.page-name a:active {
-    color: inherit; /* 클릭 후에도 색상 변하지 않음 */
-    text-decoration: none; /* 클릭 후에도 밑줄 생기지 않음 */
-}
+/* /* 페이지 이름 스타일 */ */
+/* .page-name a { */
+/*     font-size: 24px; */
+/*     color: #b07c83; */
+/*     color: inherit; 부모 요소의 색상을 따라감 */
+/*     text-decoration: none; 밑줄 제거 */
+/* } */
 
 /* 로그인 및 인증 버튼 스타일 */
 .auth-buttons {
@@ -45,18 +47,30 @@
 }
 
 .auth-buttons button {
-    background-color: #b07c83;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+
+  padding: 10px;
+  background-color: #D8B2B2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom : 10px;
+  
+}
+
+.auth-buttons button:hover, .location-btn:hover {
+  background-color: #c49292;
 }
 
 /* 메뉴 버튼 스타일 */
 .menu-btn {
+	border: none;
+	border-radius: 0;
     font-size: 20px;
     background: none;
-    border: none;
     color: #b07c83;
     cursor: pointer;
 }
@@ -69,15 +83,17 @@
 }
 
 .location-btn {
-    width: 140px;
-    height: 30px;
+	font-weight: bold;
+    width: 160px;
+    height: 40px;
     padding: 8px;
-    background-color: #f9f9f9;
     appearance: none;
     cursor: pointer;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+	font-size: 16px;
+	background-color: #D8B2B2;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,8 +106,9 @@
 .location-menu {
     display: none;
     position: absolute;
-    top: 20%;
+    top: 90%;
     left: 0;
+    font-size: 14px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -225,11 +242,9 @@
 
 /* 필터 컨테이너 스타일 */
 /*============================================================================*/
+
 .category-select-container {
-    position: relative;
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
+    margin-left : 880px;
 }
 
 .category-select-btn {
@@ -325,13 +340,20 @@
 /* 가게 목록 컨테이너 스타일 */
 /*============================================================================*/
 .store-container {
-    max-height: 800px;
+    max-height: 2400px;
     overflow-y: auto;
     margin: 20px auto;
     padding: 10px;
     border: 1px solid #ddd;
     width: 95%;
     margin-bottom:1000px;
+}
+
+.store-list-container {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;  /* 가게 목록의 최대 너비 */
+    overflow-y: auto;  /* 가게 목록이 길어지면 스크롤바 표시 */
 }
 
 .store-list {
@@ -347,7 +369,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 300px;
 }
 
 .store-item {
@@ -359,7 +380,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
     overflow:hidden; /*임의 추가*/
 }
 
@@ -379,20 +399,17 @@
 /* Footer 스타일 */
 /*============================================================================*/
 .footer {
-	position: fixed;
-	width:100%;
+    width: 100%;
     background-color: #f8f8f8;
     padding: 40px 20px;
     color: #333;
     font-size: 14px;
-	bottom: 0%;
+    bottom: 0; /* Remove fixed positioning */
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    
 }
 
 .customer-center {
@@ -421,8 +438,8 @@
 }
 
 .company-links {
-    width: 50%;
-    margin-left: 10px;
+	width : 100px;
+	height : 20px;
 }
 
 .company-links ul {
@@ -442,6 +459,51 @@
 .company-links ul li a:hover {
     text-decoration: underline;
 }
+
+/* 메인 페이지 정렬 */
+.orderby-criteria select {
+	width : 120px;
+   margin-left : 1720px;
+    appearance: none; /* 기본 브라우저 스타일 제거 */
+    -webkit-appearance: none; /* 사파리 브라우저 스타일 제거 */
+    -moz-appearance: none; /* 파이어폭스 브라우저 스타일 제거 */
+    background-color: #f5f5f5; /* 배경색 */
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 8px; /* 모서리 둥글기 */
+    padding: 10px 16px; /* 내부 여백 */
+    font-size: 16px; /* 글씨 크기 */
+    color: #333; /* 글씨 색 */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.orderby-criteria select:hover {
+    background-color: #e0e0e0; /* 호버 시 배경색 */
+}
+
+.orderby-criteria select:focus {
+    border-color: #b07c83; /* 포커스 시 테두리 색 */
+    box-shadow: 0 0 5px rgba(176, 124, 131, 0.5); /* 포커스 시 그림자 효과 */
+}
+
+/* 선택된 옵션 옆에 화살표 스타일 추가 */
+.orderby-criteria {
+    position: relative;
+    display: inline-block;
+}
+
+.orderby-criteria::after {
+    content: "▼"; /* 화살표 모양 */
+    font-size: 12px;
+    color: #333;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* 화살표 클릭 방지 */
+}
+
 
 .footer-bottom {
     text-align: center;
@@ -466,7 +528,6 @@
 .footer h3 a:visited,
 .footer h3 a:hover,
 .footer h3 a:active {
-    color: inherit;
     text-decoration: none;
 }
 

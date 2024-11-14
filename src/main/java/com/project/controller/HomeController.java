@@ -3,58 +3,65 @@ package com.project.controller;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-//import com.project.mapper.UserMapper;
-//import com.project.model.User;
-//import com.project.service.UserService;
-
-//import jakarta.servlet.http.HttpSession;
-
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*; // 수정: RequestParam, GetMapping, PostMapping 등을 위해 추가
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.project.service.StoreService;
+import com.project.domain.Store;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
+	
+    private final StoreService storeService;
 
-//    @Autowired
-//    private UserService userService;
-//    
-//    @Autowired
-//    private UserMapper userMapper;
-
-
+    public HomeController(StoreService storeService) {
+        this.storeService = storeService;
+    }
+    
     @GetMapping("/")
-    public String home() {
+    public String home(Model model) {
+        List<Store> stores = storeService.findAllStores(); // 모든 가게 목록을 가져옴
+        model.addAttribute("stores", stores); // 모델에 stores 속성으로 추가
+        System.out.println("Number of stores found in first home: " + stores.size());
         return "home/home-category";
     }
-
-//    @GetMapping("/signup")
-//    public String signupPage() {
-//        return "signup";
-//    }
     
+    @GetMapping("/storesByLocation")
+    @ResponseBody // JSON으로 응답을 보내도록 설정
+    public List<Store> getStoresByLocation(@RequestParam("location") String location) {
+        try {
+            location = URLDecoder.decode(location, StandardCharsets.UTF_8.toString());
+            System.out.println("Decoded location in Controller: " + location);
 
-//    @PostMapping("/signup")
-//    public String signup(User user) {
-//        userService.registerUser(user);
-//        return "redirect:/login";
-//    }
+            List<Store> stores;
+            if (location.isEmpty()) {
+                // location이 빈 문자열일 경우 모든 가게를 조회
+                stores = storeService.findAllStores();
+            } else {
+                // 특정 지역 가게 조회
+                stores = storeService.findStoresByLocation(location);
+            }
 
-//    @GetMapping("/login")
-//    public String loginPage() {
-//        return "login";
-//    }
-
+            System.out.println("Number of stores found: " + stores.size()); // 결과 개수 출력
+            return stores;
+        } catch (Exception e) {
+            System.err.println("URL decoding error: " + e.getMessage());
+            return List.of(); // 오류 발생 시 빈 리스트 반환
+        }
+    }
     @GetMapping("/csr")
     public String csr() {
     	return "home/csr";
     }
     
-//    @GetMapping("/mypage")
-//    public String mypage() {
-//    	return "mypage";
-//    }
     
     @GetMapping("/terms")
     public String terms() {
@@ -64,7 +71,7 @@ public class HomeController {
     @GetMapping("/emailInquery")
     public String emailInquery() {
     	return "home/emailInquery";
-    }
+    }	
     
     @GetMapping("/storeRegistration")
     public String storeRegistration() {
@@ -76,26 +83,6 @@ public class HomeController {
     	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
     	return "mypage/myPage";
     }
+    
 
-
-//    @PostMapping("/login")
-//    public String login(
-//            @RequestParam("email") String email,
-//            @RequestParam("password") String password,
-//            Model model,
-//            HttpSession session) {
-//
-//        String loginStatus = userService.loginUser(email, password);
-//
-//        if ("success".equals(loginStatus)) {
-//            User user = userMapper.findUserByEmail(email);
-//            session.setAttribute("username", user.getUsername());
-//            System.out.println("[INFO] 로그인 성공: " + email);
-//            return "home";
-//        } else {
-//            System.out.println("[ERROR] 로그인 실패 - " + (loginStatus.equals("emailNotFound") ? "이메일 없음" : "비밀번호 불일치"));
-//            model.addAttribute("loginStatus", loginStatus);
-//            return "login";
-//        }
-//    }
 }

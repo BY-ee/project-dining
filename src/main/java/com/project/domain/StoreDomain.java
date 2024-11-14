@@ -21,4 +21,6 @@ public class StoreDomain {
     private String storeDescription; // STORE_DESCRIPTION, 가게 설명
     private String postStatus; // POST_STATUS, 게시 상태
     private String enrollStatus; // ENROLL_STATUS, 등록 상태
+    private String location; // 지역 정보
+
 }

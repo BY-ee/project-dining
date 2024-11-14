@@ -17,7 +17,7 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 
 	// 리뷰 조회
-	public List<ReviewDomain> getReviewsByStoreId(int store_id) {
+	public List<ReviewDomain> getReviewsByStoreId(long store_id) {
 	    return reviewMapper.getReviewsByStoreId(store_id);
 	}
 

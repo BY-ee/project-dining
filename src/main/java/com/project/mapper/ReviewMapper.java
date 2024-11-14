@@ -16,7 +16,7 @@ import com.project.dto.ReviewMemberDTO;
 public interface ReviewMapper {
 
 	// 리뷰 조회
-	public List<ReviewDomain> getReviewsByStoreId(int storeId);
+	public List<ReviewDomain> getReviewsByStoreId(long storeId);
 
 	// 리뷰 삽입
 	void insertReview(ReviewDomain newReview);

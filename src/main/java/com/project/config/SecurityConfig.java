@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -24,9 +25,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests((requests) -> 
                 requests
                     .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                    .requestMatchers("/", "/**", "/login", "/logout").permitAll() // 경로를 인증 없이 접근 가능하도록 설정 
+                    .requestMatchers("/", "/**", "/login", "/logout").permitAll() // 경로를 인증 없이 접근 가능하도록 설	 
                     .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
-        )
+        ) 
         .formLogin((form) -> 
                 form
                     .loginPage("/loginForm")
@@ -54,16 +55,15 @@ public class SecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                 Authentication authentication) throws IOException {
-                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-                
-                System.out.println(redirectUrl);
+            	
+            	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
                 
                 if (redirectUrl != null) {
                     getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
                     request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
                 } else {
                     // 기본 리디렉션 URL (초기 로그인 성공 시)
-                    getRedirectStrategy().sendRedirect(request, response, "/home.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+                    getRedirectStrategy().sendRedirect(request, response, "/logincheck.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
                 }
             }
         };

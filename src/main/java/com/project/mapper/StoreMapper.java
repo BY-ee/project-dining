@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.StoreDomain;
 import com.project.dto.RequestData;
+import com.project.domain.MemberLike;
 import com.project.domain.Menu;
 import com.project.domain.Store;
 
@@ -16,7 +17,7 @@ import com.project.domain.Store;
 public interface StoreMapper{
 	
 	// 가게정보 가져오기
-    StoreDomain getStoreDetailById(int store_ID);
+    StoreDomain getStoreDetailById(long store_ID);
     
     // 메뉴정보 가져오기
     List<Menu> getMenuById(int storeId);
@@ -44,4 +45,18 @@ public interface StoreMapper{
 
 	// 가게 게시글 재게시
 	void reactivateStore(long id);
+	
+	long countStores();
+
+	// 찜 추가
+	void save(MemberLike like);
+
+	// 찜 취소
+	void deleteByMemberIdAndStoreId(@Param("memberId") long memberId, @Param("storeId") long storeId);
+	
+	List<Store> findAllStores();
+	
+	
+    List<Store> findStoresByLocation(String location);
+    
 }
