@@ -1,18 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
 <head>
-<meta charset="UTF-8">
-<title>리뷰 작성</title>
-
-<%
-	Long userIdLong = (Long) session.getAttribute("user_ID");
-	String userId = (userIdLong != null) ? userIdLong.toString() : null;
-    String nickname = (String) session.getAttribute("user_nickname");
-%>
-
+    <title>리뷰 작성</title>
+    <%
+        Long userIdLong = (Long) session.getAttribute("user_ID");
+        String userId = (userIdLong != null) ? userIdLong.toString() : null;
+        String nickname = (String) session.getAttribute("user_nickname");
+    %>
 </head>
 <body>
 

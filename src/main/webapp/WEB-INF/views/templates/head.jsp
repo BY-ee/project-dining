@@ -10,7 +10,9 @@
     <title>Dining Recommendation</title>
 
     <!-- css -->
-    <link rel="stylesheet" type="text/css" href="/css/home/home-category.css">
+    <link rel="stylesheet" href="/css/templates/common.css"> <!-- 공통 css -->
+    <link rel="stylesheet" href="/css/templates/header.css"> <!-- header css -->
+    <link rel="stylesheet" href="/css/templates/footer.css"> <!-- footer css -->
 
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>

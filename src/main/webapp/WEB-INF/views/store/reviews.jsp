@@ -1,19 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
 <head>
-<meta charset="UTF-8">
-<title>리뷰 목록</title>
-
-<%
-    // 세션에서 user_ID 및 user_nickname 가져오기
-    Long userId = (Long) session.getAttribute("user_ID");
-    String nickname = (String) session.getAttribute("user_nickname");
-%>
-
+    <title>리뷰 목록</title>
+    <%
+        // 세션에서 user_ID 및 user_nickname 가져오기
+        Long userId = (Long) session.getAttribute("user_ID");
+        String nickname = (String) session.getAttribute("user_nickname");
+    %>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script>

@@ -1,10 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
+<%@ page import="com.project.domain.Login" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.project.domain.Login"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 <%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/home/home-category.css">
+</head>
 
 <body>
 	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
