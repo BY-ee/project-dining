@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.PointDomain;
@@ -139,7 +140,17 @@ public class ReviewController {
 	    return "redirect:/storeDetail?store_ID=" + storeId;
 	}
     
-    
+    // 리뷰 수정 요청 처리
+    @PostMapping("/updateReview")
+    public ResponseEntity<String> updateReview(@RequestBody ReviewDomain reviewDomain) {
+        try {
+            reviewService.updateReview(reviewDomain);
+            return ResponseEntity.ok("리뷰가 수정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정에 실패했습니다.");
+        }
+    }
+
 //    리뷰 삭제 요청 처리
 //    @PostMapping("/deleteReview")
 //    public ResponseEntity<?> deleteReview(@RequestBody Map<String, Object> reviewDetails) {
