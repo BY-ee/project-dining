@@ -52,10 +52,5 @@ public class ReviewService {
 		reviewMapper.updateReview(reviewDomain);
 	}
 
-    // 리뷰 수정
-	public void updateReview(ReviewDomain reviewDomain) {
-		reviewMapper.updateReview(reviewDomain);
-	}
-
 	
 }

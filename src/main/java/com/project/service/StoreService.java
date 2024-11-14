@@ -16,9 +16,6 @@ import com.project.mapper.StoreMapper;
 
 import lombok.RequiredArgsConstructor;
 
-
-
-
 @Service
 @RequiredArgsConstructor
 public class StoreService {
@@ -69,13 +66,6 @@ public class StoreService {
 	public boolean isMemberLikedStore(Long storeId, Long memberId) {
 		return storeMapper.isMemberLikedStore(storeId, memberId) > 0;
 	}
-	
-    @Transactional // 트랜잭션 활성화
-    public List<Store> getStoresByFilters(String location, String industry, String subCategory, String[] themeArray) {
-        // String[]을 List<String>으로 변환
-        List<String> themeList = (themeArray != null) ? Arrays.asList(themeArray) : null;
-        return storeMapper.findStoresByFilters(location, industry, subCategory, themeList);
-    }
 	
     @Transactional // 트랜잭션 활성화
     public List<Store> getStoresByFilters(String location, String industry, String subCategory, String[] themeArray) {

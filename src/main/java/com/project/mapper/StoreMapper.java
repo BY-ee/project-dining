@@ -65,14 +65,6 @@ public interface StoreMapper{
 	// 특정 사용자가 특정 가게를 찜했는지 확인
 	int isMemberLikedStore(@Param("storeId") Long storeId, @Param("memberId") Long memberId);
 
-    
-    List<Store> findStoresByFilters(
-            @Param("location") String location,
-            @Param("industry") String industry,
-            @Param("subCategory") String subCategory,
-            @Param("themeArray") List<String> themeArray
-        );
-    
     List<Store> findStoresByFilters(
             @Param("location") String location,
             @Param("industry") String industry,

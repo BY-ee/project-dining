@@ -54,9 +54,10 @@ public class ReviewController {
             @RequestParam("storeId") long storeId,
             @RequestParam("score") double score,
             @RequestParam("content") String content,
+            @RequestParam(value = "images", required = false) List<MultipartFile> images,
             HttpSession session,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
         Long memberId = (Long) session.getAttribute("user_ID");
      

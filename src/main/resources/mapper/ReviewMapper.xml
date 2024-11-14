@@ -102,10 +102,4 @@
         WHERE id = #{id}
     </update>
 	
-	<update id="updateReview">
-        UPDATE review
-        SET content = #{content}
-        WHERE id = #{id}
-    </update>
-	
 </mapper>
