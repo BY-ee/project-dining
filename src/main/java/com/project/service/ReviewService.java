@@ -29,5 +29,10 @@ public class ReviewService {
         reviewMapper.deleteReview(reviewDetails);
     }
 
+    // 리뷰 수정
+	public void updateReview(ReviewDomain reviewDomain) {
+		reviewMapper.updateReview(reviewDomain);
+	}
+
 	
 }

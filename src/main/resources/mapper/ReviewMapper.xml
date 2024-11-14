@@ -42,4 +42,10 @@
 	    WHERE id = #{id} AND member_id = #{member_id}
 	</delete>
 	
+	<update id="updateReview">
+        UPDATE review
+        SET content = #{content}
+        WHERE id = #{id}
+    </update>
+	
 </mapper>

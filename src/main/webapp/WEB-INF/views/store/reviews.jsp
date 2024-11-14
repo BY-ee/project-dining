@@ -85,7 +85,7 @@
 	            + '<span class="review-date">' + review.createdAt + '</span>'
 	            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
 	            + '</div>'
-	            + '<div class="review-content">' + review.content + '</div>';
+	            + '<div id="review-content-' + review.id + '" class="review-content">' + review.content + '</div>';
 	            
 	            // 이미지가 있는 경우 표시
 	            if (review.reviewImage) {
@@ -177,18 +177,25 @@
         });
     }
     
+	// 리뷰 수정 버튼 함수
     function editReview(reviewId, currentContent) {
-    	console.log("Edit button clicked for review ID:", reviewId);
-    	console.log("Current content:", currentContent);
-
-        var reviewContent = $('#review-content-' + reviewId);
-        reviewContent.html('<textarea id="edit-content-' + reviewId + '">' + currentContent + '</textarea><br>'
-            + '<button onclick="saveReview(' + reviewId + ')">저장</button>'
-            + '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent + '\')">취소</button>');
+    	// 수정, 삭제 버튼 숨기기
+        $('.edit-review-button, .delete-review-button').hide();
+    	
+        // 리뷰 내용을 인라인 폼으로 변경
+        var reviewContentDiv = $('#review-content-' + reviewId);
+        
+        reviewContentDiv.html(
+            '<textarea id="edit-content-' + reviewId + '" rows="4" cols="50">' + currentContent + '</textarea><br>' +
+            '<button onclick="saveReview(' + reviewId + ')">저장</button>' +
+            '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent.replace(/'/g, "\\'") + '\')">취소</button>'
+        );
     }
-
+	
+ 	// 리뷰 수정 저장버튼 함수
     function saveReview(reviewId) {
         var newContent = $('#edit-content-' + reviewId).val();
+        
         $.ajax({
             url: '/updateReview',  // 리뷰 수정 요청 URL
             method: 'POST',
@@ -196,7 +203,7 @@
             data: JSON.stringify({ id: reviewId, content: newContent }),
             success: function(response) {
                 alert("리뷰가 수정되었습니다.");
-                loadReviews();
+                loadReviews();  // 리뷰 목록을 다시 로드하여 업데이트된 내용을 반영
             },
             error: function(xhr, status, error) {
                 alert("리뷰 수정에 실패했습니다: " + error);
@@ -204,18 +211,12 @@
         });
     }
 
+ 	// 리뷰 수정 취소버튼 함수
     function cancelEdit(reviewId, originalContent) {
-        $('#review-content-' + reviewId).text(originalContent);
+        $('#review-content-' + reviewId).html(originalContent);
+        $('.edit-review-button, .delete-review-button').show(); // 취소 시 버튼 다시 표시
     }
-
-    function deleteReview(reviewId, memberId) {
-        const reviewDetails = {
-            id: reviewId,
-            member_id: memberId
-        };
-    }
-	
-	
+    
     // 리뷰 삭제 함수
     function deleteReview(reviewId, memberId) {
         const reviewDetails = {

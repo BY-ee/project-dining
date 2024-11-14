@@ -95,6 +95,20 @@ public class ReviewController {
 	    return "redirect:/storeDetail?store_ID=" + storeId;
 	}
     
+    
+    // 리뷰 수정 요청 처리
+    @PostMapping("/updateReview")
+    public ResponseEntity<String> updateReview(@RequestBody ReviewDomain reviewDomain) {
+        try {
+            reviewService.updateReview(reviewDomain);
+            return ResponseEntity.ok("리뷰가 수정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정에 실패했습니다.");
+        }
+    }
+
+    
+    
     // 리뷰 삭제 요청 처리
     @PostMapping("/deleteReview")
     public ResponseEntity<?> deleteReview(@RequestBody Map<String, Object> reviewDetails) {

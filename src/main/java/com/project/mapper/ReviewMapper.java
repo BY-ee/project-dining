@@ -24,4 +24,7 @@ public interface ReviewMapper {
 
 	// 총 리뷰 개수
 	long countReviews();
+
+	// 리뷰 수정
+	void updateReview(ReviewDomain reviewDomain);
 }
