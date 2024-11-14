@@ -28,5 +28,4 @@ public class Member {
     private Timestamp reactiveDate;
     private Timestamp deletedDate;
     private String profileImage;
-    private Integer point;
 }

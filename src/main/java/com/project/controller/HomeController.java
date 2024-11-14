@@ -104,11 +104,11 @@ public class HomeController {
     	return "home/storeRegistration";
     }
     
-    @GetMapping("/myPage")
-    public String myPage(@AuthenticationPrincipal OAuth2User oauth2User) {
-    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
-    	return "mypage/myPage";
-    }
-    
+	/*
+	 * @GetMapping("/mypage") public String myPage(@AuthenticationPrincipal
+	 * OAuth2User oauth2User) { if(oauth2User!=null)
+	 * System.out.println("User Attributes: " + oauth2User.getAttributes()); return
+	 * "mypage/mypage"; }
+	 */
 
 }

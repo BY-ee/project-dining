@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.project.domain.Event;
 import com.project.domain.Notice;
 import com.project.dto.RequestData;
+import com.project.domain.PageRequest;
 
 @Mapper
 public interface NoticeMapper {
@@ -65,4 +66,12 @@ public interface NoticeMapper {
 	// 총 이벤트글 개수
 	long countEvents(RequestData requestData);
 
+	List<Notice> getNoticeList(@Param("startRow") int startRow,@Param("endRow") int endRow,@Param("pageRequest") PageRequest pageRequest);
+	List<Event> getEventList(@Param("startRow") int startRow,@Param("endRow") int endRow,@Param("status") String status,@Param("category") String category);	
+	int getNoticeCountList(@Param("pageRequest") PageRequest pageRequest);
+	int getEventCountList(@Param("status") String status, @Param("category") String category);
+	Event getEvent(Long id);
+	Notice getNotice(Long id);
+	Notice getPreNotice(Long id);
+	Notice getNextNotice(Long id);
 }
