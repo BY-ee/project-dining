@@ -1,24 +1,34 @@
+let currentSlideIndex = 0;
+
+function moveToMainPhotoSlide(slideIndex) {
+    const slidesContainer = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
+
+    // 슬라이드 범위 제한
+    if (slideIndex < 0) {
+        slideIndex = slides.length - 1;
+    }
+    if (slideIndex >= slides.length) {
+        slideIndex = 0;
+    }
+
+    // 슬라이드 이동
+    slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+    currentSlideIndex = slideIndex;
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
-	// 메인 사진 슬라이드 기능 설정
-	const slidesContainer = document.querySelector('.slider');
-	const slides = document.querySelectorAll('.slide');
-	const slideButtons = document.querySelectorAll('.slider-nav button');
-	let currentSlideIndex = 0;
+    const slideButtons = document.querySelectorAll('.slider-nav button');
 
-	function moveToMainPhotoSlide(slideIndex) {
-		slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
-		slideButtons.forEach(button => button.classList.remove('active'));
-		slideButtons[slideIndex].classList.add('active');
-		currentSlideIndex = slideIndex;
-	}
+    slideButtons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            moveToMainPhotoSlide(index);
+        });
+    });
 
-	slideButtons.forEach((button, index) => {
-		button.addEventListener('click', function() {
-			moveToMainPhotoSlide(index);
-		});
-	});
-
-	moveToMainPhotoSlide(0);
+    // 초기 슬라이드 설정
+    moveToMainPhotoSlide(0);
 
 	// 메뉴 사진 슬라이더 기능 설정
 	const menuSlides = document.querySelectorAll('.menu-slide');
