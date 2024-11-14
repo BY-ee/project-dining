@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -35,7 +36,7 @@ public class HomeController {
     }
     
     @GetMapping("/storesByLocation")
-    @ResponseBody // JSON으로 응답을 보내도록 설정
+    @ResponseBody 
     public List<Store> getStoresByLocation(@RequestParam("location") String location) {
         try {
             location = URLDecoder.decode(location, StandardCharsets.UTF_8.toString());
@@ -57,6 +58,31 @@ public class HomeController {
             return List.of(); // 오류 발생 시 빈 리스트 반환
         }
     }
+    
+    @GetMapping("/storesByCategory")
+    public ResponseEntity<List<Store>> getStoresByCategory(
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "industry", required = false) String industry,
+            @RequestParam(value = "subCategory", required = false) String subCategory,
+            @RequestParam(value = "theme", required = false) String theme) {
+    	
+    	
+
+        // theme 값을 split하여 배열로 변환
+        String[] themeArray = (theme != null && !theme.isEmpty()) ? theme.split(",") : new String[0];
+        
+        System.out.println("사용자 선택 필터 값 - Location: " + location +
+                ", Industry: " + industry +
+                ", SubCategory: " + subCategory +
+                ", Themes: " + themeArray);
+
+        // 필터링 로직
+        List<Store> filteredStores = storeService.getStoresByFilters(location, industry, subCategory, themeArray);
+
+        return ResponseEntity.ok(filteredStores);
+    }
+    		
+
     @GetMapping("/csr")
     public String csr() {
     	return "home/csr";

@@ -59,4 +59,11 @@ public interface StoreMapper{
 	
     List<Store> findStoresByLocation(String location);
     
+    List<Store> findStoresByFilters(
+            @Param("location") String location,
+            @Param("industry") String industry,
+            @Param("subCategory") String subCategory,
+            @Param("themeArray") List<String> themeArray
+        );
+    
 }

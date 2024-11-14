@@ -12,8 +12,6 @@
     // 세션에서 user_ID 및 user_nickname 가져오기
     Long userId = (Long) session.getAttribute("user_ID");
     String nickname = (String) session.getAttribute("user_nickname");
-    System.out.println("Session userId: " + userId);
-    System.out.println("Session nickname: " + nickname);
 %>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -74,26 +72,29 @@
     function renderReviews(reviews, userReviewIndex) {
 	    var reviewList = $('#review-list');
 	    reviewList.empty();
+	    console.log("asd: ", reviews)
 	
 	    $.each(reviews, function(index, review) {
-	        var reviewItem = '<div class="review-item">'
-	            + '<div class="review-header">'
-	            + '<span class="review-author">' + review.nickname + '</span>'
-	            + '<br>'
-	            + '<span class="review-date">' + review.createdAt + '</span>'
-	            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
-	            + '</div>'
-	            + '<div class="review-content">' + review.content + '</div>';
-	
-	        // 수정, 삭제 버튼 추가
-	        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
-	            console.log("review.memberId ", review.memberId);
-	            reviewItem += '<button class="edit-review-button" onclick="editReview(' + review.id + ', \'' + review.content + '\')">수정</button>';
-	            reviewItem += '<button class="delete-review-button" onclick="deleteReview(' + review.id + ', ' + review.memberId + ')">삭제</button>';
-	        }
-	
-	        reviewItem += '</div>'; // review-item 종료
-	        reviewList.append(reviewItem);
+	    	if(review.status === 'active') {
+		        var reviewItem = '<div class="review-item">'
+		            + '<div class="review-header">'
+		            + '<span class="review-author">' + review.nickname + '</span>'
+		            + '<br>'
+		            + '<span class="review-date">' + review.createdAt + '</span>'
+		            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
+		            + '</div>'
+		            + '<div class="review-content">' + review.content + '</div>';
+		
+		        // 수정, 삭제 버튼 추가
+		        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
+		            console.log("review.memberId ", review.memberId);
+		            reviewItem += '<button class="edit-review-button" onclick="editReview(' + review.id + ', \'' + review.content + '\')">수정</button>';
+		            reviewItem += '<button class="delete-review-button" onclick="hiddenReview(' + review.id + ', ' + review.memberId + ')">삭제</button>';
+		        }
+		
+		        reviewItem += '</div>'; // review-item 종료
+		        reviewList.append(reviewItem);
+	    	}
 	    });
 	}
 
@@ -140,7 +141,7 @@
         });
     }
     
-	// 중복 리뷰 확인 후 alert 메시지 표시
+	// 중복 리뷰 확인 후 alert 메시지 표시 (사용 안하는 중)
     function checkDuplicateReview() {
         $.ajax({
             url: 'getReviews',
@@ -164,9 +165,6 @@
     }
     
     function editReview(reviewId, currentContent) {
-    	console.log("Edit button clicked for review ID:", reviewId);
-    	console.log("Current content:", currentContent);
-
         var reviewContent = $('#review-content-' + reviewId);
         reviewContent.html('<textarea id="edit-content-' + reviewId + '">' + currentContent + '</textarea><br>'
             + '<button onclick="saveReview(' + reviewId + ')">저장</button>'
@@ -202,7 +200,7 @@
     }
 	
 	
-    // 리뷰 삭제 함수
+    // 리뷰 삭제 함수 (사용 안하는 중)
     function deleteReview(reviewId, memberId) {
         const reviewDetails = {
                 id: reviewId,
@@ -211,6 +209,28 @@
 
             $.ajax({
                 url: '/deleteReview',  // 삭제 요청 URL
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(reviewDetails),
+                success: function(response) {
+                    alert("리뷰가 삭제되었습니다.");
+                    loadReviews(); // 삭제 후 리뷰 목록 갱신
+                },
+                error: function(xhr, status, error) {
+                    alert("리뷰 삭제에 실패했습니다: " + error);
+                }
+            });
+        }
+    
+    // 유저가 리뷰 삭제버튼을 누르면 숨김처리되는 로직
+    function hiddenReview(reviewId, memberId) {
+        const reviewDetails = {
+                id: reviewId,
+                member_id: memberId
+            };
+
+            $.ajax({
+                url: '/hiddenReview',  // 삭제 요청 URL
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(reviewDetails),

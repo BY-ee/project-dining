@@ -100,5 +100,46 @@
         DELETE FROM member_like
         WHERE member_id = #{memberId} AND store_id = #{storeId}
     </delete>
+    
+	<select id="findStoresByFilters" resultType="com.project.domain.Store">
+	    SELECT DISTINCT s.*
+        FROM store s
+        LEFT JOIN local l ON s.id = l.store_id
+        LEFT JOIN industry i ON s.id = i.store_id
+        LEFT JOIN theme t ON s.id = t.store_id
+        <where>
+            <if test="location != null and location != ''">
+                AND l.local = #{location}
+            </if>
+            
+            <!-- 업종 카테고리 필터 (업종 카테고리만 선택 했을 경우)-->
+            <if test="industry != null and industry != ''">
+	            AND i.industry = #{industry}
+	        </if>
+	        
+	        <!-- 세부 카테고리 필터 (업종과 세부 카테고리를 같이 선택 했을 경우)-->
+	        <if test="subCategory != null and subCategory != ''">
+	            <choose>
+	                <when test="industry == '음식점'">
+	                    AND s.id IN (SELECT store_id FROM restaurant WHERE restaurant = #{subCategory})
+	                </when>
+	                <when test="industry == '카페'">
+	                    AND s.id IN (SELECT store_id FROM cafe WHERE cafe = #{subCategory})
+	                </when>
+	                <when test="industry == '술집'">
+	                    AND s.id IN (SELECT store_id FROM bar WHERE bar = #{subCategory})
+	                </when>
+	            </choose>
+	        </if>
+	
+	        <!-- 테마 필터 조건: 테마가 선택된 경우에만 적용 -->
+	        <if test="themeArray != null and themeArray.size() > 0">
+	            AND t.theme IN
+	            <foreach item="theme" collection="themeArray" open="(" separator="," close=")">
+	                #{theme}
+	            </foreach>
+	        </if>
+        </where>
+    </select>
 	
 </mapper>
