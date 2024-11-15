@@ -70,5 +70,4 @@ public interface StoreMapper{
             @Param("subCategory") String subCategory,
             @Param("themeArray") List<String> themeArray
         );
-    
 }

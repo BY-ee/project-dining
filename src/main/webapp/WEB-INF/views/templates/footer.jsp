@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 
 <!-- footer 태그 템플릿 -->
-<div class="footer">
+<footer class="footer">
     <div class="footer-content">
         <div class="customer-center">
             <h3><a href="/csr">고객 센터</a></h3>
@@ -24,4 +24,4 @@
     <div class="footer-bottom">
         <p>Copyright 2024. , Nyaminyami Co., Ltd. All rights reserved.</p>
     </div>
-</div>
+</footer>

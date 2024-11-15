@@ -9,15 +9,6 @@
     <link rel="stylesheet" href="css/home/csr.css">
 </head>
 <body>
-    <!-- <header>
-        <h1><a href="/">냐미냐미</a></h1>
-        <nav>
-            <a href="#">같이 먹기</a>
-            <a href="#">맛집 검색</a>
-            <a href="#">간단 게임</a>
-            <input type="text" placeholder="통합검색">
-        </nav>
-    </header> -->
 	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
     
     <main class="container"> <!-- main content start -->

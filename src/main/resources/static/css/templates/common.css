@@ -6,6 +6,13 @@
     box-sizing: border-box;
 }
 
+main {
+    width: 1540px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
 .html, body {
     font-family: Arial, sans-serif;
         height: 100%;
