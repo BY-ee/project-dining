@@ -53,17 +53,18 @@
     %>
     <main> <!-- main content start -->
         
+        <!-- 이동경로, Home 글자 제거 -->
         <div class="breadcrumb">
-            <span class="breadcrumb-label">이동경로:</span>
-            <a href="/" class="breadcrumb-item">Home</a>
+            <!-- <span class="breadcrumb-label">이동경로:</span> -->
+            <!-- <a href="/" class="breadcrumb-item">Home</a>
             
             <% if (region != null && !region.isEmpty()) { %>
                 <span class="breadcrumb-separator">›</span>
                 <a href="/store?region=<%= URLEncoder.encode(region, "UTF-8") %>" class="breadcrumb-item"><%= region %></a>
-            <% } else { %>
+            <% } else { %> -->
                 <span class="breadcrumb-separator">›</span>
                 <span class="breadcrumb-item">지역 정보 없음</span>
-            <% } %>
+            <!-- <% } %> -->
 
             <% if (category != null && !category.isEmpty()) { %>
                 <span class="breadcrumb-separator">›</span>
@@ -93,13 +94,13 @@
         <!-- 가게 이름과 찜 버튼 -->
         <div class="container">
             <div class="store-header">
-                <h2>가게 이름: ${storeDetail.storeName} </h2>
+                <h2>${storeDetail.storeName} </h2>
                 <button id="likeButton" class="like-button">❤️ 찜하기 <span id="likeCount">${memberLike.likeCount}</span></button>
             </div>
 
             <!-- 메인 사진 섹션 -->
             <div class="section main-photo">
-                <div class="section-title">가게 메인 사진</div>
+                <!-- <div class="section-title">가게 메인 사진</div> -->
                 <div class="slider-container"> <!-- 슬라이더 컨테이너 추가 -->
                     <div class="slider" id="slider">
                         <div class="slide"><img src="${storeDetail.mainImage1}" alt="Main Image 1"></div>
@@ -110,12 +111,20 @@
                     <button aria-label="이전 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex - 1)"></button>
                     <button aria-label="다음 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex + 1)"></button>
                 </div>
-                <div class="store-info">
+                <!-- <div class="store-info">
                     <strong>가게주소:</strong> ${storeDetail.address}<br>
                     <strong>상세주소:</strong> ${storeDetail.detailAddress}<br>
                     <strong>전화번호:</strong> ${storeDetail.tel}<br>
                     <strong>영업시간:</strong> ${storeDetail.openTime}<br>
                     <strong>가게설명:</strong> ${storeDetail.storeDescription}<br>
+                </div> -->
+                <div class="store-info">
+                    <p><strong>🏠 주소:</strong> ${storeDetail.address}, ${storeDetail.detailAddress}</p>
+                    <div class="store-info-row">
+                        <p><strong>📞 Tel:</strong> ${storeDetail.tel}</p>
+                        <p><strong>⏰ 영업시간:</strong> ${storeDetail.openTime}</p>
+                    </div>
+                    <p><strong>${storeDetail.storeDescription}</strong></p>
                 </div>
             </div>
 

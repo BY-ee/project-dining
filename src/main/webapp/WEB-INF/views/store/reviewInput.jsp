@@ -7,6 +7,7 @@
 
 <head>
     <title>리뷰 작성</title>
+    <link rel="stylesheet" type="text/css" href="/css/store/reviewInput.css">
     <%
         Long userIdLong = (Long) session.getAttribute("user_ID");
         String userId = (userIdLong != null) ? userIdLong.toString() : null;
@@ -42,7 +43,7 @@
         </select>
         
         <!-- 리뷰 내용 입력 -->
-        <textarea name="content"
+        <textarea class="review-input" name="content"
                   placeholder="<%= userId == null ? "리뷰를 작성하려면 로그인을 해주세요" : "리뷰를 입력해주세요" %>"
                   required <%= userId == null ? "disabled" : "" %>></textarea>
                      

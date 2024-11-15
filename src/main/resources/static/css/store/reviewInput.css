@@ -1,0 +1,6 @@
+/* 리뷰 입력창의 크기를 임의조정할 수 없게 하고 폰트를 통일 */
+.review-input {
+    resize: none;
+    height: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+}
