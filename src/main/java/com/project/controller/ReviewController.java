@@ -97,10 +97,6 @@ public class ReviewController {
         newReview.setContent(content);
         newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
 
-        
-        // 리뷰 저장
-        reviewService.insertReview(newReview);
-        
         if (pointGiven) {
             redirectAttributes.addFlashAttribute("pointMessage", "리뷰 작성으로 100포인트가 지급되었습니다!");
         }
