@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.project.domain.Member;
-import com.project.domain.MypageLike;
-import com.project.domain.MypageReview;
-import com.project.domain.PageRequest;
-import com.project.domain.PageResponse;
 import com.project.domain.Store;
+import com.project.dto.MypageLike;
+import com.project.dto.MypageReview;
+import com.project.dto.PageRequest;
+import com.project.dto.PageResponse;
 import com.project.mapper.MypageMapper;
 
 @Service

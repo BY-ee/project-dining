@@ -2,14 +2,15 @@ package com.project.mapper;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.Member;
-import com.project.domain.MypageLike;
-import com.project.domain.MypageReview;
-import com.project.domain.PageRequest;
+import com.project.dto.MypageReview;
 import com.project.domain.Store;
+import com.project.dto.MypageLike;
+import com.project.dto.PageRequest;
 
 @Mapper
 public interface MypageMapper {

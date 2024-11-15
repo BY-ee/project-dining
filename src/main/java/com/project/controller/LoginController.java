@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.project.domain.Login;
+import com.project.dto.Login;
 import com.project.service.LoginService;
 
 import jakarta.servlet.http.HttpSession;

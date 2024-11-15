@@ -3,63 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
-<script>
-function uploadFile(event){
-	const file = event.target.files[0];
-	
-	if(file){
-		const formData = new FormData();
-		formData.append("file",file);
-		
-		// ajax 요청으로 서버에 파일 업로드
-		fetch('/profile/upload',{
-			method:'POST',
-			body:formData
-		})
-		.then(response => response.json())
-		.then(data => {
-			if(data.success){
-				document.querySelector('.profile-pic img').src = data.profilePicUrl;
-				location.reload();
-			} else{
-				alert("업로드에 실패했습니다.다시 시도해주세요");
-			}
-		})
-		.catch(error => console.error('Error:',error));
-	}
-}
-</script>
-</head>
+
 <body>
 	<!-- 상단바 -->
-    <header class="navbar">
-        <div class="navbar-left">
-            <a class="navbar-logo">냐미</a>
-        </div>
-        <div class="navbar-right">
-            <a href="#" class="icon">로그아웃</a>
-            <a href="/" class="icon">홈</a>
-        </div>
-    </header>
+	<%@ include file="/WEB-INF/views/templates/header.jsp" %>
     <div class="container">
         <div class="content">
             <!-- 사이드바: 프로필 사진과 이름 표시 -->
-            <div class="sidebar">
-                <div class="profile-pic" onclick="document.getElementById('fileInput').click()">
-                	<img src="${member.profileImage}" alt="프로필 사진" />
-                	<span class="profile-overlay">프로필 변경</span>
-                	<input type="file" id="fileInput" style="display:none" onchange="uploadFile(event)" />
-                </div>
-               	<div class="profile-name">${member.nickname}</div>
-                <div class="profile-point">내 포인트 : 500p</div>
-                <div class="profile-intro">${member.introduction}</div>
-            </div>
-
+            <%@ include file="/WEB-INF/views/mypage/templates/sidebar.jsp" %>
             <!-- 메인 콘텐츠 부분 -->
             <div class="main-content">
             	<!-- 탭 메뉴 -->
@@ -157,5 +111,6 @@ function uploadFile(event){
             </div>
         </div>
     </div>
+<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 </body>
 </html>

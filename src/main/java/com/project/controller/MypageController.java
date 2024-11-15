@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -22,11 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.Member;
-import com.project.domain.MypageLike;
-import com.project.domain.MypageReview;
-import com.project.domain.PageRequest;
-import com.project.domain.PageResponse;
 import com.project.domain.Store;
+import com.project.dto.MypageLike;
+import com.project.dto.MypageReview;
+import com.project.dto.PageRequest;
+import com.project.dto.PageResponse;
 import com.project.service.MypageService;
 
 @Controller

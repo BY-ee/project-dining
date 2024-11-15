@@ -3,7 +3,7 @@ package com.project.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.domain.Login;
+import com.project.dto.Login;
 import com.project.mapper.LoginMapper;
 
 import lombok.RequiredArgsConstructor;

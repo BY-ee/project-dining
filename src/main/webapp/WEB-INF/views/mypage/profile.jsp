@@ -3,41 +3,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
 <script type="text/javascript">
         function showAlert(message) {
             alert(message);
         }
-    </script>
-</head>
+</script>
 <body>
 	<!-- 상단바 -->
-    <header class="navbar">
-        <div class="navbar-left">
-            <a class="navbar-logo">냐미</a>
-        </div>
-        <div class="navbar-right">
-            <a href="#" class="icon">로그아웃</a>
-            <a href="/" class="icon">홈</a>
-        </div>
-    </header>
+    <%@ include file="/WEB-INF/views/templates/header.jsp" %>
     <div class="container">
         <div class="content">
             <!-- 사이드바: 프로필 사진과 이름 표시 -->
-            <div class="sidebar">
-                <div class="profile-pic" onclick="document.getElementById('fileInput').click()">
-                	<span class="profile-overlay">프로필 변경</span>
-                </div>
-                <div class="profile-name">야미</div>
-                <input type="file" id="fileInput" style="display:none">
-                <div class="prifile-point">내 포인트 : 500p</div>
-                <div class="profile-intro">안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.</div>
-            </div>
-
+            <%@ include file="/WEB-INF/views/mypage/templates/sidebar.jsp" %>
             <!-- 메인 콘텐츠 부분 -->
             <div class="main-content">
                 <!-- 탭 메뉴 -->
@@ -75,11 +55,12 @@
                 </div>
             </div>
         </div>
-    <c:if test="${not empty message}">
-           <script type="text/javascript">
-               showAlert("${message}");
-           </script>
-    </c:if>
     </div>
+<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
+<c:if test="${not empty message}">
+       <script type="text/javascript">
+           showAlert("${message}");
+       </script>
+</c:if>
 </body>
 </html>
