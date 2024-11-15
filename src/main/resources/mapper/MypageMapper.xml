@@ -86,7 +86,7 @@
 		update
 		member
 		set
-		profile_image = {profileImage}
+		profile_image = #{profileImage}
 		where id = #{id}
 	</update>
 </mapper>

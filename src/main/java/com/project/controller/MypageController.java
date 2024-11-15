@@ -1,6 +1,9 @@
 package com.project.controller;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -64,34 +67,58 @@ public class MypageController {
     	return "mypage/mypage";
     }
 	
-	@PostMapping("/uploadProfilePic")
+	@PostMapping("/profile/upload")
 	@ResponseBody
-	public ResponseEntity<Map<String,Object>> uploadProfilePic(@RequestParam("profilePic") MultipartFile file,Member member){
+	public Map<String,Object> uploadProfilePic(@RequestParam("file") MultipartFile file){
 		Map<String,Object> response = new HashMap<>();
+		
+		Member member = mypageService.getMember(24);
+		
 		try {
-			String uploadDir = new File("src/main/resources/static/images/").getAbsolutePath();
-			String fileName = UUID.randomUUID().toString()+"_"+file.getOriginalFilename();
-			String filePath = uploadDir + File.separator +fileName;
-			
-			// 파일 저장
-			file.transferTo(new File(filePath));
-			
-			String fileUrl = "/images/" + fileName; 
-			
-			member.setId((long)24);
-			member.setProfileImage(fileUrl);
-			
-			int i = mypageService.fileUpload(member);
-					
-			response.put("success", true);
-			response.put("profilePicUrl", fileUrl);
+			if(!file.isEmpty()) {
+				
+				String uploadDir = new File("src/main/resources/static/images").getAbsolutePath();
+				String fileName = UUID.randomUUID().toString()+"_"+file.getOriginalFilename().replaceAll(" ", "_");
+				String filePath = uploadDir + File.separator +fileName;
+				
+				if(member.getProfileImage() != null && !member.getProfileImage().equals("/images/default.jpg")){
+					Path exsitingFilePath = Paths.get(uploadDir + member.getProfileImage().replace("/images", ""));
+					Files.deleteIfExists(exsitingFilePath);
+				}
+				// System.out.println(filePath);
+				// 파일 저장
+				file.transferTo(new File(filePath));
+				
+				String fileUrl = "/images/" + fileName;
+				
+				System.out.println(fileUrl);
+				
+				member.setProfileImage(fileUrl);
+				
+				int i = mypageService.fileUpload(member);
+				
+				response.put("success", true);
+				response.put("profilePicUrl", fileUrl);
+			}else {
+				response.put("success", false);
+				response.put("message", "파일이 비어있습니다.");
+			}
 			
 		}catch(Exception e) {
 			response.put("success", false);
 			e.printStackTrace();
 		}
-		return ResponseEntity.ok(response);
+		return response;
 	}
+	
+	@GetMapping("/profile/get")
+	@ResponseBody
+    public String getProfile() {
+		Member member = mypageService.getMember(24);
+		System.out.println(member.getProfileImage());
+		
+    	return member.getProfileImage();
+    }
 	
 	
 	@GetMapping("/profile")

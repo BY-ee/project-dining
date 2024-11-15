@@ -13,24 +13,40 @@ function uploadFile(event){
 	const file = event.target.files[0];
 	
 	if(file){
-		const formData = new FromData();
-		formData.append("profilePic",file);
+		const formData = new FormData();
+		formData.append("file",file);
 		
 		// ajax 요청으로 서버에 파일 업로드
-		fetch('/uploadProfilePic',{
+		fetch('/profile/upload',{
 			method:'POST',
 			body:formData
 		})
 		.then(response => response.json())
 		.then(data => {
 			if(data.success){
-				document.querySelector('.profile-pic').style.backgroundImage = `url(${data.profilePicUrl})`;
+				getImage();
 			} else{
 				alert("업로드에 실패했습니다.다시 시도해주세요");
 			}
 		})
-		.catch(error => console.error => ('Error:',error));
+		.catch(error => console.error('Error:',error));
+		
+
 	}
+}
+
+function getImage() {
+	fetch('/profile/get',{
+		method:'GET',
+	})
+	.then(data => {
+		if(data){
+			document.querySelector('.profile-pic img').src = data.profilePicUrl;
+		} else{
+			alert("로드에 실패했습니다.다시 시도해주세요");
+		}
+	})
+	.catch(error => console.error('Error:',error));
 }
 </script>
 </head>
@@ -50,11 +66,12 @@ function uploadFile(event){
             <!-- 사이드바: 프로필 사진과 이름 표시 -->
             <div class="sidebar">
                 <div class="profile-pic" onclick="document.getElementById('fileInput').click()">
+                	<img src="${member.profileImage}" alt="프로필 사진" />
                 	<span class="profile-overlay">프로필 변경</span>
+                	<input type="file" id="fileInput" style="display:none" onchange="uploadFile(event)" />
                 </div>
-                <input type="file" id="fileInput" style="display:none" onchange="uploadFile(event)">
                	<div class="profile-name">${member.nickname}</div>
-                <div class="prifile-point">내 포인트 : 500p</div>
+                <div class="profile-point">내 포인트 : 500p</div>
                 <div class="profile-intro">${member.introduction}</div>
             </div>
 
@@ -74,7 +91,7 @@ function uploadFile(event){
 							<c:forEach var="mypageLike" items= "${likePageResponse.list}">
 								<div class="item">
 									<a href="/store/${mypageLike.storeId}">
-										<img src="images/${mypageLike.mainImage1}">
+										<img src="/images/${mypageLike.mainImage1}">
 									</a>
 									${mypageLike.storeName }
 								</div>

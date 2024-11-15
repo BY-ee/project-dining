@@ -31,7 +31,6 @@
 .profile-pic {
 	width: 150px;
 	height: 150px;
-	background-image: url('../../images/images.jpeg');
 	background-size:cover;
 	border-radius: 50%;
 	margin: 0 auto;
@@ -41,6 +40,12 @@
 	align-items:center;
 	justify-content:center;
 	overflow: hidden; /* 자식 요소가 부모 경계를 넘지 않도록 설정 */
+}
+
+.profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 컨테이너에 맞게 잘리도록 설정 */
 }
 
 .profile-name {
