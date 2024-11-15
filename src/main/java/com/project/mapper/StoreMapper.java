@@ -35,7 +35,6 @@ public interface StoreMapper{
 	
 	List<Store> findAllStores();
 	
-	
     List<Store> findStoresByLocation(String location);
     
     List<Store> findStoresByFilters(

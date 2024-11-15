@@ -14,40 +14,8 @@
 </head>
 <body>
     <!-- 헤더 섹션 -->
-    <div class="header">
-        <!-- 페이지 이름 및 로고 -->
-        <div class="page-name">
-        	<a href="/"><img src="/images/home/NYUMINYUMI.png" alt="냐미냐미"></a>
-        </div>
-        
-        <!-- 인증 버튼 -->
-        <div class="auth-buttons">
-            <c:choose>
-                <c:when test="${not empty sessionScope.loginUser}">
-                    <!-- 로그인된 사용자를 위한 메뉴 -->
-                    <div class="user-popup-container">
-                        <button class="menu-btn">☰</button>
-                        <div class="user-popup" style="display: none;">
-                            <span class="welcome-message">환영합니다, ${sessionScope.loginUser.nickname}님!</span>
-                            <a href="/profile">프로필</a>
-                            <a href="/myPage">마이페이지</a>
-                            <a href="/settings">환경설정</a>
-                            <a href="/recommendations">1:1 추천</a>
-                            <form action="/logout" method="post" style="display:inline;">
-                                <button type="submit">로그아웃</button>
-                            </form>
-                        </div>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <!-- 비로그인 사용자를 위한 로그인/회원가입 버튼 -->
-                    <form action="/loginForm.do" method="get" style="display:inline;">
-                        <button type="submit">로그인/회원가입</button>
-                    </form>
-                </c:otherwise>
-            </c:choose>
-        </div>
-    </div>
+    <jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
+
 
     <!-- 메인 콘텐츠 섹션 -->
     <div class="content">
@@ -120,30 +88,8 @@
 
 		
 		<!-- 푸터 섹션 -->
-		<div class="footer">
-		    <div class="footer-content">
-		        <div class="customer-center">
-		            <h3><a href="/csr">고객 센터</a></h3>
-					<p>010-6286-9140 <span class="time">09:00-18:00</span></p>
-		            <p>평일: 전체 문의 상담<br>
-		               토요일, 공휴일: 제휴 가게 신청 상담<br>
-		               일요일: 휴무</p>
-		            <button>카톡 상담 ( 준비 중 )</button>
-		            <button onclick="window.location.href='/emailInquery';">이메일 문의</button>
-		        </div>
-		        <div class="company-links">
-		            <ul>
-		                <li><a href="/terms">이용 약관</a></li>
-		                <li><a href="/storeRegistration">사업자 가게 등록</a></li>
-		                <li><a href="/noticeList">공지 사항</a></li>
-		                <li><a href="/admin/members">관리자 페이지</a></li>
-		            </ul>
-		        </div>
-		    </div>
-		    <div class="footer-bottom">
-		        <p>Copyright 2024. , Nyaminyami Co., Ltd. All rights reserved.</p>
-		    </div>
-		</div>
+		<jsp:include page="/WEB-INF/views/templates/footer.jsp" /> <!-- footer -->
+
     </div>
 </body>
 
