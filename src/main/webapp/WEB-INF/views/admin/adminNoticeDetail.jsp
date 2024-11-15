@@ -20,6 +20,7 @@
         </div>
 
         <div class="notice-content">
+            <img src="${notice.noticeImage}" style="width: 80%; margin: 0 10%;" alt="notice" />
             ${notice.content}
         </div>
 

@@ -167,12 +167,16 @@ public class AdminService {
 	// 공지 작성
 	public void insertNotice(NoticeDTO noticeDTO) {
 	    String filePath = null;
+	    String fileName = null;
 	    MultipartFile noticeImage = noticeDTO.getImagePath();
+
 	    if (noticeImage != null && !noticeImage.isEmpty()) {
-	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/images/" + fileName;
+	        String staticImagePath = new File("src/main/resources/static/images").getAbsolutePath();
+	        fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
+	        filePath = staticImagePath + "/" + fileName;
+
 	        File file = new File(filePath);
-	        
+
 	        try {
 	            // 파일 저장
 	            noticeImage.transferTo(file);
@@ -180,11 +184,11 @@ public class AdminService {
 	            e.printStackTrace();
 	        }
 	    }
-	    
+
 	    Notice notice = new Notice();
 	    notice.setTitle(noticeDTO.getTitle());
 	    notice.setContent(noticeDTO.getContent());
-	    notice.setNoticeImage(filePath);	    
+	    notice.setNoticeImage("/images/" + fileName); // DB에는 상대 경로로 저장
 	    
 		noticeMapper.insertNotice(notice);
 	}
@@ -192,12 +196,16 @@ public class AdminService {
 	// 공지 수정
 	public void updateNotice(NoticeDTO noticeDTO, int id) {
 	    String filePath = null;
+	    String fileName = null;
 	    MultipartFile noticeImage = noticeDTO.getImagePath();
+
 	    if (noticeImage != null && !noticeImage.isEmpty()) {
-	        String fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
-	        filePath = "/images/" + fileName;
+	        String staticImagePath = new File("src/main/resources/static/images").getAbsolutePath();
+	        fileName = System.currentTimeMillis() + "_" + noticeImage.getOriginalFilename();
+	        filePath = staticImagePath + "/" + fileName;
+
 	        File file = new File(filePath);
-	        
+
 	        try {
 	            // 파일 저장
 	            noticeImage.transferTo(file);
@@ -205,11 +213,11 @@ public class AdminService {
 	            e.printStackTrace();
 	        }
 	    }
-	    
+
 	    Notice notice = new Notice();
 	    notice.setTitle(noticeDTO.getTitle());
 	    notice.setContent(noticeDTO.getContent());
-	    notice.setNoticeImage(filePath);
+	    notice.setNoticeImage("/images/" + fileName); // DB에는 상대 경로로 저장
 	    
 		noticeMapper.updateNotice(notice, id);
 	}
@@ -246,12 +254,16 @@ public class AdminService {
 	// 이벤트 글 작성
 	public void insertEvent(EventDTO eventDTO) {
 	    String filePath = null;
+	    String fileName = null;
 	    MultipartFile eventImage = eventDTO.getImagePath();
+
 	    if (eventImage != null && !eventImage.isEmpty()) {
-	        String fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
-	        filePath = "/images/" + fileName;
+	        String staticImagePath = new File("src/main/resources/static/images").getAbsolutePath();
+	        fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
+	        filePath = staticImagePath + "/" + fileName;
+
 	        File file = new File(filePath);
-	        
+
 	        try {
 	            // 파일 저장
 	            eventImage.transferTo(file);
@@ -259,27 +271,32 @@ public class AdminService {
 	            e.printStackTrace();
 	        }
 	    }
-	    
+
 	    Event event = new Event();
 	    event.setCategory(eventDTO.getCategory());
 	    event.setTitle(eventDTO.getTitle());
 	    event.setContent(eventDTO.getContent());
 	    event.setStartDate(Date.from(eventDTO.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
 	    event.setEndDate(Date.from(eventDTO.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
-	    event.setEventImage(filePath);	    
+	    event.setEventImage("/images/" + fileName); // DB에는 상대 경로로 저장
 	    
-		noticeMapper.insertEvent(event);
+	    noticeMapper.insertEvent(event);
 	}
+
 	
 	// 이벤트 수정
 	public void updateEvent(EventDTO eventDTO, int id) {
 	    String filePath = null;
+	    String fileName = null;
 	    MultipartFile eventImage = eventDTO.getImagePath();
+
 	    if (eventImage != null && !eventImage.isEmpty()) {
-	        String fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
-	        filePath = "/images/" + fileName;
+	        String staticImagePath = new File("src/main/resources/static/images").getAbsolutePath();
+	        fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
+	        filePath = staticImagePath + "/" + fileName;
+
 	        File file = new File(filePath);
-	        
+
 	        try {
 	            // 파일 저장
 	            eventImage.transferTo(file);
@@ -294,7 +311,7 @@ public class AdminService {
 	    event.setContent(eventDTO.getContent());
 	    event.setStartDate(Date.from(eventDTO.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
 	    event.setEndDate(Date.from(eventDTO.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
-	    event.setEventImage(filePath);
+	    event.setEventImage("/images/" + fileName); // DB에는 상대 경로로 저장
 	    
 		noticeMapper.updateEvent(event, id);
 	}

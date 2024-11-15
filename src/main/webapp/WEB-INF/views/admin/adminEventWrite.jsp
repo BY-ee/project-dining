@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="main-content">
-        <div style="display: flex; justify-content: space-around;">
+        <div style="display: flex; justify-content: space-between;">
             <div class="form-group" style="width: 200px;">
                 <label for="category">주제</label>
                 <select id="category" name="category">
@@ -30,28 +30,28 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <div style="display: flex; gap: 20px;">
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group">
                     <label for="start-date">시작일자</label>
                     <input type="date" id="start-date" name="startDate" />
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="end-date">종료일자</label>
                     <input type="date" id="end-date" name="endDate" />
                 </div>
             </div>
         </div>
 
-        <div class="header mb-0">
+        <div class="main-content-header mb-0">
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" placeholder="제목을 입력하세요." />
             </div>
         </div>
 
-        <div class="content">
+        <div class="main-content-content">
             <div class="form-group">
-                <label for="content">내용</label>
+                <label for="content" style="margin-top: 20px;">내용</label>
                 <textarea id="content" name="content" placeholder="내용을 입력하세요."></textarea>
             </div>
         </div>
