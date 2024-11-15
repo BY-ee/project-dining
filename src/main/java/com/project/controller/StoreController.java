@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.project.domain.MemberLike;
 import com.project.domain.Menu;
-import com.project.domain.StoreDomain;
+import com.project.domain.Store;
 import com.project.service.StoreService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class StoreController {
 	    }
 		
 		// 가게 및 메뉴 정보 가져오기
-        StoreDomain storeDetail = storeService.getStoreDetailById(storeId);
+        Store storeDetail = storeService.getStoreDetailById(storeId);
         List<Menu> menuList = storeService.getMenuById(storeId);
         
         System.out.println("storeDetail값:"+ storeDetail);

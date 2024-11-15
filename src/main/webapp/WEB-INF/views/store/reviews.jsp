@@ -8,11 +8,6 @@
 
 <head>
     <title>리뷰 목록</title>
-    <%
-        // 세션에서 user_ID 및 user_nickname 가져오기
-        Long userId = (Long) session.getAttribute("user_ID");
-        String nickname = (String) session.getAttribute("user_nickname");
-    %>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script>
@@ -71,7 +66,7 @@
     function renderReviews(reviews, userReviewIndex) {
 	    var reviewList = $('#review-list');
 	    reviewList.empty();
-	    console.log("asd: ", reviews)
+	    console.log("리뷰데이터: ", reviews)
 	
 	    $.each(reviews, function(index, review) {
 	    	if(review.status === 'active') {

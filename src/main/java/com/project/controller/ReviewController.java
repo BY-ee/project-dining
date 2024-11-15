@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.domain.PointDomain;
-import com.project.domain.ReviewDomain;
+import com.project.domain.Point;
+import com.project.domain.Review;
+import com.project.dto.ReviewWithNicknameDTO;
 import com.project.service.PointService;
 import com.project.service.ReviewService;
 
@@ -35,7 +36,7 @@ public class ReviewController {
 
     @RequestMapping("/getReviews")
     @ResponseBody
-    public List<ReviewDomain> getReviews(@RequestParam("store_id") long storeId) {
+    public List<ReviewWithNicknameDTO> getReviews(@RequestParam("store_id") long storeId) {
     	
         System.out.println("Getting reviews for store ID: " + storeId);
         return reviewService.getReviewsByStoreId(storeId);
@@ -65,7 +66,7 @@ public class ReviewController {
             return "redirect:/loginForm.do";
         }
         
-        ReviewDomain existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
+        Review existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
         boolean pointGiven = false; // 포인트 지급 여부를 저장할 변수
         
         if (existingReview != null) {
@@ -76,7 +77,7 @@ public class ReviewController {
                 reviewService.deleteReview(existingReview.getId());
             }
         } else {        	
-        	PointDomain newPoint = new PointDomain();
+        	Point newPoint = new Point();
             newPoint.setMemberId(memberId);
             newPoint.setCategory("일반리뷰");  // 지급 유형 설정
             newPoint.setPoint(100L);  // 지급할 포인트 설정 (예: 100포인트)
@@ -89,17 +90,13 @@ public class ReviewController {
         }
 
         // ReviewDomain 객체 생성 및 값 설정
-        ReviewDomain newReview = new ReviewDomain();
+        Review newReview = new Review();
         newReview.setMemberId(memberId);
         newReview.setStoreId(storeId);
         newReview.setScore(score);
         newReview.setContent(content);
         newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
 
-        
-        // 리뷰 저장
-        reviewService.insertReview(newReview);
-        
         if (pointGiven) {
             redirectAttributes.addFlashAttribute("pointMessage", "리뷰 작성으로 100포인트가 지급되었습니다!");
         }
@@ -143,9 +140,9 @@ public class ReviewController {
     
     // 리뷰 수정 요청 처리
     @PostMapping("/updateReview")
-    public ResponseEntity<String> updateReview(@RequestBody ReviewDomain reviewDomain) {
+    public ResponseEntity<String> updateReview(@RequestBody Review review) {
         try {
-            reviewService.updateReview(reviewDomain);
+            reviewService.updateReview(review);
             return ResponseEntity.ok("리뷰가 수정되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정에 실패했습니다.");

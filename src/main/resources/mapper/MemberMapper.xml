@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.MemberMapper">
-	<select id="selectMembers" resultType="Member">
+	<select id="selectMembers" resultType="member">
 		SELECT * FROM (
 		    SELECT m.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM member
@@ -18,7 +18,7 @@
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="selectMember" resultType="Member">
+	<select id="selectMember" resultType="member">
 		SELECT * FROM member
 		WHERE id=#{id}
 	</select>

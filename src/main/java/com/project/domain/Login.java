@@ -7,7 +7,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("Login")
+@Alias("login")
 public class Login {
 
 	private Long id;

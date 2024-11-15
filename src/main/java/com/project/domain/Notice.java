@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Notice")
+@Alias("notice")
 public class Notice {
     private int id;
     private String title;

@@ -1,9 +1,12 @@
-package com.project.domain;
+package com.project.dto;
+
+import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
 @Data
-public class StoreDomain {
+@Alias("storeWithLocationDTO")
+public class StoreWithLocationDTO {
 
     private Long id; // STORE의 고유 ID
     private Long memberId; // MEMBER_ID, 사용자 ID를 참조

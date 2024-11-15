@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Member")
+@Alias("member")
 public class Member {
     private Long id;
     private String category;

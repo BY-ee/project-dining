@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.domain.MemberLike;
 import com.project.domain.Menu;
 import com.project.domain.Store;
-import com.project.domain.StoreDomain;
 import com.project.mapper.StoreMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class StoreService {
 
 	private final StoreMapper storeMapper;
 
-	public StoreDomain getStoreDetailById(long store_ID) {
+	public Store getStoreDetailById(long store_ID) {
 		return storeMapper.getStoreDetailById(store_ID);
 	}
 

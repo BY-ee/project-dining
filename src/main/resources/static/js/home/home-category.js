@@ -91,8 +91,6 @@ function searchStores() {
 
 
 	// 가게 상세 페이지로 이동
-	var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
-	
     function goToStoreDetail(storeId) {	        
         var url = '/storeDetail?store_ID=' + storeId;
         if (userId && userId.trim() !== "") {  

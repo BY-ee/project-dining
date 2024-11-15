@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.project.domain.Event;
 import com.project.domain.Notice;
-import com.project.domain.PageRequest;
-import com.project.domain.PageResponse;
+import com.project.dto.PageRequest;
+import com.project.dto.PageResponse;
 import com.project.mapper.NoticeMapper;
 
 @Service

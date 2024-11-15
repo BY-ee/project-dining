@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.MenuMapper">	
-	<select id="selectStoreMenu" resultType="Menu">
+	<select id="selectStoreMenu" resultType="menu">
 		SELECT * FROM menu
 		WHERE store_id=#{storeId}
 	</select>

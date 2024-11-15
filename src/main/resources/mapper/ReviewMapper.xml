@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ReviewMapper">
-	<select id="selectReviews" resultType="Review">
+	<select id="selectReviews" resultType="review">
 		SELECT * FROM (
 		    SELECT r.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM review
@@ -18,7 +18,7 @@
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="getReviewsByStoreId" resultType="com.project.domain.ReviewDomain">
+	<select id="getReviewsByStoreId" resultType="reviewWithNicknameDTO">
     SELECT r.id, 
            r.member_id AS memberId,  
            r.store_id AS storeId, 
@@ -26,6 +26,7 @@
            r.content, 
            r.created_at AS createdAt,
            r.review_image AS reviewImage,
+           r.status,
            m.nickname
     FROM review r
     JOIN member m ON r.member_id = m.id
@@ -33,12 +34,12 @@
     ORDER BY r.created_at DESC
 	</select>
 	
-	<insert id="insertReview" parameterType="com.project.domain.ReviewDomain">
+	<insert id="insertReview" parameterType="review">
         INSERT INTO review (member_id, store_id, score, content, created_at, review_image)
         VALUES (#{memberId}, #{storeId}, #{score}, #{content}, #{createdAt}, #{reviewImage,jdbcType=VARCHAR})
     </insert>
     
-    <select id="findReviewByUserAndStore" parameterType="map" resultType="com.project.domain.ReviewDomain">
+    <select id="findReviewByUserAndStore" parameterType="map" resultType="review">
 	    SELECT * 
 	    FROM review 
 	    WHERE member_id = #{memberId} 
@@ -55,16 +56,8 @@
     	</where>
 	</select>
 	
-	
-	<!--	
-	<delete id="deleteReview" parameterType="map">
-	    DELETE FROM review
-	    WHERE id = #{id} AND member_id = #{member_id}
-	</delete>
-	-->
-	
 	<delete id="deleteReview" parameterType="long">
-	    DELETE FROM review WHERE id = #{reviewId}
+	    DELETE FROM review WHERE id = #{id}
 	</delete>
 	
 	<update id="updateReviewStatusToHidden">
@@ -74,12 +67,12 @@
     </update>
     
 	
-	<select id="selectReviewById" parameterType="long" resultType="Review">
+	<select id="selectReviewById" parameterType="long" resultType="review">
 		SELECT * FROM review
 		WHERE id = #{id}
 	</select>
 	
-	<select id="selectReviewMemberById" parameterType="long" resultType="com.project.dto.ReviewMemberDTO">
+	<select id="selectReviewMemberById" parameterType="long" resultType="reviewMemberDTO">
 		SELECT r.*, m.nickname
 		FROM Review r
 		JOIN Member m ON r.member_id = m.id

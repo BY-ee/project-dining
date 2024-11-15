@@ -12,47 +12,47 @@
         select count(*) from member where nickname = #{nickname}
     </select>
      <!-- 사용자 회원 가입 -->
-     <insert id="joinMember" parameterType="Login">
+     <insert id="joinMember" parameterType="login">
          insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image)
          values (#{category}, #{registrationNumber, jdbcType=VARCHAR}, #{memberId}, #{naverId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd}, #{nickname}, #{introduction, jdbcType=VARCHAR},
          #{email}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR})
     </insert>
     <!-- 사용자조회 -->
-    <select id= "getUser" parameterType="string" resultType="Login">
+    <select id= "getUser" parameterType="string" resultType="login">
         select * from member where member_id = #{memberId}
     </select>
     <!-- 네이버, 카카오, 구글 SNS 유무 계정 조회 -->
-    <select id="getNaverUser" parameterType="string" resultType="Login">
+    <select id="getNaverUser" parameterType="string" resultType="login">
         select * from member where naver_id = #{value}
     </select>
-    <select id="getKakaoUser" parameterType="string" resultType="Login">
+    <select id="getKakaoUser" parameterType="string" resultType="login">
         select * from member where kakao_id = #{value}
     </select>
-    <select id="getGoogleUser" parameterType="string" resultType="Login">
+    <select id="getGoogleUser" parameterType="string" resultType="login">
         select * from member where google_id = #{value}
     </select>
     <!--  네이버, 카카오, 구글 SNS 최초 회원가입 -->
-    <insert id="insertNaverJoin" parameterType="Login">
+    <insert id="insertNaverJoin" parameterType="login">
         insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image)
         values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname,
         jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR} )
      </insert>
-    <insert id="insertKakaoJoin" parameterType="Login">
+    <insert id="insertKakaoJoin" parameterType="login">
         insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image)
         values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{naverId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname,
         jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR})
      </insert>
-     <insert id="insertGoogleJoin" parameterType="Login">
+     <insert id="insertGoogleJoin" parameterType="login">
         insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image)
         values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{naverId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname,
         jdbcType=VARCHAR}, #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR})
      </insert>
     <!-- 비밀번호 재설정 -->
-    <update id="updatePassword" parameterType="Login">
+    <update id="updatePassword" parameterType="login">
         update member set passwd = #{passwd} where member_id = #{memberId}
     </update>
     <!-- 아이디 찾기 -->
-    <select id="getFindId" parameterType="string" resultType="Login">
+    <select id="getFindId" parameterType="string" resultType="login">
         select * from member where email = #{email }
     </select>
 </mapper>

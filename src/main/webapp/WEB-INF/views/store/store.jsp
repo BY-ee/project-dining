@@ -9,18 +9,19 @@
 <head>
     <title>가게 상세페이지</title>
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
-    <% 
-        // 세션에서 userId와 storeId 가져오기
-        Long userId = (Long) session.getAttribute("user_ID");
-    	Long storeId = (Long) request.getAttribute("store_ID");
-    %>
+   
 
     <!-- JavaScript에서 사용할 userId와 storeId -->
     <script type="text/javascript">
-        var userId = <%= userId != null ? userId : "null" %>;
-        var storeId = <%= storeId %>;
+	    var userId = ${user_ID != null ? user_ID : 'null'};
+	    var storeId = ${store_ID != null ? store_ID : 'null'};
         var latitude = ${storeDetail.latitude != null ? storeDetail.latitude : "null"};
         var longitude = ${storeDetail.longitude != null ? storeDetail.longitude : "null"};
+        
+        console.log("userId:", userId);
+        console.log("storeId:", storeId);
+        console.log("latitude:", latitude);
+        console.log("longitude:", longitude);
     </script>
     
 </head>

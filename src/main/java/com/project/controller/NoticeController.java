@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.project.domain.Event;
 import com.project.domain.Notice;
-import com.project.domain.PageRequest;
-import com.project.domain.PageResponse;
+import com.project.dto.PageRequest;
+import com.project.dto.PageResponse;
 import com.project.service.NoticeService;
 
 @Controller
