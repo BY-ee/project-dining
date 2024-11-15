@@ -111,16 +111,6 @@ public class MypageController {
 		return response;
 	}
 	
-	@GetMapping("/profile/get")
-	@ResponseBody
-    public String getProfile() {
-		Member member = mypageService.getMember(24);
-		System.out.println(member.getProfileImage());
-		
-    	return member.getProfileImage();
-    }
-	
-	
 	@GetMapping("/profile")
     public String profile(@AuthenticationPrincipal OAuth2User oauth2User,Model model) {
 		Member member = mypageService.getMember(24);

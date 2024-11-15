@@ -24,29 +24,14 @@ function uploadFile(event){
 		.then(response => response.json())
 		.then(data => {
 			if(data.success){
-				getImage();
+				document.querySelector('.profile-pic img').src = data.profilePicUrl;
+				location.reload();
 			} else{
 				alert("업로드에 실패했습니다.다시 시도해주세요");
 			}
 		})
 		.catch(error => console.error('Error:',error));
-		
-
 	}
-}
-
-function getImage() {
-	fetch('/profile/get',{
-		method:'GET',
-	})
-	.then(data => {
-		if(data){
-			document.querySelector('.profile-pic img').src = data.profilePicUrl;
-		} else{
-			alert("로드에 실패했습니다.다시 시도해주세요");
-		}
-	})
-	.catch(error => console.error('Error:',error));
 }
 </script>
 </head>
