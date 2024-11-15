@@ -3,7 +3,9 @@ package com.project.service;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
-import com.project.domain.ReviewDomain;
+
+import com.project.domain.Review;
+import com.project.dto.ReviewWithNicknameDTO;
 import com.project.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -14,16 +16,16 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 
 	// 리뷰 조회
-	public List<ReviewDomain> getReviewsByStoreId(long store_id) {
+	public List<ReviewWithNicknameDTO> getReviewsByStoreId(long store_id) {
 	    return reviewMapper.getReviewsByStoreId(store_id);
 	}
 
 	// 리뷰 저장
-	public void insertReview(ReviewDomain newReview) {
+	public void insertReview(Review newReview) {
 		reviewMapper.insertReview(newReview);
 	}
 	
-	public void submitReview(ReviewDomain newReview) {
+	public void submitReview(Review newReview) {
         reviewMapper.insertReview(newReview);
     }
 
@@ -43,13 +45,13 @@ public class ReviewService {
     	reviewMapper.updateReviewStatusToHidden(reviewId);
     }
     
-    public ReviewDomain findReviewByUserAndStore(Long memberId, Long storeId) {
+    public Review findReviewByUserAndStore(Long memberId, Long storeId) {
         return reviewMapper.findReviewByUserAndStore(memberId, storeId);
     }
 
     // 리뷰 수정
-	public void updateReview(ReviewDomain reviewDomain) {
-		reviewMapper.updateReview(reviewDomain);
+	public void updateReview(Review review) {
+		reviewMapper.updateReview(review);
 	}
 
 	

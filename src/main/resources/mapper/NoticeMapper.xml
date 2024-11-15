@@ -4,12 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.NoticeMapper">
-	<insert id="insertNotice" parameterType="Notice">
+	<insert id="insertNotice" parameterType="notice">
 		INSERT INTO notice (title, content, status, notice_image, views)
 		VALUES (#{title}, #{content}, 'active', #{noticeImage, jdbcType=VARCHAR}, 0)
 	</insert>
 	
-	<select id="selectNotice" resultType="Notice">
+	<select id="selectNotice" resultType="notice">
 		SELECT * FROM (
 		    SELECT n.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM notice
@@ -41,7 +41,7 @@
     	</where>
 	</select>
 
-	<select id="getNoticeList" resultType="com.project.domain.Notice">
+	<select id="getNoticeList" resultType="notice">
 		select * from (
 			select notice.* , ROWNUM AS rn 
 			from ( select * from notice
@@ -72,7 +72,7 @@
 		where category = #{category}
 	</select>
 
-	<select id="getEventList" resultType="com.project.domain.Event">
+	<select id="getEventList" resultType="event">
 		select * from (
 			select event.* , ROWNUM AS rn 
 			from event 
@@ -112,15 +112,15 @@
 		</if>
 	</select>
 	
-	<select id="getEvent" resultType="Event" parameterType="Long">
+	<select id="getEvent" resultType="event" parameterType="Long">
 		select * from event where id = #{id}
 	</select>
 	
-	<select id="getNotice" resultType="Notice" parameterType="Long">
+	<select id="getNotice" resultType="notice" parameterType="Long">
 		select * from notice where id = #{id}
 	</select>
 	
-	<select id="getPreNotice" resultType="Notice" parameterType="Long">
+	<select id="getPreNotice" resultType="notice" parameterType="Long">
 		select * from
 		(
 			select id,title
@@ -131,7 +131,7 @@
 		where rownum = 1
 	</select>
 	
-	<select id="getNextNotice" resultType="Notice" parameterType="Long">
+	<select id="getNextNotice" resultType="notice" parameterType="Long">
 		select * from
 		(
 			select id,title
@@ -142,7 +142,7 @@
 		where rownum = 1
 	</select>
 	
-	<select id="selectNoticeById" resultType="Notice">
+	<select id="selectNoticeById" resultType="notice">
 		SELECT * FROM notice
 		WHERE id=#{id}
 	</select>
@@ -157,7 +157,7 @@
 		WHERE id=#{id}
 	</update>
 	
-	<select id="selectEvents" resultType="Event">
+	<select id="selectEvents" resultType="event">
 		SELECT * FROM (
 		    SELECT e.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM event
@@ -172,7 +172,7 @@
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-	<insert id="insertEvent" parameterType="Event">
+	<insert id="insertEvent" parameterType="event">
 		INSERT INTO event (category, title, content, start_date, end_date, status, event_image, views)
 		VALUES (#{category}, #{title}, #{content}, #{startDate}, #{endDate}, 'active', #{eventImage, jdbcType=VARCHAR}, 0)
 	</insert>
@@ -188,7 +188,7 @@
 	    WHERE id = #{id}
 	</update>
 	
-	<select id="selectEventById" resultType="Event">
+	<select id="selectEventById" resultType="event">
 		SELECT * FROM event
 		WHERE id=#{id}
 	</select>

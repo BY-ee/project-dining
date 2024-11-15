@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.Event;
 import com.project.domain.Notice;
+import com.project.dto.PageRequest;
 import com.project.dto.RequestData;
-import com.project.domain.PageRequest;
 
 @Mapper
 public interface NoticeMapper {

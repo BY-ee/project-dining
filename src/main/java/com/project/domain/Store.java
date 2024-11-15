@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Store")
+@Alias("store")
 public class Store {
     private Long id;
     private Long memberId;

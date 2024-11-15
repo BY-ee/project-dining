@@ -5,7 +5,7 @@
   
  <mapper namespace="com.project.mapper.PointMapper">
  
- 	<insert id="insertPoint" parameterType="com.project.domain.PointDomain">
+ 	<insert id="insertPoint" parameterType="point">
 	    INSERT INTO point (id, member_id, category, point, type, created_at, deleted_at, status)
 	    VALUES (#{id, jdbcType=INTEGER}, #{memberId, jdbcType=INTEGER}, #{category, jdbcType=VARCHAR},
 	            #{point, jdbcType=NUMERIC}, #{type, jdbcType=VARCHAR},

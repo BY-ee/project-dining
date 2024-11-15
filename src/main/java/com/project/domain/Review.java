@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Review")
+@Alias("review")
 public class Review {
     private Long id;
     private long memberId;

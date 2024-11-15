@@ -261,6 +261,7 @@ public class AdminService {
 	        String staticImagePath = new File("src/main/resources/static/images").getAbsolutePath();
 	        fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
 	        filePath = staticImagePath + "/" + fileName;
+	        System.out.println(filePath);
 
 	        File file = new File(filePath);
 

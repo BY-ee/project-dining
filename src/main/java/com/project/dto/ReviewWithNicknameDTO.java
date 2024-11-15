@@ -1,11 +1,14 @@
-package com.project.domain;
+package com.project.dto;
 
 import java.sql.Timestamp;
+
+import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
 @Data
-public class ReviewDomain {
+@Alias("reviewWithNicknameDTO")
+public class ReviewWithNicknameDTO {
     private long id;
     private long memberId;
     private long storeId;
