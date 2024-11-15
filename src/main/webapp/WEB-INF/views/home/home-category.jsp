@@ -38,13 +38,18 @@
 		            <img src="/images/home/모수 긴 화면 2.png" alt="슬라이드 1 이미지" class="slide-image">
 		        </div>
 		        <div class="slide">
-		            <img src="/images/home/티앤미미.jpg" alt="슬라이드 2 이미지" class="slide-image">
+		            <img src="/images/home/티엔미미1.jpg" alt="슬라이드 2 이미지" class="slide-image">
 		        </div>
-		        <!-- 추가 슬라이드는 여기에 배치 -->
+				<div class="slide">
+		            <img src="/images/home/juicy-and-chewy-chuck.jpg" alt="슬라이드 2 이미지" class="slide-image">
+		        </div>
+				<div class="slide">
+		            <img src="/images/home/galbi.jpg" alt="슬라이드 2 이미지" class="slide-image">
+		        </div>
 		    </div>
 		    
 		   	<div class="slide-buttons">
-			    <button onclick="moveToSlide(0)"></button>
+			    <button onclick="moveToSlide(0)" class="active"></button>
 			    <button onclick="moveToSlide(1)"></button>
 			    <button onclick="moveToSlide(2)"></button>
 			    <button onclick="moveToSlide(3)"></button>

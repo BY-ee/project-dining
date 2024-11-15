@@ -97,11 +97,11 @@
 /* 메인 배너 영역 스타일 */
 /*============================================================================*/
 .main-banner {
-    width: 100%;
-    max-width: 1500px; /* 고정 너비 설정 */
-    height: 450px;
+    /* width: 100%; */
+    /* max-width: 1500px; 고정 너비 설정 */
+    /* height: 450px; */
     margin: 10px auto; /* 화면 가운데 정렬 */
-    background-color: #f5f5f5;
+    background-color: #fafafa;
     overflow: hidden;
     position: relative;
 }
@@ -110,15 +110,15 @@
 .slider-container {
     display: flex;
     transition: transform 0.5s ease;
-    width: 400%; /* 이미지 4개의 전체 너비 */
+    /* width: 400%; 이미지 4개의 전체 너비 */
     position: relative;
-    min-width: 500px; /* 슬라이더 전체의 최소 너비를 1000px로 설정 */
+    /* min-width: 500px; 슬라이더 전체의 최소 너비를 1000px로 설정 */
     
 }
 
 .slide {
     flex: 1 0 100%; /* 한 번에 한 슬라이드씩 표시 */
-    min-width: 1000px; /* 슬라이더 전체의 최소 너비를 1000px로 설정 */
+    /* min-width: 1000px; 슬라이더 전체의 최소 너비를 1000px로 설정 */
     
 }
 
@@ -156,11 +156,13 @@
 }
 
 .slide img {
-    max-width: 100%;
-    max-height: 100%;
+    /* max-width: 100%; */
+    /* max-height: 100%; */
+    width: 1500px;
+    height: 500px;
     object-fit: contain;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 /* 필터 컨테이너 스타일 */
@@ -297,13 +299,14 @@
 .store-item {
     width: 80%;
     height: 220px;
-    background-color: #f0f0f0;
-    border: None;
+    /* background-color: #f0f0f0; */
+    /* border: None; */
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
     overflow:hidden; /*임의 추가*/
+    cursor: pointer;
 }
 
 /* 임의 추가*/

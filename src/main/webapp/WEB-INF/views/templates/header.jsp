@@ -30,7 +30,7 @@
             <c:otherwise>
                 <!-- 비로그인 사용자를 위한 로그인/회원가입 버튼 -->
                 <form action="/loginForm.do" method="get" style="display:inline;">
-                    <button type="submit">로그인/회원가입</button>
+                    <button type="submit">로그인 / 회원가입</button>
                 </form>
             </c:otherwise>
         </c:choose>
