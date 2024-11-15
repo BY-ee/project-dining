@@ -270,7 +270,7 @@ public class AdminController {
 		return "admin/adminEventEdit";
 	}
 	
-	// 공지사항 수정
+	// 이벤트 수정
 	@PostMapping(value = "/events/{id}/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<String> editEvent(
 			@PathVariable("id") int id,
@@ -280,7 +280,7 @@ public class AdminController {
 		return ResponseEntity.ok("성공");
 	}
 	
-	// 공지 게시중단
+	// 이벤트 게시중단
 	@PostMapping("/events/{id}/inactivate")
 	@ResponseBody
 	public ResponseEntity<String> inactivateEvent(@PathVariable("id") long id) {
@@ -289,7 +289,7 @@ public class AdminController {
 		return ResponseEntity.ok("inactive");
 	}
 	
-	// 공지 재게시
+	// 이벤트 재게시
 	@PostMapping("/events/{id}/reactivate")
 	@ResponseBody
 	public ResponseEntity<String> reactivateEvent(@PathVariable("id") long id) {

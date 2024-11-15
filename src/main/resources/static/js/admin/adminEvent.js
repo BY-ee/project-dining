@@ -110,7 +110,7 @@ $(() => {
     // 이벤트글 게시중단 버튼 클릭
     $('.inactive-event').on('click', function(e) {
         e.preventDefault();
-        const eventId = $(this).data('eventId');
+        const eventId = $(this).data('id');
         $.ajax({
             url: `/admin/events/${eventId}/inactivate`,
             type: 'POST',
@@ -126,7 +126,7 @@ $(() => {
     // 이벤트글 재게시 버튼 클릭
     $('.reactive-event').on('click', function(e) {
         e.preventDefault();
-        const eventId = $(this).data('eventId');
+        const eventId = $(this).data('id');
         $.ajax({
             url: `/admin/events/${eventId}/reactivate`,
             type: 'POST',

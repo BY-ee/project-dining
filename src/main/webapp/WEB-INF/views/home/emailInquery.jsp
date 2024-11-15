@@ -1,26 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
+
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일 문의</title>
     <link rel="stylesheet" href="css/home/emailInquiry.css">
 </head>
 <body>
-
-	<header>
-        <h1><a href="/">냐미냐미</a></h1>
-        <nav>
-            <a href="#">같이 먹기</a>
-            <a href="#">맛집 검색</a>
-            <a href="#">간단 게임</a>
-            <input type="text" placeholder="통합검색">
-        </nav>
-    </header>
+	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
     
-    <div class="container">
+    <main class="container"> <!-- main content start -->
+
         <h2>이메일 문의</h2>
         <p>문의사항을 남겨주시면 빠른 시일 내에 답변 드리겠습니다.</p>
         
@@ -55,35 +47,8 @@
             
             <button type="submit" class="submit-btn">제출하기</button>
         </form>
-    </div>
+    </main>
 
-    <!-- Footer Section -->
-    <div class="footer">
-        <div class="footer-content">
-            <!-- 고객센터 정보 -->
-            <div class="customer-center">
-                <h3><a href="/csr">고객 센터</a></h3>
-                <p>010-6286-9140 <span class="time">09:00-18:00</span></p>
-                <p>평일: 전체 문의 상담<br>
-                   토요일, 공휴일: 제휴 가게 신청 상담<br>
-                   일요일: 휴무</p>
-                <button class="contact-button">카톡 상담 ( 준비 중 )</button>
-                <button class="contact-button">이메일 문의</button>
-            </div>
-    
-            <!-- 회사 정보 및 링크 -->
-            <div class="company-links">
-                <ul>
-                    <li><a href="/terms">이용 약관</a></li>
-                    <li><a href="#">사업자 가게 등록</a></li>
-                    <li><a href="#">공지 사항</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>Copyright 2024. Nyaminyami Co., Ltd. All rights reserved.</p>
-        </div>
-    </div>
-
+	<jsp:include page="/WEB-INF/views/templates/footer.jsp" /> <!-- footer -->
 </body>
 </html>

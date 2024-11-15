@@ -15,7 +15,7 @@
     <!-- Header -->
     <header class="header">
         <div class="logo">
-            <img src="https://okky.kr/cat-footer.svg" alt="Logo">
+            <img src="https://okky.kr/cat-footer.svg" onclick="location.href=location.origin" style="cursor: pointer;" alt="Logo">
             관리자 페이지
         </div>
         <nav class="nav-links">

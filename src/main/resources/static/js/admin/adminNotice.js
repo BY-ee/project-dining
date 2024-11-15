@@ -96,7 +96,7 @@ $(() => {
     // 공지 게시중단 버튼 클릭
     $('.inactive-notice').on('click', function(e) {
         e.preventDefault();
-        const noticeId = $(this).data('noticeId');
+        const noticeId = $(this).data('id');
         $.ajax({
             url: `/admin/notice/${noticeId}/inactivate`,
             type: 'POST',
@@ -112,7 +112,7 @@ $(() => {
     // 공지 재게시 버튼 클릭
     $('.reactive-notice').on('click', function(e) {
         e.preventDefault();
-        const noticeId = $(this).data('noticeId');
+        const noticeId = $(this).data('id');
         $.ajax({
             url: `/admin/notice/${noticeId}/reactivate`,
             type: 'POST',

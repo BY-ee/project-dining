@@ -1,0 +1,16 @@
+/* Initalize Styles */
+/*============================================================================*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.html, body {
+    font-family: Arial, sans-serif;
+        height: 100%;
+}
+
+.content {
+    min-height: calc(100vh - 120px); /* Make the content area at least the height of the screen minus the header/footer */
+}
