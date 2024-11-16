@@ -16,6 +16,7 @@
             <c:when test="${not empty sessionScope.loginUser}">
                 <!-- 로그인된 사용자를 위한 메뉴 -->
                 <div class="user-popup-container">
+                	<a href="/community">커뮤니티</a>
                     <button class="menu-btn"> ☰ </button>
                     <div class="user-popup" style="display: none;">
                         <span class="welcome-message">환영합니다, ${sessionScope.loginUser.nickname}님!</span>
