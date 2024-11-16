@@ -11,6 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/home/slider.js" defer></script>
     <script src="/js/home/userdropdown.js" defer></script>
+    <script src="/js/home/home-category.js"></script>
+    
 </head>
 <body>
     <!-- 헤더 섹션 -->
@@ -83,28 +85,23 @@
 			<!-- 게시글 정렬 -->
 			<div class="orderby-criteria">
 				<select id="orderOptions" onchange="orderOptionChoice()">
-					<option value="recent" id="recent">최신순</option>
+					<option value="" >정렬</option>
 					<option value="likes" id="likes">좋아요순</option>
-					<option value="comments" id="comments">댓글순</option>
+					<option value="reviews" id="reviews">댓글순</option>
+					<option value="views" id="views">조회순</option>
 				</select>
 			</div>
 
 
-		
-       
-        <!-- 가게 목록 컨테이너 -->
-        <div class="store-container">
-		    <div id="store-list-container" class="store-list">
-		        <jsp:include page="store_list.jsp" />
-		    </div>
-		</div>
-    </main> <!-- main content end -->
-
+	        <!-- 가게 목록 컨테이너 -->
+	        <div class="store-container">
+			    <div id="store-list-container" class="store-list">
+			        <jsp:include page="store_list.jsp" />
+			    </div>
+			</div>
 		
 		<!-- 푸터 섹션 -->
 		<jsp:include page="/WEB-INF/views/templates/footer.jsp" /> <!-- footer -->
-
-    </div>
 </body>
 
 	<script type="text/javascript">

@@ -66,11 +66,18 @@ public class StoreService {
 		return storeMapper.isMemberLikedStore(storeId, memberId) > 0;
 	}
 	
-    @Transactional // 트랜잭션 활성화
+    @Transactional(readOnly = true)
     public List<Store> getStoresByFilters(String location, String industry, String subCategory, String[] themeArray) {
         // String[]을 List<String>으로 변환
         List<String> themeList = (themeArray != null) ? Arrays.asList(themeArray) : null;
         return storeMapper.findStoresByFilters(location, industry, subCategory, themeList);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Store> getStoresByOrder(String order, String location, String industry, String subCategory, String[] themeArray) {
+        // 기존의 필터와 정렬을 결합하여 결과를 반환
+        List<String> themeList = (themeArray != null) ? Arrays.asList(themeArray) : null;
+        return storeMapper.findStoresByOrder(order, location, industry, subCategory, themeList);
     }
 	
 }
