@@ -26,10 +26,18 @@
     margin-bottom: 20px;
 }
 
+.searchType-input {
+    padding: 8px;
+    width: 150px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
 .search-input {
     padding: 8px;
     width: 200px;
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     border-radius: 4px 0 0 4px;
     outline: none;
 }

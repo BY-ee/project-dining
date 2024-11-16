@@ -1,19 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
 <head>
-<meta charset="UTF-8">
-<title>리뷰 목록</title>
-
-<%
-    // 세션에서 user_ID 및 user_nickname 가져오기
-    Long userId = (Long) session.getAttribute("user_ID");
-    String nickname = (String) session.getAttribute("user_nickname");
-%>
-
+    <title>리뷰 목록</title>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script>
@@ -72,10 +66,12 @@
     function renderReviews(reviews, userReviewIndex) {
 	    var reviewList = $('#review-list');
 	    reviewList.empty();
-	    console.log("asd: ", reviews)
+	    console.log("리뷰데이터: ", reviews)
 	
 	    $.each(reviews, function(index, review) {
 	    	if(review.status === 'active') {
+	    		console.log("review.memberId: ", review.memberId);
+	    		console.log("userId: ", userId);
 		        var reviewItem = '<div class="review-item">'
 		            + '<div class="review-header">'
 		            + '<span class="review-author">' + review.nickname + '</span>'
@@ -83,11 +79,24 @@
 		            + '<span class="review-date">' + review.createdAt + '</span>'
 		            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
 		            + '</div>'
-		            + '<div class="review-content">' + review.content + '</div>';
+                    + '<div id="review-content-' + review.id + '" class="review-content">' + review.content + '</div>';
+                    	            
+	            // 이미지가 있는 경우 표시
+	            if (review.reviewImage) {
+	                var images = review.reviewImage.split(',');
+	                reviewItem += '<div class="review-images">';
+	                images.forEach(function(imagePath) {
+	                    if (imagePath.trim() !== '') {
+	                        reviewItem += '<img src="upload/' + imagePath.trim() + '" alt="리뷰 이미지" />';
+	                    }
+	                });
+	                reviewItem += '</div>';
+	            }
 		
 		        // 수정, 삭제 버튼 추가
-		        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
+		        if (review.memberId != null && review.memberId.toString() === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
 		            console.log("review.memberId ", review.memberId);
+		        	console.log("review id: ", review.id)
 		            reviewItem += '<button class="edit-review-button" onclick="editReview(' + review.id + ', \'' + review.content + '\')">수정</button>';
 		            reviewItem += '<button class="delete-review-button" onclick="hiddenReview(' + review.id + ', ' + review.memberId + ')">삭제</button>';
 		        }
@@ -164,15 +173,25 @@
         });
     }
     
+	// 리뷰 수정 버튼 함수
     function editReview(reviewId, currentContent) {
-        var reviewContent = $('#review-content-' + reviewId);
-        reviewContent.html('<textarea id="edit-content-' + reviewId + '">' + currentContent + '</textarea><br>'
-            + '<button onclick="saveReview(' + reviewId + ')">저장</button>'
-            + '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent + '\')">취소</button>');
+    	// 수정, 삭제 버튼 숨기기
+        $('.edit-review-button, .delete-review-button').hide();
+    	
+        // 리뷰 내용을 인라인 폼으로 변경
+        var reviewContentDiv = $('#review-content-' + reviewId);
+        
+        reviewContentDiv.html(
+            '<textarea id="edit-content-' + reviewId + '" rows="4" cols="50">' + currentContent + '</textarea><br>' +
+            '<button onclick="saveReview(' + reviewId + ')">저장</button>' +
+            '<button onclick="cancelEdit(' + reviewId + ', \'' + currentContent.replace(/'/g, "\\'") + '\')">취소</button>'
+        );
     }
-
+	
+ 	// 리뷰 수정 저장버튼 함수
     function saveReview(reviewId) {
         var newContent = $('#edit-content-' + reviewId).val();
+        
         $.ajax({
             url: '/updateReview',  // 리뷰 수정 요청 URL
             method: 'POST',
@@ -180,7 +199,7 @@
             data: JSON.stringify({ id: reviewId, content: newContent }),
             success: function(response) {
                 alert("리뷰가 수정되었습니다.");
-                loadReviews();
+                loadReviews();  // 리뷰 목록을 다시 로드하여 업데이트된 내용을 반영
             },
             error: function(xhr, status, error) {
                 alert("리뷰 수정에 실패했습니다: " + error);
@@ -188,15 +207,10 @@
         });
     }
 
+ 	// 리뷰 수정 취소버튼 함수
     function cancelEdit(reviewId, originalContent) {
-        $('#review-content-' + reviewId).text(originalContent);
-    }
-
-    function deleteReview(reviewId, memberId) {
-        const reviewDetails = {
-            id: reviewId,
-            member_id: memberId
-        };
+        $('#review-content-' + reviewId).html(originalContent);
+        $('.edit-review-button, .delete-review-button').show(); // 취소 시 버튼 다시 표시
     }
 	
 	

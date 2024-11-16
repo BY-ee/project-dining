@@ -43,6 +43,58 @@ $(() => {
             $('#popup-overlay').css('display', 'flex');
         });
     });
+
+    // 가게 게시 상태에 따라 글자색 변경
+    const statusColor = {
+        'active': '#79f',
+        'inactive': '#f66'
+    }
+
+    $('.store-status').each(function() {
+        const status = $(this).data('status');
+        const color = statusColor[status];
+        if (color) {
+            $(this).css({
+                'color': color
+            });
+        }
+    });
+
+    // 게시글의 게시중단 버튼 클릭
+    $('.inactivate-btn').on('click', function() {
+        const storeId = $(this).data('id');
+        $.ajax({
+            url: `/admin/stores/${storeId}/inactivate`,
+            type: 'POST',
+            success: (result) => {
+                const $statusTd = $(`.store-status[data-id="${storeId}"]`);
+                $statusTd.text(result).css({
+                    'color': '#f66'
+                });
+            },
+            error: (e) => {
+                console.error(e.responseText);
+            }
+        });
+    });
+
+    // 게시글의 재게시 버튼 클릭
+    $('.reactivate-btn').on('click', function() {
+        const storeId = $(this).data('id');
+        $.ajax({
+            url: `/admin/stores/${storeId}/reactivate`,
+            type: 'POST',
+            success: (result) => {
+                const $statusTd = $(`.store-status[data-id="${storeId}"]`);
+                $statusTd.text(result).css({
+                    'color': '#79f'
+                });
+            },
+            error: (e) => {
+                console.error(e.responseText);
+            }
+        });
+    });
 });
 
 // 메뉴 가져오는 함수

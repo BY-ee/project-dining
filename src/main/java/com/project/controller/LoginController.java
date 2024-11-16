@@ -56,11 +56,17 @@ public class LoginController {
         return "login/ownerForm";
     }
 
-    @RequestMapping("home.do")
-    public String home() {
-        return "home/home-category";
-    }
-
+//    @RequestMapping("home.do")
+//    public String home() {
+//        return "home/home-category";
+//    }
+    
+    // 아이디 찾기
+    @RequestMapping("findId.do")
+    public String findId() {
+        return "login/findId";
+    }   
+    // 비밀번호 찾기
     @RequestMapping("findPwd.do")
     public String findPwd() {
         return "login/findPwd";
@@ -81,7 +87,8 @@ public class LoginController {
         int result = loginService.isUserNicknameCheck(nickname);
         return ResponseEntity.ok(result);
     }
-
+    
+    // 회원가입
     @PostMapping("/joinMember")
     public String joinMember(@ModelAttribute("Login") Login login, Model model) {
         int result = 0;
@@ -164,7 +171,7 @@ public class LoginController {
                     session.setAttribute("user_ID", db.getId());  // memberId를 세션에 저장
                     session.setAttribute("user_nickname", db.getNickname());
                     
-                    return "redirect:/home.do";
+                    return "redirect:/";
    
                 }
             } else if ("kakao".equals(registrationId)) {
@@ -221,7 +228,7 @@ public class LoginController {
                 session.setAttribute("user_ID", db.getId());  // memberId를 세션에 저장
                 session.setAttribute("user_nickname", db.getNickname());
                 
-                return "redirect:/home.do";
+                return "redirect:/";
 
             }
           
@@ -252,6 +259,55 @@ public class LoginController {
         ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpoint, HttpMethod.GET, entity, Map.class);
         return response.getBody();
     }   
+    
+    // 비밀번호 재설정 링크
+    @GetMapping("/reset-password")
+    public String resetPassword(@RequestParam("token") String token, @RequestParam("memberId") String memberId, HttpSession session) {
+        String sessionToken = (String) session.getAttribute("passwordResetToken");
+        String sessionMemberId = (String) session.getAttribute("memberId");
+
+        if (sessionToken != null && sessionToken.equals(token) && sessionMemberId.equals(memberId)) {
+            // 토큰과 아이디가 일치하는 경우 비밀번호 재설정 페이지로 이동
+            return "login/pwdReset"; // 비밀번호 재설정 페이지로 이동
+        } else {
+            // 유효하지 않은 토큰
+            return "invalidToken";
+        }
+    }
+    
+    // 비밀번호 재설정
+    @PostMapping("/updatePassword")
+    @ResponseBody // AJAX 요청에 응답을 문자열로 반환
+    public String updatePassword(@ModelAttribute("Login") Login login) {
+        loginService.updaptePassword(login);
+        return "비밀번호 재설정이 완료되었습니다.";
+    }
+    
+    // 아이디 찾기
+    @PostMapping("/showId")
+    @ResponseBody // AJAX 요청에 응답을 문자열로 반환
+    public String showId(@ModelAttribute("Login") Login login) {
+        
+    	if(login.getEmail() == "@") {
+    		return "이메일을 입력해주세요.";
+    	}
+    	
+    	// 해당 이메일로 찾은 회원의 모든 정보 조회
+    	Login db = loginService.getFindId(login.getEmail());
+    	
+    	if(db == null) {
+    		return "해당 이메일 정보를 가진 회원이 존재하지 않습니다";
+    	}
+    		
+    	String memberId = db.getMemberId();
+    	if(memberId.length() > 15) {
+    		return " 간편 로그인 회원입니다. ";
+    	}
+    	
+
+        return "당신의 아이디는 " + db.getMemberId() + "입니다.";
+    }
+    
     
     
     

@@ -1,7 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
+<%@ page import="com.project.domain.Login" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="com.project.domain.Login"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,17 +17,16 @@
     <jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
 
 
-    <!-- 메인 콘텐츠 섹션 -->
-    <div class="content">
         <!-- 위치 및 카테고리 드롭다운 메뉴 -->
         <div class="filter-container">
 	        <div class="location-dropdown">
 	            <button class="location-btn" id="location-btn">지역 선택</button>
 	            <div class="location-menu">
+				    <a href="#" onclick="filterByLocation('ALL', '지역 선택')">지역 선택</a>
 				    <a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구</a>
 				    <a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
 				    <a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
-				    <a href="#" onclick="filterByLocation('SEONGBUK', '성복/종로구')">성북/종로구</a>
+				    <a href="#" onclick="filterByLocation('SEONGBUK', '성북/종로구')">성북/종로구</a>
 				    <a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
 				</div>
 	        </div>
@@ -54,6 +53,8 @@
 			</div>
 		</div>
 		
+		
+
 		<div class="category-select-container">
 		    <button class="category-select-btn" onclick="toggleCategoryPopup()">카테고리 선택</button>
 		
@@ -77,14 +78,27 @@
 		        </div>
 		        <button onclick="searchStores()" class="search-btn" style="display: none;" id="searchBtn">검색</button>
 		    </div>
-		</div>
-		            
+		    </div>
+
+			<!-- 게시글 정렬 -->
+			<div class="orderby-criteria">
+				<select id="orderOptions" onchange="orderOptionChoice()">
+					<option value="recent" id="recent">최신순</option>
+					<option value="likes" id="likes">좋아요순</option>
+					<option value="comments" id="comments">댓글순</option>
+				</select>
+			</div>
+
+
+		
+       
         <!-- 가게 목록 컨테이너 -->
         <div class="store-container">
 		    <div id="store-list-container" class="store-list">
 		        <jsp:include page="store_list.jsp" />
 		    </div>
 		</div>
+    </main> <!-- main content end -->
 
 		
 		<!-- 푸터 섹션 -->
@@ -171,7 +185,5 @@
 	    }
 	    
 	</script>
-    
-    
-    <script src="js/home/home-category.js"></script>
+</body>
 </html>

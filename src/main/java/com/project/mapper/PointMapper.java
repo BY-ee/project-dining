@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.project.domain.PointDomain;
+import com.project.domain.Point;
 
 
 @Mapper

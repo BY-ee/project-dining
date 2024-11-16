@@ -463,8 +463,17 @@ body {
 .instruction-text {
     font-size: 15px; /* Adjust size as needed */
     color: #999999;; /* Light gray color */
-    margin-bottom: 15px; /* Space below text */
+    margin-bottom: 30px;
 }
 
+
+.findpwd-logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  color : #969591;
+}
 
 

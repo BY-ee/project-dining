@@ -32,9 +32,9 @@ public class SendEmailContentService implements EmailContentService {
     public String generatePasswordResetContent(String resetLink) {
         return "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; padding: 20px;'>" +
                "  <h2 style='color: #333;'>비밀번호 재설정</h2>" +
-               "  <p style='font-size: 16px; color: #555;'>비밀번호 재설정 요청을 받았습니다. 아래의 링크를 클릭하여 비밀번호를 재설정해 주세요.</p>" +
+               "  <p style='font-size: 16px; color: #555;'>아래를 클릭하여 비밀번호를 재설정해 주세요.</p>" +
                "  <div style='text-align: center; margin: 20px 0;'>" +
-               "    <a href='" + resetLink + "' style='font-size: 18px; color: #007bff;'>비밀번호 재설정하기</a>" +
+               "    <a href='" + resetLink + "' style='font-size: 14px; color: #007bff;'>비밀번호 재설정하기</a>" +
                "  </div>" +
                "  <p style='font-size: 14px; color: #999;'>이 링크는 24시간 동안 유효합니다.</p>" +
                "  <hr style='border: none; border-top: 1px solid #eee; margin: 20px 0;'>" +

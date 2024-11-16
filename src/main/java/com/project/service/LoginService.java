@@ -1,10 +1,7 @@
 package com.project.service;
 
-import java.util.Map;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.project.domain.Login;
 import com.project.mapper.LoginMapper;
@@ -60,6 +57,7 @@ public class LoginService {
 
 	   loginMapper.insertNaverJoin(login);
 	}
+	
 	public void insertKakaoJoin(String tempId, String tempEmail, String randomNickname) {
 		 Login login = new Login();
 		 login.setMemberId(tempId);      
@@ -69,6 +67,7 @@ public class LoginService {
 
 		 loginMapper.insertKakaoJoin(login);
 	}
+	
 	public void insertGoogleJoin(String tempId, String tempEmail, String randomNickname) {
 		 Login login = new Login();
 		 login.setMemberId(tempId);      
@@ -77,7 +76,18 @@ public class LoginService {
 		 login.setStatus("active");
 
 		 loginMapper.insertGoogleJoin(login);
-	} 
+	}
+
+	// 비밀번호 변경
+	public void updaptePassword(Login login) {
+		login.setPasswd(passwordEncoder.encode(login.getPasswd()));
+		loginMapper.updatePassword(login);
+	}
+
+	public Login getFindId(String email) {
+		return loginMapper.getFindId(email);
+	}
+
 
 }
 

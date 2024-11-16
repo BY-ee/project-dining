@@ -6,31 +6,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>게시글 관리</title>
-
+    <title>가게 관리</title>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/admin/adminPost.js"></script>
+    <script src="/js/admin/adminStore.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
-        <h2>게시글 관리</h2>
+        <h2>가게 관리</h2>
 
-        <!-- Search Box -->
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="storeName">가게 이름</option>
-                <option value="address">주소</option>
-                <option value="tel">전화번호</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/stores">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="storeName">가게 이름</option>
+                    <option value="address">주소</option>
+                    <option value="tel">전화번호</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
-        <!-- Product Table -->
         <table>
             <thead>
                 <tr>
@@ -45,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="store" items="${stores.content}">
+                <c:forEach var="store" items="${pagination.content}">
                     <tr>
                         <td>${store.id}</td>
                         <td>${store.storeName}</td>
@@ -54,10 +52,10 @@
                         <td><a href="#" class="menu-link">확인</a></td>
                         <td>${store.views}</td>
                         <td>
-                            <button class="delete-btn">게시중단</button>
-                            <button class="edit-btn">재게시</button>
+                            <button class="delete-btn inactivate-btn" data-id="${store.id}">게시중단</button>
+                            <button class="edit-btn reactivate-btn" data-id="${store.id}">재게시</button>
                         </td>
-                        <td style="color: #f44;">게시중단</td>
+                        <td class="store-status" data-id="${store.id}" data-status="${store.postStatus}">${store.postStatus}</td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -65,36 +63,30 @@
 
         <!-- Pagination -->
         <div class="pagination">
+            <!-- 클래스명을 동적으로 변경 -->
             <div class="move-page-link">
-                <c:if test="${stores.currentPage > stores.start}">
-                    <a class="page-link" href="#">처음</a>
-                </c:if>
-
-                <a class="page-link" href="#">이전</a>
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/stores?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/stores?page=${pagination.page - 1}">이전</a>
             </div>
 
             <div class="page">
-                <c:forEach var="page" begin="${stores.start}" end="${stores.totalPages}">
+                <c:forEach var="page" begin="${pagination.start}" end="${pagination.end}">
                     <c:choose>
-                        <c:when test="${page == stores.currentPage}">
+                        <c:when test="${page == pagination.page}">
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
-                            <a class="page-link" href="#">${page}</a>
+                            <a class="page-link" href="/admin/stores?page=${page}">${page}</a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </div>
 
             <div class="move-page-link">
-                <a class="page-link" href="#">다음</a>
-
-                <c:if test="${stores.currentPage < stores.end}">
-                    <a class="page-link" href="#">끝</a>
-                </c:if>
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/stores?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/stores?page=${pagination.totalPages}">끝</a>
             </div>
         </div>
-    </div>
 
     <!-- 메뉴 팝업 -->
     <div class="popup-overlay" id="popup-overlay">

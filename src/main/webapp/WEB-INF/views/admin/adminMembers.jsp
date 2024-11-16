@@ -8,29 +8,28 @@
 <html lang="ko">
 <head>
     <title>회원관리</title>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminMember.js"></script>
 </head>
 <body>
-
-    <!-- Main Content -->
     <div class="main-content">
         <h2>회원관리</h2>
 
-        <!-- Search Box -->
         <div class="search-box">
-            <select name="search-keywords">
-                <option value="id">ID</option>
-                <option value="userid">유저 아이디</option>
-                <option value="nickname">닉네임</option>
-                <option value="email">이메일</option>
-                <option value="status">상태</option>
-            </select>
-            <input type="text" placeholder="검색">
-            <button>검색</button>
+            <form method="get" action="/admin/members">
+                <select name="column">
+                    <option value="id">ID</option>
+                    <option value="member_id">유저 아이디</option>
+                    <option value="nickname">닉네임</option>
+                    <option value="email">이메일</option>
+                    <option value="status">상태</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색">
+                <button>검색</button>
+            </form>
         </div>
 
-        <!-- Table -->
         <table>
             <thead>
                 <tr>
@@ -46,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="member" items="${members.content}">
+                <c:forEach var="member" items="${pagination.content}">
                     <tr>
                         <td>${member.id}</td>
                         <td>${member.memberId}</td>
@@ -74,33 +73,28 @@
 
         <!-- Pagination -->
         <div class="pagination">
+            <!-- 클래스명을 동적으로 변경 -->
             <div class="move-page-link">
-                <c:if test="${members.currentPage > members.start}">
-                    <a class="page-link" href="#">처음</a>
-                </c:if>
-
-                <a class="page-link" href="#">이전</a>
+                <a class="page-link ${pagination.isFirstPageBtnVisible() ? '' : 'disabled'}" href="/admin/members?page=1">처음</a>
+                <a class="page-link ${pagination.page > 1 ? '' : 'disabled'}" href="/admin/members?page=${pagination.page - 1}">이전</a>
             </div>
 
             <div class="page">
-                <c:forEach var="page" begin="${members.start}" end="${members.totalPages}">
+                <c:forEach var="page" begin="${pagination.start}" end="${pagination.end}">
                     <c:choose>
-                        <c:when test="${page == members.currentPage}">
+                        <c:when test="${page == pagination.page}">
                             <span class="current-page">${page}</span>
                         </c:when>
                         <c:otherwise>
-                            <a class="page-link" href="#">${page}</a>
+                            <a class="page-link" href="/admin/members?page=${page}">${page}</a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </div>
 
             <div class="move-page-link">
-                <a class="page-link" href="#">다음</a>
-
-                <c:if test="${members.currentPage < members.end}">
-                    <a class="page-link" href="#">끝</a>
-                </c:if>
+                <a class="page-link ${pagination.page < pagination.totalPages ? '' : 'disabled'}" href="/admin/members?page=${pagination.page + 1}">다음</a>
+                <a class="page-link ${pagination.isLastPageBtnVisible() ? '' : 'disabled'}" href="/admin/members?page=${pagination.totalPages}">끝</a>
             </div>
         </div>
     </div>

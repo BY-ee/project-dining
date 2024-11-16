@@ -55,7 +55,6 @@ $(() => {
         }
     });
 
-
     // 회원 차단 버튼 클릭
     $('.block-btn').on('click', function() {
         const memberId = $(this).data('id');
@@ -69,7 +68,7 @@ $(() => {
                 });
             },
             error: (e) => {
-                alert('Error occurred' + e.message);
+                console.error(e.responseText);
             }
         });
     });
@@ -87,7 +86,7 @@ $(() => {
                 });
             },
             error: (e) => {
-                alert('Error occurred' + e.message);
+                console.error(e.responseText);
             }
         });
     });

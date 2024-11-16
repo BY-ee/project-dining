@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("Menu")
+@Alias("menu")
 public class Menu {
 	public Long id;
 	public Long storeId;

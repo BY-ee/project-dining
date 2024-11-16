@@ -3,22 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.MemberMapper">
-	<select id="selectMembers" resultType="Member">
+	<select id="selectMembers" resultType="member">
 		SELECT * FROM (
 		    SELECT m.*, ROWNUM AS rnum FROM (
-		        SELECT * FROM member 
+		        SELECT * FROM member
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
 		    ) m
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="selectMember" resultType="Member">
+	<select id="selectMember" resultType="member">
 		SELECT * FROM member
 		WHERE id=#{id}
 	</select>
 	
 	<select id="countMembers" resultType="long">
 		SELECT COUNT(*) FROM member
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
+	
+	<update id="blockMember" parameterType="long">
+		UPDATE member SET status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="unblockMember" parameterType="long">
+		UPDATE member SET status='active'
+		WHERE id=#{id}
+	</update>
 </mapper>

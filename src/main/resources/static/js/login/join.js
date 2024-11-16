@@ -299,8 +299,6 @@
 		        return;
 		    }
 
-
-
 		    // hidden 필드에 이메일과 사업자 등록번호 설정
 		    if (isEmailVerified && fullEmail === verifiedEmail) {
 		        $("#email").val(fullEmail); // 이메일 설정
@@ -308,6 +306,81 @@
 		    if (validatedBusinessNumber && businessNumber === validatedBusinessNumber) {
 		        $("#registrationNumber").val(businessNumber); // 사업자 등록번호 설정
 		    }
+		});
+
+		// 비밀번호 찾기
+		$('#findPwd-btn').on('click', function() {
+			const mailid = $('#mailid').val().trim();
+			const domain = $('#domain').val().trim();
+			const memberId = $('#memberId').val().trim();
+			const fullEmail = `${mailid}@${domain}`;
+
+			// 이메일 서버에 전송
+			$.ajax({
+				url: '/sendPwdResetEmail',
+				type: 'POST',
+				data: { memberId : memberId,
+					    userEmail: fullEmail },
+				success: function(response) {
+					alert(response);
+				},
+				error: function(error) {
+					alert("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
+				}
+			});
+		});
+
+		// 비밀번호 변경
+		$('#updatePwd-btn').on('click', function() {
+			const memberId = $('#memberId').val().trim();
+			const passwd = $('#passwd').val().trim();    
+			const passwdCheck = $('#passwdCheck').val().trim();
+
+			// 비밀번호 확인
+			if (passwd !== passwdCheck) {
+			    alert("비밀번호가 일치하지 않습니다.");
+			    return; // 일치하지 않으면 AJAX 요청을 보내지 않음
+			}
+
+			// 이메일 서버에 전송
+			$.ajax({
+				url: '/updatePassword',
+				type: 'POST',
+				data: {
+					memberId: memberId,
+					passwd: passwd,
+				},
+				success: function(response) {
+					alert(response);
+					window.close();
+				},
+				error: function(error) {
+					alert("비밀번호 변경에 실패하였습니다.");
+				}
+			});
+		});
+
+		// 아이디 찾기
+		$('#findId-btn').on('click', function() {
+			const mailid = $('#mailid').val().trim();
+			const domain = $('#domain').val().trim();
+			const fullEmail = `${mailid}@${domain}`;
+
+
+			// 아이디 알림창 띄우기
+			$.ajax({
+				url: '/showId',
+				type: 'POST',
+				data: {
+					email : fullEmail
+				},
+				success: function(response) {
+					alert(response);
+				},
+				error: function(error) {
+					alert("아이디 조회에 실패하였습니다.");
+				}
+			});
 		});
 
 	  

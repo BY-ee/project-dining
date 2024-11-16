@@ -1,10 +1,14 @@
 package com.project.domain;
 
 import java.sql.Timestamp;
+
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 @Data
-public class PointDomain {
+@Alias("point")
+public class Point {
 	
 	public Long id;
 	public Long memberId;

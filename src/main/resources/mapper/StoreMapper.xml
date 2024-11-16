@@ -4,35 +4,81 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.StoreMapper">
 
-	<select id="selectStores" resultType="Store">
+	<select id="selectStores" resultType="store">
+		SELECT * FROM (
+		    SELECT s.*, ROWNUM AS rnum FROM (
+		        SELECT * FROM store
+                <where>
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
+		        ORDER BY id DESC
+		    ) s
+		) 
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectEnrolledStores" resultType="store">
 		SELECT * FROM (
 		    SELECT m.*, ROWNUM AS rnum FROM (
 		        SELECT * FROM store 
+                <where>
+                	enroll_status = 'enrolled'
+	                <if test="requestData.keyword != null and requestData.keyword != ''">
+	                    AND ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
+	                </if>
+            	</where>
 		        ORDER BY id DESC
 		    ) m
 		) 
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	
-    <select id="getStoreDetailById" parameterType="long" resultType="com.project.domain.StoreDomain">
+    <select id="getStoreDetailById" parameterType="long" resultType="store">
     	SELECT * FROM store WHERE id = #{store_ID}
     </select>
     
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store
+        <where>
+	        <if test="keyword != null and keyword != ''">
+	            ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
 	
-	<select id="getMenuById" parameterType="long" resultType="com.project.domain.Menu">
+	<select id="countEnrolledStores" resultType="long">
+		SELECT COUNT(*) FROM store
+        <where>
+        	enroll_status = 'enrolled'
+	        <if test="keyword != null and keyword != ''">
+	            AND ${column} LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
+	</select>
+	
+	<update id="inactivateStore" parameterType="long">
+		UPDATE store SET post_status='inactive'
+		WHERE id=#{id}
+	</update>
+	
+	<update id="reactivateStore" parameterType="long">
+		UPDATE store SET post_status='active'
+		WHERE id=#{id}
+	</update>
+	
+	<select id="getMenuById" parameterType="long" resultType="menu">
 		SELECT * FROM menu WHERE store_id = #{storeID}
 	</select>
 	
 	<!-- 홈페이지 가게 게시판 -->
-	<select id="findAllStores" resultType="com.project.domain.StoreDomain">
+	<select id="findAllStores" resultType="storeWithLocationDTO">
 		SELECT * FROM store
 	</select>
 	
 	<!-- 홈페이지 가게 게시판 (카테고리 지역)-->
-	<select id="findStoresByLocation" parameterType="String" resultType="Store">
+	<select id="findStoresByLocation" parameterType="String" resultType="store">
 	    SELECT store.*
 	    FROM store
 	    JOIN local ON store.id = local.store_id
@@ -40,7 +86,7 @@
 	</select>
 	
 	<!-- 찜 추가 -->
-    <insert id="save" parameterType="com.project.domain.MemberLike">
+    <insert id="save" parameterType="memberLike">
         INSERT INTO member_like (member_id, store_id, created_at)
         VALUES (#{memberId}, #{storeId}, #{createdAt})
     </insert>
@@ -51,7 +97,7 @@
         WHERE member_id = #{memberId} AND store_id = #{storeId}
     </delete>
     
-	<select id="findStoresByFilters" resultType="com.project.domain.Store">
+	<select id="findStoresByFilters" resultType="store">
 	    SELECT DISTINCT s.*
         FROM store s
         LEFT JOIN local l ON s.id = l.store_id
@@ -90,6 +136,19 @@
 	            </foreach>
 	        </if>
         </where>
+    </select>
+	
+	<!-- 찜 좋아요 수 가져오기 -->
+	<select id="getLikeCountByStoreId" parameterType="long" resultType="long">
+		SELECT COUNT(*) FROM Member_Like WHERE store_id = #{storeId}
+	</select>
+	
+	<!-- 특정 사용자가 특정 가게를 찜했는지 확인 -->
+    <select id="isMemberLikedStore" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM Member_Like
+        WHERE store_id = #{storeId}
+          AND member_id = #{memberId}
     </select>
 	
 </mapper>

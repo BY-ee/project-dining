@@ -37,6 +37,7 @@
 	</div>
 	
     <br>
+    <a href="findId.do" class="forgot-password">아이디 찾기</a>
     <a href="findPwd.do" class="forgot-password">비밀번호 찾기</a>
   </form>
 
