@@ -60,6 +60,47 @@
         button {
             cursor: pointer;
         }
+        
+		.chat-message {
+		    margin-bottom: 10px; /* 메시지 간 간격 */
+		    display: flex;
+		    flex-direction: column; /* 위아래로 배치 */
+		    align-items: flex-start; /* 기본적으로 왼쪽 정렬 */
+		}
+		
+		.chat-message.message-right {
+		    align-items: flex-end; /* 오른쪽 정렬 */
+		}
+		
+		.chat-sender {
+		    font-weight: bold; /* 닉네임 강조 */
+		    margin-bottom: 5px; /* 닉네임과 메시지 간격 */
+		    font-size: 0.9em;
+		    color: #555; /* 닉네임 색상 */
+		}
+		
+		.chat-content {
+		    padding: 10px;
+		    border-radius: 10px;
+		    max-width: 70%;
+		    word-wrap: break-word;
+		}
+		
+		.chat-message.message-right .chat-content {
+		    background-color: #F5E9E9; /* 오른쪽 메시지 색상 */
+		    border: 1px solid #F5E9E9;
+		}
+		
+		.chat-message.message-left .chat-content {
+		    background-color: #ffffff; /* 왼쪽 메시지 색상 */
+		    border: 1px solid #ddd;
+		}
+		
+		.chat-timestamp {
+		    font-size: 0.8em;
+		    color: #999;
+		    margin-top: 5px; /* 메시지와 타임스탬프 간격 */
+		}
     </style>
 </head>
 <body>
@@ -173,11 +214,23 @@
         function displayMessage(message) {
             const chatContent = $("#chat-content");
 
+            // 현재 로그인한 사용자 닉네임 가져오기 (서버에서 전달받거나 설정)
+            const currentUser = "${sessionScope.loginUser.nickname}";
+
+            // 메시지 구분
+            const messageClass = message.sender === currentUser ? "message-right" : "message-left";
+
+            // 메시지 HTML 생성
+		    const messageHtml =
+			    '<div class="chat-message ' + messageClass + '">' +
+			        '<div class="chat-sender">' + message.sender + '</div>' + // 닉네임
+			        '<div class="chat-content">' + message.content + '</div>' +
+			        '<div class="chat-timestamp">' + message.timestamp + '</div>' +
+			    '</div>';
+
             // 메시지 추가
-		    chatContent.append(
-		        '<p><strong>' + message.sender + ':</strong> ' + message.content + ' <small>' + message.timestamp + '</small></p>'
-		    );
-            
+            chatContent.append(messageHtml);
+
             // 스크롤 하단으로 이동
             chatContent.scrollTop(chatContent[0].scrollHeight);
         }
