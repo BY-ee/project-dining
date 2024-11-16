@@ -77,4 +77,8 @@ public class MypageService{
 	public int fileUpload(Member member) {
 		return mypageMapper.fileUpload(member);
 	}
+
+	public int updateSocialId(Long id, String socialName, String socialId) {
+		return mypageMapper.updateSocialId(id,socialName,socialId);
+	}
 }

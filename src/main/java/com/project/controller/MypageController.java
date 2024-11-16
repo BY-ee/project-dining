@@ -28,6 +28,8 @@ import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
 import com.project.service.MypageService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class MypageController {
 	@Autowired
@@ -111,7 +113,7 @@ public class MypageController {
 	}
 	
 	@GetMapping("/profile")
-    public String profile(@AuthenticationPrincipal OAuth2User oauth2User,Model model) {
+    public String profile(Model model) {
 		Member member = mypageService.getMember(24);
 		model.addAttribute("member",member);
     	return "mypage/profile";
@@ -150,5 +152,19 @@ public class MypageController {
 	public String deleteAccount(RedirectAttributes redirectAttributes) {
 		int i = mypageService.deleteMember(24);
 		return "redirect:/";
+	}
+	
+	@GetMapping("/updateSocialId")
+	public String updateSocialId(@AuthenticationPrincipal OAuth2User oauth2User,HttpSession session) {
+		System.out.println(oauth2User.getAttributes());
+		String socialName = (String)session.getAttribute("socialName");
+		Map<String,Object> attributes = oauth2User.getAttributes(); 
+		System.out.println((String) ((Map<String, Object>) attributes.get("response")).get("id"));
+		if(socialName.equals("네이버")) {
+			String socialId = (String) ((Map<String, Object>) attributes.get("response")).get("id");
+			int i = mypageService.updateSocialId(24L, socialName,(String) ((Map<String, Object>) attributes.get("response")).get("id"));
+		}
+		session.removeAttribute("socialName");
+		return "redirect:/accountSettings";
 	}
 }

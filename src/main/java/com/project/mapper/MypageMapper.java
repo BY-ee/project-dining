@@ -30,4 +30,6 @@ public interface MypageMapper {
 	int deleteMember(long id);
 
 	int fileUpload(Member member);
+
+	int updateSocialId(@Param("id")Long id, @Param("socialName")String socialName,@Param("socialId") String socialId);
 }

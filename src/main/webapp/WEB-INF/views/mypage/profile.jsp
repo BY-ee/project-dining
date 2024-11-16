@@ -35,17 +35,30 @@
 					        <form action = "/profile" method = "post">
 						        <label for="nickname">닉네임</label>
 						        <input type="text" id="nickname" name="nickname" value="${member.nickname}" readonly>
-						        <%-- <label for="likePlace">즐겨가는 곳</label>
-						        <select id="likePlace">
-						        	<option value="선택 안함" ${member.likePlace == "" ? "selected" : ""}>선택안함</option>
-						            <option value="마포구" ${member.likePlace == "마포구" ? "selected" : ""}>마포구</option>
-						            <option value="광진구" ${member.likePlace == "강남구" ? "selected" : ""}>강남구</option>
-				                	<option value="송파구" ${member.likePlace == "송파구" ? "selected" : ""}>송파구</option>
-				                	<option value="성북구" ${member.likePlace == "성북구" ? "selected" : ""}>성북구</option>
-				                	<option value="종로구" ${member.likePlace == "종로구" ? "selected" : ""}>종로구</option>
-						        </select>
 						        <label for="age">나이</label>
-						        <input type="text" name="age" value="${member.age}"> --%>
+						        <input type="text" name="age" value="${member.age}"> 
+						        <label for="mbti">MBTI</label>
+						        <select id="mbti" name="mbti">
+						        	<option value="선택 안함" ${member.mbti == "" ? "selected" : ""}>선택안함</option>
+						            <option value="ESTJ" ${member.mbti == "ESTJ" ? "selected" : ""}>ESTJ</option>
+						            <option value="ESTP" ${member.mbti == "ESTP" ? "selected" : ""}>ESTP</option>
+				                	<option value="ESFJ" ${member.mbti == "ESFJ" ? "selected" : ""}>ESFJ</option>
+				                	<option value="ESFP" ${member.mbti == "ESFP" ? "selected" : ""}>ESFP</option>
+				                	<option value="ENTJ" ${member.mbti == "ENTJ" ? "selected" : ""}>ENTJ</option>
+				                	<option value="ENTP" ${member.mbti == "ENTP" ? "selected" : ""}>ENTP</option>
+				                	<option value="ENFJ" ${member.mbti == "ENFJ" ? "selected" : ""}>ENFJ</option>
+				                	<option value="ENFP" ${member.mbti == "ENFP" ? "selected" : ""}>ENFP</option>
+				                	<option value="ISTJ" ${member.mbti == "ISTJ" ? "selected" : ""}>ISTJ</option>
+						            <option value="ISTP" ${member.mbti == "ISTP" ? "selected" : ""}>ISTP</option>
+				                	<option value="ISFJ" ${member.mbti == "ISFJ" ? "selected" : ""}>ISFJ</option>
+				                	<option value="ISFP" ${member.mbti == "ISFP" ? "selected" : ""}>ISFP</option>
+				                	<option value="INTJ" ${member.mbti == "INTJ" ? "selected" : ""}>INTJ</option>
+				                	<option value="INTP" ${member.mbti == "INTP" ? "selected" : ""}>INTP</option>
+				                	<option value="INFJ" ${member.mbti == "INFJ" ? "selected" : ""}>INFJ</option>
+				                	<option value="INFP" ${member.mbti == "INFP" ? "selected" : ""}>INFP</option>
+						        </select>
+						        <label for="residence">거주지</label>
+						        <input type="text" name="residence" value="${member.residence}">
 						        <label for="introduction">한 줄 소개</label>
 						        <textarea id="introduction" name="introduction" rows="3" maxlength="150" placeholder="나를 소개하세요..">${member.introduction}</textarea>
 						        <button type="submit">변경</button>

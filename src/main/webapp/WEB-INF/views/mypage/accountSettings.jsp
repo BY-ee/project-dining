@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %>
+<%-- <%@ include file="/WEB-INF/views/templates/head.jsp" %> --%>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -67,9 +67,15 @@
 							<h3>소셜계정 연동</h3>
 							<p>사용하시는 소셜 및 인증 제공자들과 계정을 연동하고 손쉽게 로그인하세요.</p>
 							<div class="social-connect-buttons">
-								<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/myPage')"><img src="/images/naver_button.png" alt="네이버 간편 로그인" class="login-btn"></a> 
-								<a href="/oauth2/authorization/kakao" onclick="setRedirectUrl('/myPage')"><img src="/images/카카오.png" alt="카카오 간편 로그인" class="login-btn"></a>
-								<a href="/oauth2/authorization/google" onclick="setRedirectUrl('/myPage')"><img src="/images/구글.png" alt="구글 간편 로그인" class="login-btn"></a>
+								<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/updateSocialId','네이버')">
+									<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty member.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+								</a> 
+								<a href="/oauth2/authorization/kakao" onclick="setRedirectUrl('/updateSocialId','카카오')">
+									<img src="/images/카카오.png" alt="카카오 간편 로그인" class="${not empty member.kakaoId ? 'enrolled-login-btn' : 'login-btn'}">
+								</a>
+								<a href="/oauth2/authorization/google" onclick="setRedirectUrl('/updateSocialId','구글')">
+									<img src="/images/구글.png" alt="구글 간편 로그인" class="${not empty member.googleId ? 'enrolled-login-btn' : 'login-btn'}">
+								</a>
 							</div>
 						</div>
 
@@ -114,14 +120,16 @@
 	<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 	<script>
 		// 클릭 시 `redirectUrl`을 세션에 저장하기 위한 함수
-		function setRedirectUrl(url) {
+		function setRedirectUrl(url,socialName) {
+			alert(url+","+socialName);
 			fetch('/setRedirectUrl', {
 				method : 'POST',
 				headers : {
 					'Content-Type' : 'application/json'
 				},
 				body : JSON.stringify({
-					redirectUrl : url
+					redirectUrl : url,
+					socialName : socialName
 				})
 			});
 		}

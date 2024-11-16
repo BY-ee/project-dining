@@ -18,7 +18,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <script src="/js/home/slider.js" defer></script>
     <script src="/js/home/userdropdown.js" defer></script>
-    <script src="js/home/home-category.js" defer></script>
+    <script src="js/home/homeCategory.js" defer></script>
     <script type="text/javascript">
         var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
 	</script>

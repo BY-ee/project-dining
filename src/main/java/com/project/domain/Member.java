@@ -27,4 +27,7 @@ public class Member {
     private Date reactiveDate;
     private Date deletedDate;
     private String profileImage;
+    private int age;
+    private String residence;
+    private String mbti;
 }
