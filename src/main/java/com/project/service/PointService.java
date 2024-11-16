@@ -19,7 +19,7 @@ public class PointService {
 		pointMapper.insertPoint(newPoint);
 	}
 	
-	public List<PointDomain> findPointByuserId(Long memberId) {
+	public List<Point> findPointByuserId(Long memberId) {
 		return pointMapper.findPointByUser(memberId);
 	}
 	

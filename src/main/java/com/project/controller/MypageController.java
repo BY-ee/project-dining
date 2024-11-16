@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Login;
-import com.project.domain.PointDomain;
+import com.project.domain.Point;
 import com.project.service.MypageService;
 import com.project.service.PointService;
 import com.project.service.ReviewService;
@@ -62,7 +62,7 @@ public class MypageController {
 	
 	@GetMapping("/findPointByMemberId")
     @ResponseBody
-	public List<PointDomain> getPointByMember(@RequestParam("member_id") long memberId) {
+	public List<Point> getPointByMember(@RequestParam("member_id") long memberId) {
 		return pointService.findPointByuserId(memberId);
 	}
 	

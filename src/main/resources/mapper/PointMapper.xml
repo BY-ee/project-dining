@@ -12,7 +12,7 @@
 	            SYSDATE, #{deletedAt, jdbcType=TIMESTAMP}, #{status})
 	</insert>
 	
-	<select id="findPointByUser" parameterType="long" resultType="com.project.domain.PointDomain">
+	<select id="findPointByUser" parameterType="long" resultType="com.project.domain.Point">
 	    SELECT id, member_id, category, point, type, created_at, deleted_at, status
 	    FROM point
 	    WHERE member_id = #{memberId}
