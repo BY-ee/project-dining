@@ -32,4 +32,6 @@ public interface MypageMapper {
 	int fileUpload(Member member);
 
 	int updateSocialId(@Param("id")Long id, @Param("socialName")String socialName,@Param("socialId") String socialId);
+
+	int updateEmail(Member member);
 }

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%-- <%@ include file="/WEB-INF/views/templates/head.jsp" %> --%>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -33,7 +33,7 @@
 		})
 	})
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
         function showAlert(message) {
             alert(message);
         }
@@ -58,27 +58,68 @@
 					<div id="account-settings" class="section">
 						<div class="email-info">
 							<h3>이메일 정보</h3>
-							<input type="email" value="abc123@gmail.com" readonly>
-							<button class="email-verify-button">이메일 인증</button>
+							<form>
+								<input type="email" id="userEmail" name="userEmail" value="${member.email}">
+								<button class="email-verify-button" onclick="sendVerificationEmail()">이메일 인증</button>
+							</form>
 							<p>이메일 변경은 변경한 이메일로 인증 요청 메일이 발송되고 해당 이메일을 통해 인증을 정상적으로 완료한 후
 								최종적으로 반영됩니다.</p>
+						</div>
+						<!-- 팝업창 -->
+						<div id="popup" style="display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 300px; padding: 20px; border: 1px solid #ccc; background: #fff; z-index: 1000;">
+						    <h3>인증 코드 입력</h3>
+						    <input type="text" id="verificationCode" placeholder="인증 코드를 입력하세요">
+						    <button onclick="verifyCode()">확인</button>
+						    <button onclick="closePopup()">닫기</button>
 						</div>
 						<div class="social-connect">
 							<h3>소셜계정 연동</h3>
 							<p>사용하시는 소셜 및 인증 제공자들과 계정을 연동하고 손쉽게 로그인하세요.</p>
 							<div class="social-connect-buttons">
-								<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/updateSocialId','네이버')">
-									<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty member.naverId ? 'enrolled-login-btn' : 'login-btn'}">
-								</a> 
-								<a href="/oauth2/authorization/kakao" onclick="setRedirectUrl('/updateSocialId','카카오')">
-									<img src="/images/카카오.png" alt="카카오 간편 로그인" class="${not empty member.kakaoId ? 'enrolled-login-btn' : 'login-btn'}">
-								</a>
-								<a href="/oauth2/authorization/google" onclick="setRedirectUrl('/updateSocialId','구글')">
-									<img src="/images/구글.png" alt="구글 간편 로그인" class="${not empty member.googleId ? 'enrolled-login-btn' : 'login-btn'}">
-								</a>
+								<c:choose>
+									<c:when test="${empty member.naverId}">
+										<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/updateSocialId','네이버')">
+											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty member.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+											네이버 연결하기
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a>
+											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty member.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+											네이버 등록완료
+										</a>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${empty member.kakaoId}"> 
+										<a href="/oauth2/authorization/kakao" onclick="setRedirectUrl('/updateSocialId','카카오')">
+											<img src="/images/카카오.png" alt="카카오 간편 로그인" class="login-btn">
+											카카오 연결하기
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a>
+											<img src="/images/kakao_button.png" alt="카카오 간편 로그인" class="enrolled-login-btn">
+											카카오 등록완료
+										</a>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${empty member.googleId}">
+										<a href="/oauth2/authorization/google" onclick="setRedirectUrl('/updateSocialId','구글')">
+											<img src="/images/구글.png" alt="구글 간편 로그인" class="login-btn">
+											구글 연결하기
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a>
+											<img src="/images/google_button.png" alt="구글 간편 로그인" class="enrolled-login-btn">
+										구글 등록완료
+										</a>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
-
 						<div class="security-settings">
 							<h3>비밀번호설정</h3>
 							<div class="security-setting-item">
@@ -115,7 +156,7 @@
            <script type="text/javascript">
                showAlert("${message}");
            </script>
-    </c:if>
+    	</c:if>
 	</div>
 	<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 	<script>
@@ -132,6 +173,57 @@
 					socialName : socialName
 				})
 			});
+		}
+		
+		function sendVerificationEmail() {
+		    const userEmail = document.getElementById("userEmail").value;
+
+		    if (!userEmail) {
+		        alert("이메일을 입력해주세요.");
+		        return;
+		    }
+
+		    fetch('/send-verification-email', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/x-www-form-urlencoded',
+		        },
+		        body: new URLSearchParams({ userEmail })
+		    })
+		    .then(response => response.text())
+		    .then(data => {
+		        alert(data); // "인증 이메일이 발송되었습니다." 출력
+		    })
+		    .catch(error => {
+		        console.error('Error:', error);
+		        alert("인증 이메일 전송에 실패했습니다.");
+		    });
+		}
+		
+		function verifyCode() {
+		    const userEmail = document.getElementById("userEmail").value;
+		    const code = document.getElementById("verificationCode").value;
+
+		    if (!userEmail || !code) {
+		        alert("이메일과 인증 코드를 모두 입력해주세요.");
+		        return;
+		    }
+
+		    fetch('/verifyCode', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/x-www-form-urlencoded',
+		        },
+		        body: new URLSearchParams({ userEmail, code })
+		    })
+		    .then(response => response.text())
+		    .then(data => {
+		        alert(data); // "인증에 성공했습니다." 또는 다른 메시지 출력
+		    })
+		    .catch(error => {
+		        console.error('Error:', error);
+		        alert("인증에 실패했습니다.");
+		    });
 		}
 	</script>
 </body>

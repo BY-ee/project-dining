@@ -156,14 +156,7 @@ public class MypageController {
 	
 	@GetMapping("/updateSocialId")
 	public String updateSocialId(@AuthenticationPrincipal OAuth2User oauth2User,HttpSession session) {
-		System.out.println(oauth2User.getAttributes());
-		String socialName = (String)session.getAttribute("socialName");
-		Map<String,Object> attributes = oauth2User.getAttributes(); 
-		System.out.println((String) ((Map<String, Object>) attributes.get("response")).get("id"));
-		if(socialName.equals("네이버")) {
-			String socialId = (String) ((Map<String, Object>) attributes.get("response")).get("id");
-			int i = mypageService.updateSocialId(24L, socialName,(String) ((Map<String, Object>) attributes.get("response")).get("id"));
-		}
+		int i = mypageService.updateSocialId(oauth2User,session);
 		session.removeAttribute("socialName");
 		return "redirect:/accountSettings";
 	}

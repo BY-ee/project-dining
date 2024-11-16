@@ -1,9 +1,12 @@
 package com.project.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.project.domain.Member;
@@ -13,6 +16,8 @@ import com.project.dto.MypageReview;
 import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
 import com.project.mapper.MypageMapper;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class MypageService{
@@ -78,7 +83,25 @@ public class MypageService{
 		return mypageMapper.fileUpload(member);
 	}
 
-	public int updateSocialId(Long id, String socialName, String socialId) {
-		return mypageMapper.updateSocialId(id,socialName,socialId);
+	public int updateSocialId(@AuthenticationPrincipal OAuth2User oauth2User,HttpSession session) {
+		String socialName = (String)session.getAttribute("socialName");
+		Map<String,Object> attributes = oauth2User.getAttributes();
+		
+		if(socialName.equals("네이버")) {
+			return mypageMapper.updateSocialId(24L, socialName,(String)((Map<String, Object>) attributes.get("response")).get("id"));
+		}
+		
+	    if(socialName.equals("카카오")) { 
+	    	return mypageMapper.updateSocialId(24L,socialName, String.valueOf(attributes.get("id"))); 
+	    }
+		
+		if(socialName.equals("구글")) {
+			return mypageMapper.updateSocialId(24L, socialName, String.valueOf(attributes.get("sub")));
+		}
+		return 0;
+	}
+	
+	public int updateEmail(Member member) {
+		return mypageMapper.updateEmail(member);
 	}
 }
