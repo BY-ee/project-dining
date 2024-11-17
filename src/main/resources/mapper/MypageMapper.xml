@@ -65,7 +65,10 @@
 		update
 		member
 		set
-		introduction = #{introduction}
+		introduction = #{introduction},
+		age = #{age},
+		residence = #{residence},
+		mbti = #{mbti}
 		where nickname = #{nickname}
 	</update>
 

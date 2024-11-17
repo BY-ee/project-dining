@@ -36,7 +36,7 @@
 						        <label for="nickname">닉네임</label>
 						        <input type="text" id="nickname" name="nickname" value="${member.nickname}" readonly>
 						        <label for="age">나이</label>
-						        <input type="text" id="age" name="age" value="${member.age}"> 
+						        <input type="number" id="age" name="age" min="1" max="100" value="${member.age}"> 
 						        <label for="mbti">MBTI</label>
 						        <select id="mbti" name="mbti">
 						        	<option value="선택 안함" ${member.mbti == "" ? "selected" : ""}>선택안함</option>
