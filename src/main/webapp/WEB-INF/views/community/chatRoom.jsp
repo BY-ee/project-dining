@@ -1,3 +1,4 @@
+<!-- community.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -5,25 +6,19 @@
     <meta charset="UTF-8">
     <title>채팅방 관리</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/community/community.css">
-    <script src="/js/community/community.js"></script>
-    
+    <script src="/js/community/community.js"></script> <!-- 페이지 전용 JS -->
 </head>
 <body>
+
     <jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
 
     <h1>채팅방 관리</h1>
-    
     <!-- 채팅방 생성 팝업 -->
-    <div id="create-form-popup">
+    <div id="create-form-popup" style="display: none;">
         <h2>채팅방 생성</h2>
         <form id="chat-room-form">
             <label for="roomName">채팅방 이름:</label>
             <input type="text" id="roomName" name="roomName" required><br><br>
-            <input type="hidden" id="memberId" name="memberId" value="${sessionScope.loginUser.id}">
-            <input type="hidden" id="nickname" value="${sessionScope.loginUser.nickname}">
             <label for="location">지역:</label>
             <input type="text" id="location" name="location"><br><br>
             <label for="maxParticipants">정원:</label>
@@ -38,9 +33,9 @@
             <button type="button" id="cancel-create-popup">취소</button>
         </form>
     </div>
-    <div id="create-form-popup-overlay"></div>
+    <div id="create-form-popup-overlay" style="display: none;"></div>
     
-
+    <!-- 채팅방 목록 -->
     <div id="chat-room-list">
         <h2>채팅방 목록</h2>
         <table>
