@@ -49,18 +49,60 @@ $(document).ready(function () {
             alert("메시지를 입력해주세요.");
             return;
         }
+		
+		const timeWithoutYear = new Date().toLocaleTimeString('ko-KR', {
+		    hour: '2-digit',
+		    minute: '2-digit',
+		    second: '2-digit',
+		});
 
         const message = {
             sender: sender,
             content: content,
-            timestamp: new Date().toLocaleTimeString(),
+            timestamp: timeWithoutYear,
             roomId: roomId,
+			memberId: $("#memberId").val() || "defaultMemberId", // 기본 memberId
+			type: "TEXT", // 기본 메시지 유형
         };
+		
+		$.ajax({
+		    url: "/chat/message",
+		    type: "POST",
+		    contentType: "application/json",
+		    data: JSON.stringify(message),
+		    success: function () {
+		        console.log("메시지 저장 완료");
+		    },
+		    error: function (error) {
+		        console.error("메시지 저장 실패:", error);
+		    }
+		});
 
         console.log('보내는 메시지:', message); // 메시지 확인
         stompClient.send('/app/sendMessage/' + roomId, {}, JSON.stringify(message));
         $("#chat-input").val(""); // 입력창 초기화
     }
+	
+	function loadChatMessages(roomId) {
+	    $.ajax({
+	        url: "/messages/" + roomId,
+	        type: "GET",
+	        success: function (messages) {
+	            const chatContent = $("#chat-content");
+	            chatContent.empty(); // 기존 메시지 초기화
+
+	            messages.forEach(function (message) {
+	                displayMessage(message); // 메시지 표시 함수 호출
+	            });
+
+	            console.log("메시지 불러오기 성공:", messages);
+	        },
+	        error: function (error) {
+	            console.error("메시지 불러오기 실패:", error);
+	        }
+	    });
+	}
+	
 
     // 메시지 표시
     function displayMessage(message) {
@@ -114,6 +156,8 @@ $(document).ready(function () {
         });
 
         connectToChatRoom(roomId);
+		loadChatMessages(roomId); // 메시지 불러오기
+
 
         // 메시지 전송 버튼 클릭
         $("#send-chat").click(function () {

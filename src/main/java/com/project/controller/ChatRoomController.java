@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,6 +11,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,6 +48,10 @@ public class ChatRoomController {
     	return "community/chatRoom";
     }
     
+    //=================================================================
+    // Use ChatRoom Domain 
+    //=================================================================
+    
     @PostMapping("/create")
     @ResponseBody
     public ResponseEntity<?> createChatRoom(@RequestBody ChatRoom chatRoom) {
@@ -59,13 +65,6 @@ public class ChatRoomController {
     	return chatRoomService.getAllChatRooms();
     }
     
-    @MessageMapping("/sendMessage/{roomId}")
-    @SendTo("/topic/messages/{roomId}")
-    public ChatMessage broadcastMessage(@DestinationVariable("roomId") String roomId, @Payload ChatMessage message) {
-        System.out.println("Received message: " + message + " in room: " + roomId);
-        return message;
-    }
-    
     @DeleteMapping("/delete-expired")
     @ResponseBody
     public ResponseEntity<?> deleteExpiredChatRooms() {
@@ -73,6 +72,41 @@ public class ChatRoomController {
         System.out.println("마감된 채팅방 삭제 완료.");
         return ResponseEntity.ok().build();
     }
+    
+    
+    
+    //=================================================================
+    // Use ChatMessage Domain 
+    //=================================================================
+    
+    @MessageMapping("/sendMessage/{roomId}")
+    @SendTo("/topic/messages/{roomId}")
+    public ChatMessage broadcastMessage(@DestinationVariable("roomId") String roomId, @Payload ChatMessage message) {
+        System.out.println("브로드캐스트 메시지: " + message);
+        return message; // 메시지 전송만 담당
+    }
+    
+    @PostMapping("/chat/message")
+    @ResponseBody
+    public ResponseEntity<?> saveMessage(@RequestBody ChatMessage chatMessage) {
+        try {
+            chatRoomService.saveMessage(chatMessage); // DB 저장
+            System.out.println("메시지 저장 완료: " + chatMessage);
+            return ResponseEntity.ok("메시지 저장 성공");
+        } catch (Exception e) {
+            System.err.println("메시지 저장 실패: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메시지 저장 실패");
+        }
+    }
+    
+    @GetMapping("/messages/{roomId}")
+    @ResponseBody
+    public ResponseEntity<List<ChatMessage>> getMessagesByRoom(@PathVariable("roomId") Long roomId) {
+        List<ChatMessage> messages = chatRoomService.getMessagesByRoomId(roomId);
+        return ResponseEntity.ok(messages);
+    }
+   
+    
     
     
 }
