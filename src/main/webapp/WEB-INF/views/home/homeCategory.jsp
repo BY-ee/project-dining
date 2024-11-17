@@ -8,6 +8,10 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/css/home/homeCategory.css">
+    <script src="/js/home/slider.js" defer></script>
+    <script src="/js/home/userdropdown.js" defer></script>
+    <script src="/js/home/homeCategory.js"></script>
+    
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
@@ -19,8 +23,8 @@
 	        <div class="location-dropdown">
 	            <button class="location-btn" id="location-btn">지역 선택</button>
 	            <div class="location-menu">
-				    <a href="#" onclick="filterByLocation('ALL', '지역 선택')">지역 선택</a>
-				    <a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구</a>
+				    <a href="#" onclick="filterByLocation('ALL', '지역 선택')">지역 선택${id}</a>
+				    <a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구${role}</a>
 				    <a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
 				    <a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
 				    <a href="#" onclick="filterByLocation('SEONGBUK', '성북/종로구')">성북/종로구</a>

@@ -1,13 +1,12 @@
 package com.project.domain;
 
 import java.util.Date;
+
 import org.apache.ibatis.type.Alias;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Alias("member")
 public class Member {
     private Long id;
@@ -30,4 +29,5 @@ public class Member {
     private int age;
     private String residence;
     private String mbti;
+    private String role;
 }

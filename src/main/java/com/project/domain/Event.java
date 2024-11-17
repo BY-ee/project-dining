@@ -4,11 +4,9 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Alias("event")
 public class Event {
     private int id;

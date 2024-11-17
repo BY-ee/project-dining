@@ -36,39 +36,34 @@ public class LoginController {
 	private final PasswordEncoder passwordEncoder;
 	private final OAuth2AuthorizedClientService authorizedClientService;
 
-	@RequestMapping("/loginForm.do")
+	@GetMapping("/login")
 	public String loginForm() {
 		return "login/loginForm";
 	}
 
-	@RequestMapping("signUp.do")
-	public String signUp() {
+	@GetMapping("/signup")
+	public String signup() {
 		return "login/signup";
 	}
 
-	@RequestMapping("memberForm.do")
+	@GetMapping("/memberForm")
 	public String signForm() {
 		return "login/memberForm";
 	}
 
-	@RequestMapping("ownerForm.do")
+	@GetMapping("/ownerForm")
 	public String onwerForm() {
 		return "login/ownerForm";
 	}
 
-//    @RequestMapping("home.do")
-//    public String home() {
-//        return "home/home-category";
-//    }
-
 	// 아이디 찾기
-	@RequestMapping("findId.do")
+	@GetMapping("/findId.do")
 	public String findId() {
 		return "login/findId";
 	}
 
 	// 비밀번호 찾기
-	@RequestMapping("findPwd.do")
+	@GetMapping("/findPwd.do")
 	public String findPwd() {
 		return "login/findPwd";
 	}
@@ -100,30 +95,30 @@ public class LoginController {
 		return "login/joinResult";
 	}
 
-	// 일반 로그인
-	@RequestMapping("/login_ok.do")
-	public String login_ok(@ModelAttribute("login") Login login, HttpSession session, Model model) {
-		Login db = loginService.getUser(login.getMemberId());
-		int result = 0;
-
-		if (db == null) {
-			result = -1;
-		} else {
-			if (passwordEncoder.matches(login.getPasswd(), db.getPasswd())) {
-				result = 1;
-				session.setAttribute("loginUser", db);
-				session.setAttribute("user_ID", db.getId());
-				session.setAttribute("user_nickname", db.getNickname());
-			} else {
-				result = -1;
-			}
-		}
-
-		model.addAttribute("result", result);
-		model.addAttribute("login", login);
-
-		return "login/loginResult";
-	}
+//	// 일반 로그인
+//	@RequestMapping("/login_ok.do")
+//	public String login_ok(@ModelAttribute("login") Login login, HttpSession session, Model model) {
+//		Login db = loginService.getUser(login.getMemberId());
+//		int result = 0;
+//
+//		if (db == null) {
+//			result = -1;
+//		} else {
+//			if (passwordEncoder.matches(login.getPasswd(), db.getPasswd())) {
+//				result = 1;
+//				session.setAttribute("loginUser", db);
+//				session.setAttribute("user_ID", db.getId());
+//				session.setAttribute("user_nickname", db.getNickname());
+//			} else {
+//				result = -1;
+//			}
+//		}
+//
+//		model.addAttribute("result", result);
+//		model.addAttribute("login", login);
+//
+//		return "login/loginResult";
+//	}
 
 	// 간편 로그인(최초 회원가입 포함)
 

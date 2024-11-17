@@ -12,7 +12,7 @@
 <c:if test="${result == 1 }">
 	<script>
 		alert("회원가입 성공");
-		location.href="/loginForm.do";
+		location.href="/login";
 	</script>
 </c:if>
 

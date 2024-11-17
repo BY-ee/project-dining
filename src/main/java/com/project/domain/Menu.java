@@ -2,11 +2,9 @@ package com.project.domain;
 
 import org.apache.ibatis.type.Alias;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Alias("menu")
 public class Menu {
 	public Long id;

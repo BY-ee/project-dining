@@ -23,6 +23,11 @@
 		WHERE id=#{id}
 	</select>
 	
+	<select id="selectMemberByMemberId" resultType="member">
+		SELECT * FROM member
+		WHERE member_id=#{memberId}
+	</select>
+	
 	<select id="countMembers" resultType="long">
 		SELECT COUNT(*) FROM member
         <where>

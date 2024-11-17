@@ -28,4 +28,7 @@ public interface MemberMapper {
 
 	// 회원 차단해제
 	void unblockMember(long id);
+
+	// 사용자 id로 유저 조회
+	Member selectMemberByMemberId(String memberId);
 }

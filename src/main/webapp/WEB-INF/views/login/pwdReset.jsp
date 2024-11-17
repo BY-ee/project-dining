@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>비밀번호 재설정</title>
   <link rel="stylesheet" href="css/login/loginCommon.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/login/join.js"></script> 
 </head>
 <body>

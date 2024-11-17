@@ -15,11 +15,22 @@
     <link rel="stylesheet" href="/css/templates/footer.css"> <!-- footer css -->
 
     <!-- script -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    <script src="/js/home/slider.js" defer></script>
-    <script src="/js/home/userdropdown.js" defer></script>
-    <script src="js/home/homeCategory.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
 	</script>
+    <script>
+        // Spring Security가 제공하는 CSRF 토큰을 각 form 태그에 자동으로 삽입
+        $(document).on('submit', 'form', function () {
+            const csrfToken = $('meta[name="_csrf"]').attr('content');
+
+            $(this).append(
+                $('<input>', {
+                    type: 'hidden',
+                    name: '_csrf',
+                    value: csrfToken
+                })
+            );
+        });
+    </script>
 </head>

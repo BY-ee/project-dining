@@ -28,6 +28,7 @@ public class LoginService {
 	// 회원가입
 	public int joinMember(Login login) {
 		login.setPasswd(passwordEncoder.encode(login.getPasswd()));
+		login.setRole("ROLE_MEMBER");
 		return loginMapper.joinMember(login);
 	}
 	

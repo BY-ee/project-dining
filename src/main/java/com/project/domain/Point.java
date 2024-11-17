@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 @Alias("point")
 public class Point {
-	
 	public Long id;
 	public Long memberId;
 	public String category;

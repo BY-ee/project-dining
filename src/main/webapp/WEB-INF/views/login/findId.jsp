@@ -2,14 +2,13 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>아이디 찾기</title>
   <link rel="stylesheet" href="css/login/loginCommon.css">
 </head>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/login/join.js"></script> 
     
 <body>
@@ -36,7 +35,7 @@
 </div>
     <input type="button" class="signcomplete" id="findId-btn" value="아이디 찾기">
     <input type="button" class="signcomplete" value="로그인 화면으로 돌아가기" 
-    onClick = "location.href = '/loginForm.do' ">
+    onClick = "location.href = '/login' ">
 </div>
 
 </body>

@@ -13,9 +13,9 @@
     </select>
      <!-- 사용자 회원 가입 -->
      <insert id="joinMember" parameterType="login">
-         insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image)
+         insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id, passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, role)
          values (#{category}, #{registrationNumber, jdbcType=VARCHAR}, #{memberId}, #{naverId, jdbcType=VARCHAR}, #{googleId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd}, #{nickname}, #{introduction, jdbcType=VARCHAR},
-         #{email}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR})
+         #{email}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE}, #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, #{role})
     </insert>
     <!-- 사용자조회 -->
     <select id= "getUser" parameterType="string" resultType="login">
