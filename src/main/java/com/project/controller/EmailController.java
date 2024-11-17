@@ -65,15 +65,17 @@ public class EmailController {
     // 이메일 인증코드 전송
     @PostMapping("/send-verification-email")
     @ResponseBody
-    public String sendVerificationEmail(@RequestParam("userEmail") String userEmail,HttpSession session) {
+    public ResponseEntity<String> sendVerificationEmail(@RequestParam("userEmail") String userEmail,HttpSession session) {
         String verificationCode = emailContentService.generateVerificationCode();
         String emailContent = emailContentService.generateEmailConfirmContent(verificationCode);
         emailContentService.sendEmail(userEmail, "이메일 인증 코드", emailContent);
 		session.setAttribute("verificationCode", verificationCode);
 		session.setAttribute("userEmail", userEmail);
 		session.setAttribute("expiryTime", LocalDateTime.now().plusMinutes(10));
-		         
-        return "인증 이메일이 발송되었습니다.";
+		
+		System.out.println("성공");
+		
+        return ResponseEntity.ok("성공");
     }
  
     // 비밀번호 찾기 (이메일 링크)

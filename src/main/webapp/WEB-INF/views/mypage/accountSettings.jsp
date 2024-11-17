@@ -58,10 +58,15 @@
 					<div id="account-settings" class="section">
 						<div class="email-info">
 							<h3>이메일 정보</h3>
-							<form>
 								<input type="email" id="userEmail" name="userEmail" value="${member.email}">
-								<button class="email-verify-button" onclick="sendVerificationEmail()">이메일 인증</button>
-							</form>
+								<!-- <button class="email-verify-button" onclick="sendVerificationEmail()">이메일 인증</button> -->
+								<button type="button" class="email-verify-button">이메일 인증</button>
+								<div id="verification-popup" style="display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 300px; padding: 20px; border: 1px solid #ccc; background: #fff; z-index: 1000;">
+								    <h3>인증 코드 입력</h3>
+								    <input type="text" id="verificationCode" placeholder="인증 코드를 입력하세요">
+								    <button id="verify-code-btn">확인</button>
+								    <button id="close-popup-btn">닫기</button>
+								</div>
 							<p>이메일 변경은 변경한 이메일로 인증 요청 메일이 발송되고 해당 이메일을 통해 인증을 정상적으로 완료한 후
 								최종적으로 반영됩니다.</p>
 						</div>
@@ -160,6 +165,60 @@
 	</div>
 	<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 	<script>
+		$(".email-verify-button").on("click",function(){
+			const userEmail = $("#userEmail").val();
+
+		    if (!userEmail) {
+		        alert("이메일을 입력해주세요.");
+		        return;
+		    }
+
+		    $.ajax({
+		        url: '/send-verification-email',
+		        type: 'POST',
+		        data: { userEmail: userEmail },
+		        success: function(data) {
+		            alert(data); // "인증 이메일이 발송되었습니다." 출력
+		            $("#verification-popup").fadeIn(); // 팝업창 띄우기
+		        },
+		        error: function(xhr, status, error) {
+		            console.error('Error:', error);
+		            alert("인증 이메일 전송에 실패했습니다.");
+		        }
+		    });
+		})
+		
+			// 인증 코드 확인 버튼 클릭 시
+	    $("#verify-code-btn").on("click", function () {
+	        const userEmail = $("#userEmail").val();
+	        const verificationCode = $("#verificationCode").val();
+	
+	        if (!userEmail || !verificationCode) {
+	            alert("이메일과 인증 코드를 모두 입력해주세요.");
+	            return;
+	        }
+	
+	        // AJAX로 인증 코드 검증 요청
+	        $.ajax({
+	            url: '/verifyCode',
+	            type: 'POST',
+	            data: { userEmail: userEmail, code: verificationCode },
+	            success: function (data) {
+	                alert(data); // "인증에 성공했습니다." 또는 실패 메시지 출력
+	                $("#verification-popup").fadeOut(); // 팝업창 닫기
+	            },
+	            error: function (xhr, status, error) {
+	                console.error('Error:', error);
+	                alert("인증에 실패했습니다.");
+	            }
+	        });
+	    });
+
+	    // 팝업창 닫기 버튼 클릭 시
+	    $("#close-popup-btn").on("click", function () {
+	        $("#verification-popup").fadeOut(); // 팝업창 숨기기
+	    });
+	
 		// 클릭 시 `redirectUrl`을 세션에 저장하기 위한 함수
 		function setRedirectUrl(url,socialName) {
 			alert(url+","+socialName);
@@ -176,27 +235,24 @@
 		}
 		
 		function sendVerificationEmail() {
-		    const userEmail = document.getElementById("userEmail").value;
+		    const userEmail = $("#userEmail").val();
 
 		    if (!userEmail) {
 		        alert("이메일을 입력해주세요.");
 		        return;
 		    }
 
-		    fetch('/send-verification-email', {
-		        method: 'POST',
-		        headers: {
-		            'Content-Type': 'application/x-www-form-urlencoded',
+		    $.ajax({
+		        url: '/send-verification-email',
+		        type: 'POST',
+		        data: { userEmail: userEmail },
+		        success: function(data) {
+		            alert(data); // "인증 이메일이 발송되었습니다." 출력
 		        },
-		        body: new URLSearchParams({ userEmail })
-		    })
-		    .then(response => response.text())
-		    .then(data => {
-		        alert(data); // "인증 이메일이 발송되었습니다." 출력
-		    })
-		    .catch(error => {
-		        console.error('Error:', error);
-		        alert("인증 이메일 전송에 실패했습니다.");
+		        error: function(xhr, status, error) {
+		            console.error('Error:', error);
+		            alert("인증 이메일 전송에 실패했습니다.");
+		        }
 		    });
 		}
 		
