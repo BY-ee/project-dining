@@ -141,6 +141,7 @@
                     <th>정원</th>
                     <th>테마</th>
                     <th>마감 시간</th>
+                    <th>생성자</th>
                     <th>액션</th>
                 </tr>
             </thead>
@@ -282,12 +283,13 @@
 		                    : '없음';
 		
 		                html += '<tr>' +
-		                            '<td>' + (room.id || '') + '</td>' +
+		                            '<td>' + (room.chatRoomId || '') + '</td>' +
 		                            '<td>' + (room.roomName || '') + '</td>' +
 		                            '<td>' + (room.location || '') + '</td>' +
 		                            '<td>' + (room.maxParticipants || '') + '</td>' +
 		                            '<td>' + (room.theme || '') + '</td>' +
 		                            '<td>' + formattedDate + '</td>' +
+		                            '<td>' + (room.creatorNickname || '') + '</td>' + // 생성자 닉네임 표시
 		                            '<td>' +
 		                                '<button class="enter-room" data-room-id="' + room.id + '"data-room-name="' + room.roomName+ '">입장</button>' +
 		                            '</td>' +

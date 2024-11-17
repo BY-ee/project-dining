@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 public class ChatRoom {
-    private Long id;                      // 고유 방 ID
+    private Long id;   
+    private Long chatRoomId;// 고유 방 ID
     private Long memberId;                // 방장의 member ID
     private String roomName;              // 채팅방 제목
     private String location;              // 지역
@@ -18,4 +19,7 @@ public class ChatRoom {
     private String status;                // 모집 상태
     private Date createdAt;               // 생성일
     private String password;              // 비밀번호 (선택)
+    private String creatorNickname;       // m.nickname 매핑
+    
+
 }
