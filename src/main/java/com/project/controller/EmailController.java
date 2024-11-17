@@ -1,35 +1,39 @@
 package com.project.controller;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.domain.Login;
-import com.project.service.EmailContentService;
-import com.project.service.EmailService;
+import com.project.domain.Member;
+import com.project.dto.Login;
 import com.project.service.LoginService;
+import com.project.service.MypageService;
+import com.project.service.SendEmailContentService;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequiredArgsConstructor
 public class EmailController {
-
-
-    private final EmailService emailService;
-    private final EmailContentService emailContentService;
-	private final LoginService loginService;
+	@Autowired
+    private SendEmailContentService emailContentService;
+	@Autowired
+	private LoginService loginService;
+	@Autowired
+	private MypageService mypageService;
     
     // 이메일 인증코드 인증
     @PostMapping("/verifyCode")
     @ResponseBody
-    public String verifyCode(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session) {
+    public String verifyCode(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session,Member member) {
     	String savedCode = (String) session.getAttribute("verificationCode");
     	String savedEmail = (String) session.getAttribute("userEmail");
     	LocalDateTime expiryTime = (LocalDateTime) session.getAttribute("expiryTime");
@@ -48,6 +52,9 @@ public class EmailController {
     	}
 
     	if (savedEmail.equals(userEmail) && savedCode.equals(code)) {
+    		member.setId(24L);
+    		member.setEmail(userEmail);
+    		mypageService.updateEmail(member);
     	    session.removeAttribute("verificationCode");
     	    session.removeAttribute("userEmail");
     	    return "인증에 성공했습니다.";
@@ -58,18 +65,19 @@ public class EmailController {
     // 이메일 인증코드 전송
     @PostMapping("/send-verification-email")
     @ResponseBody
-    public String sendVerificationEmail(@RequestParam("userEmail") String userEmail, HttpSession session) {
+    public ResponseEntity<String> sendVerificationEmail(@RequestParam("userEmail") String userEmail,HttpSession session) {
         String verificationCode = emailContentService.generateVerificationCode();
         String emailContent = emailContentService.generateEmailConfirmContent(verificationCode);
-        emailService.sendEmail(userEmail, "이메일 인증 코드", emailContent);
-        
-        session.setAttribute("verificationCode", verificationCode);
-        session.setAttribute("userEmail", userEmail);
-        session.setAttribute("expiryTime", LocalDateTime.now().plusMinutes(10)); // 예: 10분 후 만료
-        
-        return "인증 이메일이 발송되었습니다.";
+        emailContentService.sendEmail(userEmail, "이메일 인증 코드", emailContent);
+		session.setAttribute("verificationCode", verificationCode);
+		session.setAttribute("userEmail", userEmail);
+		session.setAttribute("expiryTime", LocalDateTime.now().plusMinutes(10));
+		
+		System.out.println("성공");
+		
+        return ResponseEntity.ok("성공");
     }
-    	
+ 
     // 비밀번호 찾기 (이메일 링크)
     @PostMapping("/sendPwdResetEmail")
     @ResponseBody
@@ -97,7 +105,7 @@ public class EmailController {
     			
 				// 이메일 전송 method 실행
 				String emailContent = emailContentService.generatePasswordResetContent(resetLink);
-		        emailService.sendEmail(userEmail, "냐미냐미 비밀번호 재설정", emailContent);
+		        emailContentService.sendEmail(userEmail, "냐미냐미 비밀번호 재설정", emailContent);
     			
     			return " 해당 이메일 주소로 보낸 링크를 통해 비밀번호를 재설정하십시오. ";
     		}else {  // 입력한 아이디는 존재하는데 이메일 데이터와 일치하지 않을 경우

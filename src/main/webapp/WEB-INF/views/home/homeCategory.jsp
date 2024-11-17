@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
-<%@ page import="com.project.domain.Login" %>
+<%@ page import="com.project.dto.Login" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -7,9 +7,8 @@
 <%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/home/home-category.css">
+    <link rel="stylesheet" type="text/css" href="/css/home/homeCategory.css">
 </head>
-
 <body>
 	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
 
@@ -98,7 +97,7 @@
         <!-- 가게 목록 컨테이너 -->
         <div class="store-container">
 		    <div id="store-list-container" class="store-list">
-		        <jsp:include page="store_list.jsp" />
+		        <jsp:include page="storeList.jsp" />
 		    </div>
 		</div>
     </main> <!-- main content end -->

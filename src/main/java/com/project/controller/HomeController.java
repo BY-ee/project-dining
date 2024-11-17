@@ -32,7 +32,7 @@ public class HomeController {
         List<Store> stores = storeService.findAllStores(); // 모든 가게 목록을 가져옴
         model.addAttribute("stores", stores); // 모델에 stores 속성으로 추가
         System.out.println("Number of stores found in first home: " + stores.size());
-        return "home/home-category";
+        return "home/homeCategory";
     }
     
     @GetMapping("/storesByLocation")

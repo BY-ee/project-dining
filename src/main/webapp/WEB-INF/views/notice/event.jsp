@@ -2,26 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이벤트 상세</title>
-    <link rel="stylesheet" href="/css/notice/commonStyles.css">
-    <link rel="stylesheet" href="/css/notice/noticeCommonStyles.css">
-    <link rel="stylesheet" href="/css/notice/noticeStyles.css">
-</head>
+<html>
+<%@ include file="/WEB-INF/views/templates/head.jsp" %>
+<link rel="stylesheet" href="/css/notice/commonStyles.css">
+<link rel="stylesheet" href="/css/notice/noticeCommonStyles.css">
+<link rel="stylesheet" href="/css/notice/noticeStyles.css">
 <body>
     <!-- 상단바 -->
-    <header class="navbar">
-        <div class="navbar-left">
-            <a class="navbar-logo">냐미</a>
-        </div>
-        <div class="navbar-right">
-            <a href="#" class="icon">로그아웃</a>
-            <a href="/" class="icon">홈</a>
-        </div>
-    </header>
+    <%@ include file="/WEB-INF/views/templates/header.jsp" %>
 	<nav class="navbar-menu">
         <a href="/noticeList" class="menu-item">공지사항</a>
         <a href="/eventOnList" class="menu-item active">이벤트</a>
@@ -55,5 +43,6 @@
             <button onclick="location.href='/eventOnList'">목록</button>
         </div>
     </div>
+<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 </body>
 </html>

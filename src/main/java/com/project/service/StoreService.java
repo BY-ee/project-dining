@@ -4,13 +4,12 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.domain.MemberLike;
 import com.project.domain.Menu;
 import com.project.domain.Store;
+import com.project.dto.MemberLike;
 import com.project.mapper.StoreMapper;
 
 import lombok.RequiredArgsConstructor;

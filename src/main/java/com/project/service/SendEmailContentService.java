@@ -2,19 +2,39 @@ package com.project.service;
 
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
 @Service
-public class SendEmailContentService implements EmailContentService {
-	
-	@Override
-    public String generateVerificationCode() {
+public class SendEmailContentService{
+	@Autowired
+	private JavaMailSender mailSender;
+
+    // 이메일 인증 이메일
+    public void sendEmail(String userEmail, String subject, String content) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(userEmail);
+            helper.setSubject(subject);
+            helper.setText(content, true); // HTML 형식 활성화
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            // 예외 처리 로직
+            e.printStackTrace();
+        }
+    }
+	public String generateVerificationCode() {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000); // 6자리 숫자 생성
         return String.valueOf(code);
     }
 
-    @Override
     public String generateEmailConfirmContent(String verificationCode) {
         return "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; padding: 20px;'>" +
                "  <h2 style='color: #333;'>이메일 인증</h2>" +
@@ -28,7 +48,6 @@ public class SendEmailContentService implements EmailContentService {
                "</div>";
     }
 
-    @Override
     public String generatePasswordResetContent(String resetLink) {
         return "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; padding: 20px;'>" +
                "  <h2 style='color: #333;'>비밀번호 재설정</h2>" +

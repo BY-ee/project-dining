@@ -1,7 +1,6 @@
 package com.project.domain;
 
-import java.sql.Timestamp;
-
+import java.util.Date;
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -23,9 +22,12 @@ public class Member {
     private String introduction;
     private String email;
     private String status;
-    private Timestamp createdAt;
-    private Timestamp inactiveDate;
-    private Timestamp reactiveDate;
-    private Timestamp deletedDate;
+    private Date createdAt;
+    private Date inactiveDate;
+    private Date reactiveDate;
+    private Date deletedDate;
     private String profileImage;
+    private int age;
+    private String residence;
+    private String mbti;
 }
