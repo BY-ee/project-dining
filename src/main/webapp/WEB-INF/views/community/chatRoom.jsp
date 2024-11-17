@@ -341,7 +341,22 @@
             });
         });
         
+        function deleteExpiredChatRooms() {
+            $.ajax({
+                url: "/delete-expired",
+                type: "DELETE",
+                success: function () {
+                    console.log("만료된 채팅방 삭제 완료");
+                    fetchChatRooms(); // 채팅방 목록 갱신
+                },
+                error: function (error) {
+                    console.error("만료된 채팅방 삭제 실패:", error);
+                }
+            });
+        }
+        
         $(document).ready(function () {
+            deleteExpiredChatRooms();
             fetchChatRooms();
         });
     </script>

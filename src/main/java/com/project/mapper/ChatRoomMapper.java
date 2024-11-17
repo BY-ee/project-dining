@@ -10,4 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ChatRoomMapper {
 	void insertChatRoom(ChatRoom chatRoom);
     List<ChatRoom> getAllChatRooms(); // 채팅방 목록 조회
+    void deleteExpiredChatRooms();
 }

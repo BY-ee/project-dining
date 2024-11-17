@@ -52,5 +52,12 @@
 		ORDER BY 
 		    cr.created_at DESC
 	</select>
+	
+	<delete id="deleteExpiredChatRooms">
+	    <![CDATA[
+	        DELETE FROM chat_rooms WHERE recruitment_deadline < CURRENT_TIMESTAMP
+	    ]]>
+	</delete>
+	
   </mapper>
   

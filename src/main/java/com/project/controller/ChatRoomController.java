@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +64,14 @@ public class ChatRoomController {
     public ChatMessage broadcastMessage(@DestinationVariable("roomId") String roomId, @Payload ChatMessage message) {
         System.out.println("Received message: " + message + " in room: " + roomId);
         return message;
+    }
+    
+    @DeleteMapping("/delete-expired")
+    @ResponseBody
+    public ResponseEntity<?> deleteExpiredChatRooms() {
+        chatRoomService.deleteExpiredChatRooms(); // 서비스에서 만료된 채팅방 삭제
+        System.out.println("마감된 채팅방 삭제 완료.");
+        return ResponseEntity.ok().build();
     }
     
     
