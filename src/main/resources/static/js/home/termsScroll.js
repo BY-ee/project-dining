@@ -1,13 +1,16 @@
-document.querySelectorAll('.terms-item a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
+$('.terms-item a').on('click', function (e) {
+    e.preventDefault();
 
-        // 원하는 위치 조정 (여기서 위치 비율을 조정할 수 있음)
-        window.scrollTo({
-            top: targetElement.offsetTop - window.innerHeight / 3, // 화면의 1/3 높이로 조정
-            behavior: 'smooth'
-        });
-    });
+    const targetId = $(this).attr('href').substring(1);
+    const $targetElement = $(`#${targetId}`);
+
+    if ($targetElement.length) {
+        // 원하는 위치로 스크롤 (여기서 위치 비율을 조정할 수 있음)
+        $('html, body').animate(
+            {
+                scrollTop: $targetElement.offset().top - $(window).height() / 3,
+            },
+            500 // 스크롤 애니메이션 지속 시간 (ms)
+        );
+    }
 });

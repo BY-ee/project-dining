@@ -1,11 +1,11 @@
-document.getElementById("signup").addEventListener("click", function() {
-    document.querySelector(".pinkbox").style.transform = "translateX(80%)";
-    document.querySelector(".signin").classList.add("nodisplay");
-    document.querySelector(".signup").classList.remove("nodisplay");
+$("#signup").on("click", function () {
+    $(".pinkbox").css("transform", "translateX(80%)");
+    $(".signin").addClass("nodisplay");
+    $(".signup").removeClass("nodisplay");
 });
 
-document.getElementById("signin").addEventListener("click", function() {
-    document.querySelector(".pinkbox").style.transform = "translateX(0%)";
-    document.querySelector(".signup").classList.add("nodisplay");
-    document.querySelector(".signin").classList.remove("nodisplay");
+$("#signin").on("click", function () {
+    $(".pinkbox").css("transform", "translateX(0%)");
+    $(".signup").addClass("nodisplay");
+    $(".signin").removeClass("nodisplay");
 });

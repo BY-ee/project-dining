@@ -1,7 +1,5 @@
 package com.project.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +11,13 @@ import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
 import com.project.service.NoticeService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class NoticeController {
-	@Autowired
-	NoticeService noticeService;
+	
+	private final NoticeService noticeService;
 
 	@GetMapping("/noticeList")
 	public String noticeList(Model model, PageRequest noticePageRequest) {

@@ -1,33 +1,29 @@
 package com.project.controller;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.domain.Store;
+import com.project.dto.CustomUserDetails;
 import com.project.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
 
-import com.project.domain.Member;
-import com.project.domain.Store;
-import com.project.dto.CustomUserDetails;
-
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+	
     private final StoreService storeService;
     
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);

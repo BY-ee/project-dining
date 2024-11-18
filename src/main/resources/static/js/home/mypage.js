@@ -1,10 +1,10 @@
 function openTab(event, tabId) {
-    const tabContents = document.querySelectorAll(".tab-content");
-    const tabButtons = document.querySelectorAll(".tab-button");
+    const $tabContents = $(".tab-content");
+    const $tabButtons = $(".tab-button");
 
-    tabContents.forEach(content => content.classList.remove("active"));
-    tabButtons.forEach(button => button.classList.remove("active"));
+    $tabContents.removeClass("active");
+    $tabButtons.removeClass("active");
 
-    document.getElementById(tabId).classList.add("active");
-    event.currentTarget.classList.add("active");
+    $(`#${tabId}`).addClass("active");
+    $(event.currentTarget).addClass("active");
 }

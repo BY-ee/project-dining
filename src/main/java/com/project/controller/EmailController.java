@@ -24,9 +24,10 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class EmailController {
-    private SendEmailContentService emailContentService;
-	private LoginService loginService;
-	private MypageService mypageService;
+	
+    private final SendEmailContentService emailContentService;
+	private final LoginService loginService;
+	private final MypageService mypageService;
 
 	private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
 	

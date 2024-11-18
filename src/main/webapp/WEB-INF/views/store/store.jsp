@@ -11,14 +11,14 @@
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
    
 
-    <!-- JavaScript에서 사용할 userId와 storeId -->
+    <!-- JavaScript에서 사용할 memberId와 storeId -->
     <script type="text/javascript">
-	    var userId = ${user_ID != null ? user_ID : 'null'};
-	    var storeId = ${store_ID != null ? store_ID : 'null'};
-        var latitude = ${storeDetail.latitude != null ? storeDetail.latitude : "null"};
-        var longitude = ${storeDetail.longitude != null ? storeDetail.longitude : "null"};
+	    var memberId = ${sessionMember.id};
+	    var storeId = ${storeId};
+        var latitude = ${storeDetail.latitude};
+        var longitude = ${storeDetail.longitude};
         
-        console.log("userId:", userId);
+        console.log("memberId:", memberId);
         console.log("storeId:", storeId);
         console.log("latitude:", latitude);
         console.log("longitude:", longitude);

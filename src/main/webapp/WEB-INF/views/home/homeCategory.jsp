@@ -108,16 +108,16 @@
 	<jsp:include page="/WEB-INF/views/templates/footer.jsp" /> <!-- footer -->
 
 	<script type="text/javascript">
-	    // JSP 표현식으로 user_ID 가져오기
-		var userId = "${sessionMember.memberId}";
+	    // JSP 표현식으로 memberId 가져오기
+		var memberId = "${sessionMember.memberId}";
 		let selectedLocation = ""; // 추가된 변수
 
 	
 	    function goToStoreDetail(storeId) {	        
 	        var url = '/storeDetail?store_ID=' + storeId;
-	        if (userId && userId.trim() !== "") {  
-	            url += '&user_ID=' + userId;
-	        }
+	        // if (userId && userId.trim() !== "") {  
+	        //     url += '&user_ID=' + userId;
+	        // }
 	        window.location.href = url;  
 	    }
 	    

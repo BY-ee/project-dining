@@ -30,11 +30,13 @@ import com.project.dto.PageResponse;
 import com.project.service.MypageService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class MypageController {
-	@Autowired
-	MypageService mypageService;
+
+	private final MypageService mypageService;
 	
 	@GetMapping("/mypage")
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,

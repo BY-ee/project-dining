@@ -15,11 +15,13 @@ import com.project.service.MypageService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class RedirectController {
-	@Autowired
-	MypageService mypageService;
+	
+	private final MypageService mypageService;
 	
 	@PostMapping("/setRedirectUrl")
     public void setRedirectUrl(@RequestBody Map<String, String> payload, HttpServletRequest request) {

@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	    const likeButton = document.getElementById('likeButton');
 	    let isLiked = false;
 	    let likeCount = 0;
-	    const data = { store_ID: storeId };
+	    const data = { storeId: storeId };
 	    
-	    if (userId) {
-	        data.user_ID = userId;
+	    if (memberId) {
+	        data.memberId = memberId;
 	    }
 
 	    // AJAX 요청으로 초기 찜 상태 확인
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	    // 찜 버튼 클릭 이벤트
 	    likeButton.addEventListener('click', () => {
-	        if (!userId) {
+	        if (!memberId) {
 	            alert('로그인 후 가능합니다.');
 	            return;
 	        }
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	            method: 'POST',
 	            contentType: 'application/json',
 	            data: JSON.stringify({
-	                memberId: userId,
+	                memberId: memberId,
 	                storeId: storeId,
 	                liked: isLiked
 	            }),

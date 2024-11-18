@@ -167,7 +167,7 @@
 		    }
 
 		    $.ajax({
-		        url: '/send-verification-email',
+		        url: '/sendVerificationEmail',
 		        type: 'POST',
 		        data: { userEmail: userEmail },
 		        success: function(data) {
@@ -236,13 +236,16 @@
 		    }
 
 		    $.ajax({
-		        url: '/send-verification-email',
+		        url: '/sendVerificationEmail',
 		        type: 'POST',
 		        data: { userEmail: userEmail },
 		        success: function(data) {
 		            alert(data); // "인증 이메일이 발송되었습니다." 출력
 		        },
 		        error: function(xhr, status, error) {
+							console.dir(error);
+							console.dir(xhr);
+							console.log(xhr.responseText);
 		            console.error('Error:', error);
 		            alert("인증 이메일 전송에 실패했습니다.");
 		        }

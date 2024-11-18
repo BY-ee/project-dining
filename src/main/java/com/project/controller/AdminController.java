@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
+	
 	private final AdminService adminService;
 	
 	// 회원관리 페이지
