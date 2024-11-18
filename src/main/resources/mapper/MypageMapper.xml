@@ -7,7 +7,7 @@
 	<select id="getMember" resultType="Member">
 		select * from member
 		where
-		id=#{id}
+		member_id=#{memberId}
 	</select>
 
 	<select id="getMypageLike" resultType="MypageLike">
