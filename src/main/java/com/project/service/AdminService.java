@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
+	
 	private final NoticeMapper noticeMapper;
 	private final MemberMapper memberMapper;
 	private final StoreMapper storeMapper;

@@ -4,6 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.config.SecurityContextUtil;
 import com.project.dto.Login;
 import com.project.mapper.LoginMapper;
 
@@ -12,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class LoginService {
+	
 	private final LoginMapper loginMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
+	private final SecurityContextUtil securityContextUtil;
 
 	// 아이디 중복조회
 	public int isUserIdCheck(String memberId) {
@@ -83,6 +86,7 @@ public class LoginService {
 	public void updatePassword(Login login) {
 		login.setPasswd(bCryptPasswordEncoder.encode(login.getPasswd()));
 		loginMapper.updatePassword(login);
+		securityContextUtil.reloadUserDetails(login.getMemberId());  // spring security context의 상태 수정
 	}
 
 	public Login getFindId(String email) {
