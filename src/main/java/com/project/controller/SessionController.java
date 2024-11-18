@@ -10,16 +10,12 @@ import com.project.dto.CustomUserDetails;
 
 @ControllerAdvice
 public class SessionController {
-	@ModelAttribute
-    public void addAttributes(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇ");
-        if (userDetails != null) {
-            Member member = userDetails.getMember();
-            model.addAttribute(member);
-        } else {
-        	System.out.println("ㅇㅇ널");
-            model.addAttribute("id", "anonymousUser");
-            model.addAttribute("role", "ROLE_ANONYMOUS");
-        }
-    }
+	/*
+	 * @ModelAttribute public void addAttributes(Model
+	 * model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	 * System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇ"); if (userDetails != null) { Member member =
+	 * userDetails.getMember(); model.addAttribute(member); } else {
+	 * System.out.println("ㅇㅇ널"); model.addAttribute("id", "anonymousUser");
+	 * model.addAttribute("role", "ROLE_ANONYMOUS"); } }
+	 */
 }

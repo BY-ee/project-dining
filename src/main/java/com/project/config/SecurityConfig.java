@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import com.project.service.CustomOauth2UserService;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -94,10 +96,16 @@ public class SecurityConfig {
         
         // 간편로그인 관련 설정
         http.oauth2Login(oauth2 -> oauth2
+        		.userInfoEndpoint(userInfo -> userInfo
+        				.userService(customOAuth2UserService()))
                 .successHandler(customAuthenticationSuccessHandler())  // 커스텀 성공 핸들러 사용 -> 간편로그인 성공후
             );
-
         return http.build();
+    }
+    
+    @Bean
+    public CustomOauth2UserService customOAuth2UserService() {
+    	return new CustomOauth2UserService();
     }
     
     // 커스텀 핸들러(API) 
