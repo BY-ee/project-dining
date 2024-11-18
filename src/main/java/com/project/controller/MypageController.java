@@ -127,7 +127,7 @@ public class MypageController {
 	}
 	
 	
-	@GetMapping("/accountSettings")
+	@GetMapping("/account")
     public String accountSettings() {
 //		Member member = mypageService.getMember(24);
 //		model.addAttribute("member",member);

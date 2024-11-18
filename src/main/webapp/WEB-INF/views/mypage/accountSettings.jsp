@@ -49,9 +49,9 @@
 			<div class="main-content">
 				<!-- 탭 메뉴 -->
 				<div class="tabs">
-					<button class="tab" onclick="location.href='/mypage'">내 활동</button>
+					<button class="tab" onclick="location.href='/mypage'">활동내역</button>
 					<button class="tab" onclick="location.href='/profile'">프로필</button>
-					<button class="tab" onclick="location.href='/accountSettings'">계정 정보</button>
+					<button class="tab" onclick="location.href='/account'">계정 정보</button>
 				</div>
 				<div class="expanded-content">
 					<!-- 계정 정보 섹션 -->

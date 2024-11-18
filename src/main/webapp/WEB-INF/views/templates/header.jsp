@@ -18,8 +18,8 @@
                     <div class="user-popup" style="display: none;">
                         <span class="welcome-message">환영합니다, ${sessionMember.nickname}님!</span>
                         <a href="/profile">프로필</a>
-                        <a href="/mypage">마이페이지</a>
-                        <a href="/settings">환경설정</a>
+                        <a href="/mypage">활동내역</a>
+                        <a href="/account">계정정보</a>
                         <a href="/recommendations">1:1 추천</a>
                         <form action="/logout" method="post" style="display:inline;">
                             <button type="submit">로그아웃</button>
