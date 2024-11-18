@@ -62,6 +62,7 @@ function connectToChatRoom(roomId) {
 
     stompClient.connect({}, function (frame) {
             console.log("WebSocket 연결 성공!", frame);
+
 			stompClient.subscribe(`/topic/messages/${roomId}`, function (message) {
 			    const chatMessage = JSON.parse(message.body);
 			    displayMessage(chatMessage);

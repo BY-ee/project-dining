@@ -24,7 +24,7 @@
 
 <script src="/js/home/slider.js"></script> <!-- 슬라이더 -->
 <script type="text/javascript"> var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}"; </script>
-<script type="module" src="/js/community/chat.js"></script>
+<script src="/js/community/chat.js"></script>
 <script src="/js/community/community.js"></script> <!-- 페이지 전용 JS -->
 <script src="/js/home/userdropdown.js"></script> <!-- 페이지 전용 JS -->
 

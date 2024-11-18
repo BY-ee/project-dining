@@ -12,6 +12,7 @@
         String nickname = (String) session.getAttribute("user_nickname");
     %>
     <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+    
 </head>
 <body>
 
