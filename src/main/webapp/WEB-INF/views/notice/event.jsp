@@ -30,11 +30,19 @@
         </div>
 
         <!-- 관련 공지사항 -->
-        <div class="related-notices">
+       <div class="related-notices">
             <p><strong>관련 공지</strong></p>
             <ul>
-                <li><a href="#">11월 넥슨플레이 바코드캐시충전 이벤트</a></li>
-                <li><a href="#">10/29(화) 도서문화상품권 결제서비스 점검 안내</a></li>
+            	<c:if test="${nextEvent.id != null}">
+            		<li class="related-notices-item">
+            			이전글<a href="/event/${nextEvent.id}"> ${nextEvent.title}</a>
+            		</li>
+            	</c:if>
+                <c:if test="${preEvent.id != null}">
+                	<li class="related-notices-item">
+                		다음글<a href="/event/${preEvent.id}"> ${preEvent.title}</a>
+                	</li>
+                </c:if>
             </ul>
         </div>
 

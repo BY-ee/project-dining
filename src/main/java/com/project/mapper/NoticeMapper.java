@@ -70,8 +70,10 @@ public interface NoticeMapper {
 	List<Event> getEventList(@Param("startRow") int startRow,@Param("endRow") int endRow,@Param("status") String status,@Param("category") String category);	
 	int getNoticeCountList(@Param("pageRequest") PageRequest pageRequest);
 	int getEventCountList(@Param("status") String status, @Param("category") String category);
-	Event getEvent(Long id);
 	Notice getNotice(Long id);
 	Notice getPreNotice(Long id);
 	Notice getNextNotice(Long id);
+	Event getEvent(Long id);
+	Event getPreEvent(Long id);
+	Event getNextEvent(Long id);
 }

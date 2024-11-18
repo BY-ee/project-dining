@@ -55,7 +55,11 @@ public class NoticeController {
 	@GetMapping("/event/{id}")
 	public String event(@PathVariable("id")Long id,Model model) {
 		Event event = noticeService.getEvent(id);
+		Event preEvent = noticeService.getPreEvent(id);
+		Event nextEvent = noticeService.getNextEvent(id);
 		model.addAttribute("event",event);
+		model.addAttribute("preEvent",preEvent);
+		model.addAttribute("nextEvent",nextEvent);
 		return "notice/event";
 	}
 }
