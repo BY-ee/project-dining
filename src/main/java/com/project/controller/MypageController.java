@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.Member;
 import com.project.domain.Store;
+import com.project.dto.CustomUserDetails;
 import com.project.dto.MypageLike;
 import com.project.dto.MypageReview;
 import com.project.dto.PageRequest;
@@ -39,13 +40,12 @@ public class MypageController {
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,
     					@RequestParam(name = "reviewPage",defaultValue="1") int reviewPage,
     					@RequestParam(name = "size",defaultValue="5") int size,
+    					@AuthenticationPrincipal CustomUserDetails userDetails,
     		Model model) {
 		
-		// 세션으로 id받기
-
-		// 멤버값 하나 구해오기
-		Member member = mypageService.getMember(24);
-		System.out.println(member.getCategory());
+		// 세션으로 id받기 , 멤버값 하나 구해오기
+		Member member = userDetails.getMember();
+		
 		if(member.getCategory().equals("사업자")) {
 			Store store =  mypageService.getStore(24);
 			model.addAttribute("store",store);

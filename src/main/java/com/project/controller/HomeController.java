@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.service.StoreService;
+import com.project.domain.Member;
 import com.project.domain.Store;
 import com.project.dto.CustomUserDetails;
 
@@ -31,16 +32,16 @@ public class HomeController {
     @GetMapping("/")
     public String home(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
     	// Spring Security가 관리하는 세션 데이터를 가져옴 (매개변수로 주입)
-        if (userDetails != null) {
-            String id = userDetails.getUsername();
-            String role = userDetails.getAuthorities().iterator().next().getAuthority();
-            model.addAttribute("id", id);
-            model.addAttribute("role", role);
-        } else {
-        	// 로그인되어 있지 않으면 id, role 데이터를 임의로 클라이언트에게 전송
-            model.addAttribute("id", "anonymousUser");
-            model.addAttribute("role", "ROLE_ANONYMOUS");
-        }
+//        if (userDetails != null) {
+//            String id = userDetails.getUsername();
+//            String role = userDetails.getAuthorities().iterator().next().getAuthority();
+//            model.addAttribute("id", id);
+//            model.addAttribute("role", role);
+//        } else {
+//        	// 로그인되어 있지 않으면 id, role 데이터를 임의로 클라이언트에게 전송
+//            model.addAttribute("id", "anonymousUser");
+//            model.addAttribute("role", "ROLE_ANONYMOUS");
+//        }
         
         List<Store> stores = storeService.findAllStores(); // 모든 가게 목록을 가져옴
         model.addAttribute("stores", stores); // 모델에 stores 속성으로 추가

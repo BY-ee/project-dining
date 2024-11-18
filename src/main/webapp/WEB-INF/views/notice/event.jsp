@@ -24,9 +24,16 @@
 
         <!-- 본문 내용 -->
         <div class="notice-content">
-            <p>
-            	${event.content}
-            </p>
+        	<c:if test="${event.eventImage}">
+	        	<div class="notice-image">
+	        		<img src="${event.eventImage}">
+	        	</div>
+        	</c:if>
+        	<div>
+	            <p>
+	            	${event.content}
+	            </p>
+            </div>
         </div>
 
         <!-- 관련 공지사항 -->

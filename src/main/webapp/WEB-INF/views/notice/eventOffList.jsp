@@ -13,6 +13,7 @@
 	</nav>
 	<!-- 이벤트 콘텐츠 -->
 	<div class="event-section">
+	<h3>${member.nickname }</h3>
 		<div class="tab-header">
 			<a href="/eventOnList">진행중 이벤트</a>
 			<a class="active" href="/eventOffList">종료된 이벤트</a>

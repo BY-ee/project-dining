@@ -33,22 +33,13 @@ public class CustomUserDetails implements UserDetails {
         authorities.add(new SimpleGrantedAuthority(member.getRole()));
         return authorities;
     }
+    
+    // member 객체를 세션에서 가져오기 위한 커스텀 메서드
+    public Member getMember() {
+    	return member;
+    }
 
-    //@Override
-    //public Collection<? extends GrantedAuthority> getAuthorities() {
-    //    Collection<GrantedAuthority> authorities = new ArrayList<>();
-    //    authorities.add(new GrantedAuthority() {
-    //
-    //        @Override
-    //        public String getAuthority() {
-    //            return member.getRole();
-    //        }
-    //    });
-    //
-    //    return authorities;
-    //}
-
-    @Override
+	@Override
     public boolean isAccountNonExpired() {
         return true;
     }
