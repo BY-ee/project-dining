@@ -47,14 +47,23 @@
 	            } else {
 	                console.log("No reviews available");
 	            }	
+	            
+	            // active 상태의 리뷰만 필터링
+	            var activeReviews = reviews.filter(function(review) {
+	                return review.status === 'active';
+	            });
+	            
+	            
 	            // userReviewIndex를 여기서 구합니다.
 	            var userReviewIndex = reviews.findIndex(function(review) {
 	                return review.memberId != null && review.memberId === userId;
 	            });
 	
 	            // renderReviews 함수 호출 시 두 번째 인자로 전달합니다.
-	            renderReviews(reviews, userReviewIndex);
-	            $('#reviewCount').text(reviews.length);
+	            renderReviews(activeReviews, userReviewIndex);
+	            
+	         	// active 상태 리뷰의 개수를 표시
+	            $('#reviewCount').text(activeReviews.length);
 	        },
 	        error: function(xhr, status, error) {
 	            console.error('리뷰 데이터를 불러오는 중 오류가 발생했습니다: ', error);
