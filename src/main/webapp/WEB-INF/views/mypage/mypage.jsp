@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.project.domain.Login" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,7 +11,7 @@
     <title>마이페이지</title>
     <link rel="stylesheet" href="css/mypage/myPageStyles.css">
     <link rel="stylesheet" href="css/mypage/commonStyles.css">
-    <script src="/js/home/userdropdown.js" defer></script>
+    
     <script>
         function openTab(event, tabName) {
             // 모든 섹션을 숨기기
@@ -33,6 +36,9 @@
             document.getElementById("defaultTab").click(); // 기본으로 표시할 탭
         });
     </script>
+    
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+    
 </head>
 <body>
     <!-- 상단바 -->
@@ -73,7 +79,7 @@
 	                <!-- 계정 정보 섹션 -->
 	                <div id="account-settings" class="section" style="display:none;">
 	                    <jsp:include page="accountSettings.jsp" />
-	                </div>
+	                </div>	
 	                <!-- 유저 포인트 섹션 -->
 	                <div id="userPoint" class="section" style="display:none;">
 	                    <jsp:include page="userPoint.jsp"/>

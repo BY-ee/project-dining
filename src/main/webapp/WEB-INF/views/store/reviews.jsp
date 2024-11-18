@@ -4,11 +4,12 @@
 
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
     <title>리뷰 목록</title>
+    
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 
 <script>
 

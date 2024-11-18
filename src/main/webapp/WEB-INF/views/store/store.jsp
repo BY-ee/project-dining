@@ -5,15 +5,13 @@
     
 <!DOCTYPE html>
 <html lang="ko">
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
-
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+	
     <title>가게 상세페이지</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
    
-
     <!-- JavaScript에서 사용할 userId와 storeId -->
     <script type="text/javascript">
 	    var userId = ${user_ID != null ? user_ID : 'null'};
@@ -128,7 +126,7 @@
                 <div class="section-title">대표 메뉴</div>
                 <c:forEach var="menu" items="${menuList}">
                     <div class="menu-card">
-                        <img src="${menu.menuImage }">
+                        <img src="${menu.menuImage}">
                         <div class="menu-info">
                             <p class="menu-name">${menu.menuName}</p>
                             <p class="menu-description">${menu.menuDescription }</p>

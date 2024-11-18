@@ -3,7 +3,6 @@
 
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
     <title>리뷰 작성</title>
@@ -12,6 +11,7 @@
         String userId = (userIdLong != null) ? userIdLong.toString() : null;
         String nickname = (String) session.getAttribute("user_nickname");
     %>
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
 

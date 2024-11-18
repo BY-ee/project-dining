@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>채팅방 관리</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/community/community.js"></script> <!-- 페이지 전용 JS -->
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
 

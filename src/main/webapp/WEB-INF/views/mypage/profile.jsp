@@ -6,8 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/mypage/myPageStyles.css">
-<link rel="stylesheet" href="css/mypage/commonStyles.css">
+	<link rel="stylesheet" href="css/mypage/myPageStyles.css">
+	<link rel="stylesheet" href="css/mypage/commonStyles.css">
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+
 </head>
 <body>
 	<!-- 상단바 -->

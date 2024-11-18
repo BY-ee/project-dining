@@ -23,8 +23,8 @@
     Long memberId = (Long) session.getAttribute("user_ID");
 %>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 라이브러리 추가 -->
 <script type="text/javascript">
+
     // 세션에서 가져온 memberId를 JavaScript 변수로 선언
     var memberId = <%= memberId != null ? memberId : "null" %>;
 

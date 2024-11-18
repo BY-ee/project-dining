@@ -4,8 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
 	<!-- 상단바 -->
@@ -18,6 +19,7 @@
 			<a href="/" class="icon">홈</a>
 		</div>
 	</header>
+	
 	<div class="container">
 		<div class="content">
 			<!-- 사이드바: 프로필 사진과 이름 표시 -->

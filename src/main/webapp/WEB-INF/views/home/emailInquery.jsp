@@ -2,11 +2,12 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
     <title>이메일 문의</title>
     <link rel="stylesheet" href="css/home/emailInquiry.css">
+    <%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
+    
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->

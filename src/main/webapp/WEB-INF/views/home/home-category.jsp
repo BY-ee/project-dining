@@ -8,11 +8,8 @@
     <meta charset="UTF-8">
     <title>Dining Recommendation</title>
     <link rel="stylesheet" type="text/css" href="/css/home/home-category.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/home/slider.js" defer></script>
-    <script src="/js/home/userdropdown.js" defer></script>
-    <script src="/js/home/home-category.js"></script>
-    
+    <script src="/js/home/home-category.js"></script> <!-- 페이지 전용 JS -->
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
     <!-- 헤더 섹션 -->

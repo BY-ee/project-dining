@@ -1,10 +1,6 @@
 <!-- header.jsp -->
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" href="/css/templates/header.css"> <!-- header css -->
-<link rel="stylesheet" href="/css/community/community.css">
-<link rel="stylesheet" href="/css/community/chat.css">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 
 <!-- 헤더 -->
@@ -47,11 +43,6 @@
     </div>
 </header>
 
-<script src="/js/community/chat.js"></script> <!-- 채팅 관련 JS 파일 -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
  
 <!-- 채팅 팝업 HTML 추가 -->
 <div id="chat-popup">
