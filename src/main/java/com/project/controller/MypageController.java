@@ -113,8 +113,8 @@ public class MypageController {
 	}
 	
 	@GetMapping("/profile")
-    public String profile(Model model) {
-		Member member = mypageService.getMember(24);
+    public String profile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+		Member member = mypageService.getMember(userDetails.getMember().getId());
 		model.addAttribute("member",member);
     	return "mypage/profile";
     }
