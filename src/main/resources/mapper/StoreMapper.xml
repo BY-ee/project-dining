@@ -150,5 +150,18 @@
         WHERE store_id = #{storeId}
           AND member_id = #{memberId}
     </select>
+    
+    <!-- 카테고리 가져오기  -->
+    <select id="getStoreCategory" parameterType="long" resultType="store">
+    	SELECT *
+        FROM store s
+        LEFT JOIN local l ON s.id = l.store_id
+        LEFT JOIN industry i ON s.id = i.store_id
+        LEFT JOIN restaurant r ON i.id = r.industry_id
+        LEFT JOIN cafe c ON i.id = c.industry_id
+        LEFT JOIN bar b ON i.id = b.industry_id
+        LEFT JOIN theme t ON s.id = t.store_id
+        WHERE s.id = #{storeId}
+    </select>
 	
 </mapper>

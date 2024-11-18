@@ -39,57 +39,50 @@
         <script>alert("${duplicateReviewMessage}");</script>
     </c:if>
 
-    <!-- 이동경로 섹션 -->
-    <%
-        String region = (String) request.getAttribute("region");
-        String category = (String) request.getAttribute("category");
-        String theme = (String) request.getAttribute("theme");
-        String storeName = (String) request.getAttribute("storeName");
-
-        region = region != null ? region : "지역 정보 없음";
-        category = category != null ? category : "업종 정보 없음";
-        theme = theme != null ? theme : "테마 정보 없음";
-        storeName = storeName != null ? storeName : "가게 이름 없음";
-    %>
     <main> <!-- main content start -->
         
-        <!-- 이동경로, Home 글자 제거 -->
-        <div class="breadcrumb">
-            <!-- <span class="breadcrumb-label">이동경로:</span> -->
-            <!-- <a href="/" class="breadcrumb-item">Home</a>
-            
-            <% if (region != null && !region.isEmpty()) { %>
-                <span class="breadcrumb-separator">›</span>
-                <a href="/store?region=<%= URLEncoder.encode(region, "UTF-8") %>" class="breadcrumb-item"><%= region %></a>
-            <% } else { %> -->
-                <span class="breadcrumb-separator">›</span>
-                <span class="breadcrumb-item">지역 정보 없음</span>
-            <!-- <% } %> -->
+    <!-- 이동경로 -->
+<div class="breadcrumb">
+    <span class="breadcrumb-separator">›</span>
+    
+    <!-- 업종 정보 -->
+    <c:choose>
+        <c:when test="${not empty categoryList[0].industry}">
+            <a href="/store?category=${categoryList[0].industry}" class="breadcrumb-item">
+                ${categoryList[0].industry}
+            </a>
+        </c:when>
+        <c:otherwise>
+            <span class="breadcrumb-item">업종 정보 없음</span>
+        </c:otherwise>
+    </c:choose>
 
-            <% if (category != null && !category.isEmpty()) { %>
-                <span class="breadcrumb-separator">›</span>
-                <a href="/store?region=<%= URLEncoder.encode(region, "UTF-8") %>&category=<%= URLEncoder.encode(category, "UTF-8") %>" class="breadcrumb-item"><%= category %></a>
-            <% } else { %>
-                <span class="breadcrumb-separator">›</span>
-                <span class="breadcrumb-item">업종 정보 없음</span>
-            <% } %>
+    <span class="breadcrumb-separator">›</span>
+    
+    <!-- 테마 정보 -->
+    <c:choose>
+        <c:when test="${not empty categoryList[0].theme}">
+            <a href="/store?category=${categoryList[0].industry}&theme=${categoryList[0].theme}" class="breadcrumb-item">
+                ${categoryList[0].theme}
+            </a>
+        </c:when>
+        <c:otherwise>
+            <span class="breadcrumb-item">테마 정보 없음</span>
+        </c:otherwise>
+    </c:choose>
 
-            <% if (theme != null && !theme.isEmpty()) { %>
-                <span class="breadcrumb-separator">›</span>
-                <a href="/store?region=<%= URLEncoder.encode(region, "UTF-8") %>&category=<%= URLEncoder.encode(category, "UTF-8") %>&theme=<%= URLEncoder.encode(theme, "UTF-8") %>" class="breadcrumb-item"><%= theme %></a>
-            <% } else { %>
-                <span class="breadcrumb-separator">›</span>
-                <span class="breadcrumb-item">테마 정보 없음</span>
-            <% } %>
-
-            <% if (storeName != null && !storeName.isEmpty()) { %>
-                <span class="breadcrumb-separator">›</span>
-                <span class="breadcrumb-current"><%= storeName %></span>
-            <% } else { %>
-                <span class="breadcrumb-separator">›</span>
-                <span class="breadcrumb-current">가게 이름 없음</span>
-            <% } %>
-        </div>
+    <span class="breadcrumb-separator">›</span>
+    
+    <!-- 가게 이름 -->
+    <c:choose>
+        <c:when test="${not empty storeDetail.storeName}">
+            <span class="breadcrumb-current">${storeDetail.storeName}</span>
+        </c:when>
+        <c:otherwise>
+            <span class="breadcrumb-current">가게 이름 없음</span>
+        </c:otherwise>
+    </c:choose>
+</div>
 
         <!-- 가게 이름과 찜 버튼 -->
         <div class="container">

@@ -69,4 +69,7 @@ public interface StoreMapper{
             @Param("subCategory") String subCategory,
             @Param("themeArray") List<String> themeArray
         );
+
+    // 카테고리 가져오기
+	List<Store> getStoreCategory(long storeId);
 }

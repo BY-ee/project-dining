@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.project.domain.Menu;
 import com.project.domain.Store;
 import com.project.dto.MemberLike;
@@ -71,5 +70,10 @@ public class StoreService {
         List<String> themeList = (themeArray != null) ? Arrays.asList(themeArray) : null;
         return storeMapper.findStoresByFilters(location, industry, subCategory, themeList);
     }
+
+    // 카테고리 가져오기
+	public List<Store> getStoreCategory(long storeId) {
+		return storeMapper.getStoreCategory(storeId);
+	}
 	
 }

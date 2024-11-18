@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.project.domain.Menu;
 import com.project.domain.Store;
 import com.project.dto.MemberLike;
@@ -47,7 +46,12 @@ public class StoreController {
         Store storeDetail = storeService.getStoreDetailById(storeId);
         List<Menu> menuList = storeService.getMenuById(storeId);
         
-        System.out.println("storeDetail값:"+ storeDetail);
+        // 가게 카테고리값 가져오기
+    	List<Store> categoryList = storeService.getStoreCategory(storeId);
+    	
+        System.out.println("category값:" + categoryList);
+    	System.out.println("storeDetail값:"+ storeDetail);
+
         
         // 가게 이미지 경로 앞에 /img/를 붙이기
         if (storeDetail.getMainImage1() != null) {
@@ -81,10 +85,12 @@ public class StoreController {
 		model.addAttribute("storeDetail", storeDetail);
 		model.addAttribute("menuList", menuList);
 		model.addAttribute("memberLike", memberLike);
+		model.addAttribute("categoryList", categoryList);
 		
 		return "store/store"; 
 	}
 	
+	// 찜상태
 	@GetMapping("/getLikeStatus")
 	public ResponseEntity<MemberLike> getLikeStatus(@RequestParam("user_ID") Long memberId,
 	                                                @RequestParam("store_ID") Long storeId) {
@@ -122,8 +128,8 @@ public class StoreController {
 	}
 	
 }
-    
-    
+
+
     
 // ============================================================================================    
     
