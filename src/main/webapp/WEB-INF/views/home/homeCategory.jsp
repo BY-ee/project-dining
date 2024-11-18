@@ -68,19 +68,19 @@
 		    <div id="categoryPopup" class="category-popup" style="display: none;">
 		        <div class="category-step">
 		            <h3>업종 선택</h3>
-		            <button onclick="selectIndustry('음식점')">음식점</button>
-		            <button onclick="selectIndustry('카페')">카페</button>
-		            <button onclick="selectIndustry('술집')">술집</button>
+		            <button onclick="selectIndustry('음식점')">🍽️ 음식점</button>
+		            <button onclick="selectIndustry('카페')">☕ 카페</button>
+		            <button onclick="selectIndustry('술집')">🥂 술집</button>
 		        </div>
 		        <div id="selectedIndustryOptions" class="selected-industry-options" style="display: none;">
 		            <!-- 업종에 따른 세부 항목이 여기에 추가됨 -->
 		        </div>
 		        <div class="category-step" id="themeStep">
 		            <h3>테마 선택</h3>
-		            <button onclick="selectTheme('혼밥')">혼밥</button>
-		            <button onclick="selectTheme('데이트')">데이트</button>
-		            <button onclick="selectTheme('친구')">친구</button>
-		            <button onclick="selectTheme('회식')">회식</button>
+		            <button onclick="selectTheme('혼밥')">🧑‍ 혼밥</button>
+		            <button onclick="selectTheme('데이트')">💑 데이트</button>
+		            <button onclick="selectTheme('친구')">👭 친구</button>
+		            <button onclick="selectTheme('회식')">🍻 회식</button>
 		        </div>
 		        <button onclick="searchStores()" class="search-btn" style="display: none;" id="searchBtn">검색</button>
 		    </div>
