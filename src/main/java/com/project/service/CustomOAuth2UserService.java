@@ -20,8 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final MemberMapper memberMapper;
 
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+	@Override
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oauth2User = super.loadUser(userRequest);
 
         // 제공자 식별

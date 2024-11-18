@@ -31,9 +31,9 @@ public class MypageService {
 	private final SecurityContextUtil securityContextUtil;
 	private final MemberMapper memberMapper;
 	
-	public Member getMember(long id) {
-		return mypageMapper.getMember(id);
-	}
+	
+	public Member getMember(String memberId) { return mypageMapper.getMember(memberId); }
+	 
 
 	public PageResponse<MypageLike> getMypageLike(PageRequest pageRequest) {
 		
@@ -73,12 +73,8 @@ public class MypageService {
 		return result;
 	}
 
-	public boolean changePassword(long id,String currentPassword,String newPassword) {
-		Member member = mypageMapper.getMember(id);
-		
-		if(!(passwordEncoder.matches(currentPassword, member.getPasswd()))) {
-			return false;
-		}
+	public boolean changePassword(Member member,String currentPassword,String newPassword) {
+		if(!(passwordEncoder.matches(currentPassword,member.getPasswd()))) return false;
 		
 		member.setPasswd(passwordEncoder.encode(newPassword));
 		int i = mypageMapper.updatePassword(member);

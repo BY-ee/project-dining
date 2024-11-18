@@ -14,7 +14,7 @@ import com.project.dto.PageRequest;
 
 @Mapper
 public interface MypageMapper {
-	Member getMember(long id);
+	Member getMember(String memberId);
 
 	List<MypageLike> getMypageLike(@Param("pageRequest")PageRequest pageRequest,@Param("startRow")int startRow , @Param("endRow")int endRow);
 	List<MypageReview> getMypageReview(@Param("pageRequest")PageRequest pageRequest,@Param("startRow")int startRow , @Param("endRow")int endRow);

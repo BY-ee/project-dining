@@ -1,5 +1,9 @@
 package com.project.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,15 +11,13 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.project.domain.Member;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
     private final Member member;
     private Map<String, Object> attributes; // OAuth2User의 속성
 
+    // 일반 로그인 생성자
     public CustomUserDetails(Member member) {
         this.member = member;
     }
@@ -26,7 +28,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         this.attributes = attributes;
     }
 
-    @Override
+	@Override
     public String getUsername() {
         return member.getMemberId();
     }
@@ -78,5 +80,6 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         return true;
     }
+
 }
 

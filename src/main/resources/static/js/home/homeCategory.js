@@ -31,11 +31,17 @@ function selectIndustry(industry) {
 	selectedSubCategory = "";
 	selectedTheme = []; // 테마 초기화하여 중복 방지
 
-	// 세부 항목과 테마 선택 초기화
-	$("#selectedIndustryOptions").hide();
-	$("#themeStep").hide();
+    // 세부 항목과 테마 선택 초기화
+//    document.getElementById("selectedIndustryOptions").style.display = "none";
+//    document.getElementById("themeStep").style.display = "none";
 
-	showSubCategoryOptions(industry);
+	// 업종에 따른 세부 항목 표시
+    showSubCategoryOptions(industry);
+	
+	// 버튼 스타일 업데이트
+	updateIndustryButtonStyles();
+	updateSubCategoryButtonStyles(); // 세부 항목 버튼 초기화
+	console.log(`업종 선택: ${selectedIndustry}`);
 }
 
 // 선택한 업종에 따른 세부 항목 표시
@@ -52,32 +58,84 @@ function showSubCategoryOptions(industry) {
 			options = ["포차", "세계맥주", "와인바", "펍", "바"];
 	}
 
-	options.forEach(option => {
-			const $button = $("<button>")
-					.text(option)
-					.addClass("category-step-btn")
-					.on("click", function () {
-							selectSubCategory(option);
-					});
-			$selectedIndustryOptions.append($button);
-	});
+    options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.classList.add("category-step-btn");
+        button.onclick = () => selectSubCategory(option);
+        selectedIndustryOptions.appendChild(button);
+    });
+	
+	// 세부 항목 버튼 스타일 초기화
+	updateSubCategoryButtonStyles();
+}
+
+// 업종 버튼 스타일 업데이트
+function updateIndustryButtonStyles() {
+    const industryButtons = document.querySelectorAll(".category-step button"); // 업종 버튼들
+    industryButtons.forEach(button => {
+        if (button.textContent === selectedIndustry) {
+            button.style.backgroundColor = "#e19200"; // 선택된 업종 색상
+            button.style.color = "white";
+        } else {
+            button.style.backgroundColor = "#b07c83"; // 선택되지 않은 업종은 기본 색상
+            button.style.color = "white";
+        }
+    });
 }
 
 // 세부 항목 선택
 function selectSubCategory(subCategory) {
-	selectedSubCategory = subCategory;
-	$("#themeStep").show();
+    selectedSubCategory = subCategory;
+//    document.getElementById("themeStep").style.display = "block";
+
+	// 세부 항목 버튼 스타일 업데이트
+    updateSubCategoryButtonStyles();
+    console.log(`세부 항목 선택: ${selectedSubCategory}`);
+}
+
+function updateSubCategoryButtonStyles() {
+    const subCategoryButtons = document.querySelectorAll("#selectedIndustryOptions button"); // 세부 항목 버튼들
+    subCategoryButtons.forEach(button => {
+        if (button.textContent === selectedSubCategory) {
+            button.style.backgroundColor = "#e19200 "; // 선택된 세부 항목 색상
+            button.style.color = "white";
+        } else {
+            button.style.backgroundColor = "#b07c83"; // 선택되지 않은 세부 항목은 기본 색상
+            button.style.color = "white";
+        }
+    });
 }
 
 // 테마 선택
 function selectTheme(theme) {
-	const themeIndex = selectedTheme.indexOf(theme);
-	if (themeIndex === -1) {
-			selectedTheme.push(theme);
-	} else {
-			selectedTheme.splice(themeIndex, 1);
-	}
-	console.log("Selected themes:", selectedTheme); // 선택된 테마 확인
+    const themeIndex = selectedTheme.indexOf(theme);
+	
+	// 선택된 테마가 배열에 없으면 추가, 있으면 제거
+    if (themeIndex === -1) {
+        selectedTheme.push(theme);
+    } else {
+        selectedTheme.splice(themeIndex, 1); // 이미 선택된 테마는 제거
+    }
+    console.log("Selected themes:", selectedTheme); // 선택된 테마 확인
+	
+	// 버튼 스타일 업데이트 (선택된 상태를 표시)
+	updateThemeButtonStyles();
+	console.log("Selected themes:", selectedTheme);
+}
+
+// 테마 버튼 스타일 업데이트
+function updateThemeButtonStyles() {
+    const themeButtons = document.querySelectorAll("#themeStep button");
+    themeButtons.forEach(button => {
+        if (selectedTheme.includes(button.textContent)) {
+            button.style.backgroundColor = "#e19200"; // 선택된 테마 색상
+            button.style.color = "white";
+        } else {
+            button.style.backgroundColor = "#b07c83"; // 선택되지 않은 테마는 기본 색상
+            button.style.color = "white";
+        }
+    });
 }
 
 // 검색 버튼 클릭
