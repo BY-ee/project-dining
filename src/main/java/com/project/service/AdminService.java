@@ -60,8 +60,8 @@ public class AdminService {
 	}
 
 	// 회원 차단
-	public void blockMember(long id) {
-		memberMapper.blockMember(id);
+	public void blockMember(long id, int banTime) {
+		memberMapper.blockMember(id, banTime);
 	}
 	
 	// 회원 차단해제
@@ -262,7 +262,6 @@ public class AdminService {
 	        String staticImagePath = new File("src/main/resources/static/images").getAbsolutePath();
 	        fileName = System.currentTimeMillis() + "_" + eventImage.getOriginalFilename();
 	        filePath = staticImagePath + "/" + fileName;
-	        System.out.println(filePath);
 
 	        File file = new File(filePath);
 

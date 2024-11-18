@@ -43,7 +43,7 @@ public class AdminController {
 		return "admin/adminMembers";
 	}
 	
-	// 회원 상세정보 출력
+	// 회원 상세정보 조회
 	@GetMapping("/members/{id}")
 	@ResponseBody
 	public Member memberDetail(@PathVariable("id") long id) {
@@ -53,8 +53,10 @@ public class AdminController {
 	// 회원 차단
 	@PostMapping("/members/{id}/block")
 	@ResponseBody
-	public ResponseEntity<String> blockMember(@PathVariable("id") long id) {
-		adminService.blockMember(id);
+	public ResponseEntity<String> blockMember(
+			@PathVariable("id") long id,
+			@RequestParam("banTime") int banTime) {
+		adminService.blockMember(id, banTime);
 		
 		return ResponseEntity.ok("inactive");
 	}
