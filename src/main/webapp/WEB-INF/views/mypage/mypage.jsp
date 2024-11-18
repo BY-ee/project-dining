@@ -6,6 +6,7 @@
 <%@ include file="/WEB-INF/views/templates/head.jsp" %>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
 	<!-- 상단바 -->
@@ -76,6 +77,7 @@
 						<!-- 사업자 회원에게만 보이는 가게 등록 바 -->
 						<c:if test="${store != null}">
 							<h3>내 가게 신청현황</h3>
+							<button type="button" id="open-popup">신청 상세</button>
 							<div class="progress-bar">
 								<div class="${store.enrollStatus=='wait' ? 'step completed': 'step'}">
 									<div class="progress-icon">1</div>
@@ -97,13 +99,40 @@
 									<p>거절</p>
 								</div>
 							</div>
-							<div>
-								<p>신청 가게 이름: ${store.storeName}</p>
-								<br> 
-								<p>가게 설명 : ${store.storeDescription}</p> 
-							</div>
-							<div>
-								내 가게 보러가기 : <button onclick="location.href='/store/${store.id}'">바로가기</button>
+							<!-- 팝업창 -->
+							<div id="popup" style="
+							    display: none; 
+							    position: fixed; 
+							    top: 50%; 
+							    left: 50%; 
+							    transform: translate(-50%, -50%); 
+							    width: 400px; 
+							    max-width: 90%; 
+							    padding: 20px; 
+							    border-radius: 10px; 
+							    border: 1px solid #ccc; 
+							    background: #fff; 
+							    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+							    z-index: 1000;
+							    font-family: Arial, sans-serif;">
+							    <h3 style="margin-top: 0; font-size: 1.5em; color: #333;">신청 가게 이름: ${store.storeName}</h3>
+							    <div style="margin-top: 10px; color: #555; font-size: 1em; line-height: 1.5;">
+							        <p>가게 설명 : ${store.storeDescription}</p>
+							        <img src="/images/${store.mainImage1}" alt="가게 이미지" style="width: 100%; height: auto; border-radius: 5px; margin-top: 10px;">
+							    </div>
+							    <c:if test="${store.enrollStatus == 'enrolled'}">
+							        <div style="margin-top: 15px; text-align: center;">
+							            <button style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;" 
+							                onclick="location.href='/store/${store.id}'">
+							                내 가게 보러가기
+							            </button>
+							        </div>
+							    </c:if>
+							    <div style="margin-top: 15px; text-align: center;">
+							        <button id="close-popup" style="padding: 10px 20px; background-color: #FF5C5C; color: white; border: none; border-radius: 5px; cursor: pointer;">
+							            닫기
+							        </button>
+							    </div>
 							</div>
 						</c:if>
 					</div>    
@@ -111,6 +140,17 @@
             </div>
         </div>
     </div>
+    <script>
+    	$(document).ready(function(){	
+    		$("#open-popup").on("click",function(){
+	    		$("#popup").fadeIn();		
+    			})
+    		$("#close-popup").on("click",function(){
+    			$("#popup").fadeOut();
+    		})
+    		
+    	})
+    </script>
 <%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 </body>
 </html>

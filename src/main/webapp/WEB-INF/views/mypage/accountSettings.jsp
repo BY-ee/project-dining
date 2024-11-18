@@ -70,13 +70,6 @@
 							<p>이메일 변경은 변경한 이메일로 인증 요청 메일이 발송되고 해당 이메일을 통해 인증을 정상적으로 완료한 후
 								최종적으로 반영됩니다.</p>
 						</div>
-						<!-- 팝업창 -->
-						<div id="popup" style="display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 300px; padding: 20px; border: 1px solid #ccc; background: #fff; z-index: 1000;">
-						    <h3>인증 코드 입력</h3>
-						    <input type="text" id="verificationCode" placeholder="인증 코드를 입력하세요">
-						    <button onclick="verifyCode()">확인</button>
-						    <button onclick="closePopup()">닫기</button>
-						</div>
 						<div class="social-connect">
 							<h3>소셜계정 연동</h3>
 							<p>사용하시는 소셜 및 인증 제공자들과 계정을 연동하고 손쉽게 로그인하세요.</p>
