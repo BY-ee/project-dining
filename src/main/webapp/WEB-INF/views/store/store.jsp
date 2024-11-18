@@ -1,13 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
     
 <!DOCTYPE html>
 <html lang="ko">
 <%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
+
     <title>가게 상세페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
    
 

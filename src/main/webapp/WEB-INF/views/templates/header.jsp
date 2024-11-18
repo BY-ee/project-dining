@@ -1,7 +1,6 @@
 <!-- header.jsp -->
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <link rel="stylesheet" href="/css/templates/header.css"> <!-- header css -->
 <link rel="stylesheet" href="/css/community/community.css">
 <link rel="stylesheet" href="/css/community/chat.css">

@@ -81,7 +81,7 @@ public class MypageController {
 	        return "redirect:/"; 
 	    }
 
-	    return "mypage/myPage"; 
+	    return "mypage/mypage"; 
 	}
 	
 }
