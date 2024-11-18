@@ -121,7 +121,7 @@
 	
 		    // 이메일 서버에 전송
 		    $.ajax({
-		        url: '/send-verification-email',  // 서버의 이메일 전송 엔드포인트
+		        url: '/sendVerificationEmail',  // 서버의 이메일 전송 엔드포인트
 		        type: 'POST',
 		        data: { userEmail: fullEmail },
 		        success: function(response) {

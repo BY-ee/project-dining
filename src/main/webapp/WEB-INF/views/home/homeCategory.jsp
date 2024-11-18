@@ -9,8 +9,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/home/homeCategory.css">
     <script src="/js/home/slider.js" defer></script>
-    <script src="/js/home/userdropdown.js" defer></script>
-    <script src="/js/home/homeCategory.js"></script>
+    <script src="/js/home/homeCategory.js" defer></script>
     
 </head>
 <body>

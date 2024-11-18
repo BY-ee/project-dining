@@ -11,12 +11,12 @@
     <!-- 인증 버튼 -->
     <div class="auth-buttons">
         <c:choose>
-            <c:when test="${not empty sessionScope.loginUser}">
+            <c:when test="${sessionMember.role != 'ROLE_ANONYMOUS'}">
                 <!-- 로그인된 사용자를 위한 메뉴 -->
                 <div class="user-popup-container">
                     <button class="menu-btn"> ☰ </button>
                     <div class="user-popup" style="display: none;">
-                        <span class="welcome-message">환영합니다, ${sessionScope.loginUser.nickname}님!</span>
+                        <span class="welcome-message">환영합니다, ${sessionMember.nickname}님!</span>
                         <a href="/profile">프로필</a>
                         <a href="/mypage">마이페이지</a>
                         <a href="/settings">환경설정</a>

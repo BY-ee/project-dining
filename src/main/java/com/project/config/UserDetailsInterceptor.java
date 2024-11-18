@@ -33,15 +33,15 @@ public class UserDetailsInterceptor implements HandlerInterceptor {
             if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
                 // CustomUserDetails 객체 가져오기
                 CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-                modelAndView.addObject("member", userDetails.getMember());
-                logger.debug("Authenticated user: {}", userDetails.getMember().getMemberId());
+                modelAndView.addObject("sessionMember", userDetails.getMember());
+                logger.debug("(UserDetailsInterceptor) 인증된 유저: {}", userDetails.getMember().getMemberId());
             } else {
                 // 비인증 사용자의 경우 기본값 설정
                 Member anonymousMember = new Member();
                 anonymousMember.setMemberId("anonymousUser");
                 anonymousMember.setRole("ROLE_ANONYMOUS");
-                modelAndView.addObject("member", anonymousMember);
-                logger.debug("Anonymous user accessed.");
+                modelAndView.addObject("sessionMember", anonymousMember);
+                logger.debug("(UserDetailsInterceptor) 인증되지 않은 유저: anonymousUser");
             }
         }
     }
