@@ -84,43 +84,22 @@ public class SecurityConfig {
         // 다중 로그인 설정
         http.sessionManagement(auth -> auth
                 .maximumSessions(1)  // 다중 로그인 불가 (한 계정은 1명만 로그인)
-                .maxSessionsPreventsLogin(true));  // 다중 로그인 시도 시 새로운 로그인 차단 (false 시 기존 세션 무효화)
+                .maxSessionsPreventsLogin(true)  // 다중 로그인 시도 시 새로운 로그인 차단 (false 시 기존 세션 무효화)
+            );
 
         // 세션 고정 공격 보호
         http.sessionManagement(auth -> auth
-                .sessionFixation().changeSessionId());  // 로그인 시 동일한 세션의 id 변경
+                .sessionFixation().changeSessionId()  // 로그인 시 동일한 세션의 id 변경
+            );
+        
+        // 간편로그인 관련 설정
+        http.oauth2Login(oauth2 -> oauth2
+                .successHandler(customAuthenticationSuccessHandler())  // 커스텀 성공 핸들러 사용 -> 간편로그인 성공후
+            );
 
         return http.build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((requests) -> 
-//                requests
-//                    .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-//                    .requestMatchers("/", "/**", "/login", "/logout").permitAll() // 경로를 인증 없이 접근 가능하도록 설	 
-//                    .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
-//        ) 
-//        .formLogin((form) -> 
-//                form
-//                    .loginPage("/loginForm")
-//                    .permitAll()
-//                    .successHandler(customAuthenticationSuccessHandler())
-//        )
-//        .logout((logout) -> 
-//                logout
-//                    .logoutSuccessUrl("/")
-//                    .permitAll()
-//        )
-//        .oauth2Login(oauth2 -> 
-//                oauth2
-//                .successHandler(customAuthenticationSuccessHandler()) // 커스텀 성공 핸들러 사용 -> 간편로그인 성공후
-//        )
-//        .csrf(csrf -> csrf.disable()); // CSRF 비활성화
-//
-//        return http.build();
-//    }
-//    
+    
     // 커스텀 핸들러(API) 
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
@@ -141,9 +120,4 @@ public class SecurityConfig {
             }
         };
     }
-//    
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();  // 비밀번호 암호화를 위한 BCrypt
-//    }
 }

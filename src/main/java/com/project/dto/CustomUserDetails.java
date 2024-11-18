@@ -34,9 +34,10 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
     
+    // member 객체를 세션에서 가져오기 위한 커스텀 메서드
     public Member getMember() {
-		return member;
-	}
+    	return member;
+    }
 
 	@Override
     public boolean isAccountNonExpired() {
