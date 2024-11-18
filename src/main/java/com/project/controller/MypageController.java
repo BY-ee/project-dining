@@ -41,7 +41,7 @@ public class MypageController {
     					@RequestParam(name = "reviewPage",defaultValue="1") int reviewPage,
     					@RequestParam(name = "size",defaultValue="5") int size,
     					@AuthenticationPrincipal CustomUserDetails userDetails,
-    		Model model) {
+						Model model) {
 		
 		// 세션으로 id받기 , 멤버값 하나 구해오기
 		Member member = userDetails.getMember();
@@ -61,7 +61,6 @@ public class MypageController {
 		PageResponse<MypageLike> likePageResponse = mypageService.getMypageLike(likePageRequest);
 		PageResponse<MypageReview> reviewPageResponse = mypageService.getMypageReview(reviewPageRequest);
 		
-		model.addAttribute("member",member);
 		model.addAttribute("likePageResponse",likePageResponse);
 		model.addAttribute("reviewPageResponse",reviewPageResponse);
 		
@@ -113,9 +112,9 @@ public class MypageController {
 	}
 	
 	@GetMapping("/profile")
-    public String profile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-		Member member = mypageService.getMember(userDetails.getMember().getId());
-		model.addAttribute("member",member);
+    public String profile() {
+//		Member member = mypageService.getMember(userDetails.getMember().getId());
+//		model.addAttribute("member",member);
     	return "mypage/profile";
     }
 	
@@ -129,10 +128,10 @@ public class MypageController {
 	
 	
 	@GetMapping("/accountSettings")
-    public String accountSettings(@AuthenticationPrincipal OAuth2User oauth2User,Model model) {
-		Member member = mypageService.getMember(24);
-		model.addAttribute("member",member);
-    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
+    public String accountSettings() {
+//		Member member = mypageService.getMember(24);
+//		model.addAttribute("member",member);
+//    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
     	return "mypage/accountSettings";
     }
 	

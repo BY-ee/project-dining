@@ -80,7 +80,7 @@ public class LoginService {
 	}
 
 	// 비밀번호 변경
-	public void updaptePassword(Login login) {
+	public void updatePassword(Login login) {
 		login.setPasswd(bCryptPasswordEncoder.encode(login.getPasswd()));
 		loginMapper.updatePassword(login);
 	}

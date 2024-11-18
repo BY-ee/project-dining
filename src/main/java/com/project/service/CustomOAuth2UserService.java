@@ -83,7 +83,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberMapper.insertMemberForKakao(member);
         } else if ("naver".equals(registrationId)) {
             Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-            member.setNickname((String) response.get("nickname") + ".n");
+            member.setNickname(((String) response.get("id")).substring(3, 9) + ".n");
             
             System.out.println("response ---------------- rrrrrrrrrr");
             for (Entry<String, Object> res : attributes.entrySet()) {

@@ -58,7 +58,7 @@
 					<div id="account-settings" class="section">
 						<div class="email-info">
 							<h3>이메일 정보</h3>
-								<input type="email" id="userEmail" name="userEmail" value="${member.email}">
+								<input type="email" id="userEmail" name="userEmail" value="${sessionMember.email}">
 								<!-- <button class="email-verify-button" onclick="sendVerificationEmail()">이메일 인증</button> -->
 								<button type="button" class="email-verify-button">이메일 인증</button>
 								<div id="verification-popup" style="display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 300px; padding: 20px; border: 1px solid #ccc; background: #fff; z-index: 1000;">
@@ -75,21 +75,21 @@
 							<p>사용하시는 소셜 및 인증 제공자들과 계정을 연동하고 손쉽게 로그인하세요.</p>
 							<div class="social-connect-buttons">
 								<c:choose>
-									<c:when test="${empty member.naverId}">
+									<c:when test="${empty sessionMember.naverId}">
 										<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/updateSocialId','네이버')">
-											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty member.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty sessionMember.naverId ? 'enrolled-login-btn' : 'login-btn'}">
 											네이버 연결하기
 										</a>
 									</c:when>
 									<c:otherwise>
 										<a>
-											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty member.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty sessionMember.naverId ? 'enrolled-login-btn' : 'login-btn'}">
 											네이버 등록완료
 										</a>
 									</c:otherwise>
 								</c:choose>
 								<c:choose>
-									<c:when test="${empty member.kakaoId}"> 
+									<c:when test="${empty sessionMember.kakaoId}"> 
 										<a href="/oauth2/authorization/kakao" onclick="setRedirectUrl('/updateSocialId','카카오')">
 											<img src="/images/카카오.png" alt="카카오 간편 로그인" class="login-btn">
 											카카오 연결하기
@@ -103,7 +103,7 @@
 									</c:otherwise>
 								</c:choose>
 								<c:choose>
-									<c:when test="${empty member.googleId}">
+									<c:when test="${empty sessionMember.googleId}">
 										<a href="/oauth2/authorization/google" onclick="setRedirectUrl('/updateSocialId','구글')">
 											<img src="/images/구글.png" alt="구글 간편 로그인" class="login-btn">
 											구글 연결하기

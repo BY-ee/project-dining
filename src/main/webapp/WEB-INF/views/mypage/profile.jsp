@@ -34,33 +34,33 @@
 					        <h3>회원정보</h3>
 					        <form action = "/profile" method = "post">
 						        <label for="nickname">닉네임</label>
-						        <input type="text" id="nickname" name="nickname" value="${member.nickname}" readonly>
+						        <input type="text" id="nickname" name="nickname" value="${sessionmember.nickname}" readonly>
 						        <label for="age">나이</label>
-						        <input type="number" id="age" name="age" min="1" max="100" value="${member.age}"> 
+						        <input type="number" id="age" name="age" min="1" max="100" value="${sessionmember.age}"> 
 						        <label for="mbti">MBTI</label>
 						        <select id="mbti" name="mbti">
-						        	<option value="선택 안함" ${member.mbti == "" ? "selected" : ""}>선택안함</option>
-						            <option value="ESTJ" ${member.mbti == "ESTJ" ? "selected" : ""}>ESTJ</option>
-						            <option value="ESTP" ${member.mbti == "ESTP" ? "selected" : ""}>ESTP</option>
-				                	<option value="ESFJ" ${member.mbti == "ESFJ" ? "selected" : ""}>ESFJ</option>
-				                	<option value="ESFP" ${member.mbti == "ESFP" ? "selected" : ""}>ESFP</option>
-				                	<option value="ENTJ" ${member.mbti == "ENTJ" ? "selected" : ""}>ENTJ</option>
-				                	<option value="ENTP" ${member.mbti == "ENTP" ? "selected" : ""}>ENTP</option>
-				                	<option value="ENFJ" ${member.mbti == "ENFJ" ? "selected" : ""}>ENFJ</option>
-				                	<option value="ENFP" ${member.mbti == "ENFP" ? "selected" : ""}>ENFP</option>
-				                	<option value="ISTJ" ${member.mbti == "ISTJ" ? "selected" : ""}>ISTJ</option>
-						            <option value="ISTP" ${member.mbti == "ISTP" ? "selected" : ""}>ISTP</option>
-				                	<option value="ISFJ" ${member.mbti == "ISFJ" ? "selected" : ""}>ISFJ</option>
-				                	<option value="ISFP" ${member.mbti == "ISFP" ? "selected" : ""}>ISFP</option>
-				                	<option value="INTJ" ${member.mbti == "INTJ" ? "selected" : ""}>INTJ</option>
-				                	<option value="INTP" ${member.mbti == "INTP" ? "selected" : ""}>INTP</option>
-				                	<option value="INFJ" ${member.mbti == "INFJ" ? "selected" : ""}>INFJ</option>
-				                	<option value="INFP" ${member.mbti == "INFP" ? "selected" : ""}>INFP</option>
+						        	<option value="선택 안함" ${sessionmember.mbti == "" ? "selected" : ""}>선택안함</option>
+						            <option value="ESTJ" ${sessionmember.mbti == "ESTJ" ? "selected" : ""}>ESTJ</option>
+						            <option value="ESTP" ${sessionmember.mbti == "ESTP" ? "selected" : ""}>ESTP</option>
+				                	<option value="ESFJ" ${sessionmember.mbti == "ESFJ" ? "selected" : ""}>ESFJ</option>
+				                	<option value="ESFP" ${sessionmember.mbti == "ESFP" ? "selected" : ""}>ESFP</option>
+				                	<option value="ENTJ" ${sessionmember.mbti == "ENTJ" ? "selected" : ""}>ENTJ</option>
+				                	<option value="ENTP" ${sessionmember.mbti == "ENTP" ? "selected" : ""}>ENTP</option>
+				                	<option value="ENFJ" ${sessionmember.mbti == "ENFJ" ? "selected" : ""}>ENFJ</option>
+				                	<option value="ENFP" ${sessionmember.mbti == "ENFP" ? "selected" : ""}>ENFP</option>
+				                	<option value="ISTJ" ${sessionmember.mbti == "ISTJ" ? "selected" : ""}>ISTJ</option>
+						            <option value="ISTP" ${sessionmember.mbti == "ISTP" ? "selected" : ""}>ISTP</option>
+				                	<option value="ISFJ" ${sessionmember.mbti == "ISFJ" ? "selected" : ""}>ISFJ</option>
+				                	<option value="ISFP" ${sessionmember.mbti == "ISFP" ? "selected" : ""}>ISFP</option>
+				                	<option value="INTJ" ${sessionmember.mbti == "INTJ" ? "selected" : ""}>INTJ</option>
+				                	<option value="INTP" ${sessionmember.mbti == "INTP" ? "selected" : ""}>INTP</option>
+				                	<option value="INFJ" ${sessionmember.mbti == "INFJ" ? "selected" : ""}>INFJ</option>
+				                	<option value="INFP" ${sessionmember.mbti == "INFP" ? "selected" : ""}>INFP</option>
 						        </select>
 						        <label for="residence">거주지</label>
-						        <input type="text" name="residence" value="${member.residence}">
+						        <input type="text" name="residence" value="${sessionmember.residence}">
 						        <label for="introduction">한 줄 소개</label>
-						        <textarea id="introduction" name="introduction" rows="3" maxlength="150" placeholder="나를 소개하세요..">${member.introduction}</textarea>
+						        <textarea id="introduction" name="introduction" rows="3" maxlength="150" placeholder="나를 소개하세요..">${sessionmember.introduction}</textarea>
 						        <button type="submit">변경</button>
 					        </form>
 					   	</div>

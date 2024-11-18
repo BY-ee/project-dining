@@ -109,7 +109,7 @@
 
 	<script type="text/javascript">
 	    // JSP 표현식으로 user_ID 가져오기
-		var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
+		var userId = "${sessionMember.memberId}";
 		let selectedLocation = ""; // 추가된 변수
 
 	

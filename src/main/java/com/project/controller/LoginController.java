@@ -269,7 +269,7 @@ public class LoginController {
 	@PostMapping("/updatePassword")
 	@ResponseBody // AJAX 요청에 응답을 문자열로 반환
 	public String updatePassword(@ModelAttribute("Login") Login login) {
-		loginService.updaptePassword(login);
+		loginService.updatePassword(login);
 		return "비밀번호 재설정이 완료되었습니다.";
 	}
 
