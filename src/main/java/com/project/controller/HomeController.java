@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.service.StoreService;
+import com.project.domain.Member;
 import com.project.domain.Store;
 import com.project.dto.CustomUserDetails;
 
@@ -34,6 +35,8 @@ public class HomeController {
         if (userDetails != null) {
             String id = userDetails.getUsername();
             String role = userDetails.getAuthorities().iterator().next().getAuthority();
+            Member member = userDetails.getMember();
+            member.getRole();
             model.addAttribute("id", id);
             model.addAttribute("role", role);
         } else {

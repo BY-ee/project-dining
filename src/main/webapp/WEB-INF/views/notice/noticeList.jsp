@@ -14,7 +14,7 @@
         <a href="/noticeList" class="menu-item active">공지사항</a>
         <a href="/eventOnList" class="menu-item">이벤트</a>
     </nav>
-
+	<h3>${member.nickname}</h3>
     <!-- 공지사항 컨테이너 -->
     <div class="container">
         <h1 class="page-title">공지사항</h1>

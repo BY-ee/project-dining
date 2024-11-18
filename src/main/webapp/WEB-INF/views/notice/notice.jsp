@@ -20,7 +20,11 @@
             <h1 class="title">${notice.title}</h1>
             <p class="date">${notice.createdAt} 조회수 ${notice.views}</p>
         </div>
-
+		<c:if test="${notice.noticeImage}">
+	        	<div class="notice-image">
+	        		<img src="${notice.noticeImage}">
+	        	</div>
+       	</c:if>
         <!-- 본문 내용 -->
         <div class="notice-content">
             <p>
