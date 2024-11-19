@@ -57,7 +57,7 @@
 	</select>
 	
 	<delete id="deleteReview" parameterType="long">
-	    DELETE FROM review WHERE id = #{id}
+	    DELETE FROM review WHERE id = #{reviewId}
 	</delete>
 	
 	<update id="updateReviewStatusToHidden">

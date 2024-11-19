@@ -1,12 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
 <%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
     
 <!DOCTYPE html>
 <html lang="ko">
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+	
     <title>가게 상세페이지</title>
     <link rel="stylesheet" type="text/css" href="/css/store/store.css">
    
@@ -127,7 +129,7 @@
                 <div class="section-title">대표 메뉴</div>
                 <c:forEach var="menu" items="${menuList}">
                     <div class="menu-card">
-                        <img src="${menu.menuImage }">
+                        <img src="${menu.menuImage}">
                         <div class="menu-info">
                             <p class="menu-name">${menu.menuName}</p>
                             <p class="menu-description">${menu.menuDescription }</p>

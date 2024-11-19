@@ -32,7 +32,6 @@ public interface ReviewMapper {
 	// 리뷰 삭제 (포인트 추가작업에 따른 로직)
     void deleteReview(@Param("reviewId") Long reviewId);
 
-
 	// 총 리뷰 개수
 	long countReviews(RequestData requestData);
 

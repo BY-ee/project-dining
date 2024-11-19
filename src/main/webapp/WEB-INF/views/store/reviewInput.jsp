@@ -3,7 +3,6 @@
 
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
     <title>리뷰 작성</title>

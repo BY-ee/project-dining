@@ -31,6 +31,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'  // spring security
 	implementation 'org.springframework.boot:spring-boot-starter-web'	    // spring web
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'  // mybatis
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-messaging'
+	    
+	
 	compileOnly 'org.projectlombok:lombok'  // lombok
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'  // oracle
 	annotationProcessor 'org.projectlombok:lombok'
@@ -38,8 +42,11 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+

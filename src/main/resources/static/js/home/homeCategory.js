@@ -1,15 +1,17 @@
-$(document).ready(function () {
-	const $searchBtn = $("#searchBtn");
-	if ($searchBtn.length) {
-			$searchBtn.show().on("click", function () {
-					console.log("Filter criteria:", {
-							industry: selectedIndustry,
-							subCategory: selectedSubCategory,
-							themes: selectedTheme,
-					});
-					filterByCategory(selectedIndustry, selectedSubCategory, selectedTheme);
-					toggleCategoryPopup();
-			});
+document.addEventListener("DOMContentLoaded", function() {
+	const searchBtn = document.getElementById("searchBtn");
+	if (searchBtn) {
+			searchBtn.style.display = "block";
+			searchBtn.onclick = function() {
+		console.log("Filter criteria:", {
+										industry: selectedIndustry,
+										subCategory: selectedSubCategory,
+										themes: selectedThemes
+								});
+		filterByCategory(selectedIndustry, selectedSubCategory, selectedThemes);
+		
+		toggleCategoryPopup();
+	}
 	} else {
 			console.error("Search button not found in DOM");
 	}
@@ -17,37 +19,36 @@ $(document).ready(function () {
 
 let selectedIndustry = "";
 let selectedSubCategory = "";
-let selectedTheme = []; // 배열로 초기화하여 여러 선택 가능
+let selectedThemes = [];
+let selectedOrder = "";
+
+
 
 // 카테고리 팝업 표시/숨기기
 function toggleCategoryPopup() {
-	const $categoryPopup = $("#categoryPopup");
-	$categoryPopup.toggle();
+	const categoryPopup = document.getElementById("categoryPopup");
+	categoryPopup.style.display = categoryPopup.style.display === "none" ? "block" : "none";
 }
+
 
 // 업종 선택
 function selectIndustry(industry) {
 	selectedIndustry = industry;
 	selectedSubCategory = "";
-	selectedTheme = []; // 테마 초기화하여 중복 방지
+	selectedThemes = []; // 테마 초기화하여 중복 방지
 
-    // 세부 항목과 테마 선택 초기화
-//    document.getElementById("selectedIndustryOptions").style.display = "none";
-//    document.getElementById("themeStep").style.display = "none";
+	// 세부 항목과 테마 선택 초기화
+	document.getElementById("selectedIndustryOptions").style.display = "none";
+	document.getElementById("themeStep").style.display = "none";
 
-	// 업종에 따른 세부 항목 표시
-    showSubCategoryOptions(industry);
-	
-	// 버튼 스타일 업데이트
-	updateIndustryButtonStyles();
-	updateSubCategoryButtonStyles(); // 세부 항목 버튼 초기화
-	console.log(`업종 선택: ${selectedIndustry}`);
+	showSubCategoryOptions(industry);
 }
 
 // 선택한 업종에 따른 세부 항목 표시
 function showSubCategoryOptions(industry) {
-	const $selectedIndustryOptions = $("#selectedIndustryOptions");
-	$selectedIndustryOptions.show().html(`<h3>${industry} 선택</h3>`);
+	const selectedIndustryOptions = document.getElementById("selectedIndustryOptions");
+	selectedIndustryOptions.style.display = "block";
+	selectedIndustryOptions.innerHTML = `<h3>${industry} 선택</h3>`;
 
 	let options = [];
 	if (industry === "음식점") {
@@ -58,175 +59,121 @@ function showSubCategoryOptions(industry) {
 			options = ["포차", "세계맥주", "와인바", "펍", "바"];
 	}
 
-    options.forEach(option => {
-        const button = document.createElement("button");
-        button.textContent = option;
-        button.classList.add("category-step-btn");
-        button.onclick = () => selectSubCategory(option);
-        selectedIndustryOptions.appendChild(button);
-    });
-	
-	// 세부 항목 버튼 스타일 초기화
-	updateSubCategoryButtonStyles();
-}
-
-// 업종 버튼 스타일 업데이트
-function updateIndustryButtonStyles() {
-    const industryButtons = document.querySelectorAll(".category-step button"); // 업종 버튼들
-    industryButtons.forEach(button => {
-        if (button.textContent === selectedIndustry) {
-            button.style.backgroundColor = "#e19200"; // 선택된 업종 색상
-            button.style.color = "white";
-        } else {
-            button.style.backgroundColor = "#b07c83"; // 선택되지 않은 업종은 기본 색상
-            button.style.color = "white";
-        }
-    });
+	options.forEach(option => {
+			const button = document.createElement("button");
+			button.textContent = option;
+			button.classList.add("category-step-btn");
+			button.onclick = () => selectSubCategory(option);
+			selectedIndustryOptions.appendChild(button);
+	});
 }
 
 // 세부 항목 선택
 function selectSubCategory(subCategory) {
-    selectedSubCategory = subCategory;
-//    document.getElementById("themeStep").style.display = "block";
-
-	// 세부 항목 버튼 스타일 업데이트
-    updateSubCategoryButtonStyles();
-    console.log(`세부 항목 선택: ${selectedSubCategory}`);
-}
-
-function updateSubCategoryButtonStyles() {
-    const subCategoryButtons = document.querySelectorAll("#selectedIndustryOptions button"); // 세부 항목 버튼들
-    subCategoryButtons.forEach(button => {
-        if (button.textContent === selectedSubCategory) {
-            button.style.backgroundColor = "#e19200 "; // 선택된 세부 항목 색상
-            button.style.color = "white";
-        } else {
-            button.style.backgroundColor = "#b07c83"; // 선택되지 않은 세부 항목은 기본 색상
-            button.style.color = "white";
-        }
-    });
+	selectedSubCategory = subCategory;
+	document.getElementById("themeStep").style.display = "block";
 }
 
 // 테마 선택
 function selectTheme(theme) {
-    const themeIndex = selectedTheme.indexOf(theme);
-	
-	// 선택된 테마가 배열에 없으면 추가, 있으면 제거
-    if (themeIndex === -1) {
-        selectedTheme.push(theme);
-    } else {
-        selectedTheme.splice(themeIndex, 1); // 이미 선택된 테마는 제거
-    }
-    console.log("Selected themes:", selectedTheme); // 선택된 테마 확인
-	
-	// 버튼 스타일 업데이트 (선택된 상태를 표시)
-	updateThemeButtonStyles();
-	console.log("Selected themes:", selectedTheme);
-}
-
-// 테마 버튼 스타일 업데이트
-function updateThemeButtonStyles() {
-    const themeButtons = document.querySelectorAll("#themeStep button");
-    themeButtons.forEach(button => {
-        if (selectedTheme.includes(button.textContent)) {
-            button.style.backgroundColor = "#e19200"; // 선택된 테마 색상
-            button.style.color = "white";
-        } else {
-            button.style.backgroundColor = "#b07c83"; // 선택되지 않은 테마는 기본 색상
-            button.style.color = "white";
-        }
-    });
+	const themeIndex = selectedThemes.indexOf(theme);
+	if (themeIndex === -1) {
+			selectedThemes.push(theme);
+	} else {
+			selectedThemes.splice(themeIndex, 1);
+	}
+	console.log("Selected themes:", selectedThemes); // 선택된 테마 확인
 }
 
 // 검색 버튼 클릭
 function searchStores() {
 	console.log("Search button clicked");
-	alert(`검색: 업종 - ${selectedIndustry}, 세부 항목 - ${selectedSubCategory}, 테마 - ${selectedTheme.join(", ")}`);
+	alert(`검색: 업종 - ${selectedIndustry}, 세부 항목 - ${selectedSubCategory}, 테마 - ${selectedThemes.join(", ")}`);
 	// 검색 결과 표시 로직 추가 가능
 }
 
+
 // 가게 상세 페이지로 이동
-function goToStoreDetail(storeId) {
-	const url = `/storeDetail?store_ID=${encodeURIComponent(storeId)}`;
-	window.location.href = url;
-}
-
-// 필터링 통합 기능 구현
-function storeFiltering() {
-	$.ajax({
-			url: "/storeFiltering",
-			type: "GET",
-			data: {
-					location: "defaultLocation",
-					industry: selectedIndustry,
-					themes: selectedTheme,
-			},
-			success: function (stores) {
-					let html = "";
-					stores.forEach(function (store) {
-							html += `
-									<div class="store-item-box" onclick="goToStoreDetail(${store.id})">
-											<div class="store-item">
-													<img src="/images/store/${store.mainImage1}" alt="${store.storeName} 이미지">
-											</div>
-											<div class="store-name">${store.storeName}</div>
-									</div>`;
-					});
-					$("#store-list-container").html(html);
-			},
-			error: function () {
-					alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
-			},
-	});
-}
-
-
-// $(document).on("click", ".store-item-box", function () {
-// 	const storeId = $(this).data("store-id");
-// 	goToStoreDetail(storeId);
-// });
-
-	
-	// 정렬 기능 구현
-	function orderByCriteria(orderOptions){
-		
+	function goToStoreDetail(storeId) {	        
+			var url = '/storeDetail?store_ID=' + storeId;
+			if (userId && userId.trim() !== "") {  
+					url += '&user_ID=' + userId;
+			}
+			window.location.href = url;  
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//   function filterByLocation(locationCode, locationName) {
-	//        console.log("Selected location:", locationName); // 로그 추가
-	//        document.getElementById("location-btn").innerText = locationName;
-	//
-	//        $.ajax({
-	//            url: "/storesByLocation",
-	//            type: "GET",
-	//            data: { location: locationCode === "ALL" ? "" : locationCode },
-	//            success: function(stores) {
-	//
-	//                let html = '';
-	//                stores.forEach(function(store) {
-	//                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
-	//                                '<div class="store-item">' +
-	//                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
-	//                                '</div>' +
-	//                                '<div class="store-name">' + store.storeName + '</div>' +
-	//                            '</div>';
-	//                });
-	//                $("#store-list-container").html(html);
-	//            },
-	//            error: function() {
-	//                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
-	//            }
-	//        });
-	//    }
-	//	
+// 필터와 정렬된 결과 요청
+function requestFilteredStores() {
+		$.ajax({
+				url: "/storeOrdering",
+				type: "GET",
+				data: {
+						order: selectedOrder,                // 정렬 기준
+						location: selectedLocation,           // 필터링 조건
+						industry: selectedIndustry,
+						subCategory: selectedSubCategory,
+						theme: selectedThemes.join(",")       // 테마를 문자열로 변환해 전달
+				},
+				success: function(stores) {
+						let html = '';
+						stores.forEach(function(store) {
+								html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+														'<div class="store-item">' +
+																'<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+														'</div>' +
+														'<div class="store-name">' + store.storeName + '</div>' +
+												'</div>';
+						});
+						$("#store-list-container").html(html); // 필터링 및 정렬된 결과로 갱신
+				},
+				error: function() {
+						alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+				}
+		});
+}
+
+// 정렬 옵션 선택 시 호출
+function orderOptionChoice() {
+		selectedOrder = document.getElementById("orderOptions").value;
+		console.log("Selected order option:", selectedOrder);
+		requestFilteredStores(); // 필터와 정렬을 반영하여 결과 요청
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//   function filterByLocation(locationCode, locationName) {
+//        console.log("Selected location:", locationName); // 로그 추가
+//        document.getElementById("location-btn").innerText = locationName;
+//
+//        $.ajax({
+//            url: "/storesByLocation",
+//            type: "GET",
+//            data: { location: locationCode === "ALL" ? "" : locationCode },
+//            success: function(stores) {
+//
+//                let html = '';
+//                stores.forEach(function(store) {
+//                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+//                                '<div class="store-item">' +
+//                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+//                                '</div>' +
+//                                '<div class="store-name">' + store.storeName + '</div>' +
+//                            '</div>';
+//                });
+//                $("#store-list-container").html(html);
+//            },
+//            error: function() {
+//                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+//            }
+//        });
+//    }
+//	

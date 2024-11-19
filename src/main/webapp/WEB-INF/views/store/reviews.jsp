@@ -4,11 +4,12 @@
 
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
     <title>리뷰 목록</title>
+    
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 
 <script>
 
@@ -79,6 +80,8 @@
 	
 	    $.each(reviews, function(index, review) {
 	    	if(review.status === 'active') {
+	    		console.log("review.memberId: ", review.memberId);
+	    		console.log("userId: ", userId);
 		        var reviewItem = '<div class="review-item">'
 		            + '<div class="review-header">'
 		            + '<span class="review-author">' + review.nickname + '</span>'
@@ -101,8 +104,9 @@
 	            }
 		
 		        // 수정, 삭제 버튼 추가
-		        if (review.memberId != null && review.memberId === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
+		        if (review.memberId != null && review.memberId.toString() === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
 		            console.log("review.memberId ", review.memberId);
+		        	console.log("review id: ", review.id)
 		            reviewItem += '<button class="edit-review-button" onclick="editReview(' + review.id + ', \'' + review.content + '\')">수정</button>';
 		            reviewItem += '<button class="delete-review-button" onclick="hiddenReview(' + review.id + ', ' + review.memberId + ')">삭제</button>';
 		        }

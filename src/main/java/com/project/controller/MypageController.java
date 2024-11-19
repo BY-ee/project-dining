@@ -36,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequiredArgsConstructor
 public class MypageController {
 
 	private final MypageService mypageService;

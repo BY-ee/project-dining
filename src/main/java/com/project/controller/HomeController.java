@@ -92,6 +92,26 @@ public class HomeController {
 
         return ResponseEntity.ok(filteredStores);
     }
+    
+    @GetMapping("/storeOrdering")
+    @ResponseBody
+    public List<Store> orderStores(@RequestParam(value = "order") String order,
+                                   @RequestParam(value = "location", required = false) String location,
+                                   @RequestParam(value = "industry", required = false) String industry,
+                                   @RequestParam(value = "subCategory", required = false) String subCategory,
+                                   @RequestParam(value = "theme", required = false) String theme) {
+        // theme 값을 split하여 배열로 변환
+        String[] themeArray = (theme != null && !theme.isEmpty()) ? theme.split(",") : new String[0];
+        
+        System.out.println("정렬 기준: " + order);
+        System.out.println("필터 조건 - Location: " + location +
+                ", Industry: " + industry +
+                ", SubCategory: " + subCategory +
+                ", Themes: " + String.join(", ", themeArray));
+        
+        // 필터링과 정렬된 결과를 반환
+        return storeService.getStoresByOrder(order, location, industry, subCategory, themeArray);
+    }
     		
 
     @GetMapping("/csr")

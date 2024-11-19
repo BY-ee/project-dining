@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.project.mapper.ChatRoomMapper">
+	<insert id="insertChatRoom" parameterType="com.project.domain.ChatRoom">
+	    INSERT INTO chat_rooms (
+	        member_id, room_name, location, max_participants, min_participants,
+	        theme, recruitment_duration, recruitment_deadline, additional_description, password, status, created_at
+	    ) VALUES (
+	        #{memberId, jdbcType=NUMERIC},
+	        #{roomName, jdbcType=VARCHAR},
+	        #{location, jdbcType=VARCHAR},
+	        #{maxParticipants, jdbcType=NUMERIC},
+	        #{minParticipants, jdbcType=NUMERIC},
+	        #{theme, jdbcType=VARCHAR},
+	        #{recruitmentDuration, jdbcType=NUMERIC},
+	        CASE
+		        WHEN #{recruitmentDuration} IS NOT NULL THEN
+		            CAST(SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul' AS TIMESTAMP)
+		            + NUMTODSINTERVAL(#{recruitmentDuration}, 'MINUTE')
+		        ELSE NULL
+		    END,
+	        #{additionalDescription, jdbcType=VARCHAR},
+	        #{password, jdbcType=VARCHAR},
+	        #{status, jdbcType=VARCHAR},
+	        SYSDATE
+	    )
+	</insert>
+		
+	<select id="getAllChatRooms" resultType="com.project.domain.ChatRoom">
+	    SELECT 
+		    cr.id AS chatRoomId, 
+		    cr.member_id AS memberId, 
+		    cr.room_name AS roomName, 
+		    cr.location, 
+		    cr.max_participants AS maxParticipants, 
+		    cr.min_participants AS minParticipants, 
+		    cr.theme, 
+		    cr.recruitment_duration AS recruitmentDuration, 
+		    cr.recruitment_deadline AS recruitmentDeadline, 
+		    cr.additional_description AS additionalDescription, 
+		    cr.status AS roomStatus, 
+		    cr.created_at AS roomCreatedAt, 
+		    cr.password, 
+		    m.nickname AS creatorNickname
+		FROM 
+		    chat_rooms cr
+		JOIN 
+		    member m ON cr.member_id = m.id
+		ORDER BY 
+		    cr.created_at DESC
+	</select>
+	
+	<delete id="deleteExpiredChatRooms">
+	    <![CDATA[
+	        DELETE FROM chat_rooms WHERE recruitment_deadline < CURRENT_TIMESTAMP
+	    ]]>
+	</delete>
+	
+  </mapper>
+  

@@ -4,50 +4,49 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
-
 <head>
+    <meta charset="UTF-8">
+    <title>Dining Recommendation</title>
     <link rel="stylesheet" type="text/css" href="/css/home/homeCategory.css">
-    <script src="/js/home/slider.js" defer></script>
-    <script src="/js/home/homeCategory.js" defer></script>
-    
+    <script src="/js/home/homeCategory.js"></script> <!-- 페이지 전용 JS -->
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
+    <!-- 헤더 섹션 -->
+    <jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->
+		<main>
 
-    <main class="content"> <!-- main content start -->
-
-        <!-- 위치 및 카테고리 드롭다운 메뉴 -->
-        <div class="filter-container">
-	        <div class="location-dropdown">
-	            <button class="location-btn" id="location-btn">지역 선택</button>
-	            <div class="location-menu">
-				    <a href="#" onclick="filterByLocation('ALL', '지역 선택')">지역 선택${id}</a>
-				    <a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구${role}</a>
-				    <a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
-				    <a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
-				    <a href="#" onclick="filterByLocation('SEONGBUK', '성북/종로구')">성북/종로구</a>
-				    <a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
+			<!-- 위치 및 카테고리 드롭다운 메뉴 -->
+			<div class="filter-container">
+				<div class="location-dropdown">
+						<button class="location-btn" id="location-btn">지역 선택</button>
+						<div class="location-menu">
+							<a href="#" onclick="filterByLocation('ALL', '지역 선택')">지역 선택${id}</a>
+							<a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구${role}</a>
+							<a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
+							<a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
+							<a href="#" onclick="filterByLocation('SEONGBUK', '성북/종로구')">성북/종로구</a>
+							<a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
+					</div>
 				</div>
-	        </div>
 	    </div>
 	    
 
         <!-- 메인 배너 슬라이드 -->
-        <div class="main-banner">
+			<div class="main-banner">
 		    <div class="slider-container">
-		        <div class="slide">
-		            <img src="/images/home/모수 긴 화면 2.png" alt="슬라이드 1 이미지" class="slide-image">
-		        </div>
-		        <div class="slide">
-		            <img src="/images/home/티엔미미1.jpg" alt="슬라이드 2 이미지" class="slide-image">
-		        </div>
-				<div class="slide">
-		            <img src="/images/home/juicy-and-chewy-chuck.jpg" alt="슬라이드 2 이미지" class="slide-image">
-		        </div>
-				<div class="slide">
-		            <img src="/images/home/galbi.jpg" alt="슬라이드 2 이미지" class="slide-image">
-		        </div>
+					<div class="slide">
+						<img src="/images/home/모수 긴 화면 2.png" alt="슬라이드 1 이미지" class="slide-image">
+					</div>
+					<div class="slide">
+						<img src="/images/home/티엔미미1.jpg" alt="슬라이드 2 이미지" class="slide-image">
+					</div>
+					<div class="slide">
+						<img src="/images/home/juicy-and-chewy-chuck.jpg" alt="슬라이드 2 이미지" class="slide-image">
+					</div>
+					<div class="slide">
+						<img src="/images/home/galbi.jpg" alt="슬라이드 2 이미지" class="slide-image">
+					</div>
 		    </div>
 		    
 		   	<div class="slide-buttons">
@@ -55,57 +54,58 @@
 			    <button onclick="moveToSlide(1)"></button>
 			    <button onclick="moveToSlide(2)"></button>
 			    <button onclick="moveToSlide(3)"></button>
+				</div>
 			</div>
-		</div>
 		
 		
 
-		<div class="category-select-container">
+			<div class="category-select-container">
 		    <button class="category-select-btn" onclick="toggleCategoryPopup()">카테고리 선택</button>
 		
 		    <!-- 카테고리 선택 영역 -->
 		    <div id="categoryPopup" class="category-popup" style="display: none;">
-		        <div class="category-step">
-		            <h3>업종 선택</h3>
-		            <button onclick="selectIndustry('음식점')">🍽️ 음식점</button>
-		            <button onclick="selectIndustry('카페')">☕ 카페</button>
-		            <button onclick="selectIndustry('술집')">🥂 술집</button>
-		        </div>
-		        <div id="selectedIndustryOptions" class="selected-industry-options" style="display: none;">
+					<div class="category-step">
+						<h3>업종 선택</h3>
+						<button onclick="selectIndustry('음식점')">🍽️ 음식점</button>
+						<button onclick="selectIndustry('카페')">☕ 카페</button>
+						<button onclick="selectIndustry('술집')">🥂 술집</button>
+					</div>
+					<div id="selectedIndustryOptions" class="selected-industry-options" style="display: none;">
 		            <!-- 업종에 따른 세부 항목이 여기에 추가됨 -->
-		        </div>
-		        <div class="category-step" id="themeStep">
-		            <h3>테마 선택</h3>
-		            <button onclick="selectTheme('혼밥')">🧑‍ 혼밥</button>
-		            <button onclick="selectTheme('데이트')">💑 데이트</button>
-		            <button onclick="selectTheme('친구')">👭 친구</button>
-		            <button onclick="selectTheme('회식')">🍻 회식</button>
-		        </div>
-		        <button onclick="searchStores()" class="search-btn" style="display: none;" id="searchBtn">검색</button>
-		    </div>
-		    </div>
+					</div>
+					<div class="category-step" id="themeStep">
+						<h3>테마 선택</h3>
+						<button onclick="selectTheme('혼밥')">🧑‍ 혼밥</button>
+						<button onclick="selectTheme('데이트')">💑 데이트</button>
+						<button onclick="selectTheme('친구')">👭 친구</button>
+						<button onclick="selectTheme('회식')">🍻 회식</button>
+					</div>
+					<button onclick="searchStores()" class="search-btn" style="display: none;" id="searchBtn">검색</button>
+				</div>
+			</div>
 
 			<!-- 게시글 정렬 -->
 			<div class="orderby-criteria">
 				<select id="orderOptions" onchange="orderOptionChoice()">
-					<option value="recent" id="recent">최신순</option>
+					<option value="" >정렬</option>
 					<option value="likes" id="likes">좋아요순</option>
-					<option value="comments" id="comments">댓글순</option>
+					<option value="reviews" id="reviews">댓글순</option>
+					<option value="views" id="views">조회순</option>
 				</select>
 			</div>
 
 
+	        <!-- 가게 목록 컨테이너 -->
+			<div class="store-container">
+				<div id="store-list-container" class="store-list">
+					<jsp:include page="store_list.jsp" />
+				</div>
+			</div>
+		</main> <!-- main content end -->
 		
-       
-        <!-- 가게 목록 컨테이너 -->
-        <div class="store-container">
-		    <div id="store-list-container" class="store-list">
-		        <jsp:include page="storeList.jsp" />
-		    </div>
-		</div>
-    </main> <!-- main content end -->
-
+		<!-- 푸터 섹션 -->
 	<jsp:include page="/WEB-INF/views/templates/footer.jsp" /> <!-- footer -->
+</body>
 
 	<script type="text/javascript">
 	    // JSP 표현식으로 memberId 가져오기
