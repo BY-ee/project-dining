@@ -35,9 +35,10 @@
             </c:when>
             <c:otherwise>
                 <!-- 비로그인 사용자를 위한 로그인/회원가입 버튼 -->
-                <form action="/login" method="get" style="display:inline;">
-                    <button type="submit">로그인 / 회원가입</button>
-                </form>
+                <!-- <form action="/login" method="get" style="display:inline;"> -->
+                    <!-- <button type="submit">로그인 / 회원가입</button> -->
+                <!-- </form> -->
+                 <a href="/login">로그인 / 회원가입</a>
             </c:otherwise>
         </c:choose>
     </div>
