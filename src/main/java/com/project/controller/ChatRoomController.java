@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomController {
 	
 	private final ChatRoomService chatRoomService;
+    private final SimpMessagingTemplate messagingTemplate;
 	
     @GetMapping("/community")
     public String community(@AuthenticationPrincipal CustomUserDetails userDetails,
@@ -80,10 +82,10 @@ public class ChatRoomController {
     //=================================================================
     
     @MessageMapping("/sendMessage/{roomId}")
-    @SendTo("/topic/messages/{roomId}")
-    public ChatMessage broadcastMessage(@DestinationVariable("roomId") String roomId, @Payload ChatMessage message) {
+    public void broadcastMessage(@DestinationVariable("roomId") String roomId, @Payload ChatMessage message) {
         System.out.println("브로드캐스트 메시지: " + message);
-        return message; // 메시지 전송만 담당
+        // 메시지를 특정 토픽으로 브로드캐스트
+        messagingTemplate.convertAndSend("/topic/messages/" + roomId, message);
     }
     
     @PostMapping("/chat/message")

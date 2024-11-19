@@ -47,7 +47,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
 //        		.requestMatchers("/css", "js", "images").permitAll()  // 정적 파일 접근 허용
 //        		.requestMatchers("/upload", "WEB-INF/views").permitAll()  // webapp 하위 파일 접근 허용
-                .requestMatchers("/", "/login", "/loginProc").permitAll()
+                .requestMatchers("/", "/login", "/loginProc", "/storeDetail/**").permitAll()
                 .requestMatchers("/mypage", "/profile", "/accountSettings").hasAnyRole("ADMIN", "MEMBER")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()  // 이외의 요청은 인증(로그인)된 사용자만 허가

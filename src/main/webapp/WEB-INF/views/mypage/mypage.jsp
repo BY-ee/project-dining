@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.project.domain.Login" %>
+<%@ page import="com.project.dto.Login" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %>
+<head>
+<jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+</head>
 <body>
 	<!-- 상단바 -->
 	<%@ include file="/WEB-INF/views/templates/header.jsp" %>

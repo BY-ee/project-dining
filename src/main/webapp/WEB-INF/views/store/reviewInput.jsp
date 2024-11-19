@@ -7,6 +7,7 @@
 <head>
     <title>리뷰 작성</title>
     <link rel="stylesheet" type="text/css" href="/css/store/reviewInput.css">
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
 
@@ -20,7 +21,7 @@
 
         <!-- 작성자 이름 필드에 nickname 값 자동 표시 -->
         <c:choose>
-            <c:when test="${not empty memberId}">
+            <c:when test="${not empty sessionMember.id}">
                 <!-- 로그인된 사용자의 경우 닉네임을 텍스트로 출력 -->
                 <div class="nickname-container">
                     <p>${sessionMember.nickname}님</p>
@@ -29,7 +30,7 @@
         </c:choose>
         
         <!-- 리뷰 점수 선택 -->
-        <select name="score" ${empty memberId ? 'disabled' : ''}>
+        <select name="score" ${empty sessionMember.id ? 'disabled' : ''}>
             <option value="5">5점 - 아주 좋아요</option>
             <option value="4">4점 - 좋아요</option>
             <option value="3">3점 - 보통이에요</option>
@@ -39,14 +40,14 @@
         
         <!-- 리뷰 내용 입력 -->
         <textarea class="review-input" name="content"
-                  placeholder="${empty memberId ? '리뷰를 작성하려면 로그인을 해주세요' : '리뷰를 입력해주세요'}"
-                  required ${empty memberId ? 'disabled' : ''}></textarea>
+                  placeholder="${empty sessionMember.id ? '리뷰를 작성하려면 로그인을 해주세요' : '리뷰를 입력해주세요'}"
+                  required ${empty sessionMember.id ? 'disabled' : ''}></textarea>
                      
         <!-- 이미지 파일 업로드 -->
-        <input type="file" name="images" accept="image/*" multiple ${empty memberId ? 'disabled' : ''}>
+        <input type="file" name="images" accept="image/*" multiple ${empty sessionMember.id ? 'disabled' : ''}>
                      
         <!-- 리뷰 작성 버튼 -->
-        <c:if test="${not empty memberId}">
+        <c:if test="${not empty sessionMember.id}">
             <button type="submit">리뷰 작성</button>
         </c:if>
     </form>

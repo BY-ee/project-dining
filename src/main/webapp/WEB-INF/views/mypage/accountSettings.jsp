@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %>
+<head>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -38,6 +38,9 @@
             alert(message);
         }
     </script>
+    
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+    
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/templates/header.jsp" %>
