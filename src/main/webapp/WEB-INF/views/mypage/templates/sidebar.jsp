@@ -29,11 +29,11 @@ function uploadFile(event){
 <div class="sidebar">
 	<div class="profile-pic"
 		onclick="document.getElementById('fileInput').click()">
-		<img src="${member.profileImage}" alt="프로필 사진" /> <span
+		<img src="${sessionMember.profileImage}" alt="프로필 사진" /> <span
 			class="profile-overlay">프로필 변경</span> <input type="file"
 			id="fileInput" style="display: none" onchange="uploadFile(event)" />
 	</div>
-	<div class="profile-name">${member.nickname}</div>
+	<div class="profile-name">${sessionMember.nickname}</div>
 	<div class="profile-point">내 포인트 : 500p</div>
-	<div class="profile-intro">${member.introduction}</div>
+	<div class="profile-intro">${sessionMember.introduction}</div>
 </div>

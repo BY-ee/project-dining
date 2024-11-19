@@ -2,6 +2,8 @@ package com.project.config;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import com.project.dto.CustomUserDetails;
 import com.project.service.CustomOAuth2UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+    //private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
     private final CustomOAuth2FailureHandler customOAuth2FailureHandler;
+    private final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 	
 	// 비밀번호 암호화
     @Bean
@@ -102,12 +106,10 @@ public class SecurityConfig {
         
         // 간편로그인 관련 설정
         http.oauth2Login(oauth2 -> oauth2
-                .loginPage("/login")
                 .userInfoEndpoint(userInfo -> userInfo
                     .userService(customOAuth2UserService)
                 )
-                .defaultSuccessUrl("/")
-                .successHandler(customOAuth2SuccessHandler)
+                .successHandler(customAuthenticationSuccessHandler())
                 .failureHandler(customOAuth2FailureHandler)
             );
 
@@ -115,23 +117,23 @@ public class SecurityConfig {
     }
     
     // 커스텀 핸들러(API) 
-//    @Bean
-//    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-//        return new SimpleUrlAuthenticationSuccessHandler() {
-//            @Override
-//            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//                                                Authentication authentication) throws IOException {
-//            	
-//            	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-//                
-//                if (redirectUrl != null) {
-//                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
-//                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
-//                } else {
-//                    // 기본 리디렉션 URL (초기 로그인 성공 시)
-//                    getRedirectStrategy().sendRedirect(request, response, "/logincheck.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
-//                }
-//            }
-//        };
-//    }
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                Authentication authentication) throws IOException {
+            	
+            	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+                
+                if (redirectUrl != null) {
+                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
+                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
+                } else {
+                    // 기본 리디렉션 URL (초기 로그인 성공 시)
+                    getRedirectStrategy().sendRedirect(request, response, "/"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+                }
+            }
+        };
+    }
 }

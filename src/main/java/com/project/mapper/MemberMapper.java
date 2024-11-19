@@ -34,6 +34,9 @@ public interface MemberMapper {
 
 	// 이메일로 유저 조회
 	Member selectMemberByEmail(String email);
+	
+	// 이메일과 register 로 조회
+	Member selectMemberByRegisteration(@Param("email")String email , @Param("registerationId")String registerationId);
 
 	// 회원가입
 	void insertMember(Member member);
