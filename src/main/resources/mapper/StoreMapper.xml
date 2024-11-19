@@ -217,4 +217,74 @@
         </choose>
     </select>
 	
+	
+	<!-- store 테이블 삽입 -->
+    <insert id="insertStore" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO store (
+        id,
+        store_name,
+        address,
+        detail_address,
+        tel,
+        main_image1,
+        main_image2,
+        latitude,
+        longitude,
+        open_time,
+        store_description,
+        ceo_name
+    ) VALUES (
+        store_seq.NEXTVAL,
+        #{storeName},
+        #{address},
+        #{detailAddress},
+        #{tel},
+        #{mainImage1, jdbcType=VARCHAR},
+        #{mainImage2, jdbcType=VARCHAR},
+        #{latitude, jdbcType=VARCHAR},
+        #{longitude, jdbcType=VARCHAR},
+        #{openTime},
+        #{storeDescription},
+        #{ceoName}
+    )
+</insert>
+
+
+    <!-- 지역 정보 삽입 -->
+    <insert id="insertRegion">
+        INSERT INTO local (store_id, local)
+        VALUES (#{storeId}, #{region})
+    </insert>
+
+    <!-- 업종 정보 삽입 -->
+    <insert id="insertIndustry" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO industry (id, store_id, industry)
+        VALUES (industry_seq.NEXTVAL, #{storeId}, #{industry})
+    </insert>
+
+    <!-- 음식점 정보 삽입 -->
+    <insert id="insertRestaurant">
+        INSERT INTO restaurant (industry_id, store_id, restaurant)
+        VALUES (#{industryId}, #{storeId}, #{subcategory})
+    </insert>
+
+    <!-- 카페 정보 삽입 -->
+    <insert id="insertCafe">
+        INSERT INTO cafe (industry_id, store_id, cafe)
+        VALUES (#{industryId}, #{storeId}, #{subcategory})
+    </insert>
+
+    <!-- 술집 정보 삽입 -->
+    <insert id="insertBar">
+        INSERT INTO bar (industry_id, store_id, bar)
+        VALUES (#{industryId}, #{storeId}, #{subcategory})
+    </insert>
+
+    <!-- 테마 정보 삽입 -->
+    <insert id="insertTheme">
+        INSERT INTO theme (store_id, theme)
+        VALUES (#{storeId}, #{theme})
+    </insert>
+
+	
 </mapper>

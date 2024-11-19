@@ -82,5 +82,36 @@ public class StoreService {
         List<String> themeList = (themeArray != null) ? Arrays.asList(themeArray) : null;
         return storeMapper.findStoresByOrder(order, location, industry, subCategory, themeList);
     }
-	
+
+	@Transactional
+	public void registerStore(Store store) {
+		// 1. store 테이블 삽입 및 ID 생성
+        storeMapper.insertStore(store);
+        Long storeId = store.getId();
+
+        // 2. 지역 정보 삽입
+        storeMapper.insertRegion(storeId, store.getRegion());
+
+        // 3. 업종 정보 삽입
+        storeMapper.insertIndustry(storeId, store.getIndustry());
+        Long industryId = store.getIndustryId();
+        
+        System.out.println(industryId);
+        
+        // 4. 음식점, 카페, 술집 중 해당하는 세부 업종 삽입
+        String subcategory = store.getSubcategory(); // subcategory 값 가져오기
+        
+        if (store.getIndustry().equals("음식점")) {
+            storeMapper.insertRestaurant(industryId, storeId, subcategory);
+        } else if (store.getIndustry().equals("카페")) {
+            storeMapper.insertCafe(industryId, storeId, subcategory);
+        } else if (store.getIndustry().equals("술집")) {
+            storeMapper.insertBar(industryId, storeId, subcategory);
+        }
+
+        // 5. 테마 정보 삽입
+        storeMapper.insertTheme(storeId, store.getTheme());
+		
+	}
+
 }

@@ -79,5 +79,26 @@ public interface StoreMapper{
             @Param("subCategory") String subCategory,
             @Param("themeArray") List<String> themeArray
     );
+
+    // store 테이블 삽입
+    void insertStore(Store store);
+
+    // 지역 정보 삽입
+    void insertRegion(@Param("storeId") Long storeId, @Param("region") String region);
+
+    // 업종 정보 삽입
+    void insertIndustry(@Param("storeId") Long storeId, @Param("industry") String industry);
+
+    // 음식점 정보 삽입
+    void insertRestaurant(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
+
+    // 카페 정보 삽입
+    void insertCafe(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
+
+    // 술집 정보 삽입
+    void insertBar(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
+
+    // 테마 정보 삽입
+    void insertTheme(@Param("storeId") Long storeId, @Param("theme") String theme);
     
 }
