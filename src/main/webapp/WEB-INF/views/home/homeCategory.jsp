@@ -98,7 +98,7 @@
 	        <!-- 가게 목록 컨테이너 -->
 			<div class="store-container">
 				<div id="store-list-container" class="store-list">
-					<jsp:include page="store_list.jsp" />
+					<jsp:include page="storeList.jsp" />
 				</div>
 			</div>
 		</main> <!-- main content end -->

@@ -8,23 +8,22 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.ui.Model;
-import com.project.domain.Login;
-
-
 
 import com.project.domain.ChatMessage;
 import com.project.domain.ChatRoom;
+import com.project.domain.Member;
+import com.project.dto.CustomUserDetails;
 import com.project.service.ChatRoomService;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -34,8 +33,9 @@ public class ChatRoomController {
 	private final ChatRoomService chatRoomService;
 	
     @GetMapping("/community")
-    public String community(HttpSession session, Model model) {
-    	Login loginUser = (Login) session.getAttribute("loginUser");
+    public String community(@AuthenticationPrincipal CustomUserDetails userDetails,
+    						Model model) {
+    	Member loginUser = userDetails.getMember();
     	
 	    if (loginUser != null) {
 	        System.out.println("로그인된 유저 정보: " + loginUser);	     
