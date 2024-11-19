@@ -16,7 +16,7 @@
             <c:when test="${sessionMember.role != 'ROLE_ANONYMOUS'}">
                 <!-- 로그인된 사용자를 위한 메뉴 -->
                 <div class="user-popup-container">
-                    <a href="/community">커뮤니티</a>
+                    <a class="link-btn" href="/community">커뮤니티</a>
                     <button class="menu-btn"> ☰ </button>
                     <div class="user-popup" style="display: none;">
                         <span class="welcome-message">환영합니다, ${sessionMember.nickname}님!</span>
@@ -38,7 +38,7 @@
                 <!-- <form action="/login" method="get" style="display:inline;"> -->
                     <!-- <button type="submit">로그인 / 회원가입</button> -->
                 <!-- </form> -->
-                 <a href="/login">로그인 / 회원가입</a>
+                 <a class="link-btn" href="/login">로그인 / 회원가입</a>
             </c:otherwise>
         </c:choose>
     </div>

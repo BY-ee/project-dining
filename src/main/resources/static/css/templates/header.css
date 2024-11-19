@@ -70,7 +70,7 @@
   
 }
 
-.auth-buttons a {
+.auth-buttons .link-btn {
   padding: 12px;
   background-color: #D8B2B2;
   color: #fff;
@@ -84,7 +84,7 @@
   text-decoration: none;
 }
 
-.auth-buttons button:hover, .auth-buttons a:hover, .location-btn:hover {
+.auth-buttons button:hover, .auth-buttons .link-btn:hover, .location-btn:hover {
   background-color: #c49292;
 }
 
