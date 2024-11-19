@@ -1,8 +1,10 @@
 package com.project.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.config.SecurityContextUtil;
 import com.project.dto.Login;
 import com.project.mapper.LoginMapper;
 
@@ -11,9 +13,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class LoginService {
-
+	
 	private final LoginMapper loginMapper;
-	private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
+	private final BCryptPasswordEncoder bCryptPasswordEncoder; // 비밀번호 암호화를 위한 PasswordEncoder 주입
+	private final SecurityContextUtil securityContextUtil;
 
 	// 아이디 중복조회
 	public int isUserIdCheck(String memberId) {
@@ -27,7 +30,7 @@ public class LoginService {
 	
 	// 회원가입
 	public int joinMember(Login login) {
-		login.setPasswd(passwordEncoder.encode(login.getPasswd()));
+		login.setPasswd(bCryptPasswordEncoder.encode(login.getPasswd()));
 		login.setRole("ROLE_MEMBER");
 		return loginMapper.joinMember(login);
 	}
@@ -80,16 +83,50 @@ public class LoginService {
 	}
 
 	// 비밀번호 변경
-	public void updaptePassword(Login login) {
-		login.setPasswd(passwordEncoder.encode(login.getPasswd()));
+	public void updatePassword(Login login) {
+		login.setPasswd(bCryptPasswordEncoder.encode(login.getPasswd()));
 		loginMapper.updatePassword(login);
+		securityContextUtil.reloadUserDetails(login.getMemberId());  // spring security context의 상태 수정
 	}
 
 	public Login getFindId(String email) {
 		return loginMapper.getFindId(email);
 	}
+	
+	// 도메인에 따른 유저 조회
+    public Login getUserByProvider(String provider, String tempId) {
+        switch (provider) {
+            case "naver":
+                return loginMapper.getNaverUser(tempId);
+            case "kakao":
+                return loginMapper.getKakaoUser(tempId);
+            case "google":
+                return loginMapper.getGoogleUser(tempId);
+            default:
+                throw new IllegalArgumentException("Unsupported provider: " + provider);
+        }
+    }
 
+    // 
+    public void createUser(String provider, String tempId, String tempEmail, String randomNickname) {
+        Login login = new Login();
+        login.setMemberId(tempId);
+        login.setEmail(tempEmail);
+        login.setNickname(randomNickname);
+        login.setStatus("active");
 
+        switch (provider) {
+            case "naver":
+                loginMapper.insertNaverJoin(login);
+                break;
+            case "kakao":
+                loginMapper.insertKakaoJoin(login);
+                break;
+            case "google":
+                loginMapper.insertGoogleJoin(login);
+                break;
+        }
+    }
 }
 
 

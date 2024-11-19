@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -33,37 +32,40 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
 	private final LoginService loginService;
-	private final PasswordEncoder passwordEncoder;
 	private final OAuth2AuthorizedClientService authorizedClientService;
 
+	// 로그인 페이지
 	@GetMapping("/login")
 	public String loginForm() {
 		return "login/loginForm";
 	}
 
+	// 회원가입 페이지
 	@GetMapping("/signup")
 	public String signup() {
 		return "login/signup";
 	}
 
+	// 일반 회원가입
 	@GetMapping("/memberForm")
 	public String signForm() {
 		return "login/memberForm";
 	}
 
+	// 사업자 회원가입
 	@GetMapping("/ownerForm")
 	public String onwerForm() {
 		return "login/ownerForm";
 	}
 
 	// 아이디 찾기
-	@GetMapping("/findId.do")
+	@GetMapping("/findId")
 	public String findId() {
 		return "login/findId";
 	}
 
 	// 비밀번호 찾기
-	@GetMapping("/findPwd.do")
+	@GetMapping("/findPwd")
 	public String findPwd() {
 		return "login/findPwd";
 	}
@@ -122,115 +124,109 @@ public class LoginController {
 
 	// 간편 로그인(최초 회원가입 포함)
 
-	@GetMapping("/logincheck.do") public String loginCheck(Authentication
-	  authentication, HttpSession session) { if (authentication instanceof
-	  OAuth2AuthenticationToken) { OAuth2AuthenticationToken oauthToken =
-	  (OAuth2AuthenticationToken) authentication; String registrationId =
-	  oauthToken.getAuthorizedClientRegistrationId();
+	@GetMapping("/logincheck.do")
+	public String loginCheck(Authentication authentication, HttpSession session) {
+		if (authentication instanceof OAuth2AuthenticationToken) { 
+			OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+			String registrationId = oauthToken.getAuthorizedClientRegistrationId();
 	  
-	  // accessToken 가져오기 
-	  OAuth2AuthorizedClient authorizedClient =
-	  authorizedClientService.loadAuthorizedClient( registrationId,
-	  oauthToken.getName()); String accessToken =
-	  authorizedClient.getAccessToken().getTokenValue();
+			// accessToken 가져오기 
+			OAuth2AuthorizedClient authorizedClient = authorizedClientService
+					.loadAuthorizedClient(registrationId, oauthToken.getName());
+			String accessToken = authorizedClient.getAccessToken().getTokenValue();
 	  
-	  // accessToken을 사용해 사용자 정보 가져오기 
-	  Map<String, Object> userInfo =
-	  fetchUserInfo(registrationId, accessToken); String tempId = null; String
-	  tempEmail = null;
+			// accessToken을 사용해 사용자 정보 가져오기 
+			Map<String, Object> userInfo = fetchUserInfo(registrationId, accessToken);
+			String tempId = null;
+			String tempEmail = null;
 	  
-	  if ("naver".equals(registrationId)) { Map<String, Object> response =
-	  (Map<String, Object>) userInfo.get("response"); if (response != null) {
-	  tempId = (String) response.get("id"); tempEmail = (String)
-	  response.get("email");
+			if ("naver".equals(registrationId)) {
+				Map<String, Object> response = (Map<String, Object>) userInfo.get("response");
+				if (response != null) {
+					tempId = (String) response.get("id");
+					tempEmail = (String) response.get("email");
+  
+					Login db = loginService.getNaverUser(tempId); // naverId 란에 tempId 있는지 조회
+  
+  
+					if(db == null) { // 첫 로그인 
+						String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
+  
+						loginService.insertNaverJoin(tempId, tempEmail, randomNickname);
+  
+						db = loginService.getUser(tempId);
+  
+						session.setAttribute("loginUser", db);
+						session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
+						session.setAttribute("user_nickname", db.getNickname());
+  
+					}
+  
+					// 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인 // db는 내가 로그인한 정보를 담은 객체
+					session.setAttribute("loginUser", db);
+					session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
+					session.setAttribute("user_nickname", db.getNickname());
+  
+					return "redirect:/";
+  
+				}
+			} else if ("kakao".equals(registrationId)) {
+				tempId = String.valueOf(userInfo.get("id"));
+				Map<String, Object> kakaoAccount = (Map<String, Object>) userInfo.get("kakao_account");
+				if (kakaoAccount != null) {
+					tempEmail = (String) kakaoAccount.get("email");
+				}
+  
+				Login db = loginService.getKakaoUser(tempId); // naverId 란에 tempId 있는지 조회
+  
+				if(db == null) { // 첫 로그인 
+					String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
+  
+					loginService.insertKakaoJoin(tempId, tempEmail, randomNickname);
+  
+					db = loginService.getUser(tempId);
+  
+					session.setAttribute("loginUser", db);
+					session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
+					session.setAttribute("user_nickname", db.getNickname());
+  
+				}
+  
+				session.setAttribute("loginUser", db);
+				session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
+				session.setAttribute("user_nickname", db.getNickname());
+			} else if ("google".equals(registrationId)) {
+				tempId = (String) userInfo.get("sub");
+				tempEmail = (String) userInfo.get("email");
+  
+				Login db = loginService.getGoogleUser(tempId); // naverId 란에 tempId 있는지 조회
+  
+  
+				if(db == null) { // 첫 로그인 
+					String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
+  
+					loginService.insertGoogleJoin(tempId, tempEmail, randomNickname);
+  
+					db = loginService.getUser(tempId);
+  
+					session.setAttribute("loginUser", db);
+					session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
+					session.setAttribute("user_nickname", db.getNickname());
+				}
+  
+				// 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인 // db는 내가 로그인한 정보를 담은 객체
+				session.setAttribute("loginUser", db);
+				session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
+				session.setAttribute("user_nickname", db.getNickname());
 	  
-	  Login db = loginService.getNaverUser(tempId); // naverId 란에 tempId 있는지 조회
+				return "redirect:/";
+			}
 	  
-	  
-	  if(db == null) { // 첫 로그인 
-		  String randomNickname = "User_" +
-	  UUID.randomUUID().toString().substring(0, 8);
-	  
-	  loginService.insertNaverJoin(tempId, tempEmail, randomNickname);
-	  
-	  db = loginService.getUser(tempId);
-	  
-	  session.setAttribute("loginUser", db); session.setAttribute("user_ID",
-	  db.getId()); // memberId를 세션에 저장 
-	  session.setAttribute("user_nickname",
-	  db.getNickname());
-	  
-	  }
-	  
-	  // 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인 // db는 내가 로그인한 정보를 담은 객체
-	  session.setAttribute("loginUser", db); session.setAttribute("user_ID",
-	  db.getId()); // memberId를 세션에 저장 
-	  session.setAttribute("user_nickname",
-	  db.getNickname());
-	  
-	  return "redirect:/";
-	  
-	  } } else if ("kakao".equals(registrationId)) { tempId =
-	  String.valueOf(userInfo.get("id")); Map<String, Object> kakaoAccount =
-	  (Map<String, Object>) userInfo.get("kakao_account"); if (kakaoAccount !=
-	  null) { tempEmail = (String) kakaoAccount.get("email"); }
-	  
-	  Login db = loginService.getKakaoUser(tempId); // naverId 란에 tempId 있는지 조회
-	  
-	  if(db == null) { // 첫 로그인 
-		  String randomNickname = "User_" +
-	  UUID.randomUUID().toString().substring(0, 8);
-	  
-	  loginService.insertKakaoJoin(tempId, tempEmail, randomNickname);
-	  
-	  db = loginService.getUser(tempId);
-	  
-	  session.setAttribute("loginUser", db); session.setAttribute("user_ID",
-	  db.getId()); // memberId를 세션에 저장 
-	  session.setAttribute("user_nickname",
-	  db.getNickname());
-	  
-	  }
-	  
-	  session.setAttribute("loginUser", db); session.setAttribute("user_ID",
-	  db.getId()); // memberId를 세션에 저장 
-	  session.setAttribute("user_nickname",
-	  db.getNickname());
-	  
-	  
-	  } else if ("google".equals(registrationId)) { tempId = (String)
-	  userInfo.get("sub"); tempEmail = (String) userInfo.get("email");
-	  
-	  
-	  Login db = loginService.getGoogleUser(tempId); // naverId 란에 tempId 있는지 조회
-	  
-	  
-	  if(db == null) { // 첫 로그인 
-		  String randomNickname = "User_" +
-	  UUID.randomUUID().toString().substring(0, 8);
-	  
-	  loginService.insertGoogleJoin(tempId, tempEmail, randomNickname);
-	  
-	  db = loginService.getUser(tempId);
-	  
-	  session.setAttribute("loginUser", db); session.setAttribute("user_ID",
-	  db.getId()); // memberId를 세션에 저장 
-	  session.setAttribute("user_nickname",
-	  db.getNickname());
-	  
-	  }
-	  
-	  // 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인 // db는 내가 로그인한 정보를 담은 객체
-	  session.setAttribute("loginUser", db); session.setAttribute("user_ID",
-	  db.getId()); // memberId를 세션에 저장 
-	  session.setAttribute("user_nickname",
-	  db.getNickname());
-	  
-	  return "redirect:/";
-	  
-	  }
-	  
-	  return "redirect:/"; } else { return "redirect:/login_ok.do"; } }
+			return "redirect:/";
+		} else {
+			return "redirect:/login_ok.do";
+		}
+	}
 
 	private Map<String, Object> fetchUserInfo(String registrationId, String accessToken) {
 		String userInfoEndpoint;
@@ -273,7 +269,7 @@ public class LoginController {
 	@PostMapping("/updatePassword")
 	@ResponseBody // AJAX 요청에 응답을 문자열로 반환
 	public String updatePassword(@ModelAttribute("Login") Login login) {
-		loginService.updaptePassword(login);
+		loginService.updatePassword(login);
 		return "비밀번호 재설정이 완료되었습니다.";
 	}
 

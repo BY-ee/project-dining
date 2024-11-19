@@ -37,9 +37,8 @@
                     <th>유저 아이디</th>
                     <th>닉네임</th>
                     <th>이메일</th>
-                    <th>자기소개</th>
-                    <th>가입일자</th>
-                    <th>탈퇴일자</th>
+                    <th>가입일</th>
+                    <th>차단해제일</th>
                     <th>차단</th>
                     <th>상태</th>
                 </tr>
@@ -48,19 +47,18 @@
                 <c:forEach var="member" items="${pagination.content}">
                     <tr>
                         <td>${member.id}</td>
-                        <td>${member.memberId}</td>
+                        <td><a href="#" class="member-link" data-id="${member.id}">${member.memberId}</a></td>
                         <td>${member.nickname}</td>
                         <td>${member.email}</td>
-                        <td><a href="#" class="intro-link">확인</a></td>
                         <td><fmt:formatDate value="${member.createdAt}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
-                        <td><fmt:formatDate value="${member.deletedDate}" pattern="yy.MM.dd hh:mm:ss (EEE)" /></td>
+                        <td><fmt:formatDate value="${member.reactiveDate}" pattern="yy.MM.dd (EEE)" /></td>
                         <td>
-                            <select name="user-ban-time">
+                            <select class="member-ban-time" data-id="${member.id}" name="member-ban-time">
                                 <option value="1">1일</option>
                                 <option value="3">3일</option>
                                 <option value="7">7일</option>
                                 <option value="30">30일</option>
-                                <option value="0">영구</option>
+                                <option value="9999">영구</option>
                             </select>
                             <button class="delete-btn block-btn" data-id="${member.id}">차단</button>
                             <button class="edit-btn unblock-btn" data-id="${member.id}">차단 해제</button>
@@ -103,8 +101,7 @@
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup()">X</button>
-            <h3 class="popup-title">자기소개</h3>
-            <div id="intro-content"></div>
+            <div id="member-content"></div>
         </div>
     </div>
 </body>

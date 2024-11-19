@@ -16,8 +16,9 @@
 
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/home/userDropDown.js" defer></script>
     <script type="text/javascript">
-        var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}";
+        var userId = "${sessionMember.memberId}";
 	</script>
     <script>
         // Spring Security가 제공하는 CSRF 토큰을 각 form 태그에 자동으로 삽입

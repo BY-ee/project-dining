@@ -12,12 +12,19 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import com.project.service.CustomOAuth2UserService;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+    private final CustomOAuth2FailureHandler customOAuth2FailureHandler;
 	
 	// 비밀번호 암호화
     @Bean
@@ -58,6 +65,7 @@ public class SecurityConfig {
 //                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 //                    response.getWriter().write("{\"message\": \"로그인 실패. 아이디와 비밀번호를 확인하세요.\"}");
 //                })
+                
         );
         
         // 권한이 없는 페이지에 접근할 시 에러 페이지 출력
@@ -94,30 +102,36 @@ public class SecurityConfig {
         
         // 간편로그인 관련 설정
         http.oauth2Login(oauth2 -> oauth2
-                .successHandler(customAuthenticationSuccessHandler())  // 커스텀 성공 핸들러 사용 -> 간편로그인 성공후
+                .loginPage("/login")
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(customOAuth2UserService)
+                )
+                .defaultSuccessUrl("/")
+                .successHandler(customOAuth2SuccessHandler)
+                .failureHandler(customOAuth2FailureHandler)
             );
 
         return http.build();
     }
     
     // 커스텀 핸들러(API) 
-    @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new SimpleUrlAuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                Authentication authentication) throws IOException {
-            	
-            	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-                
-                if (redirectUrl != null) {
-                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
-                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
-                } else {
-                    // 기본 리디렉션 URL (초기 로그인 성공 시)
-                    getRedirectStrategy().sendRedirect(request, response, "/logincheck.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
-                }
-            }
-        };
-    }
+//    @Bean
+//    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+//        return new SimpleUrlAuthenticationSuccessHandler() {
+//            @Override
+//            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//                                                Authentication authentication) throws IOException {
+//            	
+//            	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+//                
+//                if (redirectUrl != null) {
+//                    getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
+//                    request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.
+//                } else {
+//                    // 기본 리디렉션 URL (초기 로그인 성공 시)
+//                    getRedirectStrategy().sendRedirect(request, response, "/logincheck.do"); // 기본 로그인 화면에서 사용자 선택으로 넘어가는 부분
+//                }
+//            }
+//        };
+//    }
 }

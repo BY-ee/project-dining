@@ -24,11 +24,25 @@ public interface MemberMapper {
 	long countMembers(RequestData requestData);
 	
 	// 회원 차단
-	void blockMember(long id);
+	void blockMember(@Param("id") long id, @Param("banTime") int banTime);
 
 	// 회원 차단해제
 	void unblockMember(long id);
 
 	// 사용자 id로 유저 조회
 	Member selectMemberByMemberId(String memberId);
+
+	// 이메일로 유저 조회
+	Member selectMemberByEmail(String email);
+
+	// 회원가입
+	void insertMember(Member member);
+
+	// 각 플랫폼 별 회원가입
+	void insertMemberForKakao(Member member);	
+	void insertMemberForNaver(Member member);
+	void insertMemberForGoogle(Member member);
+
+	// 유저 정보 수정
+	void updateMember(Member member);
 }

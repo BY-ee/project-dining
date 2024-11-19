@@ -1,15 +1,14 @@
 package com.project.controller;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,15 +19,18 @@ import com.project.service.MypageService;
 import com.project.service.SendEmailContentService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class EmailController {
-	@Autowired
-    private SendEmailContentService emailContentService;
-	@Autowired
-	private LoginService loginService;
-	@Autowired
-	private MypageService mypageService;
+	
+    private final SendEmailContentService emailContentService;
+	private final LoginService loginService;
+	private final MypageService mypageService;
+
+	private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
+	
     
     // 이메일 인증코드 인증
     @PostMapping("/verifyCode")
@@ -63,7 +65,7 @@ public class EmailController {
     	}}
 	
     // 이메일 인증코드 전송
-    @PostMapping("/send-verification-email")
+    @PostMapping("/sendVerificationEmail")
     @ResponseBody
     public ResponseEntity<String> sendVerificationEmail(@RequestParam("userEmail") String userEmail,HttpSession session) {
         String verificationCode = emailContentService.generateVerificationCode();
@@ -73,9 +75,9 @@ public class EmailController {
 		session.setAttribute("userEmail", userEmail);
 		session.setAttribute("expiryTime", LocalDateTime.now().plusMinutes(10));
 		
-		System.out.println("성공");
+		logger.info("(EmailController) 이메일 전송 성공");
 		
-        return ResponseEntity.ok("성공");
+        return ResponseEntity.ok("이메일 전송에 성공했습니다.");
     }
  
     // 비밀번호 찾기 (이메일 링크)
@@ -87,8 +89,8 @@ public class EmailController {
     	Login db = loginService.getUser(login.getMemberId());
 
     	if(db == null) { // 입력한 아이디가 존재하지않을 경우
-    		return "입력한 아이디가 존재하지않습니다.";
-    	}else {
+    		return "입력한 아이디가 존재하지 않습니다.";
+    	} else {
     		if(db.getEmail().equals(userEmail)) { // 입력한 아이디가 존재하고 이메일 데이터와도 일치할 경우
     		
 				String token = UUID.randomUUID().toString(); // 예시로 UUID 사용
@@ -109,7 +111,7 @@ public class EmailController {
     			
     			return " 해당 이메일 주소로 보낸 링크를 통해 비밀번호를 재설정하십시오. ";
     		}else {  // 입력한 아이디는 존재하는데 이메일 데이터와 일치하지 않을 경우
-    			return "이메일 정보가 가입정보와 일치하지않습니다.";
+    			return "이메일 정보가 가입정보와 일치하지 않습니다.";
     		}
     	}
     }

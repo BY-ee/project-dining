@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import java.io.File;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,41 +28,42 @@ import com.project.dto.MypageLike;
 import com.project.dto.MypageReview;
 import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
+import com.project.dto.UnifiedPrincipal;
 import com.project.service.MypageService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class MypageController {
-	@Autowired
-	MypageService mypageService;
+
+	private final MypageService mypageService;
 	
 	@GetMapping("/mypage")
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,
     					@RequestParam(name = "reviewPage",defaultValue="1") int reviewPage,
     					@RequestParam(name = "size",defaultValue="5") int size,
     					@AuthenticationPrincipal CustomUserDetails userDetails,
-    		Model model) {
+						Model model) {
 		
 		// 세션으로 id받기 , 멤버값 하나 구해오기
 		Member member = userDetails.getMember();
 		
 		if(member.getCategory().equals("사업자")) {
-			Store store =  mypageService.getStore(24);
+			Store store =  mypageService.getStore(member.getId());
 			model.addAttribute("store",store);
-			System.out.println(store.getEnrollStatus());
 		}
 		
 		// 좋아요와 리뷰 각각의 PageRequest 객체 생성
-		PageRequest likePageRequest = new PageRequest(22,likePage, size);
-		PageRequest reviewPageRequest = new PageRequest(24,reviewPage, size);
+		PageRequest likePageRequest = new PageRequest(member.getId(),likePage, size);
+		PageRequest reviewPageRequest = new PageRequest(member.getId(),reviewPage, size);
 		
 		// 서비스에서 각각의 PageRequest로 데이터 조회 후 PageResponse로 감싸기
 		
 		PageResponse<MypageLike> likePageResponse = mypageService.getMypageLike(likePageRequest);
 		PageResponse<MypageReview> reviewPageResponse = mypageService.getMypageReview(reviewPageRequest);
 		
-		model.addAttribute("member",member);
 		model.addAttribute("likePageResponse",likePageResponse);
 		model.addAttribute("reviewPageResponse",reviewPageResponse);
 		
@@ -70,10 +72,10 @@ public class MypageController {
 	
 	@PostMapping("/profile/upload")
 	@ResponseBody
-	public Map<String,Object> uploadProfilePic(@RequestParam("file") MultipartFile file){
+	public Map<String,Object> uploadProfilePic(@RequestParam("file") MultipartFile file,@AuthenticationPrincipal CustomUserDetails userDetails){
 		Map<String,Object> response = new HashMap<>();
 		
-		Member member = mypageService.getMember(24);
+		Member member = userDetails.getMember();
 		
 		try {
 			if(!file.isEmpty()) {
@@ -113,9 +115,9 @@ public class MypageController {
 	}
 	
 	@GetMapping("/profile")
-    public String profile(Model model) {
-		Member member = mypageService.getMember(24);
-		model.addAttribute("member",member);
+    public String profile() {
+//		Member member = mypageService.getMember(userDetails.getMember().getId());
+//		model.addAttribute("member",member);
     	return "mypage/profile";
     }
 	
@@ -128,21 +130,22 @@ public class MypageController {
 	}
 	
 	
-	@GetMapping("/accountSettings")
-    public String accountSettings(@AuthenticationPrincipal OAuth2User oauth2User,Model model) {
-		Member member = mypageService.getMember(24);
-		model.addAttribute("member",member);
-    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
+	@GetMapping("/account")
+    public String accountSettings() {
+//		Member member = mypageService.getMember(24);
+//		model.addAttribute("member",member);
+//    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
     	return "mypage/accountSettings";
     }
 	
 	@PostMapping("/accountSettings")
 	public String accountUpdate(@RequestParam(value="current_password",required = false) String currentPassword,
-								@RequestParam(value="new_password",required = false) String newPassword
-			,RedirectAttributes redirectAttributes) {
+								@RequestParam(value="new_password",required = false) String newPassword,
+								@AuthenticationPrincipal CustomUserDetails userDetails,
+			RedirectAttributes redirectAttributes) {
 		
 		System.out.println("현재 = " + currentPassword);
-		boolean b = mypageService.changePassword(24,currentPassword,newPassword);
+		boolean b = mypageService.changePassword(userDetails.getMember(),currentPassword,newPassword);
 		if(b) redirectAttributes.addFlashAttribute("message","비밀번호가 변경 되었습니다.");
 		else redirectAttributes.addFlashAttribute("message","비밀번호가 맞지 않습니다.");
 		return "redirect:/accountSettings";

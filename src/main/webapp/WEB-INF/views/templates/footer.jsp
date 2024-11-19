@@ -10,7 +10,7 @@
                토요일, 공휴일: 제휴 가게 신청 상담<br>
                일요일: 휴무</p>
             <button>카톡 상담 ( 준비 중 )</button>
-            <button onclick="window.location.href='/emailInquery';">이메일 문의</button>
+            <button onclick="window.location.href='/emailInquery'">이메일 문의</button>
         </div>
         <div class="company-links">
             <ul>

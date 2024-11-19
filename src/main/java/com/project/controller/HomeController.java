@@ -1,33 +1,32 @@
 package com.project.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import com.project.service.StoreService;
-import com.project.domain.Member;
-import com.project.domain.Store;
-import com.project.dto.CustomUserDetails;
-
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.project.domain.Store;
+import com.project.dto.CustomUserDetails;
+import com.project.service.StoreService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
 	
     private final StoreService storeService;
-
-    public HomeController(StoreService storeService) {
-        this.storeService = storeService;
-    }
+    
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     
     @GetMapping("/")
     public String home(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
@@ -45,7 +44,7 @@ public class HomeController {
         
         List<Store> stores = storeService.findAllStores(); // 모든 가게 목록을 가져옴
         model.addAttribute("stores", stores); // 모델에 stores 속성으로 추가
-        System.out.println("Number of stores found in first home: " + stores.size());
+        logger.debug("(HomeController) 가게 수: {}", stores.size());
         return "home/homeCategory";
     }
     
@@ -54,7 +53,7 @@ public class HomeController {
     public List<Store> getStoresByLocation(@RequestParam("location") String location) {
         try {
             location = URLDecoder.decode(location, StandardCharsets.UTF_8.toString());
-            System.out.println("Decoded location in Controller: " + location);
+            logger.debug("(HomeController) 디코딩된 장소명: {}", location);
 
             List<Store> stores;
             if (location.isEmpty()) {
@@ -65,10 +64,10 @@ public class HomeController {
                 stores = storeService.findStoresByLocation(location);
             }
 
-            System.out.println("Number of stores found: " + stores.size()); // 결과 개수 출력
+            logger.debug("(HomeController) 가게 개수: {}", stores.size()); // 결과 개수 출력
             return stores;
         } catch (Exception e) {
-            System.err.println("URL decoding error: " + e.getMessage());
+            logger.info("(HomeController) URL 디코딩 에러: {}", e.getMessage());
             return List.of(); // 오류 발생 시 빈 리스트 반환
         }
     }
@@ -85,10 +84,8 @@ public class HomeController {
         // theme 값을 split하여 배열로 변환
         String[] themeArray = (theme != null && !theme.isEmpty()) ? theme.split(",") : new String[0];
         
-        System.out.println("사용자 선택 필터 값 - Location: " + location +
-                ", Industry: " + industry +
-                ", SubCategory: " + subCategory +
-                ", Themes: " + themeArray);
+        logger.info("사용자 선택 필터 값 - Location: {}, Industry: {}, SubCategory: {}, Themes: {}",
+        		location, industry, subCategory, themeArray);
 
         // 필터링 로직
         List<Store> filteredStores = storeService.getStoresByFilters(location, industry, subCategory, themeArray);
@@ -117,12 +114,4 @@ public class HomeController {
     public String storeRegistration() {
     	return "home/storeRegistration";
     }
-    
-	/*
-	 * @GetMapping("/mypage") public String myPage(@AuthenticationPrincipal
-	 * OAuth2User oauth2User) { if(oauth2User!=null)
-	 * System.out.println("User Attributes: " + oauth2User.getAttributes()); return
-	 * "mypage/mypage"; }
-	 */
-
 }

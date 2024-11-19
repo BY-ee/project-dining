@@ -37,13 +37,60 @@
     	</where>
 	</select>
 	
-	<update id="blockMember" parameterType="long">
-		UPDATE member SET status='inactive'
+	<update id="blockMember">
+		UPDATE member
+		SET status='inactive',
+			inactive_date=SYSDATE,
+			reactive_date=SYSDATE + #{banTime}
 		WHERE id=#{id}
 	</update>
 	
-	<update id="unblockMember" parameterType="long">
-		UPDATE member SET status='active'
+	<update id="unblockMember">
+		UPDATE member
+		SET status='active',
+			inactive_date=null,
+			reactive_date=null
 		WHERE id=#{id}
 	</update>
+	
+	<select id="selectMemberByEmail" parameterType="String" resultType="member">
+		SELECT * FROM member
+		WHERE email=#{email}
+	</select>
+	
+	<insert id="insertMember" parameterType="member">
+        insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id,
+        passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, role)
+        values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR},
+        #{googleId, jdbcType=VARCHAR}, #{kakaoId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname, jdbcType=VARCHAR},
+        #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE},
+        #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, 'ROLE_MEMBER' )
+     </insert>
+     
+ 	<insert id="insertMemberForKakao" parameterType="member">
+        insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id,
+        passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, role)
+        values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, null,
+        null, #{memberId, jdbcType=VARCHAR}, #{passwd, jdbcType=VARCHAR}, #{nickname, jdbcType=VARCHAR},
+        #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE},
+        #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, 'ROLE_MEMBER' )
+     </insert>
+     
+ 	<insert id="insertMemberForNaver" parameterType="member">
+        insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id,
+        passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, role)
+        values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR},
+        null, null, #{passwd, jdbcType=VARCHAR}, #{nickname, jdbcType=VARCHAR},
+        #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE},
+        #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, 'ROLE_MEMBER' )
+     </insert>
+     
+ 	<insert id="insertMemberForGoogle" parameterType="member">
+        insert into member (category, registration_number, member_id, naver_id, google_id, kakao_id,
+        passwd, nickname, introduction, email, status, created_at, inactive_date, reactive_date, deleted_date, profile_image, role)
+        values ('일반', #{registrationNumber, jdbcType=VARCHAR}, #{memberId, jdbcType=VARCHAR}, null,
+        #{memberId, jdbcType=VARCHAR}, null, #{passwd, jdbcType=VARCHAR}, #{nickname, jdbcType=VARCHAR},
+        #{introduction, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, 'active', SYSDATE, #{inactiveDate, jdbcType=DATE},
+        #{reactiveDate, jdbcType=DATE}, #{deletedDate, jdbcType=DATE}, #{profileImage, jdbcType=VARCHAR}, 'ROLE_MEMBER' )
+     </insert>
 </mapper>
