@@ -1,7 +1,6 @@
 package com.project.mapper;
 
 import java.util.List;
-import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.project.domain.Review;
@@ -31,7 +30,6 @@ public interface ReviewMapper {
 	
 	// 리뷰 삭제 (포인트 추가작업에 따른 로직)
     void deleteReview(@Param("reviewId") Long reviewId);
-
 
 	// 총 리뷰 개수
 	long countReviews(RequestData requestData);

@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	    if (memberId) {
 	        data.memberId = memberId;
 	    }
-
 	    // AJAX 요청으로 초기 찜 상태 확인
 	    $.ajax({
 	        url: '/getLikeStatus',

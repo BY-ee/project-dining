@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
+<link rel="stylesheet" href="/css/templates/footer.css"> <!-- footer css -->
 
 <!-- footer 태그 템플릿 -->
 <footer class="footer">

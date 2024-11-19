@@ -3,14 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %>
-<link rel="stylesheet" href="css/mypage/myPageStyles.css">
-<link rel="stylesheet" href="css/mypage/commonStyles.css">
-<script type="text/javascript">
-        function showAlert(message) {
-            alert(message);
-        }
-</script>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" href="css/mypage/myPageStyles.css">
+	<link rel="stylesheet" href="css/mypage/commonStyles.css">
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
+
+</head>
 <body>
 	<!-- 상단바 -->
     <%@ include file="/WEB-INF/views/templates/header.jsp" %>

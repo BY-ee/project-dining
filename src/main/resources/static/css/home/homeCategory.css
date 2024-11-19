@@ -1,3 +1,80 @@
+/* 기본 스타일 초기화 */
+/*============================================================================*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.html, body {
+    font-family: Arial, sans-serif;
+        height: 100%;
+}
+
+.content {
+    min-height: calc(100vh - 120px); /* Make the content area at least the height of the screen minus the header/footer */
+}
+
+/* 헤더 스타일 */
+/*============================================================================*/
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    padding-top: 20px; /* 상단 여백 추가 */
+    padding-bottom: 30px; /* 하단 여백 추가 */
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+.main-logo img {
+    width: 250px;  
+    height:  flex; 
+}
+
+/* /* 페이지 이름 스타일 */ */
+/* .page-name a { */
+/*     font-size: 24px; */
+/*     color: #b07c83; */
+/*     color: inherit; 부모 요소의 색상을 따라감 */
+/*     text-decoration: none; 밑줄 제거 */
+/* } */
+
+/* 로그인 및 인증 버튼 스타일 */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+
+  padding: 10px;
+  background-color: #D8B2B2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom : 10px;
+  
+}
+
+.auth-buttons button:hover, .location-btn:hover {
+  background-color: #c49292;
+}
+
+/* 메뉴 버튼 스타일 */
+.menu-btn {
+	border: none;
+	border-radius: 0;
+    font-size: 20px;
+    background: none;
+    color: #b07c83;
+    cursor: pointer;
+}
+
 /* 위치 드롭다운 스타일 */
 /*============================================================================*/
 .location-dropdown {
@@ -128,7 +205,6 @@
 
 /* 필터 컨테이너 스타일 */
 /*============================================================================*/
-
 
 .category-select-container {
     margin-left : 690px;

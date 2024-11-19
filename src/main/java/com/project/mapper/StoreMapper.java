@@ -54,7 +54,6 @@ public interface StoreMapper{
 	
 	List<Store> findAllStores();
 	
-	
     List<Store> findStoresByLocation(String location);
 
     // 찜 좋아요 수 가져오기
@@ -72,4 +71,13 @@ public interface StoreMapper{
 
     // 카테고리 가져오기
 	List<Store> getStoreCategory(long storeId);
+    
+    List<Store> findStoresByOrder(
+            @Param("order") String order,
+            @Param("location") String location,
+            @Param("industry") String industry,
+            @Param("subCategory") String subCategory,
+            @Param("themeArray") List<String> themeArray
+    );
+    
 }

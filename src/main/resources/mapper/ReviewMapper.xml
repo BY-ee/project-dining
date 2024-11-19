@@ -30,7 +30,7 @@
            m.nickname
     FROM review r
     JOIN member m ON r.member_id = m.id
-    WHERE r.store_id = #{store_id}
+    WHERE r.store_id = #{storeId}
     ORDER BY r.created_at DESC
 	</select>
 	
@@ -57,7 +57,7 @@
 	</select>
 	
 	<delete id="deleteReview" parameterType="long">
-	    DELETE FROM review WHERE id = #{id}
+	    DELETE FROM review WHERE id = #{reviewId}
 	</delete>
 	
 	<update id="updateReviewStatusToHidden">

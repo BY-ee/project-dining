@@ -33,21 +33,16 @@ public class StoreController {
 			Model model) {
 
 		try {
-			Member member = userDetails.getMember();
-			long memberId = member.getId();
+			Long memberId = null;
 
-			System.out.println("storeId: " + storeId);
-			System.out.println("memberId: " + memberId);
-
-			// 세션에서 user_ID 가져오기 (로그인하지 않은 경우 null일 수 있음)
-			// Long userId = (Long) session.getAttribute("user_ID");
-
-			// userId가 null인 경우, 기본 값으로 설정하거나 예외 처리를 수행
-			// if (userId == null) {
-			// System.out.println("로그인하지 않은 사용자입니다.");
-			// } else {
-			// System.out.println("userId: " + userId);
-			// }
+	        // 로그인 여부 확인
+	        if (userDetails != null && userDetails.getMember() != null) {
+	            Member member = userDetails.getMember();
+	            memberId = member.getId();
+	            System.out.println("로그인된 사용자입니다. memberId: " + memberId);
+	        } else {
+	            System.out.println("비로그인 사용자입니다.");
+	        }
 
 			// 가게 및 메뉴 정보 가져오기
 			Store storeDetail = storeService.getStoreDetailById(storeId);
@@ -78,7 +73,11 @@ public class StoreController {
 			// MemberLike DTO에 likeCount 설정
 			MemberLike memberLike = new MemberLike();
 			memberLike.setStoreId(storeId);
-			memberLike.setMemberId(memberId);
+			
+			// 로그인된 사용자만 memberId 설정
+	        if (memberId != null) {
+	            memberLike.setMemberId(memberId);
+	        }
 
 			// 찜 좋아요 수 가져오기
 			long likeCount = storeService.getLikeCountByStoreId(storeId); // DB에서 likeCount 가져오기
@@ -89,6 +88,7 @@ public class StoreController {
 			model.addAttribute("menuList", menuList);
 			model.addAttribute("memberLike", memberLike);
 			model.addAttribute("categoryList", categoryList);
+			
 		} catch (NullPointerException e) {
 			throw new NullPointerException("(StoreController) Null Pointer Exception\n" + e.getMessage());
 		}
@@ -98,14 +98,19 @@ public class StoreController {
 
 	// 찜상태
 	@GetMapping("/getLikeStatus")
-	public ResponseEntity<MemberLike> getLikeStatus(@RequestParam("user_ID") Long memberId,
-			@RequestParam("store_ID") Long storeId) {
+	public ResponseEntity<MemberLike> getLikeStatus( @AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestParam("storeId") Long storeId) {
 
+		Long memberId = userDetails.getMember().getId();
+		System.out.println("받은 데이터: memberId=" + memberId + ", storeId=" + storeId);
+		
+		// 찜 상태와 찜 개수 가져오기
 		boolean isLiked = storeService.isMemberLikedStore(storeId, memberId);
 		long likeCount = storeService.getLikeCountByStoreId(storeId);
 
 		// MemberLike 객체 생성 및 반환
 		MemberLike memberLike = new MemberLike();
+		
 		memberLike.setStoreId(storeId);
 		memberLike.setMemberId(memberId);
 		memberLike.setLikeCount(likeCount);
