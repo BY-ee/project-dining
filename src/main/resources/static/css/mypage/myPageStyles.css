@@ -367,6 +367,11 @@
 	font-weight: bold;
 }
 
+.disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
 .security-setting-item input {
 	width: 98%;
 	padding: 10px;

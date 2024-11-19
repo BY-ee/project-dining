@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -134,4 +135,25 @@ public class HomeController {
     public String storeRegistration() {
     	return "home/storeRegistration";
     }
+    
+    @PostMapping("/registerStore")
+    public String registerStore(Store store, Model model) {
+    	
+    	try {
+            // Service 호출하여 여러 테이블에 데이터 저장
+    		storeService.registerStore(store);
+
+            // 성공 메시지 전달
+            model.addAttribute("message", "가게 등록이 완료되었습니다.");
+            return "redirect:/success";
+        } catch (Exception e) {
+        	e.printStackTrace();
+            // 에러 처리
+            model.addAttribute("message", e.getMessage());
+            return "home/errorPage";
+        }
+        
+    }
+    
+    
 }

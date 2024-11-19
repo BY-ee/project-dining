@@ -52,6 +52,7 @@
 					<button class="tab" onclick="location.href='/mypage'">활동내역</button>
 					<button class="tab" onclick="location.href='/profile'">프로필</button>
 					<button class="tab" onclick="location.href='/account'">계정 정보</button>
+					<button class="tab" onclick="location.href='/userPoint'">포인트</button>
 				</div>
 				<div class="expanded-content">
 					<!-- 계정 정보 섹션 -->
@@ -123,8 +124,8 @@
 							<div class="security-setting-item">
 							<form action="/account" method="post">
 								<label for="current_password">현재 비밀번호</label> 
-								<input type="password" id="current_password" name="current_password"> 
-								<label for="new_password">새 비밀번호</label>
+								<input type="password" id="current_password" name="current_password" class="${sessionMember.passwd == null ? 'disabled' : ''}" >
+								<label for="new_password">새비밀번호</label>
 								<input type="password" id="new_password" name="new_password"> 
 								<label for="new_password_check">비밀번호 확인</label> 
 								<input type="password" id="new_password_check" name="new_password_check">
