@@ -26,15 +26,13 @@
 <script type="text/javascript"> var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}"; </script>
 <script src="/js/community/chat.js"></script>
 <script src="/js/community/community.js"></script> <!-- 페이지 전용 JS -->
-<script src="/js/home/userdropdown.js"></script> <!-- 페이지 전용 JS -->
+<script src="/js/home/userDropDown.js" defer></script>
 
 
 
 
 
     <!-- script -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/home/userDropDown.js" defer></script>
     <script type="text/javascript">
         var userId = "${sessionMember.memberId}";
 	</script>
@@ -51,5 +49,4 @@
                 })
             );
         });
-    </script>
-</head>
+      </script>

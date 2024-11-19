@@ -32,7 +32,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'	    // spring web
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'  // mybatis
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.springframework.boot:spring-boot-starter-messaging'
 	    
 	
 	compileOnly 'org.projectlombok:lombok'  // lombok
