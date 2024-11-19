@@ -15,10 +15,10 @@
 
     <!-- JavaScript에서 사용할 memberId와 storeId -->
     <script type="text/javascript">
-	    var memberId = ${sessionMember.id};
-	    var storeId = ${storeId};
-        var latitude = ${storeDetail.latitude};
-        var longitude = ${storeDetail.longitude};
+	    var memberId = ${sessionMember.id != null ? sessionMember.id : 'null'}
+	    var storeId = ${storeId}
+        var latitude = ${storeDetail.latitude}
+        var longitude = ${storeDetail.longitude}
         
         console.log("memberId:", memberId);
         console.log("storeId:", storeId);

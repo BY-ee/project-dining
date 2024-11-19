@@ -104,7 +104,7 @@
 	            }
 		
 		        // 수정, 삭제 버튼 추가
-		        if (review.memberId != null && review.memberId.toString() === userId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
+		        if (review.memberId != null && review.memberId === memberId) { // 본인이 작성한 리뷰일 경우에만 삭제 버튼 표시
 		            console.log("review.memberId ", review.memberId);
 		        	console.log("review id: ", review.id)
 		            reviewItem += '<button class="edit-review-button" onclick="editReview(' + review.id + ', \'' + review.content + '\')">수정</button>';
