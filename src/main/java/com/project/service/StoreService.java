@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.project.domain.Menu;
 import com.project.domain.Store;
+import com.project.dto.IndustryDTO;
 import com.project.dto.MemberLike;
+import com.project.dto.StoreWithLocationDTO;
 import com.project.mapper.StoreMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -84,7 +86,7 @@ public class StoreService {
     }
 
 	@Transactional
-	public void registerStore(Store store) {
+	public void registerStore(StoreWithLocationDTO store) {
 		// 1. store 테이블 삽입 및 ID 생성
         storeMapper.insertStore(store);
         Long storeId = store.getId();
@@ -93,10 +95,15 @@ public class StoreService {
         storeMapper.insertRegion(storeId, store.getRegion());
 
         // 3. 업종 정보 삽입
-        storeMapper.insertIndustry(storeId, store.getIndustry());
-        Long industryId = store.getIndustryId();
+        IndustryDTO industryDTO = new IndustryDTO();
+        industryDTO.setStoreId(storeId);
+        industryDTO.setIndustry(store.getIndustry());
         
-        System.out.println(industryId);
+        storeMapper.insertIndustry(industryDTO);
+
+        // 자동 생성된 industryId를 가져와서 설정
+        Long industryId = industryDTO.getId();
+        store.setIndustryId(industryId);
         
         // 4. 음식점, 카페, 술집 중 해당하는 세부 업종 삽입
         String subcategory = store.getSubcategory(); // subcategory 값 가져오기

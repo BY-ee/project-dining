@@ -257,7 +257,7 @@
     </insert>
 
     <!-- 업종 정보 삽입 -->
-    <insert id="insertIndustry" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="insertIndustry" parameterType="com.project.dto.IndustryDTO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO industry (id, store_id, industry)
         VALUES (industry_seq.NEXTVAL, #{storeId}, #{industry})
     </insert>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Store;
 import com.project.dto.CustomUserDetails;
+import com.project.dto.StoreWithLocationDTO;
 import com.project.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
@@ -137,7 +138,7 @@ public class HomeController {
     }
     
     @PostMapping("/registerStore")
-    public String registerStore(Store store, Model model) {
+    public String registerStore(StoreWithLocationDTO store, Model model) {
     	
     	try {
             // Service 호출하여 여러 테이블에 데이터 저장
@@ -145,7 +146,7 @@ public class HomeController {
 
             // 성공 메시지 전달
             model.addAttribute("message", "가게 등록이 완료되었습니다.");
-            return "redirect:/success";
+            return "home/success";
         } catch (Exception e) {
         	e.printStackTrace();
             // 에러 처리

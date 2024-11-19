@@ -7,8 +7,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.Menu;
 import com.project.domain.Store;
+import com.project.dto.IndustryDTO;
 import com.project.dto.MemberLike;
 import com.project.dto.RequestData;
+import com.project.dto.StoreWithLocationDTO;
 
 
 @Mapper
@@ -81,13 +83,13 @@ public interface StoreMapper{
     );
 
     // store 테이블 삽입
-    void insertStore(Store store);
+    void insertStore(StoreWithLocationDTO store);
 
     // 지역 정보 삽입
     void insertRegion(@Param("storeId") Long storeId, @Param("region") String region);
 
     // 업종 정보 삽입
-    void insertIndustry(@Param("storeId") Long storeId, @Param("industry") String industry);
+    void insertIndustry(IndustryDTO industryDTO);
 
     // 음식점 정보 삽입
     void insertRestaurant(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
@@ -100,5 +102,6 @@ public interface StoreMapper{
 
     // 테마 정보 삽입
     void insertTheme(@Param("storeId") Long storeId, @Param("theme") String theme);
+
     
 }

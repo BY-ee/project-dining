@@ -24,14 +24,5 @@ public class Store {
     private String postStatus;
     private String enrollStatus;
     private String ceoName;
-    
-    private Long industryId; // 업종 ID
-    private String region; // 지역
-    private String industry; // 업종
-    private String subcategory; // 세부 업종
-    private String theme; // 테마
-    
-    private String restaurant; // 음식점
-    private String cafe; // 카페
-    private String bar; // 술집
+  
 }
