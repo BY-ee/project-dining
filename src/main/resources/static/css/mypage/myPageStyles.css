@@ -274,21 +274,21 @@
 }
 
 /* 이메일 정보 및 보안 설정 스타일 */
-.email-info, .security-settings {
+.div-content {
 	padding: 20px;
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	background-color: #ffffff;
-	margin-top: 20px;
+	margin-top: 50px;
 }
 
-.email-info label, .security-settings label {
+.div-content label {
 	/* display: block; */
 	margin-top: 10px;
 	font-weight: bold;
 }
 
-.email-info input, .security-settings input {
+.div-content input {
 	width: 98%;
 	padding: 10px;
 	margin-top: 5px;
@@ -303,7 +303,8 @@
 	padding: 10px 20px;
 	cursor: pointer;
 	border-radius: 6px;
-	margin-top: 10px;
+	margin-top: 20px;
+	margin-bottom: 10px;
 	transition: background-color 0.3s, transform 0.2s;
 }
 
@@ -314,8 +315,10 @@
 
 .social-connect-buttons {
 	display: flex;
+	justify-content: center;
 	gap: 150px;
-	margin-top: 15px;
+	margin-top: 50px;
+	margin-bottom: 20px;
 }
 
 .social-connect-buttons a {
@@ -393,14 +396,6 @@
 	background-color: gray;
 }
 
-.delete-account {
-	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	background-color: #ffffff;
-	margin-top: 20px;
-}
-
 .policy-text {
     width: 98%;
     height: 100px;
@@ -425,7 +420,7 @@
 }
 
 .policy-agreement input[type="checkbox"] {
-    margin-right: 5px;
+		width: auto;
 }
 
 
