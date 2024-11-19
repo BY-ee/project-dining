@@ -2,8 +2,6 @@ package com.project.config;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,10 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.firewall.DefaultHttpFirewall;
-import org.springframework.security.web.firewall.HttpFirewall;
 
-import com.project.dto.CustomUserDetails;
 import com.project.service.CustomOAuth2UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +25,6 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     //private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
     private final CustomOAuth2FailureHandler customOAuth2FailureHandler;
-    private final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 	
 	// 비밀번호 암호화
     @Bean
@@ -52,7 +46,7 @@ public class SecurityConfig {
 //        		.requestMatchers("/css", "js", "images").permitAll()  // 정적 파일 접근 허용
 //        		.requestMatchers("/upload", "WEB-INF/views").permitAll()  // webapp 하위 파일 접근 허용
                 .requestMatchers("/", "/login", "/loginProc").permitAll()
-                .requestMatchers("/mypage", "/profile", "/accountSettings").hasAnyRole("ADMIN", "MEMBER")
+                .requestMatchers("/mypage", "/profile", "/account").hasAnyRole("ADMIN", "MEMBER")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()  // 이외의 요청은 인증(로그인)된 사용자만 허가
         );

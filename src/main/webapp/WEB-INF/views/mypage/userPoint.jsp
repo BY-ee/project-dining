@@ -18,15 +18,10 @@
     </table>
 </div>
 
-<%
-    // 세션에서 memberId 가져오기
-    Long memberId = (Long) session.getAttribute("user_ID");
-%>
-
 <script type="text/javascript">
 
     // 세션에서 가져온 memberId를 JavaScript 변수로 선언
-    var memberId = <%= memberId != null ? memberId : "null" %>;
+    var memberId = ${memberId != null ? memberId : "null"};
 
     $(document).ready(function() {
         // memberId가 null이 아니면 포인트 정보를 자동으로 불러옵니다.
