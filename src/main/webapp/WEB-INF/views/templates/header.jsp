@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <!-- 로그인된 사용자의 ID와 닉네임을 저장 -->
-                <input type="hidden" id="memberId" value="${sessionScope.loginUser.id}">
-                <input type="hidden" id="nickname" value="${sessionScope.loginUser.nickname}">
+                <input type="hidden" id="memberId" value="${sessionMember.id}">
+                <input type="hidden" id="nickname" value="${sessionMember.nickname}">
             </c:when>
             <c:otherwise>
                 <!-- 비로그인 사용자를 위한 로그인/회원가입 버튼 -->
