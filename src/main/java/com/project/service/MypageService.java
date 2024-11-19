@@ -75,8 +75,9 @@ public class MypageService {
 	}
 
 	public boolean changePassword(Member member,String currentPassword,String newPassword) {
-		if(!(passwordEncoder.matches(currentPassword,member.getPasswd()))) return false;
-		
+		if(currentPassword != null) {
+			if(!(passwordEncoder.matches(currentPassword,member.getPasswd()))) return false;			
+		}
 		member.setPasswd(passwordEncoder.encode(newPassword));
 		int i = mypageMapper.updatePassword(member);
 		securityContextUtil.reloadUserDetails(member.getMemberId());  // spring security context의 상태 수정

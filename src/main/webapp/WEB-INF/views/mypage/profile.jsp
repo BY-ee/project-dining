@@ -25,6 +25,7 @@
                     <button class="tab" id="defaultTab" onclick="location.href='/mypage'">활동내역</button>
                     <button class="tab" onclick="location.href='/profile'">프로필</button>
                     <button class="tab" onclick="location.href='/account'">계정 정보</button>
+                    <button class="tab" onclick="location.href='/userPoint'">포인트</button>
                 </div>
                 
                 <div class="expanded-content">
@@ -34,7 +35,7 @@
 					        <h3>회원정보</h3>
 					        <form action = "/profile" method = "post">
 						        <label for="nickname">닉네임</label>
-						        <input type="text" id="nickname" name="nickname" value="${sessionMember.nickname}" readonly>
+						        <input type="text" id="nickname" name="nickname" value="${sessionMember.nickname}">
 						        <label for="age">나이</label>
 						        <input type="number" id="age" name="age" min="1" max="100" value="${sessionMember.age}"> 
 						        <label for="mbti">MBTI</label>
