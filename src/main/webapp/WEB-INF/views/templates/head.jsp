@@ -3,6 +3,7 @@
 <!-- meta -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="_csrf" content="${_csrf.token}"> <!-- CSRF 토큰 메타 태그 -->
 
 <!-- title -->
 <title>Dining Recommendation</title>
@@ -18,35 +19,28 @@
 <!-- script -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script> <!-- jQuery UI -->
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script> <!-- SockJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script> <!-- STOMP.js -->
 
-
+<!-- Custom JS -->
 <script src="/js/home/slider.js"></script> <!-- 슬라이더 -->
-<script type="text/javascript"> var userId = "${sessionScope.user_ID != null ? sessionScope.user_ID : ''}"; </script>
-<script src="/js/community/chat.js"></script>
-<script src="/js/community/community.js"></script> <!-- 페이지 전용 JS -->
-<script src="/js/home/userDropDown.js" defer></script>
+<script type="text/javascript">
+    var userId = "${sessionMember.memberId != null ? sessionMember.memberId : ''}";
+</script>
+<script src="/js/community/chat.js"></script> <!-- 채팅 -->
+<script src="/js/community/community.js"></script> <!-- 커뮤니티 -->
+<script src="/js/home/userDropDown.js" defer></script> <!-- 드롭다운 -->
 
-
-
-
-
-    <!-- script -->
-    <script type="text/javascript">
-        var userId = "${sessionMember.memberId}";
-	</script>
-    <script>
-        // Spring Security가 제공하는 CSRF 토큰을 각 form 태그에 자동으로 삽입
-        $(document).on('submit', 'form', function () {
-            const csrfToken = $('meta[name="_csrf"]').attr('content');
-
-            $(this).append(
-                $('<input>', {
-                    type: 'hidden',
-                    name: '_csrf',
-                    value: csrfToken
-                })
-            );
-        });
-      </script>
+<script>
+    // Spring Security가 제공하는 CSRF 토큰을 각 form 태그에 자동으로 삽입
+    $(document).on('submit', 'form', function () {
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        $(this).append(
+            $('<input>', {
+                type: 'hidden',
+                name: '_csrf',
+                value: csrfToken
+            })
+        );
+    });
+</script>
