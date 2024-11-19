@@ -1,0 +1,28 @@
+/* Main container */
+.main-container {
+	width: 80%;
+	margin-top: 20px;
+	text-align: center;
+}
+.main-container h2 {
+	margin-bottom: 20px;
+	font-size: 1.5em;
+}
+
+.main-title {
+	margin-top: 30vh;
+	margin-bottom: 50px;
+	color: #f00;
+}
+
+.main-content {
+	line-height: 2.5;
+	width: auto;
+}
+
+.btn {
+	background-color: #a79feb;
+	padding: 10px 20px;
+	margin-top: 40px;
+	color: #000;
+}
