@@ -5,21 +5,18 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.project.domain.Member;
 import com.project.domain.Point;
 import com.project.domain.Review;
+import com.project.dto.CustomUserDetails;
 import com.project.dto.ReviewWithNicknameDTO;
 import com.project.service.PointService;
 import com.project.service.ReviewService;
@@ -34,7 +31,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final PointService pointService;
 
-    @RequestMapping("/getReviews")
+    @GetMapping("/getReviews")
     @ResponseBody
     public List<ReviewWithNicknameDTO> getReviews(@RequestParam("store_id") long storeId) {
     	
@@ -56,15 +53,14 @@ public class ReviewController {
             @RequestParam("score") double score,
             @RequestParam("content") String content,
             @RequestParam(value = "images", required = false) List<MultipartFile> images,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             HttpSession session,
             RedirectAttributes redirectAttributes,
             Model model) {
 
-        Long memberId = (Long) session.getAttribute("user_ID");
+    	Member member = userDetails.getMember();
+        long memberId = member.getId();
      
-        if (memberId == null) {
-            return "redirect:/loginForm.do";
-        }
         
         Review existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
         boolean pointGiven = false; // 포인트 지급 여부를 저장할 변수

@@ -39,7 +39,7 @@ public class StoreController {
 	        if (userDetails != null) {
 	            Member member = userDetails.getMember();
 	            memberId = member.getId();
-	            System.out.println("memberId: " + memberId);
+	            System.out.println("로그인된 사용자입니다. memberId: " + memberId);
 	        } else {
 	            System.out.println("로그인되지 않은 사용자입니다.");
 	        }

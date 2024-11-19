@@ -30,7 +30,7 @@
            m.nickname
     FROM review r
     JOIN member m ON r.member_id = m.id
-    WHERE r.store_id = #{store_id}
+    WHERE r.store_id = #{storeId}
     ORDER BY r.created_at DESC
 	</select>
 	

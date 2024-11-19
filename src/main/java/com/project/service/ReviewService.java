@@ -1,9 +1,7 @@
 package com.project.service;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Service;
-
 import com.project.domain.Review;
 import com.project.dto.ReviewWithNicknameDTO;
 import com.project.mapper.ReviewMapper;
@@ -16,8 +14,8 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 
 	// 리뷰 조회
-	public List<ReviewWithNicknameDTO> getReviewsByStoreId(long store_id) {
-	    return reviewMapper.getReviewsByStoreId(store_id);
+	public List<ReviewWithNicknameDTO> getReviewsByStoreId(long storeId) {
+	    return reviewMapper.getReviewsByStoreId(storeId);
 	}
 
 	// 리뷰 저장
