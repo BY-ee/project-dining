@@ -74,7 +74,7 @@ public class StoreService {
     }
 
     // 카테고리 가져오기
-	public List<Store> getStoreCategory(long storeId) {
+	public List<StoreWithLocationDTO> getStoreCategory(long storeId) {
 		return storeMapper.getStoreCategory(storeId);
 	}
     

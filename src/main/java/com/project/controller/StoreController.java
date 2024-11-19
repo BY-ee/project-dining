@@ -15,6 +15,7 @@ import com.project.domain.Menu;
 import com.project.domain.Store;
 import com.project.dto.CustomUserDetails;
 import com.project.dto.MemberLike;
+import com.project.dto.StoreWithLocationDTO;
 import com.project.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,7 @@ public class StoreController {
 			List<Menu> menuList = storeService.getMenuById(storeId);
 
 			// 가게 카테고리값 가져오기
-			List<Store> categoryList = storeService.getStoreCategory(storeId);
+			List<StoreWithLocationDTO> categoryList = storeService.getStoreCategory(storeId);
 
 			System.out.println("storeDetail값:" + storeDetail);
 			System.out.println("menuList값:" + menuList);

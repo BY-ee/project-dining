@@ -72,7 +72,7 @@ public interface StoreMapper{
         );
 
     // 카테고리 가져오기
-	List<Store> getStoreCategory(long storeId);
+	List<StoreWithLocationDTO> getStoreCategory(long storeId);
     
     List<Store> findStoresByOrder(
             @Param("order") String order,
