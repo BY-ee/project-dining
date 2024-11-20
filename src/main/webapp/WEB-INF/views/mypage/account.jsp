@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %>
+<%-- <%@ include file="/WEB-INF/views/templates/head.jsp" %> --%>
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -40,7 +40,7 @@
     </script>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/templates/header.jsp" %>
+	<%-- <%@ include file="/WEB-INF/views/templates/header.jsp" %> --%>
 	<div class="container">
 		<div class="content">
 			<!-- 사이드바: 프로필 사진과 이름 표시 -->
@@ -157,7 +157,7 @@
            </script>
     	</c:if>
 	</div>
-	<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
+	<%-- <%@ include file="/WEB-INF/views/templates/footer.jsp" %> --%>
 	<script>
 		$(".email-verify-button").on("click",function(){
 			const userEmail = $("#userEmail").val();
@@ -213,6 +213,8 @@
 	        $("#verification-popup").fadeOut(); // 팝업창 숨기기
 	    });
 	
+	    
+	    
 		// 클릭 시 `redirectUrl`을 세션에 저장하기 위한 함수
 		function setRedirectUrl(url,socialName) {
 			alert(url+","+socialName);

@@ -34,6 +34,6 @@ function uploadFile(event){
 			id="fileInput" style="display: none" onchange="uploadFile(event)" />
 	</div>
 	<div class="profile-name">${sessionMember.nickname}</div>
-	<div class="profile-point">내 포인트 : 500p</div>
+	<div class="profile-point">내 포인트 : ${point}</div>
 	<div class="profile-intro">${sessionMember.introduction}</div>
 </div>

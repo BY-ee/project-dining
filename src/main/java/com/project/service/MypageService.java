@@ -89,7 +89,9 @@ public class MypageService {
 	}
 
 	public int fileUpload(Member member) {
-		return mypageMapper.fileUpload(member);
+		int i = mypageMapper.fileUpload(member);
+		securityContextUtil.reloadUserDetails(member.getMemberId());
+		return i;
 	}
 
 	// 전체적으로 고치기
@@ -112,6 +114,8 @@ public class MypageService {
 	}
 	
 	public int updateEmail(Member member) {
-		return mypageMapper.updateEmail(member);
+		int i = mypageMapper.updateEmail(member);
+		securityContextUtil.reloadUserDetails(member.getMemberId());
+		return i;
 	}
 }

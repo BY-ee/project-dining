@@ -56,4 +56,3 @@
 <script src="/js/community/chat.js"></script> <!-- 채팅 -->
 <script src="/js/community/community.js"></script> <!-- 커뮤니티 -->
 <script src="/js/home/userDropDown.js" defer></script> <!-- 드롭다운 -->
-</script>

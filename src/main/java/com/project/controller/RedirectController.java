@@ -21,11 +21,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RedirectController {
 	
-	private final MypageService mypageService;
-	
 	@PostMapping("/setRedirectUrl")
     public void setRedirectUrl(@RequestBody Map<String, String> payload, HttpServletRequest request) {
-		
+		System.out.println("payload 내용: " + payload);
+		System.out.println("setRedirectUrl 의 redirectUrl = " + payload.get("redirectUrl"));
         request.getSession().setAttribute("redirectUrl", payload.get("redirectUrl"));
         request.getSession().setAttribute("socialName", payload.get("socialName"));
     }

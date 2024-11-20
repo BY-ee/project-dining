@@ -34,9 +34,9 @@
 							<c:forEach var="mypageLike" items= "${likePageResponse.list}">
 								<div class="item">
 									<a href="/store/${mypageLike.storeId}">
-										<img src="/images/${mypageLike.mainImage1}">
+										<img src="/images/store/${mypageLike.mainImage1}">
 									</a>
-									${mypageLike.storeName }
+									<span>${mypageLike.storeName }</span>
 								</div>
 							</c:forEach>
 						</div>
@@ -58,9 +58,9 @@
 							<c:forEach var="mypageReview" items= "${reviewPageResponse.list}">
 								<div class="item">
 									<a href="/store/${mypageReview.storeId}">
-										<img src="images/${mypageReview.mainImage1}">
+										<img src="images/store/${mypageReview.mainImage1}">
 									</a>
-									${mypageReview.storeName}
+									<span>${mypageReview.storeName}</span>
 								</div>
 							</c:forEach>
 						</div>

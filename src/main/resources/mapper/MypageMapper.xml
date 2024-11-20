@@ -41,6 +41,7 @@
 		from review r join store s
 		on r.store_id = s.id
 		where r.member_id = #{pageRequest.memberId}
+		and r.status = 'active'
 		order by created_at desc
 		) inner_query
 		)

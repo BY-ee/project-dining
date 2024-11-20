@@ -139,7 +139,7 @@ public class SecurityConfig {
                                                 Authentication authentication) throws IOException {
             	
             	String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-                
+                System.out.println("redirectUrl = " + redirectUrl);
                 if (redirectUrl != null) {
                     getRedirectStrategy().sendRedirect(request, response, redirectUrl); // 브라우저에 302 리디렉션 응답을 보내서 사용자가 redirectUrl로 이동하도록 함.
                     request.getSession().removeAttribute("redirectUrl"); // 다음 로그인시 이전 리디렉션 URL이 남아있지 않게함.

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.Member;
+import com.project.domain.Point;
 import com.project.domain.Store;
 import com.project.dto.CustomUserDetails;
 import com.project.dto.MypageLike;
@@ -30,6 +32,7 @@ import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
 import com.project.dto.UnifiedPrincipal;
 import com.project.service.MypageService;
+import com.project.service.PointService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +42,7 @@ import lombok.RequiredArgsConstructor;
 public class MypageController {
 
 	private final MypageService mypageService;
+	private final PointService pointService;
 	
 	@GetMapping("/mypage")
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,
@@ -66,6 +70,10 @@ public class MypageController {
 		
 		model.addAttribute("likePageResponse",likePageResponse);
 		model.addAttribute("reviewPageResponse",reviewPageResponse);
+		
+		// 포인트
+		int point = pointService.getTotalPoints(member.getId());
+		model.addAttribute("point",point);
 		
     	return "mypage/mypage";
     }
@@ -118,6 +126,9 @@ public class MypageController {
     public String profile(@AuthenticationPrincipal CustomUserDetails userDetails , Model model) {
 		Member member = mypageService.getMember(userDetails.getUsername());
 		model.addAttribute("member",member);
+		// 포인트
+				int point = pointService.getTotalPoints(member.getId());
+				model.addAttribute("point",point);
     	return "mypage/profile";
     }
 	
@@ -134,10 +145,13 @@ public class MypageController {
 	
 	
 	@GetMapping("/account")
-    public String accountSettings() {
+    public String accountSettings(@AuthenticationPrincipal CustomUserDetails userDetails,Model model) {
 //		Member member = mypageService.getMember(24);
 //		model.addAttribute("member",member);
 //    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
+		// 포인트
+				int point = pointService.getTotalPoints(userDetails.getId());
+				model.addAttribute("point",point);
     	return "mypage/account";
     }
 	
@@ -166,5 +180,19 @@ public class MypageController {
 		int i = mypageService.updateSocialId(userDetails,session);
 		session.removeAttribute("socialName");
 		return "redirect:/account";
+	}
+	
+	@GetMapping("/userPoint")
+	public String userPoint(@AuthenticationPrincipal CustomUserDetails userDetails,Model model) {
+		// 포인트
+		int point = pointService.getTotalPoints(userDetails.getId());
+		model.addAttribute("point",point);
+		return "mypage/userPoint";
+	}
+	
+	@GetMapping("/findPointByMemberId")
+    @ResponseBody
+	public List<Point> getPointByMember(@RequestParam("member_id") long memberId) {
+		return pointService.findPointByuserId(memberId);
 	}
 }
