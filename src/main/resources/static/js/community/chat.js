@@ -137,18 +137,27 @@ function enterChatRoom(roomId, roomName) {
         console.error("유효하지 않은 Room ID입니다.");
         return;
     }
-	
+
     currentRoomId = roomId;
-	
-	// 채팅 입력창 표시
-	$("#chat-list-container").hide();
-	$("#chat-room-container").show();
-	$("#chat-room-name").text(roomName);
 
+    console.log("채팅방 입장: Room ID = ", roomId);
+
+    // WebSocket 구독
+    connectToParticipantsChannel(roomId);
+
+    console.log("참여 요청 전송");
+    stompClient.send(`/app/joinRoom/${roomId}`, {}, JSON.stringify({ roomId: parseInt(roomId) }));
+
+    // UI 업데이트
+    console.log("채팅 입력창 활성화 시도");
+    $("#chat-input-container").show();
+
+    // 추가 작업
+    $("#chat-list-container").hide();
+    $("#chat-room-container").show();
+    $("#chat-room-name").text(roomName);
+    loadChatMessages(roomId);
     connectToChatRoom(roomId);
-	loadChatMessages(roomId);
-
-	$("#chat-input-container").show();
 }
 
 // WebSocket 글로벌 연결 함수
