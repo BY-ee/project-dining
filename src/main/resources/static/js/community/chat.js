@@ -2,8 +2,10 @@ let stompClient = null;
 let currentRoomId = null;
 
 $(document).ready(function () {
-    // 페이지 로드 시 "내 채팅방 목록" 표시
-    initializeChat();
+    // 초기 상태 복원
+    restoreChatVisibility();
+	restoreChatPopupState();
+
     loadChatRooms();
 
     // 채팅방 닫기 버튼 클릭 이벤트
@@ -11,9 +13,28 @@ $(document).ready(function () {
         $("#chat-room-container").hide(); // 채팅방 숨기기
         $("#chat-list-container").show(); // 채팅 목록 표시
         currentRoomId = null; // 현재 방 ID 초기화
+        saveChatVisibility("list"); // 채팅 목록 상태 저장
+        if (stompClient) {
+            stompClient.disconnect(); // WebSocket 연결 해제s
+        }
+    });
+
+    // 채팅목록 닫기 버튼 클릭 이벤트
+    $("#close-chat").click(function () {
+        $("#chat-room-container").hide(); // 채팅방 숨기기
+        $("#chat-list-container").hide(); // 채팅 목록 숨기기
+        saveChatVisibility("hidden"); // 상태 저장
+        currentRoomId = null; // 현재 방 ID 초기화
         if (stompClient) {
             stompClient.disconnect(); // WebSocket 연결 해제
         }
+    });
+
+    // "내 채팅" 버튼 클릭 이벤트
+    $("#open-chat-list").click(function () {
+        $("#chat-list-container").show(); // 채팅 목록 표시
+        $("#chat-room-container").hide(); // 채팅방 숨기기
+        saveChatVisibility("list"); // 채팅 목록 상태 저장
     });
 
     // 메시지 전송 이벤트 추가
@@ -38,32 +59,52 @@ $(document).ready(function () {
             saveChatPopupState(position); // 위치를 공유하도록 저장
         },
     });
-	
-	connectToGlobalChannel();
+
+    connectToGlobalChannel();
 });
 
-function initializeChat() {
-    initializeChatPopup();
 
-    // 채팅 목록만 표시
-    $("#chat-list-container").show();
-    $("#chat-room-container").hide();
+// 상태 복원 함수
+function restoreChatVisibility() {
+    const isFirstVisit = localStorage.getItem("isFirstVisit");
+    const chatVisibility = localStorage.getItem("chatVisibility");
+
+    // 첫 방문인 경우 채팅창 숨기고 isFirstVisit 플래그 설정
+    if (!isFirstVisit) {
+        localStorage.setItem("isFirstVisit", "false");
+        saveChatVisibility("hidden"); // 초기 상태 저장
+        return;
+    }
+
+    // 이전 상태에 따라 복원
+    if (chatVisibility === "list") {
+        $("#chat-list-container").css("display", "block"); // 채팅 목록 표시
+        $("#chat-room-container").css("display", "none"); // 채팅방 숨기기
+    } else if (chatVisibility === "hidden") {
+        $("#chat-list-container").css("display", "none"); // 채팅 목록 숨기기
+        $("#chat-room-container").css("display", "none"); // 채팅방 숨기기
+    }
 }
 
-function initializeChatPopup() {
-	
-    const chatPopupState = JSON.parse(localStorage.getItem("chatPopupState"));
+// 상태 저장 함수
+function saveChatVisibility(state) {
+    localStorage.setItem("chatVisibility", state);
+    console.log("채팅 상태 저장:", state);
+}
 
+
+// 위치 상태 복원 함수
+function restoreChatPopupState() {
+    const chatPopupState = JSON.parse(localStorage.getItem("chatPopupState"));
     if (chatPopupState && chatPopupState.position) {
         const { position } = chatPopupState;
-
-        // 동일한 위치를 두 컨테이너에 적용
         $("#chat-list-container, #chat-room-container").css({
             top: position.top,
             left: position.left,
         });
     }
 }
+
 
 function saveChatPopupState(position) {
     const chatState = {
@@ -158,6 +199,9 @@ function enterChatRoom(roomId, roomName) {
     $("#chat-room-name").text(roomName);
     loadChatMessages(roomId);
     connectToChatRoom(roomId);
+		
+	saveChatVisibility("room");
+
 }
 
 // WebSocket 글로벌 연결 함수

@@ -24,6 +24,7 @@
                         <a href="/mypage">활동내역</a>
                         <a href="/account">계정정보</a>
                         <a href="/recommendations">1:1 추천</a>
+                        <a id="open-chat-list">내 채팅</a>
                         <form action="/logout" method="post" style="display:inline;">
                             <button type="submit">로그아웃</button>
                         </form>
@@ -70,10 +71,11 @@
 </div>
  -->
  
-<div id="chat-list-container">
+<div id="chat-list-container" style="display: none;">
     <!-- 채팅 목록 UI -->
     <div id="chat-list-header">
         <h2 id="chat-list-name">채팅 목록</h2>
+        <button id="close-chat">X</button>
     </div>
     <div id="chat-list">
         <!-- 채팅 목록이 동적으로 추가됩니다 -->
