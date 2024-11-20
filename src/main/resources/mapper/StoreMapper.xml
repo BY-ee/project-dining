@@ -230,6 +230,8 @@
         longitude,
         open_time,
         store_description,
+        post_status,
+        enroll_status,
         ceo_name
     ) VALUES (
         #{memberId},
@@ -243,6 +245,8 @@
         #{longitude, jdbcType=VARCHAR},
         #{openTime},
         #{storeDescription},
+        'inactive',
+		'wait',
         #{ceoName}
     )
 </insert>
@@ -284,5 +288,6 @@
         VALUES (#{storeId}, #{theme})
     </insert>
 
+	
 	
 </mapper>

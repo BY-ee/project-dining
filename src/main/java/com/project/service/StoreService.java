@@ -1,16 +1,21 @@
 package com.project.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.project.domain.Menu;
 import com.project.domain.Store;
 import com.project.dto.IndustryDTO;
 import com.project.dto.MemberLike;
 import com.project.dto.StoreWithLocationDTO;
+import com.project.mapper.MenuMapper;
 import com.project.mapper.StoreMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class StoreService {
 
 	private final StoreMapper storeMapper;
+	private final MenuMapper menuMapper;
 
 	public Store getStoreDetailById(long store_ID) {
 		return storeMapper.getStoreDetailById(store_ID);
@@ -86,39 +92,93 @@ public class StoreService {
     }
 
 	@Transactional
-	public void registerStore(StoreWithLocationDTO store) {
-		// 1. store 테이블 삽입 및 ID 생성
-        storeMapper.insertStore(store);
-        Long storeId = store.getId();
+	public void registerStore(StoreWithLocationDTO store, List<MultipartFile> storePhotos, List<MultipartFile> menuPhotos) {
+		// 1. storePhotos 처리 및 mainImage1, mainImage2 설정
+		if (storePhotos != null && !storePhotos.isEmpty()) {
+			String mainImage1Path = saveFile(storePhotos.get(0));
+			store.setMainImage1(mainImage1Path);
 
-        // 2. 지역 정보 삽입
-        storeMapper.insertRegion(storeId, store.getRegion());
+			if (storePhotos.size() > 1) {
+				String mainImage2Path = saveFile(storePhotos.get(1));
+				store.setMainImage2(mainImage2Path);
+			}
+		}
 
-        // 3. 업종 정보 삽입
-        IndustryDTO industryDTO = new IndustryDTO();
-        industryDTO.setStoreId(storeId);
-        industryDTO.setIndustry(store.getIndustry());
-        
-        storeMapper.insertIndustry(industryDTO);
+		// 2. store 테이블 삽입 및 ID 생성
+		storeMapper.insertStore(store);
+		Long storeId = store.getId();
 
-        // 자동 생성된 industryId를 가져와서 설정
-        Long industryId = industryDTO.getId();
-        store.setIndustryId(industryId);
-        
-        // 4. 음식점, 카페, 술집 중 해당하는 세부 업종 삽입
-        String subcategory = store.getSubcategory(); // subcategory 값 가져오기
-        
-        if (store.getIndustry().equals("음식점")) {
-            storeMapper.insertRestaurant(industryId, storeId, subcategory);
-        } else if (store.getIndustry().equals("카페")) {
-            storeMapper.insertCafe(industryId, storeId, subcategory);
-        } else if (store.getIndustry().equals("술집")) {
-            storeMapper.insertBar(industryId, storeId, subcategory);
-        }
+		// 3. 지역 정보 삽입
+		storeMapper.insertRegion(storeId, store.getRegion());
 
-        // 5. 테마 정보 삽입
-        storeMapper.insertTheme(storeId, store.getTheme());
-		
+		// 4. 업종 정보 삽입
+		IndustryDTO industryDTO = new IndustryDTO();
+		industryDTO.setStoreId(storeId);
+		industryDTO.setIndustry(store.getIndustry());
+
+		storeMapper.insertIndustry(industryDTO);
+
+		// 자동 생성된 industryId를 가져와서 설정
+		Long industryId = industryDTO.getId();
+		store.setIndustryId(industryId);
+
+		// 5. 음식점, 카페, 술집 중 해당하는 세부 업종 삽입
+		String subcategory = store.getSubcategory(); // subcategory 값 가져오기
+
+		if (store.getIndustry().equals("음식점")) {
+			storeMapper.insertRestaurant(industryId, storeId, subcategory);
+		} else if (store.getIndustry().equals("카페")) {
+			storeMapper.insertCafe(industryId, storeId, subcategory);
+		} else if (store.getIndustry().equals("술집")) {
+			storeMapper.insertBar(industryId, storeId, subcategory);
+		}
+
+		// 6. 테마 정보 삽입
+		storeMapper.insertTheme(storeId, store.getTheme());
+
+		// 7. 메뉴 사진 처리 및 메뉴 정보 삽입
+		if (menuPhotos != null && !menuPhotos.isEmpty()) {
+			for (MultipartFile menuPhoto : menuPhotos) {
+				String menuImagePath = saveFile(menuPhoto);
+
+				// 메뉴 객체 생성 및 설정
+				Menu menu = new Menu();
+				menu.setStoreId(storeId); // 동일한 storeId로 저장
+				menu.setMenuImage(menuImagePath);
+
+				// 필요에 따라 추가 정보 설정
+				menu.setMenuName("메뉴 이름"); // 필요 시 업데이트
+				menu.setMenuDescription("메뉴 설명"); // 필요 시 업데이트
+				menu.setMenuPrice("0"); // 필요 시 업데이트
+
+				// 메뉴 정보 삽입
+				menuMapper.insertMenu(menu);
+			}
+		}
+	}
+
+	// 파일 저장 메서드 추가
+	private String saveFile(MultipartFile file) {
+		String uploadDir = System.getProperty("user.dir") + "src/main/resources/static/images/store"; // 실제 업로드 디렉토리 경로로
+																										// 변경
+		File dir = new File(uploadDir);
+		if (!dir.exists())
+			dir.mkdirs();
+
+		String originalFilename = file.getOriginalFilename();
+//        String filename = System.currentTimeMillis() + "_" + originalFilename;
+		String filename = originalFilename;
+		File dest = new File(dir, filename);
+
+		try {
+			file.transferTo(dest);
+		} catch (IOException e) {
+			// 예외 처리
+			e.printStackTrace();
+		}
+
+		return filename;
+
 	}
 
 }

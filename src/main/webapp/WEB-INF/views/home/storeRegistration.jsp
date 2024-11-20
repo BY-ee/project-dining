@@ -16,7 +16,7 @@
         <h2>사업자 가게 등록</h2>
         <p>가게 정보를 입력해 주세요. 검토 후 등록이 승인됩니다.</p>
 
-        <form class="store-registration-form" id="storeRegistrationForm" method="post" action="/registerStore" onsubmit="prepareFormData()">
+        <form class="store-registration-form" id="storeRegistrationForm" method="post" action="/registerStore" onsubmit="prepareFormData()" enctype="multipart/form-data">
             <!-- 숨겨진 필드 -->
             <input type="hidden" id="hiddenIndustry" name="industry" value="">
             <input type="hidden" id="hiddenSubCategory" name="subcategory" value="">
@@ -77,13 +77,15 @@
             <textarea id="storeDescription" name="storeDescription" maxlength="500" placeholder="가게에 대한 간단한 설명을 입력해 주세요."></textarea>
             <div class="char-limit">0자 / 최대 500자</div>
 
-            <label for="menuPhotos">대표 메뉴 사진 (최대 4개)</label>
-            <input type="file" id="menuPhotos" name="menuPhotos" multiple accept="image/*">
-            <div id="menuPhotosNames" class="file-names"></div>
-
             <label for="storePhotos">가게 대표 사진 (최대 2개)</label>
             <input type="file" id="storePhotos" name="storePhotos" multiple accept="image/*">
             <div id="storePhotosNames" class="file-names"></div>
+
+            <label for="menuPhotos">대표 메뉴 사진 (최대 4개)</label>
+            <input type="file" id="menuPhotos" name="menuPhotos" multiple accept="image/*">
+            <div id="menuPhotosNames" class="file-names"></div>
+            
+            <span>첨부하고 실제 사진파일은 이메일로 제출해주세요.</span>
 
             <div class="consent-section">
                 <label>
