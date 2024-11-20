@@ -5,11 +5,11 @@
 
 <mapper namespace="com.project.mapper.ChatRoomMapper">
 
-    <!-- 메시지 저장 -->
-    <insert id="insertMessage">
-        INSERT INTO messages (room_id, member_id, content, type, sent_at)
-        VALUES (#{roomId}, #{memberId}, #{content}, #{type,jdbcType=VARCHAR}, CURRENT_TIMESTAMP)
-    </insert>
+	    <!-- 메시지 저장 -->
+	<insert id="insertMessage">
+	    INSERT INTO messages (room_id, member_id, content, type, sent_at)
+	    VALUES (#{roomId}, #{memberId}, #{content}, #{type,jdbcType=VARCHAR}, CURRENT_TIMESTAMP)
+	</insert>
 
     <!-- 특정 채팅방 메시지 조회 -->
     <select id="findMessagesByRoomId" resultType="com.project.domain.ChatMessage">

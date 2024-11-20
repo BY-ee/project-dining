@@ -45,17 +45,17 @@
 
  
 <!-- 채팅 팝업 HTML 추가 -->
-<div id="chat-popup">
-    <!-- 상단 헤더 -->
+<!-- <div id="chat-popup">
+    상단 헤더
     <div id="chat-room-header">
         <h2 id="chat-room-name">Chat Room</h2>
         <button id="close-chat-popup">X</button>
     </div>
 
-    <!-- 채팅 내용 -->
+    채팅 내용
     <div id="chat-content"></div>
 
-    <!-- 입력창과 도구 -->
+    입력창과 도구
     <div id="chat-input-container">
         <input type="text" id="chat-input" placeholder="메시지 입력">
         <div id="chat-tools">
@@ -67,4 +67,31 @@
         </div>
     </div>
 </div>
+ -->
+ 
+ <div id="chat-list-container">
+    <!-- 채팅 목록 UI -->
+    <div id="chat-room-header">
+        <h2 id="chat-room-name"></h2>
+        <button id="close-chat-room">X</button>
+    </div>
+</div>
 
+<div id="chat-room-container" style="display: none;">
+    <!-- 채팅 방 UI -->
+    <div id="chat-room-header">
+        <h2 id="chat-room-name"></h2>
+        <button id="close-chat-room">X</button>
+    </div>
+    <div id="chat-content"></div>
+    <div id="chat-input-container" style="display: none;">
+        <input type="text" id="chat-input" placeholder="메시지 입력">
+        <div id="chat-tools">
+            <div>
+                <button>사진 첨부</button>
+                <button>이모티콘</button>
+            </div>
+            <button id="send-chat">전송</button>
+        </div>
+    </div>
+</div>

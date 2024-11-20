@@ -3,14 +3,19 @@ let currentRoomId = null;
 
 $(document).ready(function () {
     // 페이지 로드 시 "내 채팅방 목록" 표시
-    loadChatRooms();
-	initializeChat()
+	initializeChat();
+	loadChatRooms();
 
-    // 팝업 닫기 버튼 클릭 이벤트
-    $("#close-chat-popup").click(function () {
-        $("#chat-popup").hide(); // 팝업 닫기
-    });
-
+	// 채팅방 닫기 버튼 클릭 이벤트
+	$("#close-chat-room").click(function () {
+	    $("#chat-room-container").hide(); // 채팅방 숨기기
+	    $("#chat-list-container").show(); // 채팅 목록 표시
+	    currentRoomId = null; // 현재 방 ID 초기화
+	    if (stompClient) {
+	        stompClient.disconnect(); // WebSocket 연결 해제
+	    }
+	});
+	
     // 메시지 전송 이벤트 추가
     $("#send-chat").click(function () {
         sendMessageToChatRoom(currentRoomId);
@@ -29,38 +34,31 @@ function initializeChat() {
     initializeChatPopup();
 
     // 이전 채팅창 상태 복원
-    const chatPopupState = JSON.parse(localStorage.getItem('chatPopupState'));
+	const chatPopupState = JSON.parse(localStorage.getItem("chatPopupState"));
 
-    if (chatPopupState && chatPopupState.isOpen && chatPopupState.roomId) {
-        const { roomId, position } = chatPopupState;
+	if (chatPopupState && chatPopupState.isOpen && chatPopupState.roomId) {
+	    const { roomId } = chatPopupState;
 
-        // 채팅방 입장
-        enterChatRoom(roomId, "Chat Room");
-
-        // 위치 복원
-        if (position) {
-            $("#chat-popup").css({
-                top: position.top,
-                left: position.left,
-            });
-        }
-    } else {
-        // 저장된 상태가 없으면 기본값으로 초기화
-        $("#chat-popup").hide();
-        $("#chat-popup-overlay").hide();
-    }
+	    // 채팅방 입장
+	    enterChatRoom(roomId, "Chat Room");
+	} else {
+	    // 저장된 상태가 없으면 목록만 표시
+	    $("#chat-list-container").show();
+	    $("#chat-room-container").hide();
+	}
 }
 
 // 채팅창 초기화 함수
 function initializeChatPopup() {
-    $("#chat-popup").draggable({
-        handle: "div:first-child",
-        containment: "window", // 화면 밖으로 벗어나지 않도록 설정
-        stop: function (event, ui) {
-            const position = ui.position;
-            saveChatPopupState(currentRoomId, position, true);
-        },
-    });
+	
+	$("#chat-room-container").draggable({
+	    handle: "#chat-room-header",
+	    containment: "window", // 화면 밖으로 벗어나지 않도록 설정
+	    stop: function (event, ui) {
+	        const position = ui.position;
+	        saveChatPopupState(currentRoomId, position, true);
+	    },
+	});
 
     $("#close-chat-popup").click(function () {
         $("#chat-popup, #chat-popup-overlay").hide();
@@ -68,7 +66,7 @@ function initializeChatPopup() {
         if (stompClient) {
             stompClient.disconnect();
             console.log("WebSocket 연결 해제");
-        }
+        }	
     });
 
     $("#send-chat").click(function () {
@@ -76,10 +74,21 @@ function initializeChatPopup() {
     });
 }
 
+function saveChatPopupState(roomId, position, isOpen) {
+    const chatState = {
+        roomId: roomId || null, // 채팅방 ID 저장
+        position: position || { top: "20%", left: "30%" }, // 기본 위치 설정
+        isOpen: isOpen || false, // 열려 있는지 여부
+    };
+    // 상태를 localStorage에 저장
+    localStorage.setItem("chatPopupState", JSON.stringify(chatState));
+    console.log("채팅창 상태 저장:", chatState);
+}
+
 // 채팅방 목록 로드 함수
 function loadChatRooms() { 	
-    const chatContent = $("#chat-content");
-    chatContent.empty(); // 기존 콘텐츠 초기화
+    const chatListContainer  = $("#chat-list-container");
+    chatListContainer .empty(); // 기존 콘텐츠 초기화
 
     // 서버에 AJAX 요청
     $.ajax({
@@ -88,7 +97,7 @@ function loadChatRooms() {
         dataType: "json",
         success: function (rooms) {
             if (rooms.length === 0) {
-                chatContent.append("<p>참여 중인 채팅방이 없습니다.</p>");
+                chatListContainer .append("<p>참여 중인 채팅방이 없습니다.</p>");
                 return;
             }
 
@@ -103,7 +112,7 @@ function loadChatRooms() {
 				        <div class="last-message">${room.lastMessage || "마지막 메시지가 없습니다."}</div>
 				    </div>
 				`;
-                chatContent.append(roomHtml);
+                chatListContainer.append(roomHtml);
             });
 
             // 채팅방 클릭 이벤트 추가
@@ -127,18 +136,16 @@ function enterChatRoom(roomId, roomName) {
     }
 	
     currentRoomId = roomId;
-    $("#chat-popup").show();
-    $("#chat-popup-overlay").show();
-    $("#chat-room-name").text(roomName);
 	
 	// 채팅 입력창 표시
-	$("#chat-input-container").show();
+	$("#chat-list-container").hide();
+	$("#chat-room-container").show();
+	$("#chat-room-name").text(roomName);
 
-
+	loadChatMessages(roomId);
     connectToChatRoom(roomId);
-    loadChatMessages(roomId);
-
-    saveChatPopupState(roomId, $("#chat-popup").position(), true);
+	
+	$("#chat-input-container").show();
 }
 
 // WebSocket 연결 함수
@@ -183,7 +190,8 @@ function loadChatMessages(roomId) {
         success: function (messages) {
             const chatContent = $("#chat-content");
             chatContent.empty();
-
+			
+			messages.forEach((message) => displayMessage(message));
             console.log("메시지 불러오기 성공:", messages);
         },
         error: function (error) {
@@ -240,18 +248,39 @@ function sendMessageToChatRoom(roomId) {
 
     const message = {
         sender: $("#nickname").val() || "익명",
+		memberId: $("#memberId").val(),
         content: content,
         timestamp: new Date().toISOString(), // 서버에서 타임스탬프 처리 가능
         roomId: roomId,
         type: "TEXT",
     };
 
-    // 서버로 메시지 전송
-    stompClient.send(`/app/sendMessage/${roomId}`, {}, JSON.stringify(message));
+    // 서버로 WebSocket 메시지 전송 (브로드캐스트)
+    stompClient.send(`/app/sendMessage/${roomId}`, {}, JSON.stringify(message));	
 
-    // 메시지 클라이언트에 표시
-/*    displayMessage(message);*/
+    // 메시지 클라이언트에 즉시 표시
+    displayMessage(message);
+
+    // 메시지 저장 요청
+    saveMessageToServer(message);
 
     // 입력 필드 초기화
     $("#chat-input").val("");
+}
+
+// 메시지 저장 함수
+function saveMessageToServer(message) {
+    $.ajax({
+        url: "/chat/message",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(message),
+        success: function () {
+            console.log("메시지 저장 성공");
+        },
+        error: function (error) {
+			console.log("message")
+            console.error("메시지 저장 실패:", error);
+        },
+    });
 }
