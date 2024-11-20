@@ -24,6 +24,9 @@ $(document).ready(function () {
             recruitmentDuration: $("#recruitmentDuration").val(),
             additionalDescription: $("#additionalDescription").val(),
         };
+		
+		console.log("Form Data:", formData);
+
 
         $.ajax({
             url: "/create",
@@ -68,7 +71,7 @@ function fetchChatRooms() {
                             '<td>' + (room.chatRoomId || '') + '</td>' +
                             '<td>' + (room.roomName || '') + '</td>' +
                             '<td>' + (room.location || '') + '</td>' +
-                            '<td>' + (room.maxParticipants || '') + '</td>' +
+							'<td>' + (room.currentParticipants + ' / ' + room.maxParticipants || '') + '</td>' + // 참여 총인원 / 정원 표시
                             '<td>' + (room.theme || '') + '</td>' +
                             '<td>' + formattedDate + '</td>' +
                             '<td>' + (room.creatorNickname || '') + '</td>' +

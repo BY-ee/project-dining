@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.ChatMessage;
@@ -55,14 +56,58 @@ public class ChatRoomController {
     @PostMapping("/create")
     @ResponseBody
     public ResponseEntity<?> createChatRoom(@RequestBody ChatRoom chatRoom) {
-        chatRoomService.insertChatRoom(chatRoom);
-        return ResponseEntity.ok().build();
+        // 요청 데이터 로그 출력
+        System.out.println("Received Chat Room Data: " + chatRoom);
+
+        Long memberId = chatRoom.getMemberId(); 
+        Long chatRoomId = chatRoomService.createChatRoom(chatRoom);
+
+        System.out.println("Created Chat Room ID: " + chatRoomId);
+
+        chatRoomService.addUserToChatRoom(chatRoomId, memberId);
+
+        return ResponseEntity.ok("Chat room created and user added.");
+    }
+    
+    @PostMapping("/join")
+    public ResponseEntity<?> joinChatRoom(@RequestBody ChatRoom joinRequest) {
+        Long chatRoomId = joinRequest.getChatRoomId();
+        Long memberId = joinRequest.getMemberId();
+
+        // 1. 현재 참여 인원 확인
+        int userCount = chatRoomService.getChatRoomUserCount(chatRoomId);
+
+        // 2. 최대 인원 제한 확인
+        int maxParticipants = chatRoomService.getChatRoomMaxParticipants(chatRoomId);
+        if (userCount >= maxParticipants) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Chat room is full.");
+        }
+
+        // 3. 참여 인원 추가
+        chatRoomService.addUserToChatRoom(chatRoomId, memberId);
+
+        return ResponseEntity.ok("User joined the chat room.");
+    }
+    
+    @GetMapping("/{chatRoomId}/participants")
+    public ResponseEntity<Integer> getCurrentParticipants(@PathVariable Long chatRoomId) {
+        int currentParticipants = chatRoomService.getChatRoomUserCount(chatRoomId);
+        return ResponseEntity.ok(currentParticipants);
     }
     
     @GetMapping("/list")
     @ResponseBody
     public List<ChatRoom> listChatRoom(){
     	return chatRoomService.getAllChatRooms();
+    }
+    
+    
+    @GetMapping("/my-rooms-list")
+    @ResponseBody
+    public ResponseEntity<List<ChatRoom>> getMyChatRooms(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getMember().getId();
+        List<ChatRoom> chatRooms = chatRoomService.getChatRoomsByUser(userId);
+        return ResponseEntity.ok(chatRooms);
     }
     
     @DeleteMapping("/delete-expired")
@@ -86,6 +131,7 @@ public class ChatRoomController {
         return message; // 메시지 전송만 담당
     }
     
+    
     @PostMapping("/chat/message")
     @ResponseBody
     public ResponseEntity<?> saveMessage(@RequestBody ChatMessage chatMessage) {
@@ -98,6 +144,7 @@ public class ChatRoomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메시지 저장 실패");
         }
     }
+    
     
     @GetMapping("/messages/{roomId}")
     @ResponseBody

@@ -110,3 +110,40 @@
     font-weight: bold; /* 굵게 */
     color: #333; /* 제목 색상 */
 }
+
+
+.chat-room {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.chat-room:hover {
+    background-color: #f9f9f9;
+}
+
+.chat-room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.room-name {
+    color: #333;
+}
+
+.last-time {
+    color: #888;
+    font-size: 12px;
+}
+
+.last-message {
+    font-size: 13px;
+    color: #555;
+}

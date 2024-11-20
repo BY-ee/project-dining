@@ -61,20 +61,6 @@
 
     <span class="breadcrumb-separator">›</span>
     
-    <!-- 테마 정보 -->
-    <c:choose>
-        <c:when test="${not empty categoryList[0].theme}">
-            <a href="/store?category=${categoryList[0].industry}&theme=${categoryList[0].theme}" class="breadcrumb-item">
-                ${categoryList[0].theme}
-            </a>
-        </c:when>
-        <c:otherwise>
-            <span class="breadcrumb-item">테마 정보 없음</span>
-        </c:otherwise>
-    </c:choose>
-
-    <span class="breadcrumb-separator">›</span>
-    
     <!-- 가게 이름 -->
     <c:choose>
         <c:when test="${not empty storeDetail.storeName}">
@@ -106,13 +92,6 @@
                     <button aria-label="이전 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex - 1)"></button>
                     <button aria-label="다음 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex + 1)"></button>
                 </div>
-                <!-- <div class="store-info">
-                    <strong>가게주소:</strong> ${storeDetail.address}<br>
-                    <strong>상세주소:</strong> ${storeDetail.detailAddress}<br>
-                    <strong>전화번호:</strong> ${storeDetail.tel}<br>
-                    <strong>영업시간:</strong> ${storeDetail.openTime}<br>
-                    <strong>가게설명:</strong> ${storeDetail.storeDescription}<br>
-                </div> -->
                 <div class="store-info">
                     <p><strong>🏠 주소:</strong> ${storeDetail.address}, ${storeDetail.detailAddress}</p>
                     <div class="store-info-row">
