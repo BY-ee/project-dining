@@ -34,7 +34,7 @@
 						<div class="likes-slider">
 							<c:forEach var="mypageLike" items= "${likePageResponse.list}">
 								<div class="item">
-									<a href="/store/${mypageLike.storeId}">
+									<a href="/storeDetail?store_ID=${mypageLike.storeId}">
 										<img src="/images/store/${mypageLike.mainImage1}">
 									</a>
 									<span>${mypageLike.storeName }</span>
@@ -58,7 +58,7 @@
 						<div class="review-slider">
 							<c:forEach var="mypageReview" items= "${reviewPageResponse.list}">
 								<div class="item">
-									<a href="/store/${mypageReview.storeId}">
+									<a href="/storeDetail?store_ID=${mypageReview.storeId}">
 										<img src="images/store/${mypageReview.mainImage1}">
 									</a>
 									<span>${mypageReview.storeName}</span>
