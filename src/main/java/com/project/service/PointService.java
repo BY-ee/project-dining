@@ -57,6 +57,8 @@ public class PointService {
         params.put("keyword", keyword);
         return pointMapper.searchPoints(params); // Mapper XML에서 `parameterType="map"` 사용
     }
+
+
     
     
     

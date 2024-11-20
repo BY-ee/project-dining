@@ -1,6 +1,6 @@
 package com.project.controller;
 
-import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.domain.Point;
 import com.project.dto.Login;
+import com.project.mapper.PointMapper;
 import com.project.service.LoginService;
-import com.project.service.SendEmailContentService;
+import com.project.service.PointService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,8 @@ public class LoginController {
 
 	private final LoginService loginService;
 	private final OAuth2AuthorizedClientService authorizedClientService;
-
+	private final PointService pointService;
+	
 	// 로그인 페이지
 	@GetMapping("/login")
 	public String loginForm() {
@@ -92,8 +95,11 @@ public class LoginController {
 		int result = 0;
 		result = loginService.joinMember(login);
 		
-		Long id = login.getId();
-		System.out.println(id);
+		Login db = loginService.getUser(login.getMemberId());
+		
+		Point newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
+		pointService.insertPoint(newPoint);
+        
 		model.addAttribute("result", result);
 
 		return "login/joinResult";
@@ -117,23 +123,31 @@ public class LoginController {
 	    Map<String, Object> userInfo = fetchUserInfo(registrationId, accessToken);
 
 	    Login db = null;
+	    Point newPoint = new Point();
 	    switch (registrationId) {
 	        case "naver":
 	            Map<String, Object> naverResponse = (Map<String, Object>) userInfo.get("response");
 	            if (naverResponse != null) {
 	                String tempId = (String) naverResponse.get("id");
 	                db = loginService.getNaverUser(tempId);
+	        		newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
+	        		pointService.insertPoint(newPoint);
 	            }
 	            break;
 
 	        case "kakao":
 	            String tempId = String.valueOf(userInfo.get("id"));
 	            db = loginService.getKakaoUser(tempId);
+	            newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
+        		pointService.insertPoint(newPoint);
 	            break;
 
 	        case "google":
 	            tempId = (String) userInfo.get("sub");
 	            db = loginService.getGoogleUser(tempId);
+	            newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
+        		pointService.insertPoint(newPoint);
+	            
 	            break;
 
 	        default:

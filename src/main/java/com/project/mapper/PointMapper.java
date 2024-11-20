@@ -26,4 +26,6 @@ public interface PointMapper {
 	List<Point> selectPoints(Map<String, Object> params);
 
 	List<Point> searchPoints(Map<String, Object> params);
+
+	void newJoinPoint(Long memberId);
 }

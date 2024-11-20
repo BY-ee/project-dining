@@ -58,32 +58,34 @@ public class ReviewController {
             RedirectAttributes redirectAttributes,
             Model model) {
 
-    	Member member = userDetails.getMember();
-        long memberId = member.getId();
-     
-        
-        Review existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
-        boolean pointGiven = false; // 포인트 지급 여부를 저장할 변수
-        
-        if (existingReview != null) {
-            if ("active".equals(existingReview.getStatus())) {
-                redirectAttributes.addFlashAttribute("duplicateReviewMessage", "이미 리뷰를 작성하셨습니다.");
-                return "redirect:/storeDetail?store_ID=" + storeId;
-            } else if("hidden".equals(existingReview.getStatus())) {
-                reviewService.deleteReview(existingReview.getId());
-            }
-        } else {        	
-        	Point newPoint = new Point();
-            newPoint.setMemberId(memberId);
-            newPoint.setCategory("일반리뷰");  // 지급 유형 설정
-            newPoint.setPoint(100L);  // 지급할 포인트 설정 (예: 100포인트)
-            newPoint.setType("지급");  // 포인트 지급 타입
-            newPoint.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
-            newPoint.setStatus("active");
-            
-            pointService.insertPoint(newPoint);
-            pointGiven = true; // 포인트 지급됨
-        }
+    	 Member member = userDetails.getMember();
+    	    long memberId = member.getId();
+
+    	    Review existingReview = reviewService.findReviewByUserAndStore(memberId, storeId);
+    	    boolean pointGiven = false; // 포인트 지급 여부를 저장할 변수
+    	    long pointValue = 100L; // 기본 포인트 값
+    	    String category = "일반리뷰"; // 기본 카테고리 값
+
+    	    // 기존 리뷰 처리
+    	    if (existingReview != null) {
+    	        if ("active".equals(existingReview.getStatus())) {
+    	            redirectAttributes.addFlashAttribute("duplicateReviewMessage", "이미 리뷰를 작성하셨습니다.");
+    	            return "redirect:/storeDetail?store_ID=" + storeId;
+    	        } else if ("hidden".equals(existingReview.getStatus())) {
+    	            reviewService.deleteReview(existingReview.getId());
+    	        }
+    	    }
+
+    	    // 이미지 여부에 따라 포인트와 카테고리 설정
+    	    if (images != null && !images.isEmpty()) {
+    	        pointValue = 200L; // 이미지가 있으면 200 포인트 지급
+    	        category = "사진리뷰"; // 이미지가 있으면 카테고리를 사진리뷰로 변경
+    	    }
+
+    	    // 포인트 지급
+    	    Point newPoint = Point.insertPoint(memberId, category, pointValue, "지급", "active");
+    	    pointService.insertPoint(newPoint);
+    	    pointGiven = true; // 포인트 지급됨
 
         // ReviewDomain 객체 생성 및 값 설정
         Review newReview = new Review();
@@ -94,9 +96,11 @@ public class ReviewController {
         newReview.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간 설정
 
         if (pointGiven) {
-            redirectAttributes.addFlashAttribute("pointMessage", "리뷰 작성으로 100포인트가 지급되었습니다!");
+            redirectAttributes.addFlashAttribute("pointMessage", 
+                pointValue == 200L 
+                ? "리뷰 작성 및 이미지 등록으로 200포인트가 지급되었습니다!" 
+                : "리뷰 작성으로 100포인트가 지급되었습니다!");
         }
-
 		// 이미지가 존재할 경우에만 파일 처리 수행
 	    if (images != null && !images.isEmpty()) {
 	        StringBuilder imagePaths = new StringBuilder();
