@@ -284,7 +284,7 @@
     <!-- 지역 정보 삽입 -->
     <insert id="insertRegion">
         INSERT INTO local (store_id, local)
-        VALUES (#{storeId}, #{region})
+        VALUES (#{storeId}, #{location})
     </insert>
 
     <!-- 업종 정보 삽입 -->

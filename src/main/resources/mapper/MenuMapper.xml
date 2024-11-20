@@ -17,7 +17,7 @@
         ) VALUES (
             menu_seq.NEXTVAL,
             #{storeId},
-            #{menuImage}
+            #{menuImage, jdbcType=VARCHAR}
         )
     </insert>
 </mapper>
