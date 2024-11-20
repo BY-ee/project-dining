@@ -166,13 +166,13 @@
 		        alert("이메일을 입력해주세요.");
 		        return;
 		    }
-
+			alert("이메일 인증을 보냈습니다.")
 		    $.ajax({
 		        url: '/sendVerificationEmail',
 		        type: 'POST',
 		        data: { userEmail: userEmail },
 		        success: function(data) {
-		            alert(data); // "인증 이메일이 발송되었습니다." 출력
+		            //alert(data); // "인증 이메일이 발송되었습니다." 출력
 		            $("#verification-popup").fadeIn(); // 팝업창 띄우기
 		        },
 		        error: function(xhr, status, error) {

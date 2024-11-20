@@ -1,5 +1,7 @@
 package com.project.domain;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;

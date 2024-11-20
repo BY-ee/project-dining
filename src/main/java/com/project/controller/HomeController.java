@@ -138,10 +138,11 @@ public class HomeController {
     }
     
     @PostMapping("/registerStore")
-    public String registerStore(StoreWithLocationDTO store, Model model) {
+    public String registerStore(@AuthenticationPrincipal CustomUserDetails userDetails, StoreWithLocationDTO store, Model model) {
     	
     	try {
             // Service 호출하여 여러 테이블에 데이터 저장
+    		store.setMemberId(userDetails.getId());
     		storeService.registerStore(store);
 
             // 성공 메시지 전달

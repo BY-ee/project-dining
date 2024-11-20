@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-#마이페이지 /* 전체 컨테이너 스타일 */  
+#마이페이지 /* 전체 컨테이너 스타일 */   
 * {
 	margin: 0;
 	padding: 0;
@@ -31,21 +31,21 @@
 .profile-pic {
 	width: 150px;
 	height: 150px;
-	background-size:cover;
+	background-size: cover;
 	border-radius: 50%;
 	margin: 0 auto;
-	position:relative;
-	cursor:pointer;
-	display:flex;
-	align-items:center;
-	justify-content:center;
+	position: relative;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	overflow: hidden; /* 자식 요소가 부모 경계를 넘지 않도록 설정 */
 }
 
 .profile-pic img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지가 컨테이너에 맞게 잘리도록 설정 */
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* 이미지가 컨테이너에 맞게 잘리도록 설정 */
 }
 
 .profile-name {
@@ -66,35 +66,35 @@
 
 /* 마우스 호버 시 어두운 오버레이 레이어 추가 */
 .profile-pic::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0); /* 기본 상태에서는 투명 */
-    border-radius: 50%;
-    transition: background-color 0.3s;
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0); /* 기본 상태에서는 투명 */
+	border-radius: 50%;
+	transition: background-color 0.3s;
 }
 
 .profile-pic:hover::before {
-     background-color: rgba(0, 0, 0, 0.5); /* 마우스 호버 시 어두워짐 */
+	background-color: rgba(0, 0, 0, 0.5); /* 마우스 호버 시 어두워짐 */
 }
 
 /* '프로필 변경' 텍스트 스타일 */
 .profile-overlay {
-    position: absolute;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    z-index: 2; /* 텍스트가 오버레이 위에 표시되도록 설정 */
-    display: none;
+	position: absolute;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+	z-index: 2; /* 텍스트가 오버레이 위에 표시되도록 설정 */
+	display: none;
 }
 
 /* 마우스 호버 시 '프로필 변경' 텍스트 표시 */
 .profile-pic:hover .profile-overlay {
-    display: block;
+	display: block;
 }
 
 .profile-name {
@@ -154,14 +154,14 @@
 }
 
 .item {
-	display:flex;
+	display: flex;
 	flex-direction: column; /* 세로로 이미지와 텍스트 정렬 */
-    align-items: center;
-    height: auto; /* 높이를 자동으로 설정하여 텍스트와 이미지가 모두 포함되도록 */
+	align-items: center;
+	height: auto; /* 높이를 자동으로 설정하여 텍스트와 이미지가 모두 포함되도록 */
 	margin: 0; /* 아이템 외부 여백 */
 	box-sizing: border-box; /* 패딩과 여백이 전체 크기에 포함되도록 */
 	/* height: 150px; 높이를 증가시켜 전체적인 크기를 조절 */
-	width:100%;
+	width: 100%;
 	background-color: #f9f9f9;
 	border-radius: 8px;
 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -169,11 +169,11 @@
 	transition: transform 0.3s;
 }
 
-.item:hover{
+.item:hover {
 	transform: translateY(-5px);
 }
 
-.item img{
+.item img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover; /* 이미지를 박스에 꽉 채우기 */
@@ -183,22 +183,22 @@
 /* 탭 버튼 스타일 */
 .content-tabs {
 	display: flex;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px
+	justify-content: center;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 20px
 }
 
 .tab-option {
-    cursor: pointer;
-    padding: 10px;
-    color: #333;
-    transition: color 0.3s, border-bottom 0.3s;
+	cursor: pointer;
+	padding: 10px;
+	color: #333;
+	transition: color 0.3s, border-bottom 0.3s;
 }
 
 .tab-option.active {
-    color: #0073e6; /* 선택된 탭의 파란색 텍스트 */
-    border-bottom: 2px solid #0073e6; /* 선택된 탭의 밑줄 */
+	color: #0073e6; /* 선택된 탭의 파란색 텍스트 */
+	border-bottom: 2px solid #0073e6; /* 선택된 탭의 밑줄 */
 }
 
 .tab-content {
@@ -261,7 +261,7 @@
 	border: 1px solid #ccc;
 }
 
-.user-info button{
+.user-info button {
 	padding: 8px 16px;
 	cursor: pointer;
 	border: none;
@@ -313,6 +313,55 @@
 	transform: translateY(-2px);
 }
 
+/* 제목 스타일 */
+#verification-popup h3 {
+	margin: 0 0 10px;
+	font-size: 18px;
+	text-align: center;
+}
+
+/* 입력 필드 스타일 */
+#verification-popup input[type="text"] {
+	width: calc(100% - 20px);
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+/* 버튼 공통 스타일 */
+#verification-popup button {
+	padding: 10px 20px;
+	margin: 5px;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 확인 버튼 스타일 */
+#verify-code-btn {
+	background-color: #4CAF50;
+	color: white;
+}
+
+#verify-code-btn:hover {
+	background-color: #45a049; /* 호버 시 조금 더 어두운 녹색 */
+}
+
+/* 닫기 버튼 스타일 */
+#close-popup-btn {
+	background-color: #f44336;
+	color: white;
+}
+
+#close-popup-btn:hover {
+	background-color: #d32f2f; /* 호버 시 조금 더 어두운 빨간색 */
+}
+
 .social-connect-buttons {
 	display: flex;
 	justify-content: center;
@@ -323,34 +372,34 @@
 
 .social-connect-buttons a {
 	display: inline-flex; /* 이미지와 텍스트를 한 줄에 배치 */
-    align-items: center; /* 수직 정렬 */
-    justify-content: center; /* 중앙 정렬 */
-    gap: 10px; /* 이미지와 텍스트 간격 */
-    padding: 10px 20px; /* 버튼 내부 여백 */
-    border: 1px solid #ccc; /* 외곽선 */
-    border-radius: 5px; /* 둥근 버튼 모양 */
-    background-color: #fff; /* 버튼 배경 */
-    font-size: 16px; /* 텍스트 크기 */
-    color: #000; /* 텍스트 색상 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-    cursor: pointer; /* 클릭 가능한 버튼처럼 보이게 */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
-    transition: all 0.2s ease-in-out; /* 부드러운 전환 효과 */
+	align-items: center; /* 수직 정렬 */
+	justify-content: center; /* 중앙 정렬 */
+	gap: 10px; /* 이미지와 텍스트 간격 */
+	padding: 10px 20px; /* 버튼 내부 여백 */
+	border: 1px solid #ccc; /* 외곽선 */
+	border-radius: 5px; /* 둥근 버튼 모양 */
+	background-color: #fff; /* 버튼 배경 */
+	font-size: 16px; /* 텍스트 크기 */
+	color: #000; /* 텍스트 색상 */
+	text-decoration: none; /* 링크 밑줄 제거 */
+	cursor: pointer; /* 클릭 가능한 버튼처럼 보이게 */
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+	transition: all 0.2s ease-in-out; /* 부드러운 전환 효과 */
 }
 
 .login-btn {
-    margin-top:10px;
-    width: 70px; /* 원하는 너비로 설정 */
-    height: auto; /* 비율에 맞게 자동 조정 */
+	margin-top: 10px;
+	width: 70px; /* 원하는 너비로 설정 */
+	height: auto; /* 비율에 맞게 자동 조정 */
 }
 
 .enrolled-login-btn {
-    margin-top: 10px;
-    width: 70px;
-    height: auto;
-    opacity: 0.5; /* 버튼 투명도: 0.5로 연하게 */
-    pointer-events: none; /* 버튼 클릭 불가 */
-    filter: grayscale(100%); /* 버튼 흑백 처리 */
+	margin-top: 10px;
+	width: 70px;
+	height: auto;
+	opacity: 0.5; /* 버튼 투명도: 0.5로 연하게 */
+	pointer-events: none; /* 버튼 클릭 불가 */
+	filter: grayscale(100%); /* 버튼 흑백 처리 */
 }
 
 .security-setting-item {
@@ -368,8 +417,8 @@
 }
 
 .disabled {
-    background-color: #e0e0e0;
-    cursor: not-allowed;
+	background-color: #e0e0e0;
+	cursor: not-allowed;
 }
 
 .security-setting-item input {
@@ -385,7 +434,7 @@
 	cursor: pointer;
 	border: none;
 	border-radius: 6px;
-	background-color:black;
+	background-color: black;
 	color: white;
 	transition: background-color 0.3s;
 	align-self: center; /* 버튼을 가운데로 정렬 */
@@ -397,141 +446,137 @@
 }
 
 .policy-text {
-    width: 98%;
-    height: 100px;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    padding: 10px;
-    color: #333333;
-    font-size: 14px;
-    resize: none;
-    background-color: #f9f9f9;
-    line-height: 1.5;
-    margin-bottom: 10px;
+	width: 98%;
+	height: 100px;
+	border: 1px solid #cccccc;
+	border-radius: 8px;
+	padding: 10px;
+	color: #333333;
+	font-size: 14px;
+	resize: none;
+	background-color: #f9f9f9;
+	line-height: 1.5;
+	margin-bottom: 10px;
 }
 
 .policy-agreement {
-    display: flex;
-    align-items: center;
-    justify-content:flex-start;
-    font-size: 14px;
-    color: #666666;
-    margin-top: 10px; /* 간격 조절 */
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	font-size: 14px;
+	color: #666666;
+	margin-top: 10px; /* 간격 조절 */
 }
 
 .policy-agreement input[type="checkbox"] {
-		width: auto;
+	width: auto;
 }
-
 
 /* 사업자 진행 과정 */
 .progress-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 800px;
+	margin: 20px auto;
 }
 
 .step {
-    text-align: center;
-    position: relative;
+	text-align: center;
+	position: relative;
 }
 
 .progress-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #dcdcdc; /* 기본 상태의 색 */
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 5px;
-    transition: background-color 0.3s;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #dcdcdc; /* 기본 상태의 색 */
+	color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 5px;
+	transition: background-color 0.3s;
 }
 
 .completed .progress-icon {
-    background-color: #0073e6; /* 완료된 단계의 색 */
-    color: #fff;
+	background-color: #0073e6; /* 완료된 단계의 색 */
+	color: #fff;
 }
 
 .failed .progress-icon {
-    background-color: #ff0000; /* 완료된 단계의 색 */
-    color: #fff;
+	background-color: #ff0000; /* 완료된 단계의 색 */
+	color: #fff;
 }
 
 .line {
-    flex: 1;
-    height: 2px;
-    background-color: #dcdcdc;
-    margin: 0 10px;
+	flex: 1;
+	height: 2px;
+	background-color: #dcdcdc;
+	margin: 0 10px;
 }
 
 .lineNo {
-    flex: 1;
-    height: 2px;
-    background-color: white;
-    margin: 0 10px;
+	flex: 1;
+	height: 2px;
+	background-color: white;
+	margin: 0 10px;
 }
 
 .step p {
-    font-size: 14px;
-    color: #333;
+	font-size: 14px;
+	color: #333;
 }
 
 /* 진행 중인 단계 강조 */
-.step.completed + .line {
-    background-color: #0073e6; /* 완료된 선의 색 */
+.step.completed+.line {
+	background-color: #0073e6; /* 완료된 선의 색 */
 }
 
 /* 진행 중인 단계 강조 */
-.step.failed + .line {
-    background-color: #ff0000; /* 완료된 선의 색 */
+.step.failed+.line {
+	background-color: #ff0000; /* 완료된 선의 색 */
 }
 
 #mbti {
-    width: 200px; /* 드롭다운 너비 */
+	width: 200px; /* 드롭다운 너비 */
 }
-#age{
+
+#age {
 	width: 200px;
 }
 
-
-
-
 .login-btn {
-    margin-top:10px;
-    width: 50px; /* 원하는 너비로 설정 */
-    height: auto; /* 비율에 맞게 자동 조정 */
+	margin-top: 10px;
+	width: 50px; /* 원하는 너비로 설정 */
+	height: auto; /* 비율에 맞게 자동 조정 */
 }
 
 /* ======= */
-
 .point-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
 }
 
 .point-table th, .point-table td {
-    border: 1px solid #ccc;
-    padding: 12px;
-    text-align: center;
+	border: 1px solid #ccc;
+	padding: 12px;
+	text-align: center;
 }
 
 .point-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
+	background-color: #f2f2f2;
+	font-weight: bold;
 }
 
 .point-table tr:nth-child(even) {
-    background-color: #fafafa;
+	background-color: #fafafa;
 }
 
 .point-table tr:hover {
-    background-color: #f1f1f1;
+	background-color: #f1f1f1;
 }

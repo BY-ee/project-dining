@@ -76,4 +76,7 @@ public interface NoticeMapper {
 	Event getEvent(Long id);
 	Event getPreEvent(Long id);
 	Event getNextEvent(Long id);
+
+	int updateNoticeViews(Notice notice);
+	int updateEventViews(Event event);
 }

@@ -236,4 +236,18 @@
             </if>
     	</where>
 	</select>
+	
+	<update id="updateNoticeViews" parameterType="notice">
+		update notice
+		set
+		views = #{views}
+		where id = #{id}
+	</update>
+	
+	<update id="updateEventViews" parameterType="event">
+		update event
+		set
+		views = #{views}
+		where id = #{id}
+	</update>
 </mapper>

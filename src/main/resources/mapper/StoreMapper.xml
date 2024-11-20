@@ -219,7 +219,7 @@
 	<!-- store 테이블 삽입 -->
     <insert id="insertStore" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     INSERT INTO store (
-        id,
+        member_id,
         store_name,
         address,
         detail_address,
@@ -232,7 +232,7 @@
         store_description,
         ceo_name
     ) VALUES (
-        store_seq.NEXTVAL,
+        #{memberId},
         #{storeName},
         #{address},
         #{detailAddress},
