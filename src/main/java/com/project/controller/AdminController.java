@@ -25,6 +25,7 @@ import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
+import com.project.dto.StoreDetailDTO;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -79,6 +80,20 @@ public class AdminController {
 		model.addAttribute("pagination", stores);
 		
 		return "admin/adminStores";
+	}
+	
+	// 가게 조회
+	@GetMapping("/stores/{id}")
+	@ResponseBody
+	public StoreDetailDTO storeDetail(@PathVariable("id") long id) {
+		return adminService.selectStoreById(id);
+	}
+	
+	// 가게 찜 개수 조회
+	@GetMapping("/stores/{id}/like")
+	@ResponseBody
+	public long selectlikeCount(@PathVariable("id") long id) {
+		return adminService.selectLikeCountById(id);
 	}
 	
 	// 가게 게시글 게시중단

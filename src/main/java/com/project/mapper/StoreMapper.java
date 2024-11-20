@@ -10,6 +10,7 @@ import com.project.domain.Store;
 import com.project.dto.IndustryDTO;
 import com.project.dto.MemberLike;
 import com.project.dto.RequestData;
+import com.project.dto.StoreDetailDTO;
 import com.project.dto.StoreWithLocationDTO;
 
 
@@ -18,6 +19,9 @@ public interface StoreMapper{
 	
 	// 가게정보 가져오기
     Store getStoreDetailById(long store_ID);
+    
+    // 가게 조회
+    StoreDetailDTO selectStoreById(long id);
     
     // 메뉴정보 가져오기
     List<Menu> getMenuById(long storeId);
@@ -102,6 +106,7 @@ public interface StoreMapper{
 
     // 테마 정보 삽입
     void insertTheme(@Param("storeId") Long storeId, @Param("theme") String theme);
+
 
     
 }

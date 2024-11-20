@@ -1,39 +1,109 @@
 $(() => {
-    // 임시 데이터 (db 연동 시 함수로 데이터를 가져옴)
-    const menu = `
-    <div style="display: flex; margin: 20px 0;">
-        <img src="https://www.hsd.co.kr/images/b962162cb6074df090418f0f5c63b9b220241031041026.jpg" 
-        style="width: 200px; margin-right: 10px; align-self: center;" alt="img" />
-        <div>
-            <h3 style="margin-bottom: 10px;">오모가리 김치제육덮밥</h4>
-            <span>500일 저온 숙성된 오모가리 김치 특유의 묵은지 감칠맛과 매콤 달콤한 제육이 만나 깊고 풍성한 맛을 자랑하는 한솥만의 특별한 '오모가리 김치제육덮밥'</span>
-        </div>
-    </div>
+    // 가게 이름 클릭 시 팝업창 띄우기
+    $('.store-link').on('click', function(e) {
+        e.preventDefault();
+        const storeId = $(this).data('id');
+        getLikeCount(storeId);
+    });
+    
+    // 찜 수를 가져오는 함수
+    function getLikeCount(storeId) {
+        $.ajax({
+            url: `/admin/stores/${storeId}/like`,
+            type: 'GET',
+            success: (likeCount) => {
+                getStore(storeId, likeCount);
+            }
+        });
+    }
 
-    <hr />
+    // 가게 데이터 가져오는 함수
+    function getStore(storeId, likeCount) {
+        $.ajax({
+            url: `/admin/stores/${storeId}`,
+            type: 'GET',
+            success: (store) => {
+                renderStorePopup(store, likeCount);
+                openPopup();
+            }
+        });
+    }
 
-    <div style="display: flex; margin: 20px 0;">
-        <img src="https://www.hsd.co.kr/images/307601a3e71440d391e79a1d88fe634a20240930040239.jpg" 
-        style="width: 200px; margin-right: 10px; align-self: center;" alt="img" />
-        <div>
-            <h3 style="margin-bottom: 10px;">한우 함박스테이크& 청양 토네이도 소세지</h3>
-            <span>한우 농가 상생 메뉴로 육즙 가득한 한우 함박스테이크와 풍미 깊은 데미그라스 소스, 매콤한 청양 토네이도 소세지와 해시 포테이토 스틱, 고구마 샐러드 등 푸짐한 사이드 메뉴로 구성된 '한우 함박스테이크& 청양 토네이도 소세지'</span>
-        </div>
-    </div>
+    // 가게 데이터를 팝업에 렌더링
+    function renderStorePopup(store, likeCount) {
+        const storeDOM = `
+            <div class="container">
+                <div class="store-header">
+                    <h2>${store.storeName} </h2>
+                    <p id="likeButton" class="like-button">❤️ 찜 <span id="likeCount">${likeCount}</p></button>
+                </div>
 
-    <hr />
+                <!-- 메인 사진 섹션 -->
+                <div class="section main-photo">
+                    <!-- <div class="section-title">가게 메인 사진</div> -->
+                    <div class="slider-container"> <!-- 슬라이더 컨테이너 추가 -->
+                        <div class="slider" id="slider">
+                            <div class="slide"><img src="/images/store/${store.mainImage1}" alt="Main Image 1"></div>
+                            <div class="slide"><img src="/images/store/${store.mainImage2}" alt="Main Image 2"></div>
+                        </div>
+                    </div>
+                    <div class="slider-nav">
+                        <button aria-label="이전 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex - 1)"></button>
+                        <button aria-label="다음 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex + 1)"></button>
+                    </div>
+                    <!-- <div class="store-info">
+                        <strong>가게주소:</strong> ${store.address}<br>
+                        <strong>상세주소:</strong> ${store.detailAddress}<br>
+                        <strong>전화번호:</strong> ${store.tel}<br>
+                        <strong>영업시간:</strong> ${store.openTime}<br>
+                        <strong>가게설명:</strong> ${store.storeDescription}<br>
+                    </div> -->
+                    <div class="store-info">
+                        <p><strong>🏠 주소:</strong> ${store.address}, ${store.detailAddress}</p>
+                        <div class="store-info-row">
+                            <p><strong>📞 Tel:</strong> ${store.tel}</p>
+                            <p><strong>⏰ 영업시간:</strong> ${store.openTime}</p>
+                        </div>
+                        <p><strong>${store.storeDescription}</strong></p>
+                    </div>
+                </div>
 
-    <div style="display: flex; margin: 20px 0;">
-        <img src="https://www.hsd.co.kr/images/b52880638a704456b8c1e77093f97bb920240930041058.jpg" 
-        style="width: 200px; margin-right: 10px; align-self: center;" alt="img" />
-        <div>
-            <h3 style="margin-bottom: 10px;">제주녹차 미니꿀호떡</h3>
-            <span>제주산 녹차로 은은한 향과 깊은 맛을 더하고, 쫄깃한 식감에 견과류와 꿀이 어우러져 고소하고 달콤한 '제주녹차 미니꿀호떡'</span>
-        </div>
-    </div>
+                <!-- 대표 메뉴 섹션 -->
+                <div class="section menu-price-section">
+                    <div class="section-title">대표 메뉴</div>
+                    <c:forEach var="menu" items="{menuList}">
+                        <div class="menu-card">
+                            <img src="/images/store/${store.menuImage}">
+                            <div class="menu-info">
+                                <p class="menu-name">${store.menuName}</p>
+                                <p class="menu-description">${store.menuDescription }</p>
+                                <p class="menu-price">${store.menuPrice}원</p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+        
+                <!-- 메뉴 음식 사진 슬라이더 섹션 -->
+                <div class="section menu-photo-container">
+                    <div class="section-title">메뉴 사진 모음</div>
+                    <div class="menu-slider">
+                        <c:forEach var="menu" items="{menuList}">
+                            <div class="menu-slide"><img src="/images/store/${store.menuImage }"></div>
+                        </c:forEach>
+                    </div>
+                    <div class="menu-slider-nav">
+                        <button class="prev-button" aria-label="이전 슬라이드">&#10094;</button>
+                        <button class="next-button" aria-label="다음 슬라이드">&#10095;</button>
+                    </div>
+                </div>
 
-    <hr />
-    `;
+                <!-- 리뷰 목록 섹션 -->
+                <jsp:include page="reviews.jsp" />
+            </div>
+        `;
+
+        $('#store-content').html(storeDOM);
+    }
 
     // 게시글에서 메뉴 확인 클릭 시 팝업창 띄우기
     $('.menu-link').each((index, link) => {
@@ -97,15 +167,8 @@ $(() => {
     });
 });
 
-// 메뉴 가져오는 함수
-function getMenu() {
-    $.ajax({
-        url: ``,
-        type: 'GET',
-        success: (menu) => {
-            
-        }
-    });
+function openPopup() {
+    $('#popup-overlay').css('display', 'flex');
 }
 
 function closePopup() {
