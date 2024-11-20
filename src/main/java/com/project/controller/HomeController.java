@@ -7,15 +7,20 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.domain.Store;
 import com.project.dto.CustomUserDetails;
+import com.project.dto.StoreWithLocationDTO;
 import com.project.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
@@ -131,7 +136,43 @@ public class HomeController {
     }	
     
     @GetMapping("/storeRegistration")
-    public String storeRegistration() {
+    public String storeRegistration(@AuthenticationPrincipal CustomUserDetails userDetails,
+    								@ModelAttribute StoreWithLocationDTO store) {
+    	
+    	if (userDetails == null) {
+    		throw new AccessDeniedException("로그인 후 접근 가능합니다.");
+    	}
+    	
+    	try {
+    		store.setMemberId(userDetails.getId());
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
     	return "home/storeRegistration";
     }
+    
+    @PostMapping("/registerStore")    	
+    public String registerStore(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                @ModelAttribute StoreWithLocationDTO store,
+    							@RequestParam("storePhotos") List<MultipartFile> storePhotos,
+    							@RequestParam("menuPhotos") List<MultipartFile> menuPhotos,
+    							Model model) {
+    	
+    	try {
+            // Service 호출하여 여러 테이블에 데이터 저장
+            store.setMemberId(userDetails.getId());
+    		storeService.registerStore(store, storePhotos, menuPhotos);
+    		
+            // 성공 메시지 전달
+            model.addAttribute("message", "가게 등록이 완료되었습니다.");
+            return "home/success";
+        } catch (Exception e) {
+        	e.printStackTrace();
+            // 에러 처리
+            model.addAttribute("message", e.getMessage());
+            return "home/errorPage";
+        }
+        
+    }
+    
 }

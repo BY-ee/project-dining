@@ -6,13 +6,16 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.config.SecurityContextUtil;
 import com.project.domain.Member;
+import com.project.dto.CustomUserDetails;
 import com.project.dto.Login;
 import com.project.service.LoginService;
 import com.project.service.MypageService;
@@ -28,6 +31,7 @@ public class EmailController {
     private final SendEmailContentService emailContentService;
 	private final LoginService loginService;
 	private final MypageService mypageService;
+	private final SecurityContextUtil securityContextUtil;
 
 	private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
 	
@@ -35,7 +39,7 @@ public class EmailController {
     // 이메일 인증코드 인증
     @PostMapping("/verifyCode")
     @ResponseBody
-    public String verifyCode(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session,Member member) {
+    public String verifyCode(@AuthenticationPrincipal CustomUserDetails userDetails ,@RequestParam("userEmail") String userEmail, @RequestParam("code") String code, HttpSession session) {
     	String savedCode = (String) session.getAttribute("verificationCode");
     	String savedEmail = (String) session.getAttribute("userEmail");
     	LocalDateTime expiryTime = (LocalDateTime) session.getAttribute("expiryTime");
@@ -54,15 +58,28 @@ public class EmailController {
     	}
 
     	if (savedEmail.equals(userEmail) && savedCode.equals(code)) {
-    		member.setId(24L);
-    		member.setEmail(userEmail);
-    		mypageService.updateEmail(member);
+    		
+    		try {
+    			Member member = userDetails.getMember();
+    			System.out.println(member);    			
+    		}catch(Exception e) {
+    			session.removeAttribute("verificationCode");
+        	    session.removeAttribute("userEmail");
+        	    return "인증에 성공했습니다.";
+    		}
+    		if(userDetails.getMember() != null) {    			
+    			Member member = userDetails.getMember();
+    			member.setEmail(userEmail);
+    			mypageService.updateEmail(member);
+    			securityContextUtil.reloadUserDetails(member.getMemberId());
+    		}
     	    session.removeAttribute("verificationCode");
     	    session.removeAttribute("userEmail");
     	    return "인증에 성공했습니다.";
     	} else {
     	    return "인증 코드가 올바르지 않습니다.";
-    	}}
+    		}
+    	}
 	
     // 이메일 인증코드 전송
     @PostMapping("/sendVerificationEmail")

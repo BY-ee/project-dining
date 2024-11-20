@@ -1,14 +1,14 @@
-package com.project.domain;
+package com.project.dto;
 
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
 @Data
-@Alias("store")
-public class Store {
+@Alias("storeDetailDTO")
+public class StoreDetailDTO {
+	// Store
     private Long id;
-    private Long memberId;
     private String storeName;
     private String address;
     private String detailAddress;
@@ -24,5 +24,10 @@ public class Store {
     private String postStatus;
     private String enrollStatus;
     private String ceoName;
-  
+
+    // Menu
+	public String menuImage;
+	public String menuDescription;
+	public String menuName;
+	public String menuPrice;
 }

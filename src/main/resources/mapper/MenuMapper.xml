@@ -7,4 +7,17 @@
 		SELECT * FROM menu
 		WHERE store_id=#{storeId}
 	</select>
+	
+	<!-- 메뉴사진 삽입  -->
+	<insert id="insertMenu" parameterType="com.project.domain.Menu" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO menu (
+            id,
+            store_id,
+            menu_image
+        ) VALUES (
+            menu_seq.NEXTVAL,
+            #{storeId},
+            #{menuImage, jdbcType=VARCHAR}
+        )
+    </insert>
 </mapper>

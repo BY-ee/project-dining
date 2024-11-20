@@ -17,8 +17,8 @@
     <script type="text/javascript">
 	    var memberId = ${sessionMember.id != null ? sessionMember.id : 'null'}
 	    var storeId = ${storeId}
-        var latitude = ${storeDetail.latitude}
-        var longitude = ${storeDetail.longitude}
+        var latitude = ${storeDetail.latitude != null ? storeDetail.latitude : '37.5665'}
+        var longitude = ${storeDetail.longitude != null ? storeDetail.longitude : '126.9780'}
         
         console.log("memberId:", memberId);
         console.log("storeId:", storeId);
@@ -45,14 +45,12 @@
         
     <!-- 이동경로 -->
 <div class="breadcrumb">
-    <span class="breadcrumb-separator">›</span>
-    
     <!-- 업종 정보 -->
     <c:choose>
         <c:when test="${not empty categoryList[0].industry}">
-            <a href="/store?category=${categoryList[0].industry}" class="breadcrumb-item">
+            <span class="breadcrumb-item">
                 ${categoryList[0].industry}
-            </a>
+            </span>
         </c:when>
         <c:otherwise>
             <span class="breadcrumb-item">업종 정보 없음</span>
@@ -71,6 +69,7 @@
         </c:otherwise>
     </c:choose>
 </div>
+
 
         <!-- 가게 이름과 찜 버튼 -->
         <div class="container">

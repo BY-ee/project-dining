@@ -72,6 +72,11 @@
 	    });
 	}
 
+  	//10보다 작은 숫자에 0을 추가하는 함수
+    function addZero(number) {
+        return number < 10 ? "0" + number : number;
+    }
+    
     // 리뷰 데이터를 화면에 렌더링하는 함수
     function renderReviews(reviews, userReviewIndex) {
 	    var reviewList = $('#review-list');
@@ -82,11 +87,17 @@
 	    	if(review.status === 'active') {
 	    		console.log("review.memberId: ", review.memberId);
 	    		console.log("userId: ", userId);
+	    		
+		        // review.createdAt를 연, 월, 일 시분초로 변환
+		        var date = new Date(review.createdAt);
+		        var formattedDate = date.getFullYear() + "-" + addZero(date.getMonth() + 1) + "-" + addZero(date.getDate()) +
+	              " " + addZero(date.getHours()) + ":" + addZero(date.getMinutes()) + ":" + addZero(date.getSeconds());
+	              
 		        var reviewItem = '<div class="review-item">'
 		            + '<div class="review-header">'
 		            + '<span class="review-author">' + review.nickname + '</span>'
 		            + '<br>'
-		            + '<span class="review-date">' + review.createdAt + '</span>'
+		            + '<span class="review-date">' + formattedDate + '</span>'
 		            + '<div class="review-rating">' + generateStars(review.score) + '</div>'
 		            + '</div>'
                     + '<div id="review-content-' + review.id + '" class="review-content">' + review.content + '</div>';

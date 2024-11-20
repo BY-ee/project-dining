@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.project.dto.Login" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -24,6 +23,7 @@
                     <button class="tab" id="defaultTab" onclick="location.href='/mypage'">활동내역</button>
                     <button class="tab" onclick="location.href='/profile'">프로필</button>
                     <button class="tab" onclick="location.href='/account'">계정 정보</button>
+                    <button class="tab" onclick="location.href='/userPoint'">포인트</button>
                 </div>
                 
                 <div class="expanded-content">
@@ -34,9 +34,9 @@
 							<c:forEach var="mypageLike" items= "${likePageResponse.list}">
 								<div class="item">
 									<a href="/store/${mypageLike.storeId}">
-										<img src="/images/${mypageLike.mainImage1}">
+										<img src="/images/store/${mypageLike.mainImage1}">
 									</a>
-									${mypageLike.storeName }
+									<span>${mypageLike.storeName }</span>
 								</div>
 							</c:forEach>
 						</div>
@@ -58,9 +58,9 @@
 							<c:forEach var="mypageReview" items= "${reviewPageResponse.list}">
 								<div class="item">
 									<a href="/store/${mypageReview.storeId}">
-										<img src="images/${mypageReview.mainImage1}">
+										<img src="images/store/${mypageReview.mainImage1}">
 									</a>
-									${mypageReview.storeName}
+									<span>${mypageReview.storeName}</span>
 								</div>
 							</c:forEach>
 						</div>

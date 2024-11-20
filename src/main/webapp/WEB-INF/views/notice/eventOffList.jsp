@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/templates/head.jsp" %>
 <link rel="stylesheet" href="css/notice/commonStyles.css">
 <link rel="stylesheet" href="css/notice/noticeCommonStyles.css">
@@ -30,8 +31,8 @@
 				<a href="/event/${event.id}" class="event-item">
 					<img src="images/image2.png">
                 	<h3>${event.title}</h3>
-                	<span>${event.startDate} ~ ${event.endDate}</span>
-                	<span>${event.views}</span>
+                	<span><fmt:formatDate value="${event.startDate}" pattern="yyyy/MM/dd" /> ~ <fmt:formatDate value="${event.endDate}" pattern="yyyy/MM/dd" /></span>
+                	<span>조회수${event.views}</span>
                 	<span class="category">${event.category}</span>
                 </a>	
 			</c:forEach>

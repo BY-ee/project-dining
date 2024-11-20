@@ -24,6 +24,14 @@ public class StoreWithLocationDTO {
     private String storeDescription; // STORE_DESCRIPTION, 가게 설명
     private String postStatus; // POST_STATUS, 게시 상태
     private String enrollStatus; // ENROLL_STATUS, 등록 상태
+    private String ceoName;	// 대표자 이름
     private String location; // 지역 정보
+    
+    private String industry;      // 업종
+    private String subcategory;   // 세부 업종 (음식점, 카페, 술집 등)
+    private String region;        // 지역 정보
+    private String theme;         // 테마 정보
+    private Long industryId;      // 업종 ID
+    
 
 }

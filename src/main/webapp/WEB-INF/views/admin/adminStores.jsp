@@ -7,9 +7,10 @@
 <html lang="ko">
 <head>
     <title>가게 관리</title>
-    
+    <link rel="stylesheet" href="/css/admin/adminStore.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminStore.js"></script>
+    <script src="/js/store/store.js"></script>
 </head>
 <body>
     <div class="main-content">
@@ -36,7 +37,6 @@
                     <th>가게 이름</th>
                     <th>주소</th>
                     <th>전화번호</th>
-                    <th>메뉴</th>
                     <th>조회수</th>
                     <th>게시중단</th>
                     <th>상태</th>
@@ -46,10 +46,9 @@
                 <c:forEach var="store" items="${pagination.content}">
                     <tr>
                         <td>${store.id}</td>
-                        <td>${store.storeName}</td>
+                        <td><a href="#" class="store-link" data-id="${store.id}">${store.storeName}</a></td>
                         <td>${store.address}</td>
                         <td>${store.phoneNumber}</td>
-                        <td><a href="#" class="menu-link">확인</a></td>
                         <td>${store.views}</td>
                         <td>
                             <button class="delete-btn inactivate-btn" data-id="${store.id}">게시중단</button>
@@ -92,8 +91,7 @@
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup()">X</button>
-            <h3 class="popup-title">가게 이름</h3>
-            <div id="menu-content"></div>
+            <div id="store-content"></div>
         </div>
     </div>
 </body>

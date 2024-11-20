@@ -22,6 +22,7 @@ import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
+import com.project.dto.StoreDetailDTO;
 import com.project.mapper.MemberMapper;
 import com.project.mapper.MenuMapper;
 import com.project.mapper.NoticeMapper;
@@ -81,6 +82,16 @@ public class AdminService {
 		List<Store> stores = storeMapper.selectStores(start, end, requestData);
 		
 		return new Pagination<>(stores, page, size, totalCount);
+	}
+	
+	// 가게 조회
+	public StoreDetailDTO selectStoreById(long id) {
+		return storeMapper.selectStoreById(id);
+	}
+	
+	// 가게 찜 개수 조회
+	public long selectLikeCountById(long id) {
+		return storeMapper.getLikeCountByStoreId(id);
 	}
 	
 	// 가게 게시글 게시중단
