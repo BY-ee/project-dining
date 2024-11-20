@@ -1,14 +1,13 @@
 package com.project.controller;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -23,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.project.dto.Login;
 import com.project.service.LoginService;
+import com.project.service.SendEmailContentService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -96,157 +96,81 @@ public class LoginController {
 
 		return "login/joinResult";
 	}
-
-//	// 일반 로그인
-//	@RequestMapping("/login_ok.do")
-//	public String login_ok(@ModelAttribute("login") Login login, HttpSession session, Model model) {
-//		Login db = loginService.getUser(login.getMemberId());
-//		int result = 0;
-//
-//		if (db == null) {
-//			result = -1;
-//		} else {
-//			if (passwordEncoder.matches(login.getPasswd(), db.getPasswd())) {
-//				result = 1;
-//				session.setAttribute("loginUser", db);
-//				session.setAttribute("user_ID", db.getId());
-//				session.setAttribute("user_nickname", db.getNickname());
-//			} else {
-//				result = -1;
-//			}
-//		}
-//
-//		model.addAttribute("result", result);
-//		model.addAttribute("login", login);
-//
-//		return "login/loginResult";
-//	}
-
-	// 간편 로그인(최초 회원가입 포함)
-
+	
 	@GetMapping("/logincheck.do")
 	public String loginCheck(Authentication authentication, HttpSession session) {
-		if (authentication instanceof OAuth2AuthenticationToken) { 
-			OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-			String registrationId = oauthToken.getAuthorizedClientRegistrationId();
-	  
-			// accessToken 가져오기 
-			OAuth2AuthorizedClient authorizedClient = authorizedClientService
-					.loadAuthorizedClient(registrationId, oauthToken.getName());
-			String accessToken = authorizedClient.getAccessToken().getTokenValue();
-	  
-			// accessToken을 사용해 사용자 정보 가져오기 
-			Map<String, Object> userInfo = fetchUserInfo(registrationId, accessToken);
-			String tempId = null;
-			String tempEmail = null;
-	  
-			if ("naver".equals(registrationId)) {
-				Map<String, Object> response = (Map<String, Object>) userInfo.get("response");
-				if (response != null) {
-					tempId = (String) response.get("id");
-					tempEmail = (String) response.get("email");
-  
-					Login db = loginService.getNaverUser(tempId); // naverId 란에 tempId 있는지 조회
-  
-  
-					if(db == null) { // 첫 로그인 
-						String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
-  
-						loginService.insertNaverJoin(tempId, tempEmail, randomNickname);
-  
-						db = loginService.getUser(tempId);
-  
-						session.setAttribute("loginUser", db);
-						session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
-						session.setAttribute("user_nickname", db.getNickname());
-  
-					}
-  
-					// 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인 // db는 내가 로그인한 정보를 담은 객체
-					session.setAttribute("loginUser", db);
-					session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
-					session.setAttribute("user_nickname", db.getNickname());
-  
-					return "redirect:/";
-  
-				}
-			} else if ("kakao".equals(registrationId)) {
-				tempId = String.valueOf(userInfo.get("id"));
-				Map<String, Object> kakaoAccount = (Map<String, Object>) userInfo.get("kakao_account");
-				if (kakaoAccount != null) {
-					tempEmail = (String) kakaoAccount.get("email");
-				}
-  
-				Login db = loginService.getKakaoUser(tempId); // naverId 란에 tempId 있는지 조회
-  
-				if(db == null) { // 첫 로그인 
-					String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
-  
-					loginService.insertKakaoJoin(tempId, tempEmail, randomNickname);
-  
-					db = loginService.getUser(tempId);
-  
-					session.setAttribute("loginUser", db);
-					session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
-					session.setAttribute("user_nickname", db.getNickname());
-  
-				}
-  
-				session.setAttribute("loginUser", db);
-				session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
-				session.setAttribute("user_nickname", db.getNickname());
-			} else if ("google".equals(registrationId)) {
-				tempId = (String) userInfo.get("sub");
-				tempEmail = (String) userInfo.get("email");
-  
-				Login db = loginService.getGoogleUser(tempId); // naverId 란에 tempId 있는지 조회
-  
-  
-				if(db == null) { // 첫 로그인 
-					String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
-  
-					loginService.insertGoogleJoin(tempId, tempEmail, randomNickname);
-  
-					db = loginService.getUser(tempId);
-  
-					session.setAttribute("loginUser", db);
-					session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
-					session.setAttribute("user_nickname", db.getNickname());
-				}
-  
-				// 이미 해당 sns의 id가 저장되어있다면 loginUser Id로 로그인 // db는 내가 로그인한 정보를 담은 객체
-				session.setAttribute("loginUser", db);
-				session.setAttribute("user_ID", db.getId()); // memberId를 세션에 저장 
-				session.setAttribute("user_nickname", db.getNickname());
-	  
-				return "redirect:/";
-			}
-	  
-			return "redirect:/";
-		} else {
-			return "redirect:/login_ok.do";
-		}
+	    if (!(authentication instanceof OAuth2AuthenticationToken)) {
+	        return "redirect:/login_ok.do";
+	    }
+
+	    OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+	    String registrationId = oauthToken.getAuthorizedClientRegistrationId();
+
+	    // accessToken 가져오기
+	    OAuth2AuthorizedClient authorizedClient = authorizedClientService
+	            .loadAuthorizedClient(registrationId, oauthToken.getName());
+	    String accessToken = authorizedClient.getAccessToken().getTokenValue();
+
+	    // accessToken을 사용해 사용자 정보 가져오기
+	    Map<String, Object> userInfo = fetchUserInfo(registrationId, accessToken);
+
+	    Login db = null;
+	    switch (registrationId) {
+	        case "naver":
+	            Map<String, Object> naverResponse = (Map<String, Object>) userInfo.get("response");
+	            if (naverResponse != null) {
+	                String tempId = (String) naverResponse.get("id");
+	                db = loginService.getNaverUser(tempId);
+	            }
+	            break;
+
+	        case "kakao":
+	            String tempId = String.valueOf(userInfo.get("id"));
+	            db = loginService.getKakaoUser(tempId);
+	            break;
+
+	        case "google":
+	            tempId = (String) userInfo.get("sub");
+	            db = loginService.getGoogleUser(tempId);
+	            break;
+
+	        default:
+	            return "redirect:/login";
+	    }
+
+	    if (db != null) {
+	        // 세션에 사용자 정보 저장
+	        session.setAttribute("loginUser", db);
+	        session.setAttribute("user_ID", db.getId());
+	        session.setAttribute("user_nickname", db.getNickname());
+	    }
+
+	    return "redirect:/";
 	}
 
 	private Map<String, Object> fetchUserInfo(String registrationId, String accessToken) {
-		String userInfoEndpoint;
-		if ("naver".equals(registrationId)) {
-			userInfoEndpoint = "https://openapi.naver.com/v1/nid/me";
-		} else if ("kakao".equals(registrationId)) {
-			userInfoEndpoint = "https://kapi.kakao.com/v2/user/me";
-		} else if ("google".equals(registrationId)) {
-			userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
-		} else {
-			return null;
-		}
+	    String userInfoEndpoint;
+	    switch (registrationId) {
+	        case "naver":
+	            userInfoEndpoint = "https://openapi.naver.com/v1/nid/me";
+	            break;
+	        case "kakao":
+	            userInfoEndpoint = "https://kapi.kakao.com/v2/user/me";
+	            break;
+	        case "google":
+	            userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
+	            break;
+	        default:
+	            return null;
+	    }
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + accessToken);
-		HttpEntity<String> entity = new HttpEntity<>("", headers);
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Authorization", "Bearer " + accessToken);
+	    HttpEntity<String> entity = new HttpEntity<>("", headers);
 
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpoint, HttpMethod.GET, entity, Map.class);
-		return response.getBody();
+	    RestTemplate restTemplate = new RestTemplate();
+	    ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpoint, HttpMethod.GET, entity, Map.class);
+	    return response.getBody();
 	}
 
 	// 비밀번호 재설정 링크
@@ -296,5 +220,8 @@ public class LoginController {
 
 		return "당신의 아이디는 " + db.getMemberId() + "입니다.";
 	}
+
+	
+
 
 }

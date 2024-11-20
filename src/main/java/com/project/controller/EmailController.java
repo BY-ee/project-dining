@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.domain.Member;
 import com.project.dto.Login;
+import com.project.mapper.LoginMapper;
 import com.project.service.LoginService;
 import com.project.service.MypageService;
 import com.project.service.SendEmailContentService;
@@ -30,7 +31,7 @@ public class EmailController {
 	private final MypageService mypageService;
 
 	private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
-	
+
     
     // 이메일 인증코드 인증
     @PostMapping("/verifyCode")
@@ -54,9 +55,7 @@ public class EmailController {
     	}
 
     	if (savedEmail.equals(userEmail) && savedCode.equals(code)) {
-    		member.setId(24L);
-    		member.setEmail(userEmail);
-    		mypageService.updateEmail(member);
+
     	    session.removeAttribute("verificationCode");
     	    session.removeAttribute("userEmail");
     	    return "인증에 성공했습니다.";
@@ -87,7 +86,7 @@ public class EmailController {
     	
     	// 입력한 아이디의 정보를 db에 저장
     	Login db = loginService.getUser(login.getMemberId());
-
+    	
     	if(db == null) { // 입력한 아이디가 존재하지않을 경우
     		return "입력한 아이디가 존재하지 않습니다.";
     	} else {
@@ -116,7 +115,14 @@ public class EmailController {
     	}
     }
     
-	
+    @PostMapping("/checkEmailExists")
+    @ResponseBody
+    public int checkEmailExists(@RequestParam("userEmail") String userEmail) {
+        int count = emailContentService.checkEmailExists(userEmail); // MyBatis 쿼리에서 COUNT(*) 반환
+        return count; // 1: 존재, 0: 미존재
+    }
+    
+    
     
 	
     
