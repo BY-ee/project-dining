@@ -19,8 +19,8 @@
             <form method="get" action="/admin/reviews">
                 <select name="column">
                     <option value="id">ID</option>
-                    <option value="userId">유저 ID</option>
-                    <option value="storeId">가게 ID</option>
+                    <option value="user_id">유저 ID</option>
+                    <option value="store_id">가게 ID</option>
                     <option value="score">평점</option>
                     <option value="status">상태</option>
                 </select>

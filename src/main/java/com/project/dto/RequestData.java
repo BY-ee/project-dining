@@ -10,11 +10,13 @@ public class RequestData {
     private int size;
     private String column;
     private String keyword;
+    private String enrollStatus;
     
     private RequestData() {
     	this.page = 1;
     	this.size = 10;
     	this.column = "";
     	this.keyword = "";
+    	this.enrollStatus = "";
     }
 }

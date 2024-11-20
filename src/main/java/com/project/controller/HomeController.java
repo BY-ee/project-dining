@@ -47,7 +47,7 @@ public class HomeController {
 //            model.addAttribute("role", "ROLE_ANONYMOUS");
 //        }
         
-        List<Store> stores = storeService.findAllStores(); // 모든 가게 목록을 가져옴
+        List<Store> stores = storeService.getActiveStores(); // 모든 가게 목록을 가져옴
         model.addAttribute("stores", stores); // 모델에 stores 속성으로 추가
         logger.debug("(HomeController) 가게 수: {}", stores.size());
         return "home/homeCategory";
@@ -63,7 +63,7 @@ public class HomeController {
             List<Store> stores;
             if (location.isEmpty()) {
                 // location이 빈 문자열일 경우 모든 가게를 조회
-                stores = storeService.findAllStores();
+                stores = storeService.getActiveStores();
             } else {
                 // 특정 지역 가게 조회
                 stores = storeService.findStoresByLocation(location);

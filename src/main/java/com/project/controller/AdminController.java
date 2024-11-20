@@ -26,6 +26,7 @@ import com.project.dto.Pagination;
 import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
 import com.project.dto.StoreDetailDTO;
+import com.project.dto.StoreWithDetailDTO;
 import com.project.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -169,10 +170,18 @@ public class AdminController {
 	// 게시글 승인 페이지
 	@GetMapping("/approval")
 	public String showApprovalPage(RequestData requestData, Model model) {
-	    Pagination<Store> enrolledStores = adminService.selectEnrolledStores(requestData);
-	    model.addAttribute("pagination", enrolledStores);
+	    Pagination<Store> stores = adminService.selectStores(requestData);
+	    model.addAttribute("pagination", stores);
+	    model.addAttribute("enrollStatus", requestData.getEnrollStatus());
 
 	    return "admin/adminApproval";
+	}
+	
+	// 승인 페이지 폼
+	@GetMapping("/approval/{id}")
+	@ResponseBody
+	public StoreWithDetailDTO storeDetailWithLocation(@PathVariable("id") long id) {
+		return adminService.selectStoreWithDetailById(id);
 	}
 
 	

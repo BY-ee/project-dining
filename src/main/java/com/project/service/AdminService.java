@@ -23,6 +23,7 @@ import com.project.dto.Pagination;
 import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
 import com.project.dto.StoreDetailDTO;
+import com.project.dto.StoreWithDetailDTO;
 import com.project.mapper.MemberMapper;
 import com.project.mapper.MenuMapper;
 import com.project.mapper.NoticeMapper;
@@ -84,6 +85,20 @@ public class AdminService {
 		return new Pagination<>(stores, page, size, totalCount);
 	}
 	
+	// 게시 신청한 가게 조회
+//	public Pagination<Store> selectEnrolledStores(RequestData requestData) {
+//		int page = requestData.getPage();
+//		int size = requestData.getSize();
+//		
+//		int start = (page - 1) * size + 1;
+//		int end = start + size - 1;
+//		long totalCount = storeMapper.countEnrolledStores(requestData);
+//		
+//		List<Store> enrolledStores = storeMapper.selectEnrolledStores(start, end, requestData);
+//		
+//		return new Pagination<>(enrolledStores, page, size, totalCount);
+//	}
+	
 	// 가게 조회
 	public StoreDetailDTO selectStoreById(long id) {
 		return storeMapper.selectStoreById(id);
@@ -92,6 +107,14 @@ public class AdminService {
 	// 가게 찜 개수 조회
 	public long selectLikeCountById(long id) {
 		return storeMapper.getLikeCountByStoreId(id);
+	}
+	
+	// 카테고리가 포함된 가게 데이터
+	public StoreWithDetailDTO selectStoreWithDetailById(long id) {
+		StoreWithDetailDTO store = storeMapper.selectStoreWithDetailById(id);
+		store.setThemes(storeMapper.selectThemesById(id));
+		
+		return store;
 	}
 	
 	// 가게 게시글 게시중단
@@ -141,20 +164,6 @@ public class AdminService {
 	// 리뷰 재게시 
 	public void reactivateReview(long id) {
 		reviewMapper.reactivateReview(id);
-	}
-	
-	// 게시 신청한 가게 조회
-	public Pagination<Store> selectEnrolledStores(RequestData requestData) {
-		int page = requestData.getPage();
-		int size = requestData.getSize();
-		
-		int start = (page - 1) * size + 1;
-		int end = start + size - 1;
-		long totalCount = storeMapper.countEnrolledStores(requestData);
-		
-		List<Store> enrolledStores = storeMapper.selectEnrolledStores(start, end, requestData);
-		
-		return new Pagination<>(enrolledStores, page, size, totalCount);
 	}
 
 	// 공지 조회

@@ -52,8 +52,8 @@ public class StoreService {
 		storeMapper.deleteByMemberIdAndStoreId(memberId, storeId);
 	}
 	
-	public List<Store> findAllStores() {
-        return storeMapper.findAllStores();
+	public List<Store> getActiveStores() {
+        return storeMapper.getActiveStores();
 	}
 	
 	@Transactional(readOnly = true)

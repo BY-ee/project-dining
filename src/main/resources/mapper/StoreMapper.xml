@@ -13,6 +13,11 @@
 	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
 	                </if>
             	</where>
+            	<where>
+            		<if test="requestData.enrollStatus != null and requestData.enrollStatus != ''">
+            			enroll_status = #{requestData.enrollStatus}
+            		</if>
+            	</where>
 		        ORDER BY id DESC
 		    ) s
 		) 
@@ -38,6 +43,39 @@
     <select id="getStoreDetailById" parameterType="long" resultType="store">
     	SELECT * FROM store WHERE id = #{store_ID}
     </select>
+    
+    <select id="selectStoreWithDetailById" parameterType="long" resultType="storeWithDetailDTO">
+	    SELECT
+	        s.id AS id,
+	        s.store_name AS storeName,
+	        s.address AS address,
+	        s.detail_address AS detailAddress,
+	        s.tel AS tel,
+	        s.phone_number AS phoneNumber,
+	        s.main_image1 AS mainImage1,
+	        s.main_image2 AS mainImage2,
+	        s.latitude AS latitude,
+	        s.longitude AS longitude,
+	        s.views AS views,
+	        s.open_time AS openTime,
+	        s.store_description AS storeDescription,
+	        s.post_status AS postStatus,
+	        s.enroll_status AS enrollStatus,
+	        s.ceo_name AS ceoName,
+
+	        l.local AS local,
+	        i.industry AS industry
+	    FROM store s
+	    JOIN local l ON s.id = l.store_id
+	    JOIN industry i ON s.id = i.store_id
+	    WHERE s.id = #{id}
+    </select>
+    
+    <select id="selectThemesById" resultType="String">
+    	SELECT * FROM theme
+    	WHERE store_id=#{id}
+    </select>
+
     
 	<select id="selectStoreById" parameterType="long" resultType="storeDetailDTO">
 	    SELECT
@@ -74,6 +112,9 @@
 	        <if test="keyword != null and keyword != ''">
 	            ${column} LIKE '%' || #{keyword} || '%'
 	        </if>
+	        <if test="enrollStatus != null and enrollStatus != ''">
+	        	enroll_status = #{enrollStatus}	
+	        </if>
     	</where>
 	</select>
 	
@@ -102,8 +143,9 @@
 	</select>
 	
 	<!-- 홈페이지 가게 게시판 -->
-	<select id="findAllStores" resultType="storeWithLocationDTO">
+	<select id="getActiveStores" resultType="store">
 		SELECT * FROM store
+		WHERE post_status='active' AND enroll_status='enrolled'
 	</select>
 	
 	<!-- 홈페이지 가게 게시판 (카테고리 지역)-->

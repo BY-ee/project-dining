@@ -11,6 +11,7 @@ import com.project.dto.IndustryDTO;
 import com.project.dto.MemberLike;
 import com.project.dto.RequestData;
 import com.project.dto.StoreDetailDTO;
+import com.project.dto.StoreWithDetailDTO;
 import com.project.dto.StoreWithLocationDTO;
 
 
@@ -38,6 +39,12 @@ public interface StoreMapper{
 			@Param("end") int end,
 			@Param("requestData") RequestData requestData);
 	
+	// 테마를 제외한 가게 데이터
+	StoreWithDetailDTO selectStoreWithDetailById(long id);
+	
+	// 테마 조회
+	List<String> selectThemesById(long id);
+	
 	// 총 가게 개수
 	long countStores(RequestData requestData);
 
@@ -58,7 +65,7 @@ public interface StoreMapper{
 	// 찜 취소
 	void deleteByMemberIdAndStoreId(@Param("memberId") long memberId, @Param("storeId") long storeId);
 	
-	List<Store> findAllStores();
+	List<Store> getActiveStores();
 	
     List<Store> findStoresByLocation(String location);
 

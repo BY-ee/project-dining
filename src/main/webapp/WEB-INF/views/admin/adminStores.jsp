@@ -7,6 +7,7 @@
 <html lang="ko">
 <head>
     <title>가게 관리</title>
+
     <link rel="stylesheet" href="/css/admin/adminStore.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminStore.js"></script>
@@ -20,7 +21,7 @@
             <form method="get" action="/admin/stores">
                 <select name="column">
                     <option value="id">ID</option>
-                    <option value="storeName">가게 이름</option>
+                    <option value="store_name">가게 이름</option>
                     <option value="address">주소</option>
                     <option value="tel">전화번호</option>
                     <option value="status">상태</option>
