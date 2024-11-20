@@ -116,10 +116,26 @@
     border-bottom: 1px solid #ccc; /* 아래 회색 선 추가 */
     background-color: #f9f9f9; /* 배경색 (선택) */
     justify-content: space-between;
-    
 }
 
 #chat-room-name {
+    margin: 0; /* 기본 여백 제거 */
+    font-size: 16px; /* 제목 크기 */
+    font-weight: bold; /* 굵게 */
+    color: #333; /* 제목 색상 */
+}
+
+#chat-list-header {
+    height: 50px; /* 높이 설정 */
+    display: flex; /* Flexbox를 사용하여 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 0 10px; /* 좌우 여백 */
+    border-bottom: 1px solid #ccc; /* 아래 회색 선 추가 */
+    background-color: #f9f9f9; /* 배경색 (선택) */
+    justify-content: space-between;
+}
+
+#chat-list-name {
     margin: 0; /* 기본 여백 제거 */
     font-size: 16px; /* 제목 크기 */
     font-weight: bold; /* 굵게 */

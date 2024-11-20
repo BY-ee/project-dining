@@ -73,17 +73,24 @@ public class ChatRoomController {
     public ResponseEntity<?> joinChatRoom(@RequestBody ChatRoom joinRequest) {
         Long chatRoomId = joinRequest.getChatRoomId();
         Long memberId = joinRequest.getMemberId();
-
-        // 1. 현재 참여 인원 확인
-        int userCount = chatRoomService.getChatRoomUserCount(chatRoomId);
-
-        // 2. 최대 인원 제한 확인
-        int maxParticipants = chatRoomService.getChatRoomMaxParticipants(chatRoomId);
-        if (userCount >= maxParticipants) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Chat room is full.");
+        
+        // 1. 채팅방 입장 유저 확인
+        boolean isAlreadyJoined  = chatRoomService.isUserInRoom(chatRoomId, memberId);
+        if(isAlreadyJoined) {
+        	return ResponseEntity.status(HttpStatus.FORBIDDEN).body("이미 입장한 채팅방 입니다.");
         }
 
-        // 3. 참여 인원 추가
+        // 2. 현재 참여 인원 확인
+        int userCount = chatRoomService.getChatRoomUserCount(chatRoomId);
+
+        
+        // 3. 최대 인원 제한 확인
+        int maxParticipants = chatRoomService.getChatRoomMaxParticipants(chatRoomId);
+        if (userCount >= maxParticipants) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("채팅방의 인원이 가득 찼습니다.");
+        }
+
+        // 4. 참여 인원 추가
         chatRoomService.addUserToChatRoom(chatRoomId, memberId);
 
         return ResponseEntity.ok("User joined the chat room.");
@@ -93,6 +100,14 @@ public class ChatRoomController {
     public ResponseEntity<Integer> getCurrentParticipants(@PathVariable Long chatRoomId) {
         int currentParticipants = chatRoomService.getChatRoomUserCount(chatRoomId);
         return ResponseEntity.ok(currentParticipants);
+    }
+    
+    
+    @MessageMapping("/joinRoom/{roomId}")
+    @SendTo("/topic/participants/{roomId}")
+    public int updateParticipants(@DestinationVariable String roomId) {
+        int currentParticipants = chatRoomService.getChatRoomUserCount(Long.parseLong(roomId));
+        return currentParticipants; // 참여 유저 수 반환
     }
     
     @GetMapping("/list")
@@ -129,6 +144,13 @@ public class ChatRoomController {
     public ChatMessage broadcastMessage(@DestinationVariable("roomId") String roomId, @Payload ChatMessage message) {
         System.out.println("브로드캐스트 메시지: " + message);
         return message; // 메시지 전송만 담당
+    }
+    
+    @MessageMapping("/sendGlobalMessage")
+    @SendTo("/topic/messages/global")
+    public ChatMessage broadcastGlobalMessage(@Payload ChatMessage message) {
+        System.out.println("글로벌 브로드캐스트 메시지: " + message);
+        return message; // 모든 클라이언트에 메시지를 전송
     }
     
     

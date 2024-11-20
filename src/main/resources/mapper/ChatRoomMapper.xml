@@ -84,6 +84,15 @@
             CURRENT_TIMESTAMP -- 현재 시간
         )
     </insert>
+    
+    <!-- 특정 회원이 특정 채팅방에 참여 중인지 확인 -->
+    <select id="isUserInRoom" parameterType="map" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS result
+	    FROM chat_room_user cru
+	    JOIN chat_rooms cr ON cru.chat_room_id = cr.id
+	    WHERE cru.chat_room_id = #{chatRoomId}
+	      AND cru.user_id = #{userId}
+    </select>
 
     <!-- 채팅방에서 유저 제거 -->
     <delete id="deleteChatRoomUser" parameterType="map">
@@ -127,17 +136,34 @@
 	        cr.PASSWORD AS password,                 -- 비밀번호 (선택)
 	        m.NICKNAME AS creatorNickname,           -- 방장의 닉네임
 	        cru.JOINED_AT AS joinedAt,               -- 사용자가 참여한 시간
-            (
+	        (
 	            SELECT COUNT(*) 
 	            FROM chat_room_user cru 
 	            WHERE cru.chat_room_id = cr.id
-	        ) AS currentParticipants -- 참여 총인원 계산
+	        ) AS currentParticipants,                -- 참여 총인원 계산
+	        msg.CONTENT AS lastMessage,              -- 각 방의 최신 메시지 내용
+	        msg.SENT_AT AS lastMessageSentAt         -- 각 방의 최신 메시지 전송 시간
 	    FROM 
 	        chat_room_user cru                        -- 참여한 유저 정보를 담은 테이블
 	    INNER JOIN 
 	        chat_rooms cr ON cru.chat_room_id = cr.ID -- 채팅방 정보 조인
 	    INNER JOIN 
 	        member m ON cr.MEMBER_ID = m.ID           -- 방장 정보 조인
+	    LEFT JOIN 
+	        (
+	            SELECT 
+	                ROOM_ID, 
+	                CONTENT, 
+	                SENT_AT
+	            FROM 
+	                messages msg1
+	            WHERE 
+	                msg1.SENT_AT = (
+	                    SELECT MAX(SENT_AT) 
+	                    FROM messages 
+	                    WHERE ROOM_ID = msg1.ROOM_ID
+	                )
+	        ) msg ON msg.ROOM_ID = cr.ID              -- 최신 메시지와 조인
 	    WHERE 
 	        cru.USER_ID = #{userId}                   -- 현재 로그인한 사용자가 참여한 채팅방
 	    ORDER BY 

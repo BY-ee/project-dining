@@ -69,18 +69,20 @@
 </div>
  -->
  
- <div id="chat-list-container">
+<div id="chat-list-container">
     <!-- 채팅 목록 UI -->
-    <div id="chat-room-header">
-        <h2 id="chat-room-name"></h2>
-        <button id="close-chat-room">X</button>
+    <div id="chat-list-header">
+        <h2 id="chat-list-name">채팅 목록</h2>
+    </div>
+    <div id="chat-list">
+        <!-- 채팅 목록이 동적으로 추가됩니다 -->
     </div>
 </div>
 
 <div id="chat-room-container" style="display: none;">
     <!-- 채팅 방 UI -->
     <div id="chat-room-header">
-        <h2 id="chat-room-name"></h2>
+        <h2 id="chat-room-name">채팅방</h2>
         <button id="close-chat-room">X</button>
     </div>
     <div id="chat-content"></div>

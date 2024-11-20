@@ -28,6 +28,8 @@ public interface ChatRoomMapper {
     
     Long selectLastInsertedId(@Param("memberId") Long memberId);
     
+    boolean isUserInRoom(@Param("chatRoomId") Long chatRoomId, @Param("userId") Long userId);
+    
 	// 채팅방 목록 조회
 	List<ChatRoom> getAllChatRooms();
 	

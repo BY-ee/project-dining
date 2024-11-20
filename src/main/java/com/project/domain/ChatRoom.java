@@ -26,6 +26,6 @@ public class ChatRoom {
     private String creatorNickname;       // m.nickname 매핑
     private Date joinedAt;               // 유저 참여 시간
     private int currentParticipants; // 참여 총인원 추가
-
-
+    private String lastMessage;           // 마지막 메시지 내용
+    private Date lastMessageSentAt;       // 마지막 메시지 전송 시간
 }

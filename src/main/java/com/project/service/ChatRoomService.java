@@ -45,12 +45,18 @@ public class ChatRoomService {
         return chatRoomMapper.getChatRoomMaxParticipants(chatRoomId);
     }
 	
+    // 모든 체팅방 목록을 조회
 	public List<ChatRoom> getAllChatRooms(){
 		return chatRoomMapper.getAllChatRooms();
 	}
 	
+	// 채팅방 강제 삭제 필요시 사용
     public void deleteExpiredChatRooms() {
         chatRoomMapper.deleteExpiredChatRooms();
+    }
+    
+    public boolean isUserInRoom(Long chatRoomId, Long userId) {
+    	return chatRoomMapper.isUserInRoom(chatRoomId, userId);
     }
     
     @Scheduled(cron = "0 * * * * ?") 
