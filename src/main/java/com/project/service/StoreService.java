@@ -133,8 +133,13 @@ public class StoreService {
 			storeMapper.insertBar(industryId, storeId, subcategory);
 		}
 
-		// 6. 테마 정보 삽입
-		storeMapper.insertTheme(storeId, store.getTheme());
+		// 6. 테마 정보 삽입 (각 테마를 개별적으로 저장)
+		if (store.getTheme() != null && !store.getTheme().isEmpty()) {
+	        List<String> themes = Arrays.asList(store.getTheme().split(",")); // 콤마로 구분된 문자열을 리스트로 변환
+	        for (String theme : themes) {
+	            storeMapper.insertTheme(storeId, theme.trim()); // trim()으로 앞뒤 공백 제거 후 저장
+	        }
+	    }
 
 		// 7. 메뉴 사진 처리 및 메뉴 정보 삽입
 		if (menuPhotos != null && !menuPhotos.isEmpty()) {
