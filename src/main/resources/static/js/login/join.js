@@ -180,7 +180,30 @@ $(document).ready(function() {
 	
 	let validatedBusinessNumber = ""; // 인증된 사업자등록번호를 저장
 
+	$('#ownerCode1').on('input', function() {
+	    if ($(this).val().length === 3) {
+	        $('#ownerCode2').focus(); // ownerCode1에 3글자가 입력되면 ownerCode2로 이동
+	    }
+	});
+
+	$('#ownerCode2').on('input', function() {
+	    if ($(this).val().length === 2) {
+	        $('#ownerCode3').focus(); // ownerCode2에 2글자가 입력되면 ownerCode3으로 이동
+	    }
+	});
+	
+	$('#ownerCode3').on('input', function() {
+	    // ownerCode3은 5글자까지만 입력 받도록 제한
+	    if ($(this).val().length > 5) {
+	        $(this).val($(this).val().substring(0, 5)); // 5글자 이상 입력되지 않도록 자르기
+	    }
+	});
+	
+
 			$('#ownerValidation').click(function() {
+
+				
+				
 			    const ownerCode1 = $('#ownerCode1').val().trim();
 			    const ownerCode2 = $('#ownerCode2').val().trim();
 			    const ownerCode3 = $('#ownerCode3').val().trim();

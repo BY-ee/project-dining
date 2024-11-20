@@ -91,7 +91,9 @@ public class LoginController {
 	public String joinMember(@ModelAttribute("Login") Login login, Model model) {
 		int result = 0;
 		result = loginService.joinMember(login);
-
+		
+		Long id = login.getId();
+		System.out.println(id);
 		model.addAttribute("result", result);
 
 		return "login/joinResult";
