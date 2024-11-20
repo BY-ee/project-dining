@@ -18,6 +18,7 @@ import com.project.domain.Event;
 import com.project.domain.Member;
 import com.project.domain.Menu;
 import com.project.domain.Notice;
+import com.project.domain.Point;
 import com.project.domain.Review;
 import com.project.domain.Store;
 import com.project.dto.EventDTO;
@@ -27,6 +28,7 @@ import com.project.dto.RequestData;
 import com.project.dto.ReviewMemberDTO;
 import com.project.dto.StoreDetailDTO;
 import com.project.service.AdminService;
+import com.project.service.PointService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 	
 	private final AdminService adminService;
+	private final PointService pointService;
 	
 	// 회원관리 페이지
 	@GetMapping("/members")
@@ -319,4 +322,37 @@ public class AdminController {
 	public String errorPage() {
 		return "admin/accessDenied";
 	}
+	// 포인트 페이지
+		@GetMapping("/points")
+		public String points(RequestData requestData, Model model) {
+			Pagination<Point> points = pointService.selectPoints(requestData);
+			model.addAttribute("pagination", points);
+			
+			return "admin/adminPoints";
+		}
+		
+		@RequestMapping("/searchPoints")
+		public String searchPoints(@RequestParam("column") String column,
+		                           @RequestParam("keyword") String keyword,
+		                           Model model) {
+		    // 컬럼 이름 검증 및 매핑
+		    if (!"member_id".equals(column) && !"nickname".equals(column)) {
+		        throw new IllegalArgumentException("Invalid column provided: " + column);
+		    }
+
+		    // 조인된 컬럼 이름으로 변환
+		    String mappedColumn = "member_id".equals(column) ? "m.member_id" : "m.nickname";
+		    // 검색 서비스 호출
+		    List<Point> points = pointService.searchPoints(mappedColumn, keyword);
+
+		    // 검색 결과를 모델에 추가 (기존 데이터와 충돌을 방지하기 위해 이름 변경)
+		    model.addAttribute("searchResults", points);
+
+		    // 로그 출력
+		    System.out.println("Search request - column: " + mappedColumn + ", keyword: " + keyword);
+
+		    return "admin/adminPoints"; // 반환할 뷰
+		}
+		
+	
 }

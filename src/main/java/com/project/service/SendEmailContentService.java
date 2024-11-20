@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.project.mapper.LoginMapper;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -14,7 +16,11 @@ import jakarta.mail.internet.MimeMessage;
 public class SendEmailContentService{
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private LoginMapper loginMapper;
+	
 
+    
     // 이메일 인증 이메일
     public void sendEmail(String userEmail, String subject, String content) {
         try {
@@ -60,4 +66,10 @@ public class SendEmailContentService{
                "  <p style='font-size: 12px; color: #999;'>본 메일을 요청하지 않으셨다면, 이 이메일을 무시하셔도 됩니다.</p>" +
                "</div>";
     }
+	public int checkEmailExists(String userEmail) {
+		return loginMapper.checkEmailExists(userEmail);
+	}
+
+
+	
 }

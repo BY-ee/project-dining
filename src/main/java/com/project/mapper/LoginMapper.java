@@ -34,5 +34,13 @@ public interface LoginMapper {
 	
 	// 아이디 찾기
 	Login getFindId(String email);
+	
+	// 이메일 존재 여부 확인
+    int checkEmailExists(String userEmail);
+
+
+
+
+
 
 }

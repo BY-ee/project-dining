@@ -100,39 +100,62 @@ $(document).ready(function() {
 	
 	
 
-	// 이메일 인증
-	$('#verifyButton').on('click', function() {
-		const mailid = $('#mailid').val().trim();
-		let domain = $('#domain').val().trim();
-		const emailSelect = $('#emailSelect').val();
 
-		if (emailSelect) {
-			domain = emailSelect; // select에서 선택한 도메인으로 설정
-		}
 
-		const fullEmail = `${mailid}@${domain}`;
+	    $('#verifyButton').on('click', function () {
+	        const mailid = $('#mailid').val().trim();
+	        let domain = $('#domain').val().trim();
+	        const emailSelect = $('#emailSelect').val();
 
-		if ($('#verificationCode').length === 0) {
-			$('#verification-input-container').html(
-				`<input type="text" id="verificationCode" placeholder="인증 코드">
-					<button type="button" id="confirmButton">확인</button>`
-			);
-		}
+	        if (emailSelect) {
+	            domain = emailSelect; // select에서 선택한 도메인으로 설정
+	        }
 
-		// 이메일 서버에 전송
-		$.ajax({
-			url: '/sendVerificationEmail',  // 서버의 이메일 전송 엔드포인트
-			type: 'POST',
-			data: { userEmail: fullEmail },
-			success: function(response) {
-				alert(response);
-			},
-			error: function(error) {
-				alert("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
-			}
-		});
-	});
+	        const fullEmail = `${mailid}@${domain}`;
 
+	        if (!mailid || !domain) {
+	            alert("이메일을 입력해주세요.");
+	            return;
+	        }
+
+	        // 서버로 이메일 존재 여부 확인 요청
+	        $.ajax({
+	            url: '/checkEmailExists', // 이메일 존재 여부 확인 엔드포인트
+	            type: 'POST',
+	            data: { userEmail : fullEmail },
+	            success: function (response) {
+	                if (response === 1) { // 이메일이 존재하는 경우
+	                    alert("해당 이메일로 가입된 아이디가 있습니다.");
+	                } else {
+						
+						if ($('#verificationCode').length === 0) {
+									$('#verification-input-container').html(
+										`<input type="text" id="verificationCode" placeholder="인증 코드">
+											<button type="button" id="confirmButton">확인</button>`
+									);
+								}
+								
+	                    // 이메일이 존재하지 않는 경우 인증 코드 발송
+	                    $.ajax({
+	                        url: '/sendVerificationEmail', // 인증 코드 발송 엔드포인트
+	                        type: 'POST',
+	                        data: { userEmail: fullEmail },
+	                        success: function () {
+	                            alert("인증 코드가 이메일로 발송되었습니다.");
+	                        },
+	                        error: function () {
+	                            alert("인증 코드 전송 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	                        }
+	                    });
+	                }
+	            },
+	            error: function () {
+	                alert("이메일 확인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	            }
+	        });
+	    });
+
+	
 	// 확인 버튼 클릭 시 인증 코드 확인 요청
 	$(document).on('click', '#confirmButton', function() {
 		const verificationCode = $('#verificationCode').val().trim();
@@ -157,58 +180,80 @@ $(document).ready(function() {
 	
 	let validatedBusinessNumber = ""; // 인증된 사업자등록번호를 저장
 
-	$('#ownerValidation').click(function() {
-		const ownerCode1 = $('#ownerCode1').val().trim();
-		const ownerCode2 = $('#ownerCode2').val().trim();
-		const ownerCode3 = $('#ownerCode3').val().trim();
-
-		const businessNumber = ownerCode1 + ownerCode2 + ownerCode3;
-
-		// 입력값 검증(사업자 번호는 10자리임)
-		if (businessNumber.length !== 10 || isNaN(businessNumber)) {
-			$('#validationMessage').text('유효한 사업자등록번호를 입력해주세요.');
-			return;
-		}
-
-		// 입력값이 이전에 인증된 값과 다를 경우 인증 상태 초기화
-		if (businessNumber !== validatedBusinessNumber) {
-			$('#validationMessage').text(""); // 메시지 초기화
-			validatedBusinessNumber = ""; // 인증 상태 초기화
-			$('#registrationNumber').val(""); // hidden 필드 초기화
-		}
-
-		// API 요청 데이터
-		const requestData = {
-			"b_no": [businessNumber]
-		};
-
-		$.ajax({
-			url: 'https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=4ZDFaX88OAD5ZwPJ%2FVnHtfRxa9MVdW9%2Bxtl4BP%2FKCuxqGZnSajTjNU2a%2FfzV9Qwuv5cF%2F%2BJIS0Kh%2FJi6qhWvuA%3D%3D',
-			type: 'POST',
-			data: JSON.stringify(requestData),
-			dataType: 'json',
-			contentType: 'application/json',
-			success: function(response) {
-				if (response.data && response.data.length > 0) {
-					const status = response.data[0].b_stt_cd;
-					console.log(status);
-					if (status === '01') { // 01: 계속사업자
-						$('#validationMessage').text('인증되었습니다.');
-						validatedBusinessNumber = businessNumber; // 인증된 사업자등록번호 저장
-						$('#registrationNumber').val(businessNumber); // hidden 필드에 값 설정
-					} else {
-						$('#validationMessage').text('영업 중인 사업자가 아닙니다.');
-					}
-				} else {
-					$('#validationMessage').text('유효하지 않은 사업자등록번호입니다.');
-				}
-			},
-			error: function() {
-				$('#validationMessage').text('인증 중 오류가 발생했습니다. 다시 시도해주세요.');
-			}
-		});
+	$('#ownerCode1').on('input', function() {
+	    if ($(this).val().length === 3) {
+	        $('#ownerCode2').focus(); // ownerCode1에 3글자가 입력되면 ownerCode2로 이동
+	    }
 	});
-		
+
+	$('#ownerCode2').on('input', function() {
+	    if ($(this).val().length === 2) {
+	        $('#ownerCode3').focus(); // ownerCode2에 2글자가 입력되면 ownerCode3으로 이동
+	    }
+	});
+	
+	$('#ownerCode3').on('input', function() {
+	    // ownerCode3은 5글자까지만 입력 받도록 제한
+	    if ($(this).val().length > 5) {
+	        $(this).val($(this).val().substring(0, 5)); // 5글자 이상 입력되지 않도록 자르기
+	    }
+	});
+	
+
+			$('#ownerValidation').click(function() {
+
+				
+				
+			    const ownerCode1 = $('#ownerCode1').val().trim();
+			    const ownerCode2 = $('#ownerCode2').val().trim();
+			    const ownerCode3 = $('#ownerCode3').val().trim();
+
+			    const businessNumber = ownerCode1 + ownerCode2 + ownerCode3;
+
+			    // 입력값 검증(사업자 번호는 10자리임)
+			    if (businessNumber.length !== 10 || isNaN(businessNumber)) {
+			        $('#validationMessage').text('유효한 사업자등록번호를 입력해주세요.');
+			        return;
+			    }
+
+			    // 입력값이 이전에 인증된 값과 다를 경우 인증 상태 초기화
+			    if (businessNumber !== validatedBusinessNumber) {
+			        $('#validationMessage').text(""); // 메시지 초기화
+			        validatedBusinessNumber = ""; // 인증 상태 초기화
+			        $('#registrationNumber').val(""); // hidden 필드 초기화
+			    }
+
+			    // API 요청 데이터
+			    const requestData = {
+			        "b_no": [businessNumber]
+			    };
+
+			    $.ajax({
+			        url: '/proxy/nts-businessman',
+			        type: 'POST',
+			        data: JSON.stringify(requestData),
+			        dataType: 'json',
+			        contentType: 'application/json',
+			        success: function(response) {
+			            if (response.data && response.data.length > 0) {
+			                const status = response.data[0].b_stt_cd;
+			                console.log(status);
+			                if (status === '01') { // 01: 계속사업자
+			                    $('#validationMessage').text('인증되었습니다.');
+			                    validatedBusinessNumber = businessNumber; // 인증된 사업자등록번호 저장
+			                    $('#registrationNumber').val(businessNumber); // hidden 필드에 값 설정
+			                } else {
+			                    $('#validationMessage').text('영업 중인 사업자가 아닙니다.');
+			                }
+			            } else {
+			                $('#validationMessage').text('유효하지 않은 사업자등록번호입니다.');
+			            }
+			        },
+			        error: function() {
+			            $('#validationMessage').text('인증 중 오류가 발생했습니다. 다시 시도해주세요.');
+			        }
+			    });
+			});
 		// 모든 회원가입 상태가 통과 시에만 회원가입 진행
 		$('#member-signup-button').on('click', function(e) {
 			const mailid = $("#mailid").val().trim();

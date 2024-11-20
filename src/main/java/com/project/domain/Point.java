@@ -17,4 +17,7 @@ public class Point {
 	public Timestamp createdAt;
 	public Timestamp deletedAt;
 	public String status;
+	
+	public String joinMemberId;
+	public String joinNickname;
 }
