@@ -2,27 +2,82 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
- <mapper namespace="com.project.mapper.PointMapper">
- 
- 	<insert id="insertPoint" parameterType="point">
-	    INSERT INTO point (id, member_id, category, point, type, created_at, deleted_at, status)
-	    VALUES (#{id, jdbcType=INTEGER}, #{memberId, jdbcType=INTEGER}, #{category, jdbcType=VARCHAR},
-	            #{point, jdbcType=NUMERIC}, #{type, jdbcType=VARCHAR},
-	            SYSDATE, #{deletedAt, jdbcType=TIMESTAMP}, #{status})
+
+<mapper namespace="com.project.mapper.PointMapper">
+
+	<insert id="insertPoint" parameterType="point">
+		INSERT INTO point (id, member_id, category, point, type, created_at,
+		deleted_at, status)
+		VALUES (#{id, jdbcType=INTEGER}, #{memberId, jdbcType=INTEGER}, #{category,
+		jdbcType=VARCHAR},
+		#{point, jdbcType=NUMERIC}, #{type, jdbcType=VARCHAR},
+		SYSDATE, #{deletedAt, jdbcType=TIMESTAMP}, #{status})
 	</insert>
-	
-	<select id="findPointByUser" parameterType="long" resultType="com.project.domain.Point">
-	    SELECT id, member_id, category, point, type, created_at, deleted_at, status
-	    FROM point
-	    WHERE member_id = #{memberId}
+
+	<select id="findPointByUser" parameterType="long"
+		resultType="com.project.domain.Point">
+		SELECT id, member_id, category, point, type, created_at, deleted_at, status
+		FROM point
+		WHERE member_id = #{memberId}
 	</select>
-	
-	<select id="getTotalPoints" parameterType="long" resultType="int">
-        SELECT SUM(point)
-        FROM point
-        WHERE member_id = #{memberId}
-    </select>
- 
- </mapper>
+
+	<select id="getTotalPoints" parameterType="long"
+		resultType="int">
+		SELECT SUM(point)
+		FROM point
+		WHERE member_id = #{memberId}
+	</select>
+
+	<select id="countPoints"
+		parameterType="com.project.dto.RequestData" resultType="long">
+		SELECT COUNT(*)
+		FROM point p
+		JOIN member m ON p.member_id = m.id
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<if test="column == 'm.member_id'">
+					m.member_id LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="column == 'm.nickname'">
+					m.nickname LIKE '%' || #{keyword} || '%'
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="searchPoints" parameterType="map"
+		resultType="com.project.domain.Point">
+		SELECT p.*, m.member_id AS joinMemberId, m.nickname AS joinNickname
+		FROM point p
+		JOIN member m ON p.member_id = m.id
+		WHERE
+		${column} LIKE '%' || #{keyword} || '%'
+	</select>
+
+	<select id="selectPoints" resultType="com.project.domain.Point">
+		SELECT * FROM (
+		SELECT
+		p.*,
+		m.member_id AS joinMemberId,
+		m.nickname AS joinNickname,
+		ROWNUM AS rnum
+		FROM point p
+		JOIN member m ON p.member_id = m.id
+		<where>
+			<if
+				test="requestData.keyword != null and requestData.keyword != ''">
+				<if test="requestData.column == 'm.member_id'">
+					m.member_id LIKE '%' || #{requestData.keyword} || '%'
+				</if>
+				<if test="requestData.column == 'm.nickname'">
+					m.nickname LIKE '%' || #{requestData.keyword} || '%'
+				</if>
+			</if>
+		</where>
+		ORDER BY p.created_at DESC
+		)
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+
+</mapper>
   
