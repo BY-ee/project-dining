@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.project.config.SecurityContextUtil;
 import com.project.domain.Member;
 import com.project.domain.Store;
+import com.project.dto.CustomUserDetails;
 import com.project.dto.MypageLike;
 import com.project.dto.MypageReview;
 import com.project.dto.PageRequest;
@@ -74,8 +75,9 @@ public class MypageService {
 	}
 
 	public boolean changePassword(Member member,String currentPassword,String newPassword) {
-		if(!(passwordEncoder.matches(currentPassword,member.getPasswd()))) return false;
-		
+		if(currentPassword != null) {
+			if(!(passwordEncoder.matches(currentPassword,member.getPasswd()))) return false;			
+		}
 		member.setPasswd(passwordEncoder.encode(newPassword));
 		int i = mypageMapper.updatePassword(member);
 		securityContextUtil.reloadUserDetails(member.getMemberId());  // spring security context의 상태 수정
@@ -90,22 +92,21 @@ public class MypageService {
 		return mypageMapper.fileUpload(member);
 	}
 
-	public int updateSocialId(@AuthenticationPrincipal OAuth2User oauth2User,HttpSession session) {
+	// 전체적으로 고치기
+	public int updateSocialId(@AuthenticationPrincipal CustomUserDetails userDetails,HttpSession session) {
 		String socialName = (String)session.getAttribute("socialName");
-		Map<String,Object> attributes = oauth2User.getAttributes();
-		long id = 24L;
+		Map<String,Object> attributes = userDetails.getAttributes();
 		int result = 0;
 		
 		if(socialName.equals("네이버")) {
-			result = mypageMapper.updateSocialId(id, socialName,(String)((Map<String, Object>) attributes.get("response")).get("id"));
+			result = mypageMapper.updateSocialId(userDetails.getId(), socialName,(String)((Map<String, Object>) attributes.get("response")).get("email"));
 		} else if(socialName.equals("카카오")) { 
-	    	result = mypageMapper.updateSocialId(id,socialName, String.valueOf(attributes.get("id")));
+	    	result = mypageMapper.updateSocialId(userDetails.getId(),socialName, (String)((Map<String, Object>)attributes.get("kakao_account")).get("email"));
 	    } else if(socialName.equals("구글")) {
-			result = mypageMapper.updateSocialId(24L, socialName, String.valueOf(attributes.get("sub")));
+			result = mypageMapper.updateSocialId(userDetails.getId(), socialName, String.valueOf(attributes.get("email")));
 		}
 		
-		Member member = memberMapper.selectMember(id);
-		securityContextUtil.reloadUserDetails(member.getMemberId());  // spring security context의 상태 수정
+		securityContextUtil.reloadUserDetails(userDetails.getName());  // spring security context의 상태 수정
 		
 		return result;
 	}

@@ -7,8 +7,11 @@ import org.apache.ibatis.annotations.Param;
 
 import com.project.domain.Menu;
 import com.project.domain.Store;
+import com.project.dto.IndustryDTO;
 import com.project.dto.MemberLike;
 import com.project.dto.RequestData;
+import com.project.dto.StoreDetailDTO;
+import com.project.dto.StoreWithLocationDTO;
 
 
 @Mapper
@@ -16,6 +19,9 @@ public interface StoreMapper{
 	
 	// 가게정보 가져오기
     Store getStoreDetailById(long store_ID);
+    
+    // 가게 조회
+    StoreDetailDTO selectStoreById(long id);
     
     // 메뉴정보 가져오기
     List<Menu> getMenuById(long storeId);
@@ -70,7 +76,7 @@ public interface StoreMapper{
         );
 
     // 카테고리 가져오기
-	List<Store> getStoreCategory(long storeId);
+	List<StoreWithLocationDTO> getStoreCategory(long storeId);
     
     List<Store> findStoresByOrder(
             @Param("order") String order,
@@ -79,5 +85,28 @@ public interface StoreMapper{
             @Param("subCategory") String subCategory,
             @Param("themeArray") List<String> themeArray
     );
+
+    // store 테이블 삽입
+    void insertStore(StoreWithLocationDTO store);
+
+    // 지역 정보 삽입
+    void insertRegion(@Param("storeId") Long storeId, @Param("region") String region);
+
+    // 업종 정보 삽입
+    void insertIndustry(IndustryDTO industryDTO);
+
+    // 음식점 정보 삽입
+    void insertRestaurant(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
+
+    // 카페 정보 삽입
+    void insertCafe(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
+
+    // 술집 정보 삽입
+    void insertBar(@Param("industryId") Long industryId, @Param("storeId") Long storeId, @Param("subcategory") String subcategory);
+
+    // 테마 정보 삽입
+    void insertTheme(@Param("storeId") Long storeId, @Param("theme") String theme);
+
+
     
 }

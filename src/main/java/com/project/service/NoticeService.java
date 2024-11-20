@@ -82,4 +82,12 @@ public class NoticeService {
 	public Event getNextEvent(Long id) {
 		return noticeMapper.getNextEvent(id);
 	}
+
+	public int updateNoticeViews(Notice notice) {
+		return noticeMapper.updateNoticeViews(notice);
+	}
+	
+	public int updateEventViews(Event event) {
+		return noticeMapper.updateEventViews(event);
+	}
 }

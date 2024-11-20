@@ -45,14 +45,12 @@
         
     <!-- 이동경로 -->
 <div class="breadcrumb">
-    <span class="breadcrumb-separator">›</span>
-    
     <!-- 업종 정보 -->
     <c:choose>
         <c:when test="${not empty categoryList[0].industry}">
-            <a href="/store?category=${categoryList[0].industry}" class="breadcrumb-item">
+            <span class="breadcrumb-item">
                 ${categoryList[0].industry}
-            </a>
+            </span>
         </c:when>
         <c:otherwise>
             <span class="breadcrumb-item">업종 정보 없음</span>
@@ -71,6 +69,7 @@
         </c:otherwise>
     </c:choose>
 </div>
+
 
         <!-- 가게 이름과 찜 버튼 -->
         <div class="container">

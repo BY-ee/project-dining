@@ -55,11 +55,12 @@
 					<button class="tab" onclick="location.href='/mypage'">활동내역</button>
 					<button class="tab" onclick="location.href='/profile'">프로필</button>
 					<button class="tab" onclick="location.href='/account'">계정 정보</button>
+					<button class="tab" onclick="location.href='/userPoint'">포인트</button>
 				</div>
 				<div class="expanded-content">
 					<!-- 계정 정보 섹션 -->
 					<div id="account-settings" class="section">
-						<div class="email-info">
+						<div class="div-content">
 							<h3>이메일 정보</h3>
 								<input type="email" id="userEmail" name="userEmail" value="${sessionMember.email}">
 								<!-- <button class="email-verify-button" onclick="sendVerificationEmail()">이메일 인증</button> -->
@@ -73,20 +74,20 @@
 							<p>이메일 변경은 변경한 이메일로 인증 요청 메일이 발송되고 해당 이메일을 통해 인증을 정상적으로 완료한 후
 								최종적으로 반영됩니다.</p>
 						</div>
-						<div class="social-connect">
+						<div class="div-content">
 							<h3>소셜계정 연동</h3>
 							<p>사용하시는 소셜 및 인증 제공자들과 계정을 연동하고 손쉽게 로그인하세요.</p>
 							<div class="social-connect-buttons">
 								<c:choose>
 									<c:when test="${empty sessionMember.naverId}">
 										<a href="/oauth2/authorization/naver" onclick="setRedirectUrl('/updateSocialId','네이버')">
-											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty sessionMember.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="login-btn">
 											네이버 연결하기
 										</a>
 									</c:when>
 									<c:otherwise>
-										<a>
-											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="${not empty sessionMember.naverId ? 'enrolled-login-btn' : 'login-btn'}">
+										<a style="cursor: default;">
+											<img src="/images/naver_button.png" alt="네이버 간편 로그인" class="enrolled-login-btn">
 											네이버 등록완료
 										</a>
 									</c:otherwise>
@@ -99,7 +100,7 @@
 										</a>
 									</c:when>
 									<c:otherwise>
-										<a>
+										<a style="cursor: default;">
 											<img src="/images/kakao_button.png" alt="카카오 간편 로그인" class="enrolled-login-btn">
 											카카오 등록완료
 										</a>
@@ -113,7 +114,7 @@
 										</a>
 									</c:when>
 									<c:otherwise>
-										<a>
+										<a style="cursor: default;">
 											<img src="/images/google_button.png" alt="구글 간편 로그인" class="enrolled-login-btn">
 										구글 등록완료
 										</a>
@@ -121,12 +122,12 @@
 								</c:choose>
 							</div>
 						</div>
-						<div class="security-settings">
-							<h3>비밀번호설정</h3>
+						<div class="div-content">
+							<h3>비밀번호 설정</h3>
 							<div class="security-setting-item">
-							<form action="/accountSettings" method="post">
+							<form action="/account" method="post">
 								<label for="current_password">현재 비밀번호</label> 
-								<input type="password" id="current_password" name="current_password"> 
+								<input type="password" id="current_password" name="current_password" class="${sessionMember.passwd == null ? 'disabled' : ''}" >
 								<label for="new_password">새비밀번호</label>
 								<input type="password" id="new_password" name="new_password"> 
 								<label for="new_password_check">비밀번호 확인</label> 
@@ -136,7 +137,7 @@
 							</div>
 						</div>
 
-						<div class="delete-account">
+						<div class="div-content">
 							<h3>계정삭제</h3>
 							<textarea class="policy-text" readonly>"회원 탈퇴일로부터 계정과 닉네임을 포함한 계정 정보(아이디/이메일/닉네임)는 개인정보 처리방침에 따라 60일간 보관(잠김)되며, 
 		60일 경과된 후에는 모든 개인 정보는 완전히 삭제되며 더 이상 복구할 수 없게 됩니다. 작성된 게시물은 삭제되지 않으며, 익명처리 후 namyi 로 소유권이 귀속됩니다."
@@ -168,13 +169,13 @@
 		        alert("이메일을 입력해주세요.");
 		        return;
 		    }
-
+			alert("이메일 인증을 보냈습니다.")
 		    $.ajax({
 		        url: '/sendVerificationEmail',
 		        type: 'POST',
 		        data: { userEmail: userEmail },
 		        success: function(data) {
-		            alert(data); // "인증 이메일이 발송되었습니다." 출력
+		            //alert(data); // "인증 이메일이 발송되었습니다." 출력
 		            $("#verification-popup").fadeIn(); // 팝업창 띄우기
 		        },
 		        error: function(xhr, status, error) {
@@ -246,9 +247,6 @@
 		            alert(data); // "인증 이메일이 발송되었습니다." 출력
 		        },
 		        error: function(xhr, status, error) {
-							console.dir(error);
-							console.dir(xhr);
-							console.log(xhr.responseText);
 		            console.error('Error:', error);
 		            alert("인증 이메일 전송에 실패했습니다.");
 		        }

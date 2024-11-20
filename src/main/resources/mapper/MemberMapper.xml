@@ -28,6 +28,22 @@
 		WHERE member_id=#{memberId}
 	</select>
 	
+	<select id="selectMemberByRegisteration" resultType="member">
+		select * from member
+		where 
+		<choose>
+			<when test="registerationId == 'naver'">
+				naver_id = #{email}
+			</when>
+			<when test="registerationId == 'kakao'">
+				kakao_id = #{email}
+			</when>
+			<when test="registerationId == 'google'">
+				google_id = #{email}
+			</when>
+		</choose>
+	</select>
+	
 	<select id="countMembers" resultType="long">
 		SELECT COUNT(*) FROM member
         <where>

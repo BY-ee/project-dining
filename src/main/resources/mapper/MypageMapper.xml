@@ -65,11 +65,12 @@
 		update
 		member
 		set
+		nickname = #{nickname},
 		introduction = #{introduction},
 		age = #{age},
 		residence = #{residence},
 		mbti = #{mbti}
-		where nickname = #{nickname}
+		where id = #{id}
 	</update>
 
 	<update id="updatePassword" parameterType="Member">

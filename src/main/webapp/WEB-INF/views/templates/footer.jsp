@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> <!-- 한글 인코딩 -->
-<link rel="stylesheet" href="/css/templates/footer.css"> <!-- footer css -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- footer 태그 템플릿 -->
 <footer class="footer">
@@ -18,7 +18,9 @@
                 <li><a href="/terms">이용 약관</a></li>
                 <li><a href="/storeRegistration">사업자 가게 등록</a></li>
                 <li><a href="/noticeList">공지 사항</a></li>
-                <li><a href="/admin/members">관리자 페이지</a></li>
+                <c:if test="${sessionMember.role == 'ROLE_ADMIN'}">
+                    <li><a href="/admin/members">관리자 페이지</a></li>
+                </c:if>
             </ul>
         </div>
     </div>

@@ -39,6 +39,35 @@
     	SELECT * FROM store WHERE id = #{store_ID}
     </select>
     
+	<select id="selectStoreById" parameterType="long" resultType="storeDetailDTO">
+	    SELECT
+	        s.id AS id,
+	        s.store_name AS storeName,
+	        s.address AS address,
+	        s.detail_address AS detailAddress,
+	        s.tel AS tel,
+	        s.phone_number AS phoneNumber,
+	        s.main_image1 AS mainImage1,
+	        s.main_image2 AS mainImage2,
+	        s.latitude AS latitude,
+	        s.longitude AS longitude,
+	        s.views AS views,
+	        s.open_time AS openTime,
+	        s.store_description AS storeDescription,
+	        s.post_status AS postStatus,
+	        s.enroll_status AS enrollStatus,
+	        s.ceo_name AS ceoName,
+
+	        m.menu_image AS menuImage,
+	        m.menu_description AS menuDescription,
+	        m.menu_name AS menuName,
+	        m.menu_price AS menuPrice
+	    FROM store s
+	    LEFT JOIN menu m ON s.id = m.store_id
+	    WHERE s.id = #{id}
+	</select>
+
+    
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store
         <where>
@@ -152,16 +181,14 @@
     </select>
     
 		<!-- 카테고리 가져오기  -->
-    <select id="getStoreCategory" parameterType="long" resultType="store">
-    	SELECT *
-        FROM store s
-        LEFT JOIN local l ON s.id = l.store_id
-        LEFT JOIN industry i ON s.id = i.store_id
-        LEFT JOIN restaurant r ON i.id = r.industry_id
-        LEFT JOIN cafe c ON i.id = c.industry_id
-        LEFT JOIN bar b ON i.id = b.industry_id
-        LEFT JOIN theme t ON s.id = t.store_id
-        WHERE s.id = #{storeId}
+    <select id="getStoreCategory" parameterType="long" resultType="storeWithLocationDTO">
+	SELECT
+		s.id AS storeId,
+		s.store_name AS storeName,
+		i.industry AS industry
+	FROM store s
+	LEFT JOIN industry i ON s.id = i.store_id
+	WHERE s.id = #{storeId}
     </select>
 		
     <!-- 정렬된 가게 목록 조회 -->
@@ -216,5 +243,80 @@
             </when>
         </choose>
     </select>
+	
+	
+	<!-- store 테이블 삽입 -->
+    <insert id="insertStore" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO store (
+        member_id,
+        store_name,
+        address,
+        detail_address,
+        tel,
+        main_image1,
+        main_image2,
+        latitude,
+        longitude,
+        open_time,
+        store_description,
+        post_status,
+        enroll_status,
+        ceo_name
+    ) VALUES (
+        #{memberId},
+        #{storeName},
+        #{address},
+        #{detailAddress},
+        #{tel},
+        #{mainImage1, jdbcType=VARCHAR},
+        #{mainImage2, jdbcType=VARCHAR},
+        #{latitude, jdbcType=VARCHAR},
+        #{longitude, jdbcType=VARCHAR},
+        #{openTime},
+        #{storeDescription},
+        'inactive',
+		'wait',
+        #{ceoName}
+    )
+</insert>
+
+
+    <!-- 지역 정보 삽입 -->
+    <insert id="insertRegion">
+        INSERT INTO local (store_id, local)
+        VALUES (#{storeId}, #{region})
+    </insert>
+
+    <!-- 업종 정보 삽입 -->
+    <insert id="insertIndustry" parameterType="com.project.dto.IndustryDTO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO industry (id, store_id, industry)
+        VALUES (industry_seq.NEXTVAL, #{storeId}, #{industry})
+    </insert>
+
+    <!-- 음식점 정보 삽입 -->
+    <insert id="insertRestaurant">
+        INSERT INTO restaurant (industry_id, store_id, restaurant)
+        VALUES (#{industryId}, #{storeId}, #{subcategory})
+    </insert>
+
+    <!-- 카페 정보 삽입 -->
+    <insert id="insertCafe">
+        INSERT INTO cafe (industry_id, store_id, cafe)
+        VALUES (#{industryId}, #{storeId}, #{subcategory})
+    </insert>
+
+    <!-- 술집 정보 삽입 -->
+    <insert id="insertBar">
+        INSERT INTO bar (industry_id, store_id, bar)
+        VALUES (#{industryId}, #{storeId}, #{subcategory})
+    </insert>
+
+    <!-- 테마 정보 삽입 -->
+    <insert id="insertTheme">
+        INSERT INTO theme (store_id, theme)
+        VALUES (#{storeId}, #{theme})
+    </insert>
+
+	
 	
 </mapper>

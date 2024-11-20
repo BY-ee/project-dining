@@ -29,7 +29,10 @@ public class NoticeController {
 	
 	@GetMapping("/notice/{id}")
 	public String notice(@PathVariable("id")Long id,Model model) {
+		
 		Notice notice = noticeService.getNotice(id);
+		notice.setViews(notice.getViews()+1);
+		int i = noticeService.updateNoticeViews(notice);
 		Notice preNotice = noticeService.getPreNotice(id);
 		Notice nextNotice = noticeService.getNextNotice(id);
 		model.addAttribute("notice",notice);
@@ -56,6 +59,8 @@ public class NoticeController {
 	@GetMapping("/event/{id}")
 	public String event(@PathVariable("id")Long id,Model model) {
 		Event event = noticeService.getEvent(id);
+		event.setViews(event.getViews()+1);
+		int i = noticeService.updateEventViews(event);
 		Event preEvent = noticeService.getPreEvent(id);
 		Event nextEvent = noticeService.getNextEvent(id);
 		model.addAttribute("event",event);

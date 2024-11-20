@@ -115,14 +115,17 @@ public class MypageController {
 	}
 	
 	@GetMapping("/profile")
-    public String profile() {
-//		Member member = mypageService.getMember(userDetails.getMember().getId());
-//		model.addAttribute("member",member);
+    public String profile(@AuthenticationPrincipal CustomUserDetails userDetails , Model model) {
+		Member member = mypageService.getMember(userDetails.getUsername());
+		model.addAttribute("member",member);
     	return "mypage/profile";
     }
 	
 	@PostMapping("/profile")
-	public String profileEdit(Member member,RedirectAttributes redirectAttributes) {
+	public String profileEdit(@AuthenticationPrincipal CustomUserDetails userDetails, Member member,RedirectAttributes redirectAttributes) {
+		member.setId(userDetails.getId());
+		member.setMemberId(userDetails.getUsername());
+		System.out.println(member);
 		int i = mypageService.updateMember(member);
 		if(i != 1)redirectAttributes.addFlashAttribute("message","변경에 실패하였습니다.");
 		else redirectAttributes.addFlashAttribute("message","변경에 성공하였습니다.");
@@ -135,10 +138,10 @@ public class MypageController {
 //		Member member = mypageService.getMember(24);
 //		model.addAttribute("member",member);
 //    	if(oauth2User!=null) System.out.println("User Attributes: " + oauth2User.getAttributes());
-    	return "mypage/accountSettings";
+    	return "mypage/account";
     }
 	
-	@PostMapping("/accountSettings")
+	@PostMapping("/account")
 	public String accountUpdate(@RequestParam(value="current_password",required = false) String currentPassword,
 								@RequestParam(value="new_password",required = false) String newPassword,
 								@AuthenticationPrincipal CustomUserDetails userDetails,
@@ -148,19 +151,20 @@ public class MypageController {
 		boolean b = mypageService.changePassword(userDetails.getMember(),currentPassword,newPassword);
 		if(b) redirectAttributes.addFlashAttribute("message","비밀번호가 변경 되었습니다.");
 		else redirectAttributes.addFlashAttribute("message","비밀번호가 맞지 않습니다.");
-		return "redirect:/accountSettings";
+		return "redirect:/account";
 	}
 	
+	// 고칠것
 	@PostMapping("/deleteAccount")
-	public String deleteAccount(RedirectAttributes redirectAttributes) {
-		int i = mypageService.deleteMember(24);
+	public String deleteAccount(@AuthenticationPrincipal CustomUserDetails userDetails, RedirectAttributes redirectAttributes) {
+		int i = mypageService.deleteMember(userDetails.getId());
 		return "redirect:/";
 	}
 	
 	@GetMapping("/updateSocialId")
-	public String updateSocialId(@AuthenticationPrincipal OAuth2User oauth2User,HttpSession session) {
-		int i = mypageService.updateSocialId(oauth2User,session);
+	public String updateSocialId(@AuthenticationPrincipal CustomUserDetails userDetails,HttpSession session) {
+		int i = mypageService.updateSocialId(userDetails,session);
 		session.removeAttribute("socialName");
-		return "redirect:/accountSettings";
+		return "redirect:/account";
 	}
 }
