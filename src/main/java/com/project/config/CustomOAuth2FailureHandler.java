@@ -1,6 +1,7 @@
 package com.project.config;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,9 @@ public class CustomOAuth2FailureHandler implements AuthenticationFailureHandler 
         if (exception.getMessage().contains("Bad credentials")) {
             errorMessage = "BadCredentials";
         }
-
-        response.sendRedirect("/login?error=" + errorMessage);
+        
+        if ("해당 이메일은 이미 다른 계정에 연동되어 있습니다.".equals(exception.getMessage())) {
+            response.sendRedirect("/account?error=" + URLEncoder.encode(exception.getMessage(), "UTF-8").replaceAll("\\+", "%20"));
+        }else response.sendRedirect("/login?error=" + errorMessage);
     }
 }

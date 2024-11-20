@@ -4,9 +4,11 @@
 
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/views/templates/head.jsp" %>
-<link rel="stylesheet" href="css/mypage/myPageStyles.css">
-<link rel="stylesheet" href="css/mypage/commonStyles.css">
+<head>
+	<link rel="stylesheet" href="css/mypage/myPageStyles.css">
+	<link rel="stylesheet" href="css/mypage/commonStyles.css">
+	<jsp:include page="/WEB-INF/views/templates/head.jsp" />
+</head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>

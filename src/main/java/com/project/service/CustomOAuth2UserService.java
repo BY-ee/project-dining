@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // DB에서 사용자 검색
         //Member member = memberMapper.selectMemberByMemberId(email,registrationId);
         Member member = memberMapper.selectMemberByRegisteration(email,registrationId);
-        System.out.println(member);
 
         // 세션으로 로그인, 비로그인 구분
         try {
@@ -61,15 +61,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         	// 세션에서 기본아이디가 저장된 값을 활용해 db에서 값 가져오기
         	try {
         		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-                Long id = userDetails.getId();
-                System.out.println("id값은" + id);
-                 
-                Member existMember = memberMapper.selectMember(id);
+        		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();  
+                Member existMember = memberMapper.selectMember(userDetails.getId());
                 return new CustomUserDetails(existMember,attributes);
         	}catch(Exception e){
         		System.out.println("오류");
         	}
+    	}else {
+    		throw new OAuth2AuthenticationException(
+    		        new OAuth2Error("invalid_request"),
+    		        "해당 이메일은 이미 다른 계정에 연동되어 있습니다."
+    		    );
     	}
         
         return new CustomUserDetails(member, attributes);

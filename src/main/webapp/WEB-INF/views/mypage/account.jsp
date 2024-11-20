@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%-- <%@ include file="/WEB-INF/views/templates/head.jsp" %> --%>
+<head>
+<jsp:include page="/WEB-INF/views/templates/head.jsp" />
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
 <script>
 	$(document).ready(function(){
 		$("form").on("submit",function(event){
@@ -33,14 +35,9 @@
 		})
 	})
 </script>
-	<script type="text/javascript">
-        function showAlert(message) {
-            alert(message);
-        }
-    </script>
 </head>
 <body>
-	<%-- <%@ include file="/WEB-INF/views/templates/header.jsp" %> --%>
+	<%@ include file="/WEB-INF/views/templates/header.jsp" %>
 	<div class="container">
 		<div class="content">
 			<!-- 사이드바: 프로필 사진과 이름 표시 -->
@@ -153,11 +150,16 @@
 		</div>
 		<c:if test="${not empty message}">
            <script type="text/javascript">
-               showAlert("${message}");
+               alert("${message}");
            </script>
     	</c:if>
+    	<c:if test="${not empty param.error}">
+		    <script>
+		        alert("${param.error}");
+		    </script>
+		</c:if>
 	</div>
-	<%-- <%@ include file="/WEB-INF/views/templates/footer.jsp" %> --%>
+	<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 	<script>
 		$(".email-verify-button").on("click",function(){
 			const userEmail = $("#userEmail").val();
@@ -216,7 +218,7 @@
 	    
 	    
 		// 클릭 시 `redirectUrl`을 세션에 저장하기 위한 함수
-		function setRedirectUrl(url,socialName) {
+		/* function setRedirectUrl(url,socialName) {
 			alert(url+","+socialName);
 			fetch('/setRedirectUrl', {
 				method : 'POST',
@@ -228,6 +230,24 @@
 					socialName : socialName
 				})
 			});
+		} */
+		
+		function setRedirectUrl(url, socialName) {
+		    $.ajax({
+		        url: '/setRedirectUrl', // 요청 URL
+		        type: 'POST',          // HTTP 메소드
+		        contentType: 'application/json', // 요청 데이터 타입
+		        data: JSON.stringify({
+		            redirectUrl: url,   // redirectUrl 데이터
+		            socialName: socialName // socialName 데이터
+		        }),
+		        success: function(response) {
+		            console.log("성공적으로 저장되었습니다.");
+		        },
+		        error: function(xhr, status, error) {
+		            console.error("에러 발생: ", error);
+		        }
+		    });
 		}
 		
 		function sendVerificationEmail() {

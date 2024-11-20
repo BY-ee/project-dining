@@ -4,12 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" />
 	<link rel="stylesheet" href="css/mypage/myPageStyles.css">
 	<link rel="stylesheet" href="css/mypage/commonStyles.css">
-    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
-
 </head>
 <body>
 	<!-- 상단바 -->
@@ -70,11 +67,11 @@
             </div>
         </div>
     </div>
+		<c:if test="${not empty message}">
+		    <script type="text/javascript">
+				    alert("${message}");
+			</script>
+		</c:if>
 <%@ include file="/WEB-INF/views/templates/footer.jsp" %>
-<c:if test="${not empty message}">
-       <script type="text/javascript">
-           showAlert("${message}");
-       </script>
-</c:if>
 </body>
 </html>

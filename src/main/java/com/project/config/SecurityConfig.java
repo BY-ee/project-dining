@@ -88,7 +88,9 @@ public class SecurityConfig {
         // CSRF (사이트 위변조 방지 설정)는 기본값이 enable (enable 시 서버, 클라이언트가 CSRF 토큰을 주고받는 코드가 필요함)
         http.csrf(csrf -> csrf
         	    .ignoringRequestMatchers(request -> "GET".equalsIgnoreCase(request.getMethod())) // GET 요청에 대한 CSRF 보호 비활성화
-        	);
+		/* .ignoringRequestMatchers("/setRedirectUrl") */
+        	    .ignoringRequestMatchers( "/login/oauth2/code/naver", "/login/oauth2/code/kakao", "/login/oauth2/code/google")
+        		);
 
 //        http.csrf(auth -> auth
 //                .disable()  // CSRF 보호 비활성화
