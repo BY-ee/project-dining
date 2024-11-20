@@ -55,4 +55,12 @@
     <select id="getFindId" parameterType="string" resultType="login">
         select * from member where email = #{email }
     </select>
+    
+    <!-- 이메일 조회 -->
+        <select id="checkEmailExists" resultType="int" parameterType="string">
+        SELECT COUNT(*)
+        FROM member
+        WHERE email = #{userEmail}
+    </select>
+    
 </mapper>

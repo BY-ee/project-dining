@@ -1,9 +1,13 @@
 package com.project.domain;
 
 import java.util.Date;
+
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 @Data
+@Alias("chatroom")
 public class ChatRoom {
     private Long id;   
     private Long chatRoomId;// 고유 방 ID
@@ -20,6 +24,8 @@ public class ChatRoom {
     private Date createdAt;               // 생성일
     private String password;              // 비밀번호 (선택)
     private String creatorNickname;       // m.nickname 매핑
-    
-
+    private Date joinedAt;               // 유저 참여 시간
+    private int currentParticipants; // 참여 총인원 추가
+    private String lastMessage;           // 마지막 메시지 내용
+    private Date lastMessageSentAt;       // 마지막 메시지 전송 시간
 }

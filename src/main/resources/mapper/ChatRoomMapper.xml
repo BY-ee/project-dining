@@ -2,8 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.project.mapper.ChatRoomMapper">
+
+<mapper namespace="com.project.mapper.ChatRoomMapper">
+
+    <!-- 채팅방 생성 -->
 	<insert id="insertChatRoom" parameterType="com.project.domain.ChatRoom">
 	    INSERT INTO chat_rooms (
 	        member_id, room_name, location, max_participants, min_participants,
@@ -17,47 +19,164 @@
 	        #{theme, jdbcType=VARCHAR},
 	        #{recruitmentDuration, jdbcType=NUMERIC},
 	        CASE
-		        WHEN #{recruitmentDuration} IS NOT NULL THEN
-		            CAST(SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul' AS TIMESTAMP)
-		            + NUMTODSINTERVAL(#{recruitmentDuration}, 'MINUTE')
-		        ELSE NULL
-		    END,
+	            WHEN #{recruitmentDuration} IS NOT NULL THEN
+	                CAST(SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul' AS TIMESTAMP)
+	                + NUMTODSINTERVAL(#{recruitmentDuration}, 'MINUTE')
+	            ELSE NULL
+	        END,
 	        #{additionalDescription, jdbcType=VARCHAR},
 	        #{password, jdbcType=VARCHAR},
 	        #{status, jdbcType=VARCHAR},
 	        SYSDATE
 	    )
-	</insert>
-		
-	<select id="getAllChatRooms" resultType="com.project.domain.ChatRoom">
-	    SELECT 
-		    cr.id AS chatRoomId, 
-		    cr.member_id AS memberId, 
-		    cr.room_name AS roomName, 
-		    cr.location, 
-		    cr.max_participants AS maxParticipants, 
-		    cr.min_participants AS minParticipants, 
-		    cr.theme, 
-		    cr.recruitment_duration AS recruitmentDuration, 
-		    cr.recruitment_deadline AS recruitmentDeadline, 
-		    cr.additional_description AS additionalDescription, 
-		    cr.status AS roomStatus, 
-		    cr.created_at AS roomCreatedAt, 
-		    cr.password, 
-		    m.nickname AS creatorNickname
-		FROM 
-		    chat_rooms cr
-		JOIN 
-		    member m ON cr.member_id = m.id
-		ORDER BY 
-		    cr.created_at DESC
+	 </insert>
+	 
+	 <select id="selectLastInsertedId" resultType="long">
+	    SELECT id
+	    FROM (
+	        SELECT id
+	        FROM chat_rooms
+	        WHERE member_id = #{memberId}
+	        ORDER BY created_at DESC
+	    )
+	    WHERE ROWNUM = 1
 	</select>
-	
-	<delete id="deleteExpiredChatRooms">
-	    <![CDATA[
-	        DELETE FROM chat_rooms WHERE recruitment_deadline < CURRENT_TIMESTAMP
-	    ]]>
-	</delete>
-	
-  </mapper>
-  
+
+    <!-- 모든 채팅방 조회 -->
+    <select id="getAllChatRooms" resultType="com.project.domain.ChatRoom">
+	    SELECT 
+	        cr.id AS chatRoomId, 
+	        cr.member_id AS memberId, 
+	        cr.room_name AS roomName, 
+	        cr.location, 
+	        cr.max_participants AS maxParticipants, 
+	        cr.min_participants AS minParticipants, 
+	        cr.theme, 
+	        cr.recruitment_duration AS recruitmentDuration, 
+	        cr.recruitment_deadline AS recruitmentDeadline, 
+	        cr.additional_description AS additionalDescription, 
+	        cr.status AS roomStatus, 
+	        cr.created_at AS roomCreatedAt, 
+	        cr.password, 
+	        m.nickname AS creatorNickname,
+	        (
+	            SELECT COUNT(*) 
+	            FROM chat_room_user cru 
+	            WHERE cru.chat_room_id = cr.id
+	        ) AS currentParticipants -- 참여 총인원 계산
+	    FROM 
+	        chat_rooms cr
+	    JOIN 
+	        member m ON cr.member_id = m.id
+	    ORDER BY 
+	        cr.created_at DESC
+	</select>
+
+    <!-- 채팅방에 유저 추가 -->
+    <insert id="insertChatRoomUser" parameterType="map">
+        INSERT INTO chat_room_user (
+            chat_room_id,    -- 채팅방 ID
+            user_id,         -- 유저 ID
+            joined_at        -- 참여 시간
+        ) VALUES (
+            #{chatRoomId},    -- 전달받은 채팅방 ID
+            #{userId},        -- 전달받은 유저 ID
+            CURRENT_TIMESTAMP -- 현재 시간
+        )
+    </insert>
+    
+    <!-- 특정 회원이 특정 채팅방에 참여 중인지 확인 -->
+    <select id="isUserInRoom" parameterType="map" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS result
+	    FROM chat_room_user cru
+	    JOIN chat_rooms cr ON cru.chat_room_id = cr.id
+	    WHERE cru.chat_room_id = #{chatRoomId}
+	      AND cru.user_id = #{userId}
+    </select>
+
+    <!-- 채팅방에서 유저 제거 -->
+    <delete id="deleteChatRoomUser" parameterType="map">
+        DELETE FROM chat_room_user
+        WHERE 
+            chat_room_id = #{chatRoomId} AND  -- 채팅방 ID 조건
+            user_id = #{userId}               -- 유저 ID 조건
+    </delete>
+
+    <!-- 특정 채팅방의 유저 수 조회 -->
+    <select id="getChatRoomUserCount" parameterType="Long" resultType="int">
+        SELECT COUNT(*) AS userCount
+        FROM chat_room_user
+        WHERE chat_room_id = #{chatRoomId}    -- 특정 채팅방 ID
+    </select>
+    
+    
+    <!-- 특정 채팅방의 최대 인원 수 조회 -->
+    <select id="getChatRoomMaxParticipants" parameterType="Long" resultType="int">
+	    SELECT max_participants
+	    FROM chat_rooms
+	    WHERE id = #{chatRoomId}
+	</select>
+
+    <!-- 특정 유저가 참여한 채팅방 목록 -->
+    <select id="getChatRoomsByUserId" parameterType="Long" resultType="chatroom">
+	    SELECT 
+	        cr.ID AS id,                             -- 채팅방 고유 ID
+	        cr.ID AS chatRoomId,                     -- 도메인 필드 chatRoomId와 매핑
+	        cr.MEMBER_ID AS memberId,                -- 방장의 member ID
+	        cr.ROOM_NAME AS roomName,                -- 채팅방 제목
+	        cr.LOCATION AS location,                 -- 지역
+	        cr.MAX_PARTICIPANTS AS maxParticipants,  -- 정원
+	        cr.MIN_PARTICIPANTS AS minParticipants,  -- 최소 인원
+	        cr.THEME AS theme,                       -- 테마
+	        cr.RECRUITMENT_DURATION AS recruitmentDuration,  -- 모집 기간 (분 단위)
+	        cr.RECRUITMENT_DEADLINE AS recruitmentDeadline,  -- 모집 마감 일시
+	        cr.ADDITIONAL_DESCRIPTION AS additionalDescription, -- 추가 설명
+	        cr.STATUS AS status,                     -- 모집 상태
+	        cr.CREATED_AT AS createdAt,              -- 생성일
+	        cr.PASSWORD AS password,                 -- 비밀번호 (선택)
+	        m.NICKNAME AS creatorNickname,           -- 방장의 닉네임
+	        cru.JOINED_AT AS joinedAt,               -- 사용자가 참여한 시간
+	        (
+	            SELECT COUNT(*) 
+	            FROM chat_room_user cru 
+	            WHERE cru.chat_room_id = cr.id
+	        ) AS currentParticipants,                -- 참여 총인원 계산
+	        msg.CONTENT AS lastMessage,              -- 각 방의 최신 메시지 내용
+	        msg.SENT_AT AS lastMessageSentAt         -- 각 방의 최신 메시지 전송 시간
+	    FROM 
+	        chat_room_user cru                        -- 참여한 유저 정보를 담은 테이블
+	    INNER JOIN 
+	        chat_rooms cr ON cru.chat_room_id = cr.ID -- 채팅방 정보 조인
+	    INNER JOIN 
+	        member m ON cr.MEMBER_ID = m.ID           -- 방장 정보 조인
+	    LEFT JOIN 
+	        (
+	            SELECT 
+	                ROOM_ID, 
+	                CONTENT, 
+	                SENT_AT
+	            FROM 
+	                messages msg1
+	            WHERE 
+	                msg1.SENT_AT = (
+	                    SELECT MAX(SENT_AT) 
+	                    FROM messages 
+	                    WHERE ROOM_ID = msg1.ROOM_ID
+	                )
+	        ) msg ON msg.ROOM_ID = cr.ID              -- 최신 메시지와 조인
+	    WHERE 
+	        cru.USER_ID = #{userId}                   -- 현재 로그인한 사용자가 참여한 채팅방
+	    ORDER BY 
+	        cru.JOINED_AT DESC                        -- 참여 시간 기준 정렬
+	</select>
+
+    
+
+    <!-- 만료된 채팅방 삭제 -->
+    <delete id="deleteExpiredChatRooms">
+        <![CDATA[
+            DELETE FROM chat_rooms WHERE recruitment_deadline < CURRENT_TIMESTAMP
+        ]]>
+    </delete>
+
+</mapper>

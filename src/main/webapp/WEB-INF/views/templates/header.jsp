@@ -24,6 +24,7 @@
                         <a href="/mypage">활동내역</a>
                         <a href="/account">계정정보</a>
                         <a href="/recommendations">1:1 추천</a>
+                        <a id="open-chat-list">내 채팅</a>
                         <form action="/logout" method="post" style="display:inline;">
                             <button type="submit">로그아웃</button>
                         </form>
@@ -46,17 +47,17 @@
 
  
 <!-- 채팅 팝업 HTML 추가 -->
-<div id="chat-popup">
-    <!-- 상단 헤더 -->
+<!-- <div id="chat-popup">
+    상단 헤더
     <div id="chat-room-header">
         <h2 id="chat-room-name">Chat Room</h2>
         <button id="close-chat-popup">X</button>
     </div>
 
-    <!-- 채팅 내용 -->
+    채팅 내용
     <div id="chat-content"></div>
 
-    <!-- 입력창과 도구 -->
+    입력창과 도구
     <div id="chat-input-container">
         <input type="text" id="chat-input" placeholder="메시지 입력">
         <div id="chat-tools">
@@ -68,4 +69,34 @@
         </div>
     </div>
 </div>
+ -->
+ 
+<div id="chat-list-container" style="display: none;">
+    <!-- 채팅 목록 UI -->
+    <div id="chat-list-header">
+        <h2 id="chat-list-name">채팅 목록</h2>
+        <button id="close-chat">X</button>
+    </div>
+    <div id="chat-list">
+        <!-- 채팅 목록이 동적으로 추가됩니다 -->
+    </div>
+</div>
 
+<div id="chat-room-container" style="display: none;">
+    <!-- 채팅 방 UI -->
+    <div id="chat-room-header">
+        <h2 id="chat-room-name">채팅방</h2>
+        <button id="close-chat-room">X</button>
+    </div>
+    <div id="chat-content"></div>
+    <div id="chat-input-container" style="display: none;">
+        <input type="text" id="chat-input" placeholder="메시지 입력">
+        <div id="chat-tools">
+            <div>
+                <button>사진 첨부</button>
+                <button>이모티콘</button>
+            </div>
+            <button id="send-chat">전송</button>
+        </div>
+    </div>
+</div>

@@ -55,6 +55,7 @@
             <a href="/admin/approval">가게 승인</a>
             <a href="/admin/notice">공지사항 관리</a>
             <a href="/admin/events">이벤트 관리</a>
+            <a href="/admin/points">포인트 관리</a>
         </nav>
         <div>
             ?

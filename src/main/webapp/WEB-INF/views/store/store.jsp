@@ -91,13 +91,6 @@
                     <button aria-label="이전 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex - 1)"></button>
                     <button aria-label="다음 슬라이드" onclick="moveToMainPhotoSlide(currentSlideIndex + 1)"></button>
                 </div>
-                <!-- <div class="store-info">
-                    <strong>가게주소:</strong> ${storeDetail.address}<br>
-                    <strong>상세주소:</strong> ${storeDetail.detailAddress}<br>
-                    <strong>전화번호:</strong> ${storeDetail.tel}<br>
-                    <strong>영업시간:</strong> ${storeDetail.openTime}<br>
-                    <strong>가게설명:</strong> ${storeDetail.storeDescription}<br>
-                </div> -->
                 <div class="store-info">
                     <p><strong>🏠 주소:</strong> ${storeDetail.address}, ${storeDetail.detailAddress}</p>
                     <div class="store-info-row">

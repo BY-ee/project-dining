@@ -24,6 +24,9 @@ $(document).ready(function () {
             recruitmentDuration: $("#recruitmentDuration").val(),
             additionalDescription: $("#additionalDescription").val(),
         };
+		
+		console.log("Form Data:", formData);
+
 
         $.ajax({
             url: "/create",
@@ -32,6 +35,7 @@ $(document).ready(function () {
             data: JSON.stringify(formData),
             success: function () {
                 alert("채팅방이 생성되었습니다!");
+				window.location.reload(); // 페이지 새로고침
                 $("#create-form-popup, #create-form-popup-overlay").fadeOut();
                 fetchChatRooms();
             },
@@ -64,32 +68,60 @@ function fetchChatRooms() {
                     ? new Date(room.recruitmentDeadline).toLocaleString()
                     : '없음';
 
-                html += '<tr>' +
+                html += '<tr class="join-room" data-room-id="' + room.chatRoomId + '">' +
                             '<td>' + (room.chatRoomId || '') + '</td>' +
                             '<td>' + (room.roomName || '') + '</td>' +
                             '<td>' + (room.location || '') + '</td>' +
-                            '<td>' + (room.maxParticipants || '') + '</td>' +
+                            '<td>' + (room.currentParticipants + ' / ' + room.maxParticipants || '') + '</td>' +
                             '<td>' + (room.theme || '') + '</td>' +
                             '<td>' + formattedDate + '</td>' +
                             '<td>' + (room.creatorNickname || '') + '</td>' +
                             '<td>' +
-                                '<button class="enter-room" data-room-id="' + room.chatRoomId + '" data-room-name="' + room.roomName + '">입장</button>' +
+                                '<button class="join-room-btn" data-room-id="' + room.chatRoomId + '" data-room-name="' + room.roomName + '">입장</button>' +
                             '</td>' +
                         '</tr>';
             });
 
             tableBody.html(html);
 
-            // 이벤트 바인딩
-            $(".enter-room").off("click").on("click", function () {
+            // 이벤트 핸들러 추가
+            $(".join-room-btn").off("click").on("click", function () {
                 const roomId = $(this).data("room-id");
                 const roomName = $(this).data("room-name");
-                enterChatRoom(roomId, roomName); // chat.js에 정의된 함수 호출
+
+                joinChatRoom(roomId, roomName);
             });
         },
         error: function (error) {
             console.error("채팅방 목록 불러오기 실패:", error);
-        }
+        },
+    });
+}
+
+function joinChatRoom(roomId, roomName) {
+    const memberId = $("#memberId").val(); // 사용자 ID를 가져옴
+
+    const requestData = {
+        chatRoomId: roomId,
+        memberId: memberId,
+    };
+	
+	console.log(roomId, memberId)
+
+    // 서버에 입장 요청
+    $.ajax({
+        url: "/join",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(requestData),
+        success: function (res) {
+            alert("채팅방에 입장했습니다: " + roomName);
+            window.location.reload(); // 페이지 새로고침
+			enterChatRoom(roomId, roomName);
+        },
+        error: function (xhr) {
+            alert(xhr.responseText || "입장 실패");
+        },
     });
 }
 

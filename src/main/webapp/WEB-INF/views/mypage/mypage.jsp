@@ -10,7 +10,6 @@
 	<jsp:include page="/WEB-INF/views/templates/head.jsp" />
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <body>
 	<!-- 상단바 -->
 	<%@ include file="/WEB-INF/views/templates/header.jsp" %>

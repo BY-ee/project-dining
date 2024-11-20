@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -34,16 +35,17 @@ public class StoreController {
 			Model model) {
 
 		try {
-			Long memberId = null;
-
-	        // 로그인 여부 확인
-	        if (userDetails != null && userDetails.getMember() != null) {
+	        Long memberId = null;
+	        
+	        if (userDetails != null) {
 	            Member member = userDetails.getMember();
 	            memberId = member.getId();
 	            System.out.println("로그인된 사용자입니다. memberId: " + memberId);
 	        } else {
-	            System.out.println("비로그인 사용자입니다.");
+	            System.out.println("로그인되지 않은 사용자입니다.");
 	        }
+	        
+	        System.out.println("storeId: " + storeId);
 
 			// 가게 및 메뉴 정보 가져오기
 			Store storeDetail = storeService.getStoreDetailById(storeId);
@@ -71,53 +73,67 @@ public class StoreController {
 				}
 			}
 
-			// MemberLike DTO에 likeCount 설정
-			MemberLike memberLike = new MemberLike();
-			memberLike.setStoreId(storeId);
-			
-			// 로그인된 사용자만 memberId 설정
 	        if (memberId != null) {
+	            // 로그인한 사용자의 찜 상태를 가져옴
+	            boolean isLiked = storeService.isMemberLikedStore(storeId, memberId);
+	            long likeCount = storeService.getLikeCountByStoreId(storeId);
+
+	            MemberLike memberLike = new MemberLike();
+	            memberLike.setStoreId(storeId);
 	            memberLike.setMemberId(memberId);
+	            memberLike.setLikeCount(likeCount);
+	            memberLike.setLiked(isLiked);
+
+	            model.addAttribute("memberLike", memberLike);
+	        } else {
+	            // 비로그인 사용자의 경우 찜 수만 표시
+	            long likeCount = storeService.getLikeCountByStoreId(storeId);
+
+	            MemberLike memberLike = new MemberLike();
+	            memberLike.setStoreId(storeId);
+	            memberLike.setLikeCount(likeCount);
+
+	            model.addAttribute("memberLike", memberLike);
 	        }
 
-			// 찜 좋아요 수 가져오기
-			long likeCount = storeService.getLikeCountByStoreId(storeId); // DB에서 likeCount 가져오기
-			memberLike.setLikeCount(likeCount);
+	        model.addAttribute("storeId", storeId);
+	        model.addAttribute("storeDetail", storeDetail);
+	        model.addAttribute("menuList", menuList);
+	        model.addAttribute("categoryList", categoryList);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("가게 상세 정보를 불러오는 중 오류가 발생했습니다.");
+	    }
 
-			model.addAttribute("storeId", storeId);
-			model.addAttribute("storeDetail", storeDetail);
-			model.addAttribute("menuList", menuList);
-			model.addAttribute("memberLike", memberLike);
-			model.addAttribute("categoryList", categoryList);
-			
-		} catch (NullPointerException e) {
-			throw new NullPointerException("(StoreController) Null Pointer Exception\n" + e.getMessage());
-		}
-
-		return "store/store";
+	    return "store/store";
 	}
 
 	// 찜상태
 	@GetMapping("/getLikeStatus")
-	public ResponseEntity<MemberLike> getLikeStatus( @AuthenticationPrincipal CustomUserDetails userDetails,
-			@RequestParam("storeId") Long storeId) {
+	public ResponseEntity<MemberLike> getLikeStatus(
+	        @RequestParam(value = "user_ID", required = false) Long memberId,
+	        @RequestParam("store_ID") Long storeId) {
 
-		Long memberId = userDetails.getMember().getId();
-		System.out.println("받은 데이터: memberId=" + memberId + ", storeId=" + storeId);
-		
-		// 찜 상태와 찜 개수 가져오기
-		boolean isLiked = storeService.isMemberLikedStore(storeId, memberId);
-		long likeCount = storeService.getLikeCountByStoreId(storeId);
+	    try {
+	        long likeCount = storeService.getLikeCountByStoreId(storeId);
 
-		// MemberLike 객체 생성 및 반환
-		MemberLike memberLike = new MemberLike();
-		
-		memberLike.setStoreId(storeId);
-		memberLike.setMemberId(memberId);
-		memberLike.setLikeCount(likeCount);
-		memberLike.setLiked(isLiked);
+	        // MemberLike 객체 생성
+	        MemberLike memberLike = new MemberLike();
+	        memberLike.setStoreId(storeId);
+	        memberLike.setLikeCount(likeCount);
 
-		return ResponseEntity.ok(memberLike);
+	        // 로그인한 경우에만 isLiked 값을 설정
+	        if (memberId != null) {
+	            boolean isLiked = storeService.isMemberLikedStore(storeId, memberId);
+	            memberLike.setMemberId(memberId);
+	            memberLike.setLiked(isLiked);
+	        }
+
+	        return ResponseEntity.ok(memberLike);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
 	}
 
 	// 찜기능
