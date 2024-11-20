@@ -85,8 +85,6 @@
             <input type="file" id="menuPhotos" name="menuPhotos" multiple accept="image/*">
             <div id="menuPhotosNames" class="file-names"></div>
             
-            <span>첨부하고 실제 사진파일은 이메일로 제출해주세요.</span>
-
             <div class="consent-section">
                 <label>
                     <input type="checkbox" required> 정보 수집 및 이용 동의

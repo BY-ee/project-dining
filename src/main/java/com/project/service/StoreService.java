@@ -159,25 +159,26 @@ public class StoreService {
 
 	// 파일 저장 메서드 추가
 	private String saveFile(MultipartFile file) {
-		String uploadDir = System.getProperty("user.dir") + "src/main/resources/static/images/store"; // 실제 업로드 디렉토리 경로로
-																										// 변경
-		File dir = new File(uploadDir);
-		if (!dir.exists())
-			dir.mkdirs();
+		String filePath = null;
+	    String fileName = null;
 
-		String originalFilename = file.getOriginalFilename();
-//        String filename = System.currentTimeMillis() + "_" + originalFilename;
-		String filename = originalFilename;
-		File dest = new File(dir, filename);
+	    if (file != null && !file.isEmpty()) {
+	        // 경로 지정: 프로젝트 내부 static 폴더
+	        String staticImagePath = new File("src/main/resources/static/images/store").getAbsolutePath();
+	        fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+	        filePath = staticImagePath + "/" + fileName;
 
-		try {
-			file.transferTo(dest);
-		} catch (IOException e) {
-			// 예외 처리
-			e.printStackTrace();
-		}
+	        File dest = new File(filePath);
 
-		return filename;
+	        try {
+	            // 파일 저장
+	            file.transferTo(dest);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+		return fileName;
 
 	}
 

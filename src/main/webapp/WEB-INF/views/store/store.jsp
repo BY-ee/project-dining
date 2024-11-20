@@ -17,8 +17,8 @@
     <script type="text/javascript">
 	    var memberId = ${sessionMember.id != null ? sessionMember.id : 'null'}
 	    var storeId = ${storeId}
-        var latitude = ${storeDetail.latitude}
-        var longitude = ${storeDetail.longitude}
+        var latitude = ${storeDetail.latitude != null ? storeDetail.latitude : '37.5665'}
+        var longitude = ${storeDetail.longitude != null ? storeDetail.longitude : '126.9780'}
         
         console.log("memberId:", memberId);
         console.log("storeId:", storeId);
