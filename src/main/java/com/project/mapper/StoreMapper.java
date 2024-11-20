@@ -90,7 +90,7 @@ public interface StoreMapper{
     void insertStore(StoreWithLocationDTO store);
 
     // 지역 정보 삽입
-    void insertRegion(@Param("storeId") Long storeId, @Param("region") String region);
+    void insertRegion(@Param("storeId") Long storeId, @Param("location") String location);
 
     // 업종 정보 삽입
     void insertIndustry(IndustryDTO industryDTO);

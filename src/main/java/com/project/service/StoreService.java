@@ -109,7 +109,7 @@ public class StoreService {
 		Long storeId = store.getId();
 
 		// 3. 지역 정보 삽입
-		storeMapper.insertRegion(storeId, store.getRegion());
+		storeMapper.insertRegion(storeId, store.getLocation());
 
 		// 4. 업종 정보 삽입
 		IndustryDTO industryDTO = new IndustryDTO();

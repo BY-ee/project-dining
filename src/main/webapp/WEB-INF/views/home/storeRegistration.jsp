@@ -22,8 +22,8 @@
             <input type="hidden" id="hiddenSubCategory" name="subcategory" value="">
             <input type="hidden" id="hiddenThemes" name="theme" value="">
 
-			<label for="region">지역</label>
-            <select id="region" name="region" required>
+			<label for="location">지역</label>
+            <select id="location" name="location" required>
 			    <option value="마포구">마포구</option>
 			    <option value="송파구">송파구</option>
 			    <option value="강남/서초구">강남/서초구</option>
