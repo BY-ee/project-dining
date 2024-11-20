@@ -302,7 +302,7 @@
 	border: 1px solid #ccc;
 }
 
-.email-verify-button {
+.email-verify-button, #delete-account-btn {
 	background-color: black;
 	color: white;
 	border: none;

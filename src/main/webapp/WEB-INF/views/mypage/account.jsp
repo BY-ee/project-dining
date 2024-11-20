@@ -141,8 +141,11 @@
 								<input type="checkbox" id="agreement-checkbox">
 							</div>
 							<form action="/deleteAccount" method="post">
-								<button type="submit" class="email-verify-button" id="delete-account-btn">회원탈퇴</button>
+								<button type="submit" id="delete-account-btn">회원탈퇴</button>
 							</form>
+							<!-- <form action="/logout" method="post" onclick=deleteAccount()>
+								<button type="submit" id="delete-account-btn">회원탈퇴</button>
+							</form> -->
 						</div>
 					</div>
 				</div>

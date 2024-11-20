@@ -172,7 +172,7 @@ public class MypageController {
 	@PostMapping("/deleteAccount")
 	public String deleteAccount(@AuthenticationPrincipal CustomUserDetails userDetails, RedirectAttributes redirectAttributes) {
 		int i = mypageService.deleteMember(userDetails.getId());
-		return "redirect:/";
+		return "redirect:/logout";
 	}
 	
 	@GetMapping("/updateSocialId")
