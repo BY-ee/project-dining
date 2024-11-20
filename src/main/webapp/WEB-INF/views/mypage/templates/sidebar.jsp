@@ -1,29 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
-function uploadFile(event){
-	const file = event.target.files[0];
-	
-	if(file){
-		const formData = new FormData();
-		formData.append("file",file);
-		
-		// ajax 요청으로 서버에 파일 업로드
-		fetch('/profile/upload',{
-			method:'POST',
-			body:formData
-		})
-		.then(response => response.json())
-		.then(data => {
-			if(data.success){
-				document.querySelector('.profile-pic img').src = data.profilePicUrl;
-				location.reload();
-			} else{
-				alert("업로드에 실패했습니다.다시 시도해주세요");
-			}
-		})
-		.catch(error => console.error('Error:',error));
-	}
+function uploadFile(event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        
+        // jQuery를 이용한 파일 업로드 요청
+        $.ajax({
+            url: '/profile/upload',
+            type: 'POST',
+            data: formData,
+            processData: false, // 파일 데이터를 query string으로 변환하지 않음
+            contentType: false, // Content-Type 헤더를 multipart/form-data로 설정
+            success: function(data) {
+                if (data.success) {
+                    // 프로필 이미지를 업데이트
+                    $('.profile-pic img').attr('src', data.profilePicUrl);
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert("업로드에 실패했습니다. 다시 시도해주세요.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // 에러 로그 출력
+            }
+        });
+    }
 }
 </script>
 <div class="sidebar">
