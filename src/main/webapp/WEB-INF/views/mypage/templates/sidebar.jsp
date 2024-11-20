@@ -32,7 +32,8 @@ function uploadFile(event){
 		<img src="${sessionMember.profileImage}" alt="프로필 사진" /> <span
 			class="profile-overlay">프로필 변경</span> <input type="file"
 			id="fileInput" style="display: none" onchange="uploadFile(event)" />
-	</div>
+	</div>	
+	<div class="profile-name">${sessionMember.category}회원</div>
 	<div class="profile-name">${sessionMember.nickname}</div>
 	<div class="profile-point">내 포인트 : 500p</div>
 	<div class="profile-intro">${sessionMember.introduction}</div>

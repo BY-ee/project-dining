@@ -87,6 +87,7 @@ public class SecurityConfig {
 
         // CSRF 보호 설정
         http.csrf(csrf -> csrf
+        		.ignoringRequestMatchers(request -> "GET".equalsIgnoreCase(request.getMethod()))
                 .ignoringRequestMatchers("/proxy/**") // 프록시 경로에 대한 CSRF 보호 비활성화
                 .ignoringRequestMatchers("/sendVerificationEmail")
         		);
