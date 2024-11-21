@@ -194,15 +194,22 @@ public class LoginController {
 			return "login/pwdReset"; // 비밀번호 재설정 페이지로 이동
 		} else {
 			// 유효하지 않은 토큰
-			return "invalidToken";
+			return "login/pwdResetFail";
 		}
 	}
 
 	// 비밀번호 재설정
 	@PostMapping("/updatePassword")
 	@ResponseBody // AJAX 요청에 응답을 문자열로 반환
-	public String updatePassword(@ModelAttribute("Login") Login login) {
+	public String updatePassword(@ModelAttribute("Login") Login login,  HttpSession session) {
+		
+		String sessionToken = (String) session.getAttribute("passwordResetToken");
+		String sessionMemberId = (String) session.getAttribute("memberId");
+		  
 		loginService.updatePassword(login);
+		
+		session.removeAttribute("passwordResetToken"); // 세션에서 토큰 삭제
+	    session.removeAttribute("memberId"); // 세션에서 memberId 삭제
 		return "비밀번호 재설정이 완료되었습니다.";
 	}
 

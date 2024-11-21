@@ -30,7 +30,8 @@
 					                <th>카테고리</th>
 					                <th>포인트</th>
 					                <th>유형</th>
-					                <th>생성일</th>
+					                <th>지급일</th>
+					                <th>만료일</th>
 					            </tr>
 					        </thead>
 					        <tbody id="point-table-body">
@@ -74,8 +75,9 @@
 			                                '<td>' + point.category + '</td>' +
 			                                '<td>' + point.point + '</td>' +
 			                                '<td>' + point.type + '</td>' +
-			                                '<td>' + formatDate(point.createdAt) + '</td>'
-			                            '</tr>';
+			                                '<td>' + formatDate(point.createdAt) + '</td>' +
+			                                '<td>' + formatDate(point.deletedAt) + '</td>' +
+			                           '</tr>';
 			                });
 			                $("#point-table-body").html(html); // 결과를 테이블에 표시
 			            },
