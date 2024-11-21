@@ -7,9 +7,11 @@
 <html lang="ko">
 <head>
     <title>리뷰 관리</title>
-
+    <link rel="stylesheet" href="/css/admin/adminStore.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminReview.js"></script>
+    <script src="/js/admin/adminMember.js"></script>
+    <script src="/js/admin/adminStore.js"></script>
 </head>
 <body>
     <div class="main-content">
@@ -45,10 +47,15 @@
                 <c:forEach var="review" items="${pagination.content}">
                     <tr>
                         <td>${review.id}</td>
-                        <td><a href="/admin/members/${review.memberId}">${review.memberId}</a></td>
-                        <td><a href="/admin/posts/${review.storeId}">${review.storeId}</a></td>
+                        <td><a class="member-link" href="#" data-id="${review.memberId}" data-review="true">${review.nickname}</a></td>
+                        <td><a class="store-link" href="#" data-id="${review.storeId}" data-review="true">${review.storeName}</a></td>
                         <td>${review.score}</td>
-                        <td><a href="#" data-id="${review.memberId}" class="review-link">확인</a></td>
+                        <td>
+                            <a href="#" class="review-link" data-store-name="${review.storeName}"
+                                data-content="${review.content}" data-image="${review.reviewImage}" data-nickname="${review.nickname}"
+                                >확인
+                            </a>
+                        </td>
                         <td>
                             <button class="delete-btn inactivate-btn" data-id="${review.id}">게시중단</button>
                             <button class="edit-btn reactivate-btn" data-id="${review.id}">재게시</button>
@@ -91,7 +98,6 @@
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
             <button class="popup-close" onclick="closePopup()">X</button>
-            <h3 class="popup-title">유저 닉네임</h3>
             <div id="review-content"></div>
         </div>
     </div>

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.project.domain.Review;
 import com.project.dto.RequestData;
+import com.project.dto.ReviewDTO;
 import com.project.dto.ReviewMemberDTO;
 import com.project.dto.ReviewWithNicknameDTO;
 
@@ -19,7 +20,7 @@ public interface ReviewMapper {
 	void insertReview(Review newReview);
 	
 	// 리뷰 조회
-	List<Review> selectReviews(
+	List<ReviewDTO> selectReviews(
 			@Param("start") int start,
 			@Param("end") int end,
 			@Param("requestData") RequestData requestData);
@@ -36,6 +37,10 @@ public interface ReviewMapper {
 
 	// 특정 리뷰 확인
 	public Review selectReviewById(long id);
+	
+	// 닉네임과 가게 이름으로 리뷰 조회
+	public Review selectReviewByNicknameAndStoreName(@Param("nickname") String nickname,
+													 @Param("storeName") String storeName);
 	
 	// 작성자 정보가 추가된 상세리뷰 조회
 	public ReviewMemberDTO selectReviewMemberById(long id);
@@ -55,4 +60,5 @@ public interface ReviewMapper {
 
 	// 리뷰 수정
 	void updateReview(Review Review);
+
 }

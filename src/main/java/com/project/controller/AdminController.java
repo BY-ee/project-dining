@@ -25,6 +25,7 @@ import com.project.dto.EventDTO;
 import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
+import com.project.dto.ReviewDTO;
 import com.project.dto.ReviewMemberDTO;
 import com.project.dto.StoreDetailDTO;
 import com.project.dto.StoreWithDetailDTO;
@@ -128,17 +129,18 @@ public class AdminController {
 	// 리뷰 관리 페이지
 	@GetMapping("/reviews")
 	public String reviews(RequestData requestData, Model model) {
-		Pagination<Review> reviews = adminService.selectReviews(requestData);
+		Pagination<ReviewDTO> reviews = adminService.selectReviews(requestData);
 		model.addAttribute("pagination", reviews);
 		
 		return "admin/adminReviews";
 	}
 	
 	// 상세리뷰 조회
-	@GetMapping("/reviews/detail/{id}")
+	@GetMapping("/reviews/detail")
 	@ResponseBody
-	public ResponseEntity<Review> detailReview(@PathVariable("id") long id) {
-		Review review = adminService.selectDetailReview(id);
+	public ResponseEntity<Review> detailReview(@RequestParam("nickname") String nickname,
+											   @RequestParam("storeName") String storeName) {
+		Review review = adminService.selectDetailReview(nickname, storeName);
 		
 		return ResponseEntity.ok(review);
 	}

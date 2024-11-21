@@ -3,25 +3,26 @@ $(() => {
     $('.member-link').on('click', function(e) {
         e.preventDefault();
         const memberId = $(this).data('id');
-        getMember(memberId);
+        const review = $(this).data('review');
+        getMember(memberId, review);
     });
 
     // 유저 데이터 가져오는 함수
-    function getMember(memberId) {
+    function getMember(memberId, review) {
         $.ajax({
             url: `/admin/members/${memberId}`,
             type: 'GET',
             success: (member) => {
-                renderMemberPopup(member);
+                renderMemberPopup(member, review);
                 openPopup();
             }
         });
     }
 
     // 유저 데이터를 팝업에 렌더링
-    function renderMemberPopup(member) {
+    function renderMemberPopup(member, review) {
         const memberDOM = `
-            <h2 style="margin-bottom: 20px;">유저 데이터</h2>
+            <h2 style="margin-bottom: 20px;">${member.nickname}</h2>
                 
             <section>
                 <label for="id">Id</label>
@@ -88,7 +89,16 @@ $(() => {
             </section>
         `;
 
-        $('#member-content').html(memberDOM);
+        if(review) {
+            $('#review-content').html(memberDOM);
+            $('.popup-content').css({
+                'width': '1000px',
+                'height': '80vh',
+                'max-height': '80vh'
+            });
+        } else {
+            $('#member-content').html(memberDOM);
+        }
     }
 
     // 날짜 형식 변환 함수

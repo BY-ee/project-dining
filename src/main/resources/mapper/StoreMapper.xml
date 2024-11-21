@@ -99,17 +99,20 @@
 	        s.store_description AS storeDescription,
 	        s.post_status AS postStatus,
 	        s.enroll_status AS enrollStatus,
-	        s.ceo_name AS ceoName,
+	        s.ceo_name AS ceoName
+	    FROM store s
+	    WHERE s.id = #{id}
+	</select>
 
+	<select id="selectMenuById" parameterType="long" resultType="menu">
+	    SELECT
 	        m.menu_image AS menuImage,
 	        m.menu_description AS menuDescription,
 	        m.menu_name AS menuName,
 	        m.menu_price AS menuPrice
-	    FROM store s
-	    LEFT JOIN menu m ON s.id = m.store_id
-	    WHERE s.id = #{id}
+	    FROM menu m
+	    WHERE m.store_id = #{id}
 	</select>
-
     
 	<select id="countStores" resultType="long">
 		SELECT COUNT(*) FROM store

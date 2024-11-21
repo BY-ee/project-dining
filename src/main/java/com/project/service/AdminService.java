@@ -21,6 +21,7 @@ import com.project.dto.EventDTO;
 import com.project.dto.NoticeDTO;
 import com.project.dto.Pagination;
 import com.project.dto.RequestData;
+import com.project.dto.ReviewDTO;
 import com.project.dto.ReviewMemberDTO;
 import com.project.dto.StoreDetailDTO;
 import com.project.dto.StoreWithDetailDTO;
@@ -148,7 +149,7 @@ public class AdminService {
 	}
 
 	// 리뷰 조회
-	public Pagination<Review> selectReviews(RequestData requestData) {
+	public Pagination<ReviewDTO> selectReviews(RequestData requestData) {
 		int page = requestData.getPage();
 		int size = requestData.getSize();
 		
@@ -156,14 +157,14 @@ public class AdminService {
 		int end = start + size - 1;
 		long totalCount = reviewMapper.countReviews(requestData);
 		
-		List<Review> reviews = reviewMapper.selectReviews(start, end, requestData);
+		List<ReviewDTO> reviews = reviewMapper.selectReviews(start, end, requestData);
 		
 		return new Pagination<>(reviews, page, size, totalCount);
 	}
 	
 	// 특정 리뷰 확인
-	public Review selectDetailReview(long id) {
-		return reviewMapper.selectReviewById(id);
+	public Review selectDetailReview(String nickname, String storeName) {
+		return reviewMapper.selectReviewByNicknameAndStoreName(nickname, storeName);
 	}
 	
 	// 작성자 정보가 추가된 상세리뷰 조회

@@ -3,16 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ReviewMapper">
-	<select id="selectReviews" resultType="review">
+	<select id="selectReviews" resultType="reviewDTO">
 		SELECT * FROM (
 		    SELECT r.*, ROWNUM AS rnum FROM (
-		        SELECT * FROM review
+		        SELECT r.*, m.nickname, s.store_name
+		        FROM review r
+		        JOIN member m ON r.member_id = m.id
+		        JOIN store s ON r.store_id = s.id
                 <where>
 	                <if test="requestData.keyword != null and requestData.keyword != ''">
 	                    ${requestData.column} LIKE '%' || #{requestData.keyword} || '%'
 	                </if>
             	</where>
-		        ORDER BY id DESC
+		        ORDER BY r.id DESC
 		    ) r
 		)
 		WHERE rnum BETWEEN #{start} AND #{end}
@@ -45,6 +48,11 @@
 	    WHERE member_id = #{memberId} 
 	      AND store_id = #{storeId} 
 	      AND ROWNUM = 1
+	</select>
+	
+	<select id="selectReviewByNicknameAndStoreName" resultType="review">
+		SELECT * FROM review
+		WHERE nickname=#{nickname} AND storeName=#{storeName}
 	</select>
 	
 	<select id="countReviews" resultType="long">
