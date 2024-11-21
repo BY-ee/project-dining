@@ -80,9 +80,9 @@
 						</div>
 						<!-- 사업자 가게 신청현황 -->
 						<div class="store-item">
-							<h3>내 가게 신청현황</h3>
 								<!-- 사업자 회원에게만 보이는 가게 등록 바 -->
 								<c:if test="${store != null}">
+								<h3>내 가게 신청현황</h3>
 									<c:forEach var="store" items="${store}">
 										<!-- 가게 이름을 클릭 -->
 						                <h4 class="store-name open-popup" data-id="${store.id}">
