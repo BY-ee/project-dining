@@ -29,7 +29,7 @@
 							<a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
 					</div>
 				</div>
-	    </div>
+	        </div>
 	    
 
         <!-- 메인 배너 슬라이드 -->
