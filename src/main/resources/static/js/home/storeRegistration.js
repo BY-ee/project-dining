@@ -169,9 +169,9 @@ $('.submit-btn').on('click', function() {
         return false;
     }
 
-    if(!$('#consent').checked) {
+    if(!$('.consent').prop('checked')) {
         alert('정보 수집 및 이용 동의는 필수 항목입니다.');
-        $('#consent').focus();
+        $('.consent').focus();
         return false;
     }
 });
