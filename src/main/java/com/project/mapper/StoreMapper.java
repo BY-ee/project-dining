@@ -60,6 +60,9 @@ public interface StoreMapper{
 	// 가게 게시글 재게시
 	void reactivateStore(long id);
 	
+	// 게시글 검토
+	void updateReadStatus(long id);
+	
 	// 게시글 승인
 	void enrollStore(long id);
 	

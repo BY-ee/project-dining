@@ -7,13 +7,35 @@ $(() => {
     location.href = url;
   });
 
-  // 가게 이름 클릭 시 팝업창 띄우기
+  // 가게 이름 클릭 시 검토 상태로 변경 후 팝업창 띄우기
   $('.approval-link').off('click');
   $('.approval-link').on('click', function (e) {
     e.preventDefault();
     const storeId = $(this).data('id');
+    if ($(this).data('status') == 'wait') {
+      changeReadStatus(storeId);
+    }
     getStoreForm(storeId);
   });
+
+  // 조회 시 검토 상태 변경
+  function changeReadStatus(storeId) {
+    $.ajax({
+      url: `/admin/approval/${storeId}/read`,
+      type: 'POST',
+      success: (result) => {
+        // const $statusTd = $(`.review-status[data-id="${storeId}"]`);
+        // $statusTd.text(result).css({
+        //   'color': '#79f'
+        // });
+        
+        $(`.approval-status[data-id="${storeId}"]`).val(result).text(result).css('color', '#000');
+      },
+      error: (e) => {
+        alert(`변경 실패: ${e.responseText || '알 수 없는 오류'}`);
+      },
+    });
+  }
 
   // 가게 승인 폼 가져오는 함수
   function getStoreForm(storeId) {
