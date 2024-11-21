@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        <button class="btn edit-btn" style="margin-top: 40px;"
+        <button class="btn edit-btn" style="margin-top: 40px; width: auto;"
             onclick="location.href='/admin/events/write'">이벤트작성</button>
     </div>
 </body>

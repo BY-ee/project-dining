@@ -20,7 +20,9 @@
         </div>
 
         <div class="notice-content">
-            <img src="${event.eventImage}" style="width: 80%; margin: 0 10%;" alt="event" />
+            <c:if test="${not empty event.eventImage}">
+                <img src="${event.eventImage}" style="width: 80%; margin: 0 10%;" alt="event" />
+            </c:if>
             ${event.content}
         </div>
 

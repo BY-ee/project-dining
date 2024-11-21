@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <button class="btn edit-btn" style="margin-top: 40px;"
+        <button class="btn edit-btn" style="margin-top: 40px; width: auto;"
             onclick="location.href='/admin/notice/write'">공지작성</button>
     </div>
 </body>

@@ -42,6 +42,9 @@ public interface StoreMapper{
 	// 테마를 제외한 가게 데이터
 	StoreWithDetailDTO selectStoreWithDetailById(long id);
 	
+	// 메뉴 이미지 링크 조회
+	List<String> selectMenuImagesById(long id);
+	
 	// 테마 조회
 	List<String> selectThemesById(long id);
 	
@@ -56,6 +59,12 @@ public interface StoreMapper{
 
 	// 가게 게시글 재게시
 	void reactivateStore(long id);
+	
+	// 게시글 승인
+	void enrollStore(long id);
+	
+	// 게시글 반려
+	void withdrawStore(long id);
 	
 	long countStores();
 
@@ -113,7 +122,4 @@ public interface StoreMapper{
 
     // 테마 정보 삽입
     void insertTheme(@Param("storeId") Long storeId, @Param("theme") String theme);
-
-
-    
 }

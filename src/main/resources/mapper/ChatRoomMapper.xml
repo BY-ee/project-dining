@@ -16,7 +16,7 @@
 	        #{location, jdbcType=VARCHAR},
 	        #{maxParticipants, jdbcType=NUMERIC},
 	        #{minParticipants, jdbcType=NUMERIC},
-	        #{theme, jdbcType=VARCHAR},
+       		#{theme, jdbcType=VARCHAR},
 	        #{recruitmentDuration, jdbcType=NUMERIC},
 	        CASE
 	            WHEN #{recruitmentDuration} IS NOT NULL THEN
@@ -40,6 +40,29 @@
 	        ORDER BY created_at DESC
 	    )
 	    WHERE ROWNUM = 1
+	</select>
+	
+	<select id="findChatRoomsByFilters" resultType="ChatRoom">
+	    SELECT DISTINCT cr.*
+	    FROM chat_room cr
+	    LEFT JOIN chat_room_theme crt ON cr.id = crt.chat_room_id
+	    <where>
+	        <if test="location != null and location != ''">
+	            AND cr.location = #{location}
+	        </if>
+	        <if test="industry != null and industry != ''">
+	            AND cr.industry = #{industry}
+	        </if>
+	        <if test="subCategory != null and subCategory != ''">
+	            AND cr.sub_category = #{subCategory}
+	        </if>
+	        <if test="themes != null and themes.size() > 0">
+	            AND crt.theme IN
+	            <foreach item="theme" collection="themes" open="(" separator="," close=")">
+	                #{theme}
+	            </foreach>
+	        </if>
+	    </where>
 	</select>
 
     <!-- 모든 채팅방 조회 -->

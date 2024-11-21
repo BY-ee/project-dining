@@ -23,7 +23,6 @@
                         <a href="/profile">프로필</a>
                         <a href="/mypage">활동내역</a>
                         <a href="/account">계정정보</a>
-                        <a href="/recommendations">1:1 추천</a>
                         <a id="open-chat-list">내 채팅</a>
                         <form action="/logout" method="post" style="display:inline;">
                             <button type="submit">로그아웃</button>
@@ -39,7 +38,13 @@
                 <!-- <form action="/login" method="get" style="display:inline;"> -->
                     <!-- <button type="submit">로그인 / 회원가입</button> -->
                 <!-- </form> -->
+                <div class="user-popup-container">
+                
+                    <a class="link-btn" href="/community">커뮤니티</a>
+                
                  <a class="link-btn" href="/login">로그인 / 회원가입</a>
+                 
+                 </div>
             </c:otherwise>
         </c:choose>
     </div>

@@ -29,7 +29,7 @@
 							<a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
 					</div>
 				</div>
-	    </div>
+	        </div>
 	    
 
         <!-- 메인 배너 슬라이드 -->
@@ -80,7 +80,8 @@
 						<button onclick="selectTheme('친구')">👭 친구</button>
 						<button onclick="selectTheme('회식')">🍻 회식</button>
 					</div>
-					<button onclick="searchStores()" class="search-btn" style="display: none;" id="searchBtn">검색</button>
+					<button class="search-btn" id="searchBtn">검색</button>
+					<button class="reset-btn" id="resetBtn">초기화</button>
 				</div>
 			</div>
 

@@ -2,11 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<%@ include file="/WEB-INF/views/templates/head.jsp" %> <!-- head -->
 
 <head>
     <title>자주 묻는 질문</title>
     <link rel="stylesheet" href="css/home/csr.css">
+    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/templates/header.jsp" /> <!-- header -->

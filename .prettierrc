@@ -16,10 +16,6 @@
         "singleQuote": false,
         "tabWidth": 4
       }
-    },
-    {
-      "files": "*.jsp",
-      "options": {}
     }
   ]
 }

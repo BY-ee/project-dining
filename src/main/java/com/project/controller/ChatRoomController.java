@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -33,21 +35,21 @@ public class ChatRoomController {
 	
 	private final ChatRoomService chatRoomService;
 	
-    @GetMapping("/community")
-    public String community(@AuthenticationPrincipal CustomUserDetails userDetails,
-    						Model model) {
-    	Member loginUser = userDetails.getMember();
-    	
-	    if (loginUser != null) {
-	        System.out.println("로그인된 유저 정보: " + loginUser);	     
+	@GetMapping("/isLoggedIn")
+	@ResponseBody
+	public ResponseEntity<Boolean> isLoggedIn(@AuthenticationPrincipal CustomUserDetails userDetails) {
+	    return ResponseEntity.ok(userDetails != null); // 로그인 여부 반환
+	}
+	
+	@GetMapping("/community")
+	public String community(@AuthenticationPrincipal CustomUserDetails userDetails,
+	                        Model model) {
+	    if (userDetails != null) {
+	        Member loginUser = userDetails.getMember();
 	        model.addAttribute("user", loginUser);
-	    } else {
-	        System.out.println("로그인된 유저가 없습니다.");
-	        return "redirect:/"; 
 	    }
-	    
-    	return "community/chatRoom";
-    }
+	    return "community/chatRoom"; // 로그인 여부와 관계없이 커뮤니티 페이지 반환
+	}
     
     //=================================================================
     // Use ChatRoom Domain 
@@ -131,6 +133,26 @@ public class ChatRoomController {
         chatRoomService.deleteExpiredChatRooms(); // 서비스에서 만료된 채팅방 삭제
         System.out.println("마감된 채팅방 삭제 완료.");
         return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/search")
+    @ResponseBody
+    public ResponseEntity<List<ChatRoom>> searchChatRooms(
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "industry", required = false) String industry,
+            @RequestParam(value = "subCategory", required = false) String subCategory,
+            @RequestParam(value = "theme", required = false) String theme) {
+        
+        // 테마를 >, 로 구분하여 배열로 분리
+        List<String> themeList = new ArrayList<>();
+        if (theme != null && !theme.isEmpty()) {
+            themeList = Arrays.asList(theme.split("[>,]"));
+        }
+
+        // 필터링된 채팅방 목록을 가져오기
+        List<ChatRoom> filteredChatRooms = chatRoomService.searchChatRooms(location, industry, subCategory, themeList);
+
+        return ResponseEntity.ok(filteredChatRooms);
     }
     
     

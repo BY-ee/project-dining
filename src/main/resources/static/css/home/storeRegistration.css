@@ -25,18 +25,25 @@ body {
     margin-top: 100px;
 }
 
-h2 {
+.container h2 {
     font-size: 24px;
     color: #333;
     margin-bottom: 10px;
     text-align: center;
 }
 
-p {
+.container p {
     font-size: 14px;
     color: #666;
     text-align: center;
     margin-bottom: 20px;
+}
+
+.container span {
+    display: block;
+    color: #f00;
+    margin-top: 5px;
+    font-size: 14px;
 }
 
 .store-registration-form label {
@@ -63,6 +70,7 @@ p {
 .store-registration-form textarea {
     resize: none;
     height: 100px;
+    font-family: Arial, sans-serif;
 }
 
 .char-limit {
@@ -107,44 +115,6 @@ p {
 
 .submit-btn:hover {
     background-color: #0288d1;
-}
-
-/* Footer 스타일 */
-.footer {
-    background-color: #f8f8f8;
-    padding: 40px 20px;
-    color: #333;
-    font-size: 14px;
-    width: 100%;
-    margin-top: 100px;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.contact-button {
-    background-color: #b07c83;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    width: 100%;
-}
-
-.company-links ul {
-    list-style: none;
-    padding: 0;
-}
-
-.company-links ul li a {
-    color: #666;
-    text-decoration: none;
 }
 
 .address-container {
