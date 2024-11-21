@@ -18,8 +18,5 @@ RUN ./gradlew clean build -x test
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 
-# 환경 변수 파일 복사
-COPY application-secret.properties /path/in/container/application-secret.properties
-
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]
