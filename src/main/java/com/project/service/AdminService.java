@@ -112,6 +112,11 @@ public class AdminService {
 	// 카테고리가 포함된 가게 데이터
 	public StoreWithDetailDTO selectStoreWithDetailById(long id) {
 		StoreWithDetailDTO store = storeMapper.selectStoreWithDetailById(id);
+		if(storeMapper.selectMenuImagesById(id).size() != 0) {
+			List<Menu> menus = storeMapper.selectMenuImagesById(id);
+			store.setMenuImage(menus.get(0).getMenuImage());
+			System.out.println(store.getMenuImage());
+		}
 		store.setThemes(storeMapper.selectThemesById(id));
 		
 		return store;
@@ -125,6 +130,16 @@ public class AdminService {
 	// 가게 게시글 재게시
 	public void reactivateStore(long id) {
 		storeMapper.reactivateStore(id);
+	}
+	
+	// 게시글 승인
+	public void enrollStore(long id) {
+		storeMapper.enrollStore(id);
+	}
+	
+	// 게시글 반려
+	public void withdrawStore(long id) {
+		storeMapper.withdrawStore(id);
 	}
 
 	// 메뉴 조희
@@ -209,7 +224,11 @@ public class AdminService {
 	    Notice notice = new Notice();
 	    notice.setTitle(noticeDTO.getTitle());
 	    notice.setContent(noticeDTO.getContent());
-	    notice.setNoticeImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    if(fileName != null) {
+	    	notice.setNoticeImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    } else {
+	    	notice.setNoticeImage(null);
+	    }
 	    
 		noticeMapper.insertNotice(notice);
 	}
@@ -238,7 +257,11 @@ public class AdminService {
 	    Notice notice = new Notice();
 	    notice.setTitle(noticeDTO.getTitle());
 	    notice.setContent(noticeDTO.getContent());
-	    notice.setNoticeImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    if(fileName != null) {
+	    	notice.setNoticeImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    } else {
+	    	notice.setNoticeImage(null);
+	    }
 	    
 		noticeMapper.updateNotice(notice, id);
 	}
@@ -299,7 +322,11 @@ public class AdminService {
 	    event.setContent(eventDTO.getContent());
 	    event.setStartDate(Date.from(eventDTO.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
 	    event.setEndDate(Date.from(eventDTO.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
-	    event.setEventImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    if(fileName != null) {
+	    	event.setEventImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    } else {
+	    	event.setEventImage(null);
+	    }
 	    
 	    noticeMapper.insertEvent(event);
 	}
@@ -332,7 +359,11 @@ public class AdminService {
 	    event.setContent(eventDTO.getContent());
 	    event.setStartDate(Date.from(eventDTO.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
 	    event.setEndDate(Date.from(eventDTO.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
-	    event.setEventImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    if(fileName != null) {
+	    	event.setEventImage("/images/" + fileName); // DB에는 상대 경로로 저장
+	    } else {
+	    	event.setEventImage(null);
+	    }
 	    
 		noticeMapper.updateEvent(event, id);
 	}

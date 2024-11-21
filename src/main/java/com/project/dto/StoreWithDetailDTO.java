@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import com.project.domain.Menu;
+
 import lombok.Data;
 
 @Data
@@ -32,6 +34,9 @@ public class StoreWithDetailDTO {
     
     // Industry
     private String industry;
+    
+    // Menu
+    private String menuImage;
     
     // Theme
     private List<String> themes;

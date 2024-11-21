@@ -186,7 +186,24 @@ public class AdminController {
 	public StoreWithDetailDTO storeDetailWithLocation(@PathVariable("id") long id) {
 		return adminService.selectStoreWithDetailById(id);
 	}
+	
+	// 게시글 승인
+	@PostMapping("/approval/{id}/enroll")
+	@ResponseBody
+	public ResponseEntity<String> enrollStore(@PathVariable("id") long id) {
+		adminService.enrollStore(id);
+		
+		return ResponseEntity.ok("enrolled");
+	}
 
+	// 게시글 반려
+	@PostMapping("/approval/{id}/withdraw")
+	@ResponseBody
+	public ResponseEntity<String> withdrawStore(@PathVariable("id") long id) {
+		adminService.withdrawStore(id);
+		
+		return ResponseEntity.ok("withdrawal");
+	}
 	
 	// 공지사항 관리 페이지
 	@GetMapping("/notice")

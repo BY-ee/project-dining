@@ -28,6 +28,14 @@ $(() => {
   }
 
   function renderStorePopup(store) {
+    const mainImageHtml = store.mainImage1
+    ? `<img src="/images/store/${store.mainImage1}" alt="가게 대표 사진">`
+    : `<div id="storeImages" class="map-container">입력된 가게 사진이 없습니다.</div>`;
+
+    const menuImageHtml = store.menuImage
+    ? `<img src="/images/store/${store.menuImage}" alt="대표 메뉴 사진">`
+    : `<div id="storeImages" class="map-container">입력된 대표 메뉴 사진이 없습니다.</div>`;
+
     const approvalDOM = `
 			<div class="container">
 				<h1 style="margin-bottom: 50px;">${store.storeName}</h1>
@@ -59,25 +67,66 @@ $(() => {
 				<label for="storeDescription">가게 설명</label>
 				<p id="storeDescription">${store.storeDescription}</p>
 
-				<label for="storeImages">가게 대표 사진</label>
+				<label for="storeImages" style="text-align: center;">가게 대표 사진</label>
 				<div style="display: flex; justify-content: center; margin-bottom: 20px;">
-					<img src="/images/store/${store.mainImage1}">
-					<img src="/images/store/${store.mainImage2}">
+					${mainImageHtml}
 				</div>
 
-				<label for="menuPhotos">대표 메뉴 사진</label>
+				<label for="menuPhotos" style="text-align: center;>대표 메뉴 사진</label>
 				<div style="display: flex; justify-content: center; margin-bottom: 50px;">
+          ${menuImageHtml}
 				</div>
-				
-					
-				<div style="display: flex; gap: 80px;">
-					<button class="btn btn-submit">등록</button>
-					<button class="btn btn-reject">반려</button>
-				</div>
+
+        <div style="display: flex; gap: 80px;">
+          <button class="btn btn-submit" data-id="${store.id}">등록</button>
+          <button class="btn btn-reject" data-id="${store.id}">반려</button>
+        </div>
 			</div>
 		`;
 
     $('#approval-content').html(approvalDOM);
+  }
+
+  // 게시글 승인 버튼 클릭
+  $('#approval-content').on('click', '.btn-submit', function() {
+    const storeId = $(this).data('id');
+    enrollStore(storeId);
+  });
+
+  function enrollStore(storeId) {
+    $.ajax({
+      url: `/admin/approval/${storeId}/enroll`,
+      type: 'POST',
+      success: (result) => {
+        closePopup();
+        $(`.approval-status[data-id="${storeId}"]`).val(result).text(result).css('color', '#79f');
+      },
+      error: (e) => {
+        alert(e.responseText);
+        closePopup();
+      },
+    });
+  }
+
+  // 게시글 반려 버튼 클릭
+  $('#approval-content').on('click', '.btn-reject', function() {
+    const storeId = $(this).data('id');
+    withdrawStore(storeId);
+  });
+
+  function withdrawStore(storeId) {
+    $.ajax({
+      url: `/admin/approval/${storeId}/withdraw`,
+      type: 'POST',
+      success: (result) => {
+        closePopup();
+        $(`.approval-status[data-id="${storeId}"]`).val(result).text(result).css('color', '#f66');
+      },
+      error: (e) => {
+        alert(e.responseText);
+        closePopup();
+      },
+    });
   }
 
   // 가게 신청 현황에 따라 글자색 변경

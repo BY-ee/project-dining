@@ -53,7 +53,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/css", "/js", "/images").permitAll() // 정적 파일 접근 허용
                 .requestMatchers("/upload", "/WEB-INF/views").permitAll() // webapp 하위 파일 접근 허용
-                .requestMatchers("/", "/login", "memberForm", "ownerForm", "signup", "/loginProc").permitAll()
+                .requestMatchers("/", "/login", "/memberForm", "/ownerForm", "/signup", "/loginProc").permitAll()
                 .requestMatchers("/proxy/**").permitAll() // 프록시 경로 인증 없이 허용
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/mypage", "/profile", "/account").hasAnyRole("ADMIN", "MEMBER")

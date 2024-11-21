@@ -71,6 +71,11 @@
 	    WHERE s.id = #{id}
     </select>
     
+    <select id="selectMenuImagesById" resultType="menu">
+    	SELECT * FROM menu
+    	WHERE store_id=#{id}
+    </select>
+    
     <select id="selectThemesById" resultType="String">
     	SELECT * FROM theme
     	WHERE store_id=#{id}
@@ -135,6 +140,18 @@
 	
 	<update id="reactivateStore" parameterType="long">
 		UPDATE store SET post_status='active'
+		WHERE id=#{id}
+	</update>
+	
+	<!-- 게시글 승인 -->
+	<update id="enrollStore" parameterType="long">
+		UPDATE store SET enroll_status='enrolled'
+		WHERE id=#{id}
+	</update>
+	
+	<!-- 게시글 반려 -->
+	<update id="withdrawStore" parameterType="long">
+		UPDATE store SET enroll_status='withdrawal'
 		WHERE id=#{id}
 	</update>
 	

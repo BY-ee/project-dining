@@ -146,6 +146,10 @@
     text-overflow: ellipsis;
 }
 
+.container img {
+    width: 500px;
+}
+
 .container .category-select-container {
     margin-left: 690px;
 }
