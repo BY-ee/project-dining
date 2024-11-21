@@ -187,6 +187,15 @@ public class AdminController {
 		return adminService.selectStoreWithDetailById(id);
 	}
 	
+	// 게시글 검토
+	@PostMapping("/approval/{id}/read")
+	@ResponseBody
+	public ResponseEntity<String> updateReadStatus(@PathVariable("id") long id) {
+		adminService.updateReadStatus(id);
+		
+		return ResponseEntity.ok("read");
+	}
+	
 	// 게시글 승인
 	@PostMapping("/approval/{id}/enroll")
 	@ResponseBody

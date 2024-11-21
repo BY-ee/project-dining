@@ -85,23 +85,20 @@ public class AdminService {
 		return new Pagination<>(stores, page, size, totalCount);
 	}
 	
-	// 게시 신청한 가게 조회
-//	public Pagination<Store> selectEnrolledStores(RequestData requestData) {
-//		int page = requestData.getPage();
-//		int size = requestData.getSize();
-//		
-//		int start = (page - 1) * size + 1;
-//		int end = start + size - 1;
-//		long totalCount = storeMapper.countEnrolledStores(requestData);
-//		
-//		List<Store> enrolledStores = storeMapper.selectEnrolledStores(start, end, requestData);
-//		
-//		return new Pagination<>(enrolledStores, page, size, totalCount);
-//	}
-	
 	// 가게 조회
 	public StoreDetailDTO selectStoreById(long id) {
-		return storeMapper.selectStoreById(id);
+		StoreDetailDTO store = storeMapper.selectStoreById(id);
+		List<Menu> menus = storeMapper.selectMenuById(id);
+		try {
+			store.setMenuImage(menus.get(0).getMenuImage());
+			store.setMenuDescription(menus.get(0).getMenuDescription());
+			store.setMenuName(menus.get(0).getMenuName());
+			store.setMenuPrice(menus.get(0).getMenuPrice());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return store;
 	}
 	
 	// 가게 찜 개수 조회
@@ -128,6 +125,11 @@ public class AdminService {
 	// 가게 게시글 재게시
 	public void reactivateStore(long id) {
 		storeMapper.reactivateStore(id);
+	}
+	
+	// 게시글 검토
+	public void updateReadStatus(long id) {
+		storeMapper.updateReadStatus(id);
 	}
 	
 	// 게시글 승인

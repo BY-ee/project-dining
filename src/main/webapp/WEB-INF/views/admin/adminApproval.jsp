@@ -52,7 +52,7 @@
             <tr>
               <td>${store.id}</td>
               <td>
-                <a href="#" class="approval-link" data-id="${store.id}">${store.storeName} </a>
+                <a href="#" class="approval-link" data-id="${store.id}" data-status="${store.enrollStatus}">${store.storeName} </a>
               </td>
               <td>${store.address}</td>
               <td>${store.tel}</td>

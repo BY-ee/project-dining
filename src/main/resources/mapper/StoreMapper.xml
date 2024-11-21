@@ -143,6 +143,12 @@
 		WHERE id=#{id}
 	</update>
 	
+	<!-- 게시글 검토 -->
+	<update id="updateReadStatus" parameterType="long">
+		UPDATE store SET enroll_status='read'
+		WHERE id=#{id}	
+	</update>
+	
 	<!-- 게시글 승인 -->
 	<update id="enrollStore" parameterType="long">
 		UPDATE store SET enroll_status='enrolled'
