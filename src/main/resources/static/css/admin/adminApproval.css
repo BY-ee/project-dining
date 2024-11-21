@@ -24,7 +24,6 @@
 
 .container span {
     display: block;
-    padding: 10px;
     margin-top: 5px;
     margin-bottom: 20px;
     font-size: 18px;
@@ -33,7 +32,8 @@
 
 .underline {
     border-bottom: 1px solid #bbb;
-    margin-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .container .store-registration-form label {

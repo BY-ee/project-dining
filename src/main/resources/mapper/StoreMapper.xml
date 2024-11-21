@@ -71,13 +71,13 @@
 	    WHERE s.id = #{id}
     </select>
     
-    <select id="selectMenuImagesById" resultType="menu">
-    	SELECT * FROM menu
+    <select id="selectMenuImagesById" resultType="String">
+    	SELECT menu_image FROM menu
     	WHERE store_id=#{id}
     </select>
     
     <select id="selectThemesById" resultType="String">
-    	SELECT * FROM theme
+    	SELECT theme FROM theme
     	WHERE store_id=#{id}
     </select>
 

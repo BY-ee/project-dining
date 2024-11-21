@@ -28,9 +28,13 @@ $(() => {
   }
 
   function renderStorePopup(store) {
+    const themeHtml = store.themes && store.themes.length > 0
+    ? store.themes.join(", ")
+    : "테마 정보가 없습니다.";
+
     const mainImageHtml = store.mainImage1
     ? `<img src="/images/store/${store.mainImage1}" alt="가게 대표 사진">`
-    : `<div id="storeImages" class="map-container">입력된 가게 사진이 없습니다.</div>`;
+    : `<div id="storeImages" class="map-container" style="margin-bottom: 50px;">입력된 가게 사진이 없습니다.</div>`;
 
     const menuImageHtml = store.menuImage
     ? `<img src="/images/store/${store.menuImage}" alt="대표 메뉴 사진">`
@@ -47,7 +51,9 @@ $(() => {
 				<span id="phone">${store.phoneNumber}</span>
 
 				<label for="tel">전화번호</label>
-				<span class="underline" id="tel">${store.tel}</span>
+				<span id="tel">${store.tel}</span>
+
+        <div class="underline"></div>
 				
 				<label for="address">가게 주소</label>
         <span id="address">${store.address}, ${store.detailAddress}</span>
@@ -59,20 +65,22 @@ $(() => {
 				<span id="industry">${store.industry}</span>
 
 				<label for="theme">테마</label>
-				<span class="underline" id="theme">${store.theme}</span>
+				<span id="theme">${themeHtml}</span>
+
+        <div class="underline"></div>
 				
 				<label for="openTime">영업 시간</label>
 				<span id="openTime">${store.openTime}</span>
 
 				<label for="storeDescription">가게 설명</label>
-				<p id="storeDescription">${store.storeDescription}</p>
+				<p id="storeDescription" style="word-wrap: break-word; margin-bottom: 50px">${store.storeDescription}</p>
 
 				<label for="storeImages" style="text-align: center;">가게 대표 사진</label>
-				<div style="display: flex; justify-content: center; margin-bottom: 20px;">
+				<div style="display: flex; justify-content: center; margin-bottom: 50px;">
 					${mainImageHtml}
 				</div>
 
-				<label for="menuPhotos" style="text-align: center;>대표 메뉴 사진</label>
+				<label for="menuPhotos" style="text-align: center;">대표 메뉴 사진</label>
 				<div style="display: flex; justify-content: center; margin-bottom: 50px;">
           ${menuImageHtml}
 				</div>

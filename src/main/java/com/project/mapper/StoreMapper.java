@@ -43,7 +43,7 @@ public interface StoreMapper{
 	StoreWithDetailDTO selectStoreWithDetailById(long id);
 	
 	// 메뉴 이미지 링크 조회
-	List<Menu> selectMenuImagesById(long id);
+	List<String> selectMenuImagesById(long id);
 	
 	// 테마 조회
 	List<String> selectThemesById(long id);

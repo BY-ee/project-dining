@@ -113,9 +113,7 @@ public class AdminService {
 	public StoreWithDetailDTO selectStoreWithDetailById(long id) {
 		StoreWithDetailDTO store = storeMapper.selectStoreWithDetailById(id);
 		if(storeMapper.selectMenuImagesById(id).size() != 0) {
-			List<Menu> menus = storeMapper.selectMenuImagesById(id);
-			store.setMenuImage(menus.get(0).getMenuImage());
-			System.out.println(store.getMenuImage());
+			store.setMenuImage(storeMapper.selectMenuImagesById(id).get(0));
 		}
 		store.setThemes(storeMapper.selectThemesById(id));
 		
