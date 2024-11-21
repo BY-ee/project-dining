@@ -73,7 +73,7 @@
         <p>검토 후 등록이 승인되면 알려드리겠습니다.</p>
 
         <a href="/" class="btn">홈으로 돌아가기</a>
-        <a href="home/storeRegistration" class="btn">다른 가게 등록하기</a>
+        <a href="/storeRegistration" class="btn">다른 가게 등록하기</a>
     </main>
 
     <footer>
