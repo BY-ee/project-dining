@@ -35,21 +35,21 @@ public class ChatRoomController {
 	
 	private final ChatRoomService chatRoomService;
 	
-    @GetMapping("/community")
-    public String community(@AuthenticationPrincipal CustomUserDetails userDetails,
-    						Model model) {
-    	Member loginUser = userDetails.getMember();
-    	
-	    if (loginUser != null) {
-	        System.out.println("로그인된 유저 정보: " + loginUser);	     
+	@GetMapping("/isLoggedIn")
+	@ResponseBody
+	public ResponseEntity<Boolean> isLoggedIn(@AuthenticationPrincipal CustomUserDetails userDetails) {
+	    return ResponseEntity.ok(userDetails != null); // 로그인 여부 반환
+	}
+	
+	@GetMapping("/community")
+	public String community(@AuthenticationPrincipal CustomUserDetails userDetails,
+	                        Model model) {
+	    if (userDetails != null) {
+	        Member loginUser = userDetails.getMember();
 	        model.addAttribute("user", loginUser);
-	    } else {
-	        System.out.println("로그인된 유저가 없습니다.");
-	        return "redirect:/"; 
 	    }
-	    
-    	return "community/chatRoom";
-    }
+	    return "community/chatRoom"; // 로그인 여부와 관계없이 커뮤니티 페이지 반환
+	}
     
     //=================================================================
     // Use ChatRoom Domain 

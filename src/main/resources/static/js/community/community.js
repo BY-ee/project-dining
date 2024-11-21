@@ -1,6 +1,21 @@
 // community.js
 
 $(document).ready(function () {
+	
+	function checkLoginStatus(callback) {
+	        $.ajax({
+	            url: "/isLoggedIn",
+	            type: "GET",
+	            success: function (isLoggedIn) {
+	                callback(isLoggedIn);
+	            },
+	            error: function () {
+	                console.error("로그인 상태 확인 실패");
+	                callback(false); // 기본적으로 비로그인 상태로 처리
+	            }
+	        });
+	    }
+		
     // 팝업 열기
     $("#show-create-popup").click(function () {
         $("#create-form-popup, #create-form-popup-overlay").fadeIn();
@@ -12,42 +27,63 @@ $(document).ready(function () {
     });
 
     // 채팅방 생성
-    $("#chat-room-form").submit(function (event) {
-        event.preventDefault();
-		
-		const themeString = getSelectedThemeString();
+	$("#chat-room-form").submit(function (event) {
+	    event.preventDefault(); // 기본 동작 방지
 
+	    checkLoginStatus(function (isLoggedIn) {
+	        if (isLoggedIn) {
+	            // 로그인 상태일 때만 채팅방 생성 요청 진행
+	            const themeString = getSelectedThemeString();
 
-        const formData = {
-            roomName: $("#roomName").val(),
-            memberId: $("#memberId").val(),
-            location: $("#location").val(),
-            maxParticipants: $("#maxParticipants").val(),
-			theme: themeString,
-            recruitmentDuration: $("#recruitmentDuration").val(),
-            additionalDescription: $("#additionalDescription").val(),
-        };
-		
-		console.log("Form Data:", formData);
+	            const formData = {
+	                roomName: $("#roomName").val(),
+	                memberId: $("#memberId").val(),
+	                location: $("#location").val(),
+	                maxParticipants: $("#maxParticipants").val(),
+	                theme: themeString,
+	                recruitmentDuration: $("#recruitmentDuration").val(),
+	                additionalDescription: $("#additionalDescription").val(),
+	            };
 
+	            console.log("Form Data:", formData);
 
-        $.ajax({
-            url: "/create",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(formData),
-            success: function () {
-                alert("채팅방이 생성되었습니다!");
-				window.location.reload(); // 페이지 새로고침
-                $("#create-form-popup, #create-form-popup-overlay").fadeOut();
-                fetchChatRooms();
-            },
-            error: function (error) {
-                console.error("채팅방 생성 실패:", error);
-                alert("채팅방 생성에 실패했습니다.");
-            }
-        });
-    });
+	            $.ajax({
+	                url: "/create",
+	                type: "POST",
+	                contentType: "application/json",
+	                data: JSON.stringify(formData),
+	                success: function () {
+	                    alert("채팅방이 생성되었습니다!");
+	                    window.location.reload(); // 페이지 새로고침
+	                    $("#create-form-popup, #create-form-popup-overlay").fadeOut();
+	                    fetchChatRooms();
+	                },
+	                error: function (error) {
+	                    console.error("채팅방 생성 실패:", error);
+	                    alert("채팅방 생성에 실패했습니다.");
+	                }
+	            });
+	        } else {
+	            // 비로그인 상태일 때 알림 표시
+	            alert("로그인 후 사용 가능합니다.");
+	        }
+	    });
+	});
+	
+	// 채팅방 입장 버튼 클릭
+	    $(".chat-list").on("click", ".enter-btn", function (event) {
+	        event.stopPropagation();
+
+	        checkLoginStatus(function (isLoggedIn) {
+	            if (isLoggedIn) {
+	                const roomId = $(event.target).data("room-id");
+	                const roomName = $(event.target).data("room-name");
+	                joinChatRoom(roomId, roomName);
+	            } else {
+	                alert("로그인 후 사용 가능합니다.");
+	            }
+	        });
+	    });
 
     // 만료된 채팅방 삭제
     deleteExpiredChatRooms();
@@ -96,13 +132,19 @@ function fetchChatRooms() {
             });
 
             // 입장 버튼 이벤트 핸들러 추가
-            $(".enter-btn").off("click").on("click", function (event) {
-                event.stopPropagation(); // 클릭 이벤트 전파 방지 (버튼 클릭 시 토글 제외)
-                const roomId = $(this).data("room-id");
-                const roomName = $(this).data("room-name");
+			$(".chat-list").on("click", ".enter-btn", function (event) {
+			    event.stopPropagation(); // 클릭 이벤트 전파 방지
 
-                joinChatRoom(roomId, roomName);
-            });
+			    checkLoginStatus(function (isLoggedIn) {
+			        if (isLoggedIn) {
+			            const roomId = $(event.target).data("room-id");
+			            const roomName = $(event.target).data("room-name");
+			            joinChatRoom(roomId, roomName); // 입장 로직 호출
+			        } else {
+			            alert("로그인 후 사용 가능합니다.");
+			        }
+			    });
+			});
 
             // chat-item 클릭 시 토글
             $(".chat-item").off("click").on("click", function (event) {
