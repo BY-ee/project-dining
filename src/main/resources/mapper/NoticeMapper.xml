@@ -73,20 +73,16 @@
 	</select>
 
 	<select id="getEventList" resultType="event">
-    select * from (
-        select event.*, ROWNUM AS rn
-        from (
-            select * 
-            from event
-            where status = #{status}
-            <if test="category != null and category != ''">
-                and category = #{category}
-            </if>
-            order by created_at desc
-	        ) event
-	        where ROWNUM &lt;= #{endRow}
-	    )
-	    where rn &gt;= #{startRow}
+    SELECT *
+    FROM (
+        SELECT event.*, ROW_NUMBER() OVER (ORDER BY created_at DESC, id ASC) AS rn
+        FROM event
+        WHERE status = #{status}
+        <if test="category != null and category != ''">
+            AND category = #{category}
+        </if>
+    ) subquery
+    WHERE rn BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
 	<select id="getNoticeCountList" resultType="int">

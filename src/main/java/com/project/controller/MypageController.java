@@ -1,18 +1,16 @@
 package com.project.controller;
 
 import java.io.File;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,6 @@ import com.project.dto.MypageLike;
 import com.project.dto.MypageReview;
 import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
-import com.project.dto.UnifiedPrincipal;
 import com.project.service.MypageService;
 import com.project.service.PointService;
 
@@ -55,7 +52,10 @@ public class MypageController {
 		Member member = userDetails.getMember();
 		
 		if(member.getCategory().equals("사업자")) {
-			Store store =  mypageService.getStore(member.getId());
+			List<Store> store =  mypageService.getStoreList(member.getId());
+			for(Store a : store) {
+				System.out.println(a);
+			}
 			model.addAttribute("store",store);
 		}
 		
@@ -77,6 +77,7 @@ public class MypageController {
 		
     	return "mypage/mypage";
     }
+	
 	
 	@PostMapping("/profile/upload")
 	@ResponseBody
@@ -137,9 +138,14 @@ public class MypageController {
 		member.setId(userDetails.getId());
 		member.setMemberId(userDetails.getUsername());
 		System.out.println(member);
-		int i = mypageService.updateMember(member);
-		if(i != 1)redirectAttributes.addFlashAttribute("message","변경에 실패하였습니다.");
-		else redirectAttributes.addFlashAttribute("message","변경에 성공하였습니다.");
+		try {
+			int i = mypageService.updateMember(member);			
+			if(i != 1)redirectAttributes.addFlashAttribute("message","변경에 실패하였습니다.");
+			else redirectAttributes.addFlashAttribute("message","변경에 성공하였습니다.");
+	    } catch (Exception e) {
+	        // 기타 예외 처리
+	        redirectAttributes.addFlashAttribute("message", "이미 존재하는 닉네임입니다.");
+	    }			
 		return "redirect:/profile";
 	}
 	

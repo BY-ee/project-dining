@@ -66,6 +66,10 @@ public class MypageService {
 	public Store getStore(long memberId) {
 		return mypageMapper.getStore(memberId);
 	}
+	
+	public List<Store> getStoreList(long memberId){
+		return mypageMapper.getStoreList(memberId);
+	}
 
 	public int updateMember(Member member) {
 		int result = mypageMapper.updateMember(member);

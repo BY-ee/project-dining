@@ -24,7 +24,7 @@
 
         <!-- 본문 내용 -->
         <div class="notice-content">
-        	<c:if test="${event.eventImage}">
+        	<c:if test="${not empty event.eventImage}">
 	        	<div class="notice-image">
 	        		<img src="${event.eventImage}">
 	        	</div>

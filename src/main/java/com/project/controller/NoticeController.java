@@ -43,6 +43,7 @@ public class NoticeController {
 	
 	@GetMapping("/eventOnList")
 	public String eventList(Model model, PageRequest eventPageRequest) {
+		eventPageRequest.setSize(12);
 		PageResponse<Event> eventPageResponse = noticeService.getEventOnList(eventPageRequest);
 		model.addAttribute("eventPageResponse",eventPageResponse);
 		return "notice/eventOnList";
@@ -50,7 +51,8 @@ public class NoticeController {
 	
 	@GetMapping("/eventOffList")
 	public String eventOffList(Model model,PageRequest eventPageRequest) {
-		eventPageRequest.setStatus("deleted");
+		eventPageRequest.setSize(12);
+		eventPageRequest.setStatus("inactive");
 		PageResponse<Event> eventPageResponse = noticeService.getEventOnList(eventPageRequest);
 		model.addAttribute("eventPageResponse",eventPageResponse);
 		return "notice/eventOffList";

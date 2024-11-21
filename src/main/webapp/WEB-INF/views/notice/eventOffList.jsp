@@ -29,7 +29,7 @@
 		<div class="event-items">
 			<c:forEach var = "event" items = "${eventPageResponse.list}">
 				<a href="/event/${event.id}" class="event-item">
-					<img src="images/${event.eventImage }.png">
+					<img src="${event.eventImage}">
                 	<h3>${event.title}</h3>
                 	<span><fmt:formatDate value="${event.startDate}" pattern="yyyy/MM/dd" /> ~ <fmt:formatDate value="${event.endDate}" pattern="yyyy/MM/dd" /></span>
                 	<span>조회수${event.views}</span>

@@ -22,6 +22,8 @@ public interface MypageMapper {
 	int getCountMypageReview(long memberId);
 	
 	Store getStore(long memberId);
+	
+	List<Store> getStoreList(long memberId);
 
 	int updateMember(Member member);
 

@@ -61,6 +61,13 @@
 		where
 		member_id = #{memberId}
 	</select>
+	
+	<select id="getStoreList" resultType="store">
+		select * from
+		store
+		where
+		member_id = #{memberId}
+	</select>
 
 	<update id="updateMember" parameterType="Member">
 		update

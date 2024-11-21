@@ -45,7 +45,9 @@ public class NoticeService {
 		int startRow = pageRequest.getSize() * (pageRequest.getPage()-1) + 1 ;
 		int endRow = pageRequest.getSize() * (pageRequest.getPage());
 		List<Event> list = noticeMapper.getEventList(startRow,endRow,pageRequest.getStatus(),pageRequest.getCategory());
-		
+		for(Event a : list) {
+			System.out.println(a);
+		}
 		// 총 게시물 갯수 가져오기 and 총 페이지 갯수 계산
 		int countList = noticeMapper.getEventCountList(pageRequest.getStatus(),pageRequest.getCategory());
 		int totalPage =(int)Math.ceil((double)countList / pageRequest.getSize());
