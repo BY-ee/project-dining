@@ -70,6 +70,9 @@ public interface StoreMapper{
 	void withdrawStore(long id);
 	
 	long countStores();
+	
+	// 메뉴 조회
+	List<Menu> selectMenuById(long id);
 
 	// 찜 추가
 	void save(MemberLike like);

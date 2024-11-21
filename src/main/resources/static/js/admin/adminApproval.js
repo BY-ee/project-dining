@@ -62,6 +62,16 @@ $(() => {
     ? `<img src="/images/store/${store.menuImage}" alt="대표 메뉴 사진">`
     : `<div id="storeImages" class="map-container">입력된 대표 메뉴 사진이 없습니다.</div>`;
 
+    const btnHtml = store.enrollStatus == 'wait' || store.enrollStatus == 'read'
+    ? `<div style="display: flex; gap: 80px;">
+         <button class="btn btn-submit" data-id="${store.id}">등록</button>
+         <button class="btn btn-reject" data-id="${store.id}">반려</button>
+       </div>`
+    : `<div style="display: flex; justify-content: center; align-items: baseline; gap: 20px;">
+         <span>이미 <strong>${store.enrollStatus == 'enrolled' ? '등록' : '반려'}</strong> 처리된 상태입니다.</span>
+         <button class="btn" style="background-color: #79f; width: 60px;" onclick="closePopup()">닫기</button>
+       </div>`;
+
     const approvalDOM = `
 			<div class="container">
 				<h1 style="margin-bottom: 50px;">${store.storeName}</h1>
@@ -107,10 +117,7 @@ $(() => {
           ${menuImageHtml}
 				</div>
 
-        <div style="display: flex; gap: 80px;">
-          <button class="btn btn-submit" data-id="${store.id}">등록</button>
-          <button class="btn btn-reject" data-id="${store.id}">반려</button>
-        </div>
+        ${btnHtml}
 			</div>
 		`;
 

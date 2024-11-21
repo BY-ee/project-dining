@@ -95,7 +95,7 @@
                     <p><strong>🏠 주소:</strong> ${storeDetail.address}, ${storeDetail.detailAddress}</p>
                     <div class="store-info-row">
                         <p><strong>📞 Tel:</strong> ${storeDetail.tel}</p>
-                        <p><strong>⏰ 영업시간:</strong> ${storeDetail.openTime}</p>
+                        <p style="line-height: 2; word-break: break-word;"><strong>⏰ 영업시간:</strong> ${storeDetail.openTime}</p>
                     </div>
                     <p><strong>${storeDetail.storeDescription}</strong></p>
                 </div>
