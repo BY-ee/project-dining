@@ -118,4 +118,15 @@ public class MypageService {
 		securityContextUtil.reloadUserDetails(member.getMemberId());
 		return i;
 	}
+
+
+	public boolean updateToBusinessMember(String memberId, String registrationNumber) {
+	    int rowsAffected = mypageMapper.updateToBusinessMember(memberId, registrationNumber);
+	    if (rowsAffected > 0) {
+	        securityContextUtil.reloadUserDetails(memberId);
+	        return true; // 업데이트 성공
+	    } else {
+	        return false; // 업데이트 실패
+	    }
+	}
 }

@@ -1,7 +1,6 @@
 package com.project.controller;
 
 import java.io.File;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +29,6 @@ import com.project.dto.MypageLike;
 import com.project.dto.MypageReview;
 import com.project.dto.PageRequest;
 import com.project.dto.PageResponse;
-import com.project.dto.UnifiedPrincipal;
 import com.project.service.MypageService;
 import com.project.service.PointService;
 
@@ -43,6 +41,7 @@ public class MypageController {
 
 	private final MypageService mypageService;
 	private final PointService pointService;
+	
 	
 	@GetMapping("/mypage")
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,
@@ -195,4 +194,29 @@ public class MypageController {
 	public List<Point> getPointByMember(@RequestParam("member_id") long memberId) {
 		return pointService.findPointByuserId(memberId);
 	}
+	
+	
+	@GetMapping("/businessVerificationPage")
+	public String businessVerificationPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+		return "mypage/businessVerificationPage";
+	}
+	
+	@PostMapping("/businessVerification")
+	@ResponseBody
+	public ResponseEntity<String> updateToBusinessMember(@RequestParam("registrationNumber") String registrationNumber,
+	                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+	    // 현재 로그인한 사용자 ID 가져오기
+	    String memberId = userDetails.getUsername();
+	    System.out.println("memberId : " + memberId);
+	    // 등록번호 및 사용자 정보 업데이트 로직
+	    boolean isUpdated = mypageService.updateToBusinessMember(memberId, registrationNumber);
+
+	    if (isUpdated) {
+	        return ResponseEntity.ok("회원 전환 성공");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 전환 실패");
+	    }
+	}
+	
+	
 }

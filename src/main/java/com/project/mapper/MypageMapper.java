@@ -34,4 +34,6 @@ public interface MypageMapper {
 	int updateSocialId(@Param("id")Long id, @Param("socialName")String socialName,@Param("socialId") String socialId);
 
 	int updateEmail(Member member);
+
+	int updateToBusinessMember(@Param("memberId") String memberId, @Param("registrationNumber") String registrationNumber);
 }

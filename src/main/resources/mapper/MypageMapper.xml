@@ -124,4 +124,10 @@
 		email = #{email}
 		where id = #{id}
 	</update>
+	
+	<update id="updateToBusinessMember" parameterType="map">
+		update member set registration_number = #{registrationNumber} , category = '사업자' where member_id = #{memberId}
+	</update>
+	
+	
 </mapper>
