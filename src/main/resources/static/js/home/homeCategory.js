@@ -37,12 +37,20 @@ function selectIndustry(industry) {
 	selectedSubCategory = "";
 	selectedThemes = []; // 테마 초기화하여 중복 방지
 
-	// 세부 항목과 테마 선택 초기화
-	document.getElementById("selectedIndustryOptions").style.display = "none";
-	document.getElementById("themeStep").style.display = "none";
+	console.log("선택된 업종:", selectedIndustry);
+
+	// 모든 업종 버튼에서 active 제거
+	document.querySelectorAll(".category-step button").forEach(btn => btn.classList.remove("active"));
+
+	// 선택한 업종 버튼에 active 추가
+	const selectedButton = Array.from(document.querySelectorAll(".category-step button"))
+		.find(btn => btn.textContent.includes(industry));
+	if (selectedButton) {
+		selectedButton.classList.add("active");
+	}
 
 	showSubCategoryOptions(industry);
-}
+	}
 
 // 선택한 업종에 따른 세부 항목 표시
 function showSubCategoryOptions(industry) {
@@ -71,18 +79,43 @@ function showSubCategoryOptions(industry) {
 // 세부 항목 선택
 function selectSubCategory(subCategory) {
 	selectedSubCategory = subCategory;
-	document.getElementById("themeStep").style.display = "block";
+	
+	console.log("선택된 세부 항목:", selectedSubCategory);
+
+	// 모든 세부 항목 버튼에서 active 제거
+	document.querySelectorAll(".subcategory-btn").forEach(btn => btn.classList.remove("active"));
+
+	// 현재 선택된 버튼에 active 클래스 추가
+	const selectedButton = Array.from(document.querySelectorAll(".category-step-btn"))
+		.find(btn => btn.textContent.includes(subCategory));
+	if (selectedButton) {
+		selectedButton.classList.add("active");
+	}
+	
 }
 
 // 테마 선택
 function selectTheme(theme) {
 	const themeIndex = selectedThemes.indexOf(theme);
+	
+	// 테마 선택 토글
 	if (themeIndex === -1) {
-			selectedThemes.push(theme);
+		selectedThemes.push(theme);
+		const selectedButton = Array.from(document.querySelectorAll("#themeStep button"))
+			.find(btn => btn.textContent.includes(theme));
+		if (selectedButton) {
+			selectedButton.classList.add("active");
+		}
 	} else {
-			selectedThemes.splice(themeIndex, 1);
+		selectedThemes.splice(themeIndex, 1);
+		const selectedButton = Array.from(document.querySelectorAll("#themeStep button"))
+			.find(btn => btn.textContent.includes(theme));
+		if (selectedButton) {
+			selectedButton.classList.remove("active");
+		}
 	}
-	console.log("Selected themes:", selectedThemes); // 선택된 테마 확인
+
+	console.log("선택된 테마:", selectedThemes); // 선택된 테마 확인
 }
 
 // 검색 버튼 클릭

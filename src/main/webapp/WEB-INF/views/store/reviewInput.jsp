@@ -8,7 +8,6 @@
     <title>리뷰 작성</title>
     <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
     <link rel="stylesheet" type="text/css" href="/css/store/reviewInput.css">
-    <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- header -->
 </head>
 <body>
 
