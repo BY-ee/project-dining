@@ -14,10 +14,10 @@
             <div class="main-content">
                 <!-- 탭 메뉴 -->
                 <div class="tabs">
-                    <button class="tab" id="defaultTab" onclick="location.href='/mypage'">활동내역</button>
-                    <button class="tab" onclick="location.href='/profile'">프로필</button>
-                    <button class="tab" onclick="location.href='/account'">계정 정보</button>
-                    <button class="tab" onclick="location.href='/userPoint'">포인트</button>
+                    <button class="tab" data-path="/mypage" onclick="location.href='/mypage'">활동내역</button>
+					<button class="tab" data-path="/profile" onclick="location.href='/profile'">프로필</button>
+					<button class="tab" data-path="/account" onclick="location.href='/account'">계정 정보</button>
+					<button class="tab" data-path="/userPoint" onclick="location.href='/userPoint'">포인트</button>
                 </div>
                 <div class="expanded-content">
 				<!-- 콘텐츠 시작 -->
@@ -43,6 +43,7 @@
 			</div>
 		</div>
 			<%@ include file="/WEB-INF/views/templates/footer.jsp" %>
+			<script src="/js/mypage/common.js"></script>
 			<script type="text/javascript">
 			
 			    // 세션에서 가져온 memberId를 JavaScript 변수로 선언

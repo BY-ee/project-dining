@@ -21,10 +21,10 @@
             <div class="main-content">
                 <!-- 탭 메뉴 -->
                 <div class="tabs">
-                    <button class="tab" id="defaultTab" onclick="location.href='/mypage'">활동내역</button>
-                    <button class="tab" onclick="location.href='/profile'">프로필</button>
-                    <button class="tab" onclick="location.href='/account'">계정 정보</button>
-                    <button class="tab" onclick="location.href='/userPoint'">포인트</button>
+                    <button class="tab" data-path="/mypage" onclick="location.href='/mypage'">활동내역</button>
+					<button class="tab" data-path="/profile" onclick="location.href='/profile'">프로필</button>
+					<button class="tab" data-path="/account" onclick="location.href='/account'">계정 정보</button>
+					<button class="tab" data-path="/userPoint" onclick="location.href='/userPoint'">포인트</button>
                 </div>
                 
                 <div class="expanded-content">
@@ -162,42 +162,8 @@
             </div>
         </div>
     </div>
-    
-    <script>
-/*   // 팝업 열기
-     function openPopup(storeId) {
-         const popup = document.getElementById(`popup-${storeId}`);
-         if (popup) {
-             popup.style.display = 'block'; // 팝업 표시
-         } else {
-             console.error(`Popup with ID popup-${storeId} not found`);
-         }
-     }
- 
-  // 팝업 닫기
-     function closePopup(storeId) {
-         const popup = document.getElementById(`popup-${storeId}`);
-         if (popup) {
-             popup.style.display = 'none'; // 팝업 숨기기
-         } else {
-             console.error(`Popup with ID popup-${storeId} not found`);
-         }
-     } */ 
-
-	$(document).ready(function() {
-        // 팝업 열기
-        $(".open-popup").on("click", function() {
-        	const storeId = $(this).data("id");
-            const popup = $(`#popup-`+storeId);
-            popup.fadeIn(); // 팝업 열기
-        });
-
-        // 팝업 닫기
-        $(".close-popup").on("click", function() {
-            $(this).closest(".popup").fadeOut(); // 클릭된 닫기 버튼의 부모 팝업 닫기
-        });
-    }); 
-    </script>
+<script src="/js/mypage/common.js"></script>
+<script src="/js/mypage/mypage.js"></script>
 <%@ include file="/WEB-INF/views/templates/footer.jsp" %>
 </body>
 </html>
