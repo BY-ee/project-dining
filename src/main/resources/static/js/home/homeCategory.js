@@ -104,32 +104,33 @@ function showSubCategoryOptions(industry) {
 
 // 세부 항목 선택
 function selectSubCategory(subCategory) {
-	// 중복 선택 방지
-	if (selectedSubCategory === subCategory) {
-		console.log("이미 선택된 세부 항목:", subCategory);
-		return; // 중복 선택 시 아무 동작도 하지 않음
-	}
+    // 중복 선택 방지
+    if (selectedSubCategory === subCategory) {
+        console.log("이미 선택된 세부 항목:", subCategory);
+        return; // 중복 선택 시 아무 동작도 하지 않음
+    }
 
-	// 선택된 세부 항목 업데이트
-	selectedSubCategory = subCategory;
-	console.log("선택된 세부 항목:", selectedSubCategory);
+    // 선택된 세부 항목 업데이트
+    selectedSubCategory = subCategory;
+    console.log("선택된 세부 항목:", selectedSubCategory);
 
-	// 모든 세부 항목 버튼에서 active 클래스 제거
-	document.querySelectorAll(".category-step-btn").forEach(btn => btn.classList.remove("active"));
+    // 모든 세부 항목 버튼에서 active 클래스 제거
+    document.querySelectorAll(".subcategory-btn").forEach(btn => btn.classList.remove("active"));
 
-	// 현재 선택된 버튼에 active 클래스 추가
-	const selectedButtons = document.querySelectorAll(".category-step-btn");
-	selectedButtons.forEach(btn => {
-		if (btn.textContent === subCategory) {
-			btn.classList.add("active"); // 선택된 버튼에 active 클래스 추가
-		}
-	});
+    // 현재 선택된 버튼에 active 클래스 추가
+    const selectedButton = Array.from(document.querySelectorAll(".subcategory-btn"))
+        .find(btn => btn.textContent.trim() === subCategory);
+    if (selectedButton) {
+        selectedButton.classList.add("active"); // 선택된 버튼에 active 클래스 추가
+    } else {
+        console.warn("선택된 세부 항목 버튼을 찾을 수 없습니다:", subCategory);
+    }
 
-	// 테마 선택 UI 표시
-	const themeStep = document.getElementById("themeStep");
-	if (themeStep) {
-		themeStep.style.display = "block"; // 테마 선택 영역 활성화
-	}
+    // 테마 선택 UI 표시
+    const themeStep = document.getElementById("themeStep");
+    if (themeStep) {
+        themeStep.style.display = "block"; // 테마 선택 영역 활성화
+    }
 }
 
 // 테마 선택

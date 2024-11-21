@@ -124,7 +124,7 @@
 
 	
 	    function goToStoreDetail(storeId) {	        
-	        var url = `/storeDetail?store_ID=${storeId}`;
+	        var url = '/storeDetail?store_ID=' + storeId;
 	        // if (userId && userId.trim() !== "") {  
 	        //     url += '&user_ID=' + userId;
 	        // }
@@ -132,71 +132,69 @@
 	    }
 	    
 	    function filterByLocation(locationCode, locationName) {
-				selectedLocation = locationCode; // 지역 값 저장
-				console.log("Selected location:", locationName); // 로그 추가
-				$('#location-btn').text(locationName);
+	        selectedLocation = locationCode; // 지역 값 저장
+	        console.log("Selected location:", locationName); // 로그 추가
+	        document.getElementById("location-btn").innerText = locationName;
 
-				$.ajax({
-					url: "/storesByLocation",
-					type: "GET",
-					data: { location: selectedLocation },
-					success: function(stores) {
-						let html = '';
-						stores.forEach(function(store) {
-							html += `
-								<div class="store-item-box" onclick="goToStoreDetail(${store.id})">
-									<div class="store-item">
-										<img src="/images/store/${store.mainImage1} alt="${store.storeName} 이미지">
-									</div>
-									<div class="store-name">${store.storeName}</div>
-								</div>;
-							`
-						});
-						$("#store-list-container").html(html);
-					},
-					error: function() {
-						alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
-					}
-				});
+	        $.ajax({
+	            url: "/storesByLocation",
+	            type: "GET",
+	            data: { location: selectedLocation },
+	            success: function(stores) {
+
+	                let html = '';
+	                stores.forEach(function(store) {
+	                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+	                                '<div class="store-item">' +
+	                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+	                                '</div>' +
+	                                '<div class="store-name">' + store.storeName + '</div>' +
+	                            '</div>';
+	                });
+	                $("#store-list-container").html(html);
+	            },
+	            error: function() {
+	                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+	            }
+	        });
 	    }
 	    
 	    function filterByCategory(industry, subCategory, theme) {
 	    	
-				console.log("Sending filter criteria:", {
-					industry: industry,
-					subCategory: subCategory,
-					themes: theme.join(",")
-				});
+	        console.log("Sending filter criteria:", {
+	            industry: industry,
+	            subCategory: subCategory,
+	            themes: theme.join(",")
+	        });
 	        
-				$.ajax({
-					url: "/storesByCategory",
-					type: "GET",
-					data: {
-							industry: industry,
-							subCategory: subCategory,
-							theme: theme.join(","),
-							location: selectedLocation  // selectedLocation이 필요하다면 이 변수도 정의되어 있어야 합니다.
-					},
-					success: function(stores) {
-							let html = '';
-							stores.forEach(function(store) {
-								html += `
-									<div class="store-item-box" onclick="goToStoreDetail(${store.id})">
-										<div class="store-item">
-											<img src="/images/store/${store.mainImage1}" alt="${store.storeName} 이미지">
-										</div>
-										<div class="store-name">${store.storeName}</div>
-									</div>
-								`;
-
-							$("#store-list-container").html(html);
-						})
-					},
-					error: function() {
-						alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
-					}
-				});
+	        $.ajax({
+	            url: "/storesByCategory",
+	            type: "GET",
+	            data: {
+	                industry: industry,
+	                subCategory: subCategory,
+	                theme: theme.join(","),
+	                location: selectedLocation  // selectedLocation이 필요하다면 이 변수도 정의되어 있어야 합니다.
+	            },
+	            success: function(stores) {
+	                let html = '';
+	                stores.forEach(function(store) {
+	                    html += '<div class="store-item-box" onclick="goToStoreDetail(' + store.id + ')">' +
+	                                '<div class="store-item">' +
+	                                    '<img src="/images/store/' + store.mainImage1 + '" alt="' + store.storeName + ' 이미지">' +
+	                                '</div>' +
+	                                '<div class="store-name">' + store.storeName + '</div>' +
+	                            '</div>';
+	                });
+	                $("#store-list-container").html(html);
+	            },
+	            error: function() {
+	                alert("가게 목록을 불러오는 중 문제가 발생했습니다.");
+	            }
+	        });
 	    }
+	    
+	</script>
 	    
 	</script>
 </body>
