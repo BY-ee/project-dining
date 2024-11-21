@@ -7,8 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Dining Recommendation</title>
-    <link rel="stylesheet" type="text/css" href="/css/home/homeCategory.css">
     <jsp:include page="/WEB-INF/views/templates/head.jsp" /> <!-- head -->
+    <link rel="stylesheet" type="text/css" href="/css/home/homeCategory.css">
     <script src="/js/home/homeCategory.js"></script> <!-- 페이지 전용 JS -->
 </head>
 <body>
@@ -70,7 +70,7 @@
 						<button onclick="selectIndustry('카페')">☕ 카페</button>
 						<button onclick="selectIndustry('술집')">🥂 술집</button>
 					</div>
-					<div id="selectedIndustryOptions" class="selected-industry-options" style="display: none;">
+					<div id="selectedIndustryOptions" class="category-step" style="display: none;">
 		            <!-- 업종에 따른 세부 항목이 여기에 추가됨 -->
 					</div>
 					<div class="category-step" id="themeStep">
