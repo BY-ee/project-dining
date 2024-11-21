@@ -365,3 +365,90 @@ VALUES (43, 'damungalbi1.png', '담은갈비', '돼지갈비', 14000)
 
 INSERT INTO MENU (STORE_ID, MENU_IMAGE, MENU_DESCRIPTION, MENU_NAME, MENU_PRICE)
 VALUES (44, 'gunojing1.png', '군산오징어 잠실본점', '오징어볶음', 24000)
+
+
+----------------------------------------- db -----------------------------------------
+
+SELECT COUNT(*) FROM v$session;
+SELECT COUNT(*) FROM v$process;
+
+-- 세션 및 프로세스 제한 확인
+SHOW PARAMETER sessions;
+SHOW PARAMETER processes;
+
+-- 세션 상세 확인
+SELECT
+    username,
+    sid,
+    serial#,
+    status,
+    osuser,
+    machine,
+    program,
+    module,
+    action,
+    logon_time
+FROM
+    v$session
+WHERE
+    username IS NOT NULL
+ORDER BY
+    logon_time DESC;
+
+-- 프로세스 상세 확인
+SELECT
+    pid,
+    spid,
+    program,
+    background,
+    traceid
+FROM
+    v$process;
+
+-- 프로세스 상세 확인
+SELECT
+    s.sid,
+    s.serial#,
+    p.spid,
+    s.username,
+    s.osuser,
+    s.machine,
+    s.program,
+    p.traceid
+FROM
+    v$session s
+JOIN
+    v$process p ON s.paddr = p.addr
+WHERE
+    p.program = '?';
+    
+
+-- 1시간 이상 비활성화 세션 삭제
+BEGIN
+    FOR r IN (
+        SELECT sid, serial#
+        FROM v$session
+        WHERE status = 'INACTIVE'
+        AND last_call_et > 3600 -- 1시간 이상 비활성
+    ) LOOP
+        EXECUTE IMMEDIATE 'ALTER SYSTEM KILL SESSION ''' || r.sid || ',' || r.serial# || '''';
+    END LOOP;
+END;
+/
+
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name        => 'KILL_INACTIVE_SESSIONS',
+        job_type        => 'PLSQL_BLOCK',
+        job_action      => 'BEGIN FOR r IN (SELECT sid, serial# FROM v$session WHERE status = ''INACTIVE'' AND last_call_et > 3600) LOOP EXECUTE IMMEDIATE ''ALTER SYSTEM KILL SESSION '''''' || r.sid || '','' || r.serial# || ''''''; END LOOP; END;',
+        start_date      => SYSDATE,
+        repeat_interval => 'FREQ=MINUTELY; INTERVAL=15', -- 15분마다 실행
+        enabled         => TRUE
+    );
+END;
+/
+
+-- kill된 세션 확인
+SELECT sid, serial#, status
+FROM v$session
+WHERE status = 'KILLED';

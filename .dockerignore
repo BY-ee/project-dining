@@ -1,0 +1,45 @@
+# 1. Git 관련 파일 및 디렉토리
+.git
+
+# 2. 빌드 산출물 및 임시 파일
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+out/
+
+# 3. OS 및 IDE 관련 파일
+.idea/
+.vscode/
+*.iml
+
+# 4. 환경 변수 및 비밀 정보
+.env
+.env.local
+*.secret
+*.key
+*.pem
+
+# 5. Docker 빌드에 필요 없는 파일
+README.md
+LICENSE
+
+# 6. 백업 및 캐시 파일
+*.bak
+*.tmp
+*~
+
+# 7. Spring Boot 관련 추가
+application-*.properties
+!application-secret.properties
+application-*.yml
+spring-boot-devtools.jar
+.mvn/
+.gradle/
+lib/
+
+# Gradle 빌드 산출물 제외 (단, 빌드 후 복사된 JAR 파일 포함)
+build/
+target/
+!build/libs/*.jar
