@@ -14,13 +14,16 @@ $(document).ready(function () {
     // 채팅방 생성
     $("#chat-room-form").submit(function (event) {
         event.preventDefault();
+		
+		const themeString = getSelectedThemeString();
+
 
         const formData = {
             roomName: $("#roomName").val(),
             memberId: $("#memberId").val(),
             location: $("#location").val(),
             maxParticipants: $("#maxParticipants").val(),
-            theme: $("#theme").val(),
+			theme: themeString,
             recruitmentDuration: $("#recruitmentDuration").val(),
             additionalDescription: $("#additionalDescription").val(),
         };
@@ -51,6 +54,7 @@ $(document).ready(function () {
 
     // 채팅방 목록 불러오기
     fetchChatRooms();
+	
 });
 
 // 채팅방 목록 불러오기
@@ -59,37 +63,78 @@ function fetchChatRooms() {
         url: "/list",
         type: "GET",
         success: function (chatRooms) {
-            const tableBody = $("#chat-room-table-body");
-            tableBody.empty(); // 기존 목록 초기화
+            const chatList = $(".chat-list"); // chat-item들이 들어갈 컨테이너
+            chatList.empty(); // 기존 목록 초기화
 
-            let html = '';
             chatRooms.forEach(function (room) {
                 const formattedDate = room.recruitmentDeadline
                     ? new Date(room.recruitmentDeadline).toLocaleString()
                     : '없음';
 
-                html += '<tr class="join-room" data-room-id="' + room.chatRoomId + '">' +
-                            '<td>' + (room.chatRoomId || '') + '</td>' +
-                            '<td>' + (room.roomName || '') + '</td>' +
-                            '<td>' + (room.location || '') + '</td>' +
-                            '<td>' + (room.currentParticipants + ' / ' + room.maxParticipants || '') + '</td>' +
-                            '<td>' + (room.theme || '') + '</td>' +
-                            '<td>' + formattedDate + '</td>' +
-                            '<td>' + (room.creatorNickname || '') + '</td>' +
-                            '<td>' +
-                                '<button class="join-room-btn" data-room-id="' + room.chatRoomId + '" data-room-name="' + room.roomName + '">입장</button>' +
-                            '</td>' +
-                        '</tr>';
+                const html = `
+                    <div class="chat-item" 
+                         data-room-id="${room.chatRoomId}" 
+                         data-creator="${room.creatorNickname || '알 수 없음'}" 
+                         data-deadline="${formattedDate}"
+						 data-theme="${room.theme}">
+                        <div class="chat-info">
+                            <span class="chat-location">${room.location || "없음"}</span>
+                            <span class="chat-name">${room.roomName || "없음"}</span>
+                        </div>
+                        <div class="chat-status">
+                            <span>(${room.currentParticipants} / ${room.maxParticipants})</span>
+                            <button class="enter-btn" 
+                                    data-room-id="${room.chatRoomId}" 
+                                    data-room-name="${room.roomName}">
+                                입장
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                chatList.append(html);
             });
 
-            tableBody.html(html);
-
-            // 이벤트 핸들러 추가
-            $(".join-room-btn").off("click").on("click", function () {
+            // 입장 버튼 이벤트 핸들러 추가
+            $(".enter-btn").off("click").on("click", function (event) {
+                event.stopPropagation(); // 클릭 이벤트 전파 방지 (버튼 클릭 시 토글 제외)
                 const roomId = $(this).data("room-id");
                 const roomName = $(this).data("room-name");
 
                 joinChatRoom(roomId, roomName);
+            });
+
+            // chat-item 클릭 시 토글
+            $(".chat-item").off("click").on("click", function (event) {
+                if ($(event.target).hasClass("enter-btn")) {
+                    return; // 입장 버튼 클릭 시 토글 방지
+                }
+
+                const chatItem = $(this);
+                const roomId = chatItem.data("room-id");
+                const creator = chatItem.data("creator");
+                const deadline = chatItem.data("deadline");
+				const theme = chatItem.data("theme");
+
+                // 토글 대상 컨테이너 찾기
+                let detailsContainer = $(`.chat-details-container[data-room-id="${roomId}"]`);
+
+                // 세부정보 컨테이너가 없으면 생성
+                if (detailsContainer.length === 0) {
+                    detailsContainer = $(`
+                        <div class="chat-details-container" data-room-id="${roomId}">
+                            <p>생성자: ${creator}</p>
+                            <p>마감일: ${deadline}</p>
+							<p>테마: ${theme}</p>
+                        </div>
+                    `);
+
+                    // `.chat-item` 아래에 추가
+                    chatItem.after(detailsContainer);
+                }
+
+                // 토글 애니메이션
+                detailsContainer.slideToggle(200);
             });
         },
         error: function (error) {
@@ -97,7 +142,6 @@ function fetchChatRooms() {
         },
     });
 }
-
 function joinChatRoom(roomId, roomName) {
     const memberId = $("#memberId").val(); // 사용자 ID를 가져옴
 

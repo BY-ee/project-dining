@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -131,6 +133,26 @@ public class ChatRoomController {
         chatRoomService.deleteExpiredChatRooms(); // 서비스에서 만료된 채팅방 삭제
         System.out.println("마감된 채팅방 삭제 완료.");
         return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/search")
+    @ResponseBody
+    public ResponseEntity<List<ChatRoom>> searchChatRooms(
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "industry", required = false) String industry,
+            @RequestParam(value = "subCategory", required = false) String subCategory,
+            @RequestParam(value = "theme", required = false) String theme) {
+        
+        // 테마를 >, 로 구분하여 배열로 분리
+        List<String> themeList = new ArrayList<>();
+        if (theme != null && !theme.isEmpty()) {
+            themeList = Arrays.asList(theme.split("[>,]"));
+        }
+
+        // 필터링된 채팅방 목록을 가져오기
+        List<ChatRoom> filteredChatRooms = chatRoomService.searchChatRooms(location, industry, subCategory, themeList);
+
+        return ResponseEntity.ok(filteredChatRooms);
     }
     
     

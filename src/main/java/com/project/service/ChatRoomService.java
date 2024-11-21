@@ -70,6 +70,10 @@ public class ChatRoomService {
     	return chatRoomMapper.getChatRoomsByUserId(userId);
     }
     
+    public List<ChatRoom> searchChatRooms(String location, String industry, String subCategory, List<String> themes) {
+        return chatRoomMapper.findChatRoomsByFilters(location, industry, subCategory, themes);
+    }
+    
     
     //=================================================================
     // Use ChatMessage Domain 

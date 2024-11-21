@@ -39,7 +39,10 @@ public interface ChatRoomMapper {
     // 참여중인 채팅방 목록 조회
     List<ChatRoom> getChatRoomsByUserId(@Param("userId") Long userId);
     
-    
+    List<ChatRoom> findChatRoomsByFilters(@Param("location") String location,
+            @Param("industry") String industry,
+            @Param("subCategory") String subCategory,
+            @Param("themes") List<String> themes);
     
     //=================================================================
     // Use ChatMessage Domain 
