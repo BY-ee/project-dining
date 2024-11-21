@@ -129,7 +129,9 @@ body {
 }
 
 .category-popup {
-    position: absolute;
+    position: relative;
+    width: 100%;
+    left: 50%;
     transform: translateX(-50%);
     background-color: #ffffff;
     padding: 10px;
