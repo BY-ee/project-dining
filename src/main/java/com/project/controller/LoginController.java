@@ -130,30 +130,23 @@ public class LoginController {
 	            if (naverResponse != null) {
 	                String tempId = (String) naverResponse.get("id");
 	                db = loginService.getNaverUser(tempId);
-	        		newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
-	        		pointService.insertPoint(newPoint);
 	            }
 	            break;
 
 	        case "kakao":
 	            String tempId = String.valueOf(userInfo.get("id"));
 	            db = loginService.getKakaoUser(tempId);
-	            newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
-        		pointService.insertPoint(newPoint);
 	            break;
 
 	        case "google":
 	            tempId = (String) userInfo.get("sub");
-	            db = loginService.getGoogleUser(tempId);
-	            newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
-        		pointService.insertPoint(newPoint);
-	            
+	            db = loginService.getGoogleUser(tempId); 
 	            break;
 
 	        default:
 	            return "redirect:/login";
 	    }
-
+	    
 	    if (db != null) {
 	        // 세션에 사용자 정보 저장
 	        session.setAttribute("loginUser", db);
@@ -230,11 +223,10 @@ public class LoginController {
 		}
 
 		String memberId = db.getMemberId();
-		if (memberId.length() > 15) {
-			return " 간편 로그인 회원입니다. ";
+		if (memberId.contains("@")) {
+		    return "간편 로그인 회원입니다.";
 		}
-
-		return "당신의 아이디는 " + db.getMemberId() + "입니다.";
+		return "당신의 아이디는 < " + db.getMemberId() + " >입니다.";
 	}
 
 	
