@@ -23,7 +23,7 @@
                         <a href="/profile">프로필</a>
                         <a href="/mypage">활동내역</a>
                         <a href="/account">계정정보</a>
-                        <a id="open-chat-list">내 채팅</a>
+                        <a id="open-chat-list" style="cursor: pointer;">내 채팅</a>
                         <form action="/logout" method="post" style="display:inline;">
                             <button type="submit">로그아웃</button>
                         </form>
