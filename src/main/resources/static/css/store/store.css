@@ -319,6 +319,7 @@ body {
 }
 
 .review-author {
+	font-size: 20px;
     font-weight: bold;
     color: #555555;
 }
@@ -326,7 +327,7 @@ body {
 .review-date {
     display: block; /* 작성자 이름 아래에 위치 */
     color: #999;
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 5px;
 }
 
@@ -337,7 +338,7 @@ body {
 }
 
 .review-content {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .review-rating .star {
@@ -444,7 +445,7 @@ body {
 .breadcrumb {
     display: flex;
     /* align-items: center; */
-    font-size: 14px;
+    font-size: 15px;
     /* color: #666666; */
     /* padding: 10px 0; */
     /* background-color: #f8f8f8; */
@@ -543,7 +544,7 @@ body {
 
 .nickname-container p {
     margin: 0;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .review-item {
@@ -590,11 +591,19 @@ body {
     background-color: #005070; /* 호버 시 색상 변경 */
 }
 
+/* 리뷰 이미지 컨테이너 */
+.review-images {
+    display: flex;
+    overflow-x: scroll;
+    gap: 20px;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
+
 /* 리뷰 이미지 */
 .review-images img {
-	width: 225px;
-	height: 250px;
-	margin: 5px;
-	margin-bottom: 35px;
-	border-radius: 5px;
+	width: 100%;
+	min-height: 450px;
+	margin-top: 10px;
 }

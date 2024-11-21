@@ -24,6 +24,7 @@
 
 			<label for="location">지역</label>
             <select id="location" name="location" required>
+            	<option value="" disabled selected>선택하세요</option>
 			    <option value="마포구">마포구</option>
 			    <option value="송파구">송파구</option>
 			    <option value="강남/서초구">강남/서초구</option>
@@ -38,7 +39,7 @@
             <input type="text" id="ceoName" name="ceoName" required>
 
             <label for="tel">연락처</label>
-            <input type="tel" id="tel" name="tel" required>
+            <input type="tel" id="tel" name="tel" placeholder="예: 02-1234-5678" required>
 
             <label for="address">가게 주소</label>
             <div class="address-container">
