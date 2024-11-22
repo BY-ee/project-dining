@@ -143,7 +143,7 @@
 									    <c:if test="${store.enrollStatus == 'enrolled'}">
 									        <div style="margin-top: 15px; text-align: center;">
 									            <button style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;" 
-									                onclick="location.href='/store/${store.id}'">
+									                onclick="location.href='/storeDetail?store_ID=${store.id}'">
 									                내 가게 보러가기
 									            </button>
 									        </div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
 function uploadFile(event) {
     const file = event.target.files[0];
@@ -34,9 +35,16 @@ function uploadFile(event) {
 <div class="sidebar">
 	<div class="profile-pic"
 		onclick="document.getElementById('fileInput').click()">
-		<img src="${sessionMember.profileImage}" alt="프로필 사진" /> <span
-			class="profile-overlay">프로필 변경</span> <input type="file"
-			id="fileInput" style="display: none" onchange="uploadFile(event)" />
+		<c:if test="${not empty sessionMember.profileImage}">
+			<img src="${sessionMember.profileImage}" alt="프로필 사진" /> <span
+				class="profile-overlay">프로필 변경</span> <input type="file"
+				id="fileInput" style="display: none" onchange="uploadFile(event)" />
+		</c:if>
+		<c:if test="${empty sessionMember.profileImage}">
+			<img src="/images/profile.png" alt="프로필 사진" /> <span
+				class="profile-overlay">프로필 변경</span> <input type="file"
+				id="fileInput" style="display: none" onchange="uploadFile(event)" />
+		</c:if>
 	</div>	
 	<div class="profile-name">${sessionMember.category}회원</div>
 	<div class="profile-name">${sessionMember.nickname}</div>
