@@ -22,11 +22,11 @@
 						<button class="location-btn" id="location-btn">지역 선택</button>
 						<div class="location-menu">
 							<a href="#" onclick="filterByLocation('ALL', '지역 선택')">지역 선택${id}</a>
-							<a href="#" onclick="filterByLocation('MAPO', '마포구')">마포구${role}</a>
-							<a href="#" onclick="filterByLocation('SONGPA', '송파구')">송파구</a>
-							<a href="#" onclick="filterByLocation('GANGNAM', '강남/서초구')">강남/서초구</a>
-							<a href="#" onclick="filterByLocation('SEONGBUK', '성북/종로구')">성북/종로구</a>
-							<a href="#" onclick="filterByLocation('GWANGJIN', '광진/성동구')">광진/성동구</a>
+							<a href="#" onclick="filterByLocation('마포구', '마포구')">마포구${role}</a>
+							<a href="#" onclick="filterByLocation('송파구', '송파구')">송파구</a>
+							<a href="#" onclick="filterByLocation('강남/서초구', '강남/서초구')">강남/서초구</a>
+							<a href="#" onclick="filterByLocation('성북/종로구', '성북/종로구')">성북/종로구</a>
+							<a href="#" onclick="filterByLocation('광진/성동구', '광진/성동구')">광진/성동구</a>
 					</div>
 				</div>
 	        </div>
