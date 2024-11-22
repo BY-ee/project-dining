@@ -79,7 +79,12 @@ function memberCategoryChange() {
 				id="fileInput" style="display: none" onchange="uploadFile(event)" />
 		</c:if>
 	</div>	
-	<div class="memberChange" id="memberChange"  onclick="memberCategoryChange()">${sessionMember.category}회원</div>
+	<div class="memberChange" id="memberChange" style="background-color: #bfbfbf;
+    color: #fff;
+    border-radius: 7px;
+    width: 110px;
+    margin: 0 auto;
+    margin-top: 20px;"  onclick="memberCategoryChange()">${sessionMember.category}회원</div>
 	<div class="profile-name">${sessionMember.nickname}</div>
 	<div class="profile-point">내 포인트 : ${point}</div>
 	<div class="profile-intro">${sessionMember.introduction}</div>
