@@ -95,7 +95,7 @@ function showSubCategoryOptions(industry) {
 	options.forEach(option => {
 		const button = document.createElement("button");
 		button.textContent = option;
-		button.classList.add("category-step-btn");
+		button.classList.add("subcategory-btn");
 		button.onclick = () => selectSubCategory(option);
 		selectedIndustryOptions.appendChild(button);
 	});
