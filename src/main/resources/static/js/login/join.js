@@ -428,5 +428,25 @@ $(document).ready(function() {
 		});
 	});
 
+	$('#memberChange-button').on('click', function(e) {
+	    e.preventDefault(); 
+		
+		const businessNumber = $('#registrationNumber').val();
+
+	    $.ajax({
+	        url: '/businessVerification',
+	        type: 'POST',
+	        data: { registrationNumber: businessNumber },
+	        success: function(response) {
+	            alert("사업자 회원 전환이 완료되었습니다.");
+	            window.close(); // 팝업 창 닫기
+	            opener.location.reload(); // 부모 창(마이페이지) 새로고침
+	        },
+	        error: function() {
+	            alert("회원 전환 중 오류가 발생했습니다. 다시 시도해주세요.");
+	        }
+	    });
+	});
+	
 	
 }); // js end

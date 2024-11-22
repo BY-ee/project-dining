@@ -1,8 +1,7 @@
 package com.project.service;
 
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
+import java.util.Random;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.project.domain.Member;
+import com.project.domain.Point;
 import com.project.dto.CustomUserDetails;
 import com.project.mapper.MemberMapper;
 
@@ -22,11 +22,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-
     private final MemberMapper memberMapper;
-
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    private final PointService pointService;
+    
+	@Override
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oauth2User = super.loadUser(userRequest);
 
         // 제공자 식별
@@ -72,48 +72,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     		        "해당 이메일은 이미 다른 계정에 연동되어 있습니다."
     		    );
     	}
-     
+        
         return new CustomUserDetails(member, attributes);
     }
 
-    /**
-     * 신규 회원 등록 로직
-     */
-    private Member registerNewMember(String registrationId, String email, Map<String, Object> attributes) {
-        Member member = new Member();
-        member.setEmail(email);
-        member.setMemberId(email); // 이메일을 기본 ID로 사용
-        member.setRole("ROLE_MEMBER");
-        // 고유 닉네임 생성
-        String randomNickname = "User_" + UUID.randomUUID().toString().substring(0, 8);
-        member.setNickname(randomNickname);
-
-        // 추가 정보 저장 및 DB 등록
-        switch (registrationId) {
-            case "kakao":
-                memberMapper.insertMemberForKakao(member);
-                break;
-            case "naver":
-                Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-                System.out.println("Naver response attributes:");
-                for (Entry<String, Object> res : attributes.entrySet()) {
-                    System.out.println("key: " + res.getKey() + " value: " + res.getValue());
-                }
-                memberMapper.insertMemberForNaver(member);
-                break;
-            case "google":
-                memberMapper.insertMemberForGoogle(member);
-                break;
-            default:
-                throw new OAuth2AuthenticationException("Unsupported provider: " + registrationId);
-        }
-
-        return memberMapper.selectMemberByMemberId(email);
-    }
-
-    /**
-     * 제공자별 이메일 추출
-     */
     private String extractEmailByProvider(String registrationId, Map<String, Object> attributes) {
         switch (registrationId) {
             case "google":
@@ -135,5 +97,50 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private String extractNaverEmail(Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
         return response != null ? (String) response.get("email") : null;
+    }
+
+    private Member registerNewMember(String registrationId, String email, Map<String, Object> attributes) {
+        Member member = new Member();
+
+        member.setEmail(email);
+        member.setMemberId(email); // 이메일을 기본 ID로 사용
+        member.setRole("ROLE_MEMBER");
+        
+        // 소셜 로그인 서비스별로 랜덤 닉네임 생성
+        String nickname = generateRandomNickname();  // 기본 랜덤 닉네임
+
+        if ("kakao".equals(registrationId)) {
+            member.setNickname(nickname);
+            memberMapper.insertMemberForKakao(member);
+        } else if ("naver".equals(registrationId)) {
+            member.setNickname(nickname);
+            memberMapper.insertMemberForNaver(member);
+        } else if ("google".equals(registrationId)) {
+            member.setNickname(nickname);
+            memberMapper.insertMemberForGoogle(member);
+        }
+        
+        Member db = memberMapper.selectMemberByEmail(email);
+		Point newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
+		pointService.insertPoint(newPoint);
+        
+        
+        // 생성된 회원 반환
+        return memberMapper.selectMemberByMemberId(email);
+    }
+
+    // 랜덤 닉네임을 생성하는 메서드
+    private String generateRandomNickname() {
+        String chars = "abcdefghijklmnopqrstuvwxyz0123456789"; // 소문자 + 숫자
+        Random random = new Random();
+        StringBuilder nickname = new StringBuilder("User_"); // 접두사 "User" 추가
+        
+        // 6자리 랜덤 문자열 생성
+        for (int i = 0; i < 6; i++) {
+            int randomIndex = random.nextInt(chars.length());
+            nickname.append(chars.charAt(randomIndex));
+        }
+        
+        return nickname.toString();
     }
 }

@@ -65,22 +65,7 @@
 					   	</div>
 					</div> 
 					
-						<div id="profile" class="section">
-						<div class="ownerNumber">
-					        <h3>사업자 회원으로 전환하기</h3>
-					        <p> 사업자 번호를 인증하면 사업자 회원으로 전환할 수 있습니다.</p>
-						
-						    <!-- 사업자 번호 입력 필드 -->
-						    <input type="text" id="ownerCode1"  placeholder="사업자">
-						    <span>-</span>
-						    <input type="text" id="ownerCode2" placeholder="번호">
-						    <span>-</span>
-						    <input type="text" id="ownerCode3"  placeholder="입력">
-							<input type="button" value="사업자번호 인증"  id="ownerValidation">
-						    <button type="button" >사업자회원으로 전환하기</button>
-					   	</div>
-					</div>
-					   
+z
                 </div>
             </div>
         </div>

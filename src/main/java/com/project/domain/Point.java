@@ -20,4 +20,18 @@ public class Point {
 	
 	public String joinMemberId;
 	public String joinNickname;
+	
+    public static Point insertPoint(Long memberId, String category, Long pointValue, String type, String status) {
+        Point newPoint = new Point();
+        newPoint.setId(System.currentTimeMillis()); // 고유 ID 생성
+        newPoint.setMemberId(memberId);
+        newPoint.setCategory(category);
+        newPoint.setPoint(pointValue);
+        newPoint.setType("지급");
+        newPoint.setStatus("active");
+        newPoint.setCreatedAt(new Timestamp(System.currentTimeMillis())); // 현재 시간
+        return newPoint;
+    }
+
+    
 }

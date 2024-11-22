@@ -11,14 +11,14 @@
 		VALUES (#{id, jdbcType=INTEGER}, #{memberId, jdbcType=INTEGER}, #{category,
 		jdbcType=VARCHAR},
 		#{point, jdbcType=NUMERIC}, #{type, jdbcType=VARCHAR},
-		SYSDATE, #{deletedAt, jdbcType=TIMESTAMP}, #{status})
+		SYSDATE, SYSDATE+30 , #{status})
 	</insert>
 
 	<select id="findPointByUser" parameterType="long"
 		resultType="com.project.domain.Point">
 		SELECT id, member_id, category, point, type, created_at, deleted_at, status
 		FROM point
-		WHERE member_id = #{memberId}
+		WHERE member_id = #{memberId}  ORDER BY created_at DESC
 	</select>
 
 	<select id="getTotalPoints" parameterType="long"
@@ -78,6 +78,16 @@
 		)
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
+	
+	<insert id="newJoinPoint" parameterType="long">
+		INSERT INTO point (id, member_id, category, point, type, created_at,
+		deleted_at, status)
+		VALUES (#{id, jdbcType=INTEGER}, #{memberId, jdbcType=INTEGER},'회원가입',
+		500, '지급',
+		SYSDATE,  SYSDATE + 7, 'active')
+	</insert>
+	
+
 
 </mapper>
   
