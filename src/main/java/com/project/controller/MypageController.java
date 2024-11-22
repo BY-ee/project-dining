@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +42,7 @@ public class MypageController {
 
 	private final MypageService mypageService;
 	private final PointService pointService;
+	
 	
 	@GetMapping("/mypage")
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,
@@ -201,4 +204,29 @@ public class MypageController {
 	public List<Point> getPointByMember(@RequestParam("member_id") long memberId) {
 		return pointService.findPointByuserId(memberId);
 	}
+	
+	
+	@GetMapping("/businessVerificationPage")
+	public String businessVerificationPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+		return "mypage/businessVerificationPage";
+	}
+	
+	@PostMapping("/businessVerification")
+	@ResponseBody
+	public ResponseEntity<String> updateToBusinessMember(@RequestParam("registrationNumber") String registrationNumber,
+	                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+	    // 현재 로그인한 사용자 ID 가져오기
+	    String memberId = userDetails.getUsername();
+	    System.out.println("memberId : " + memberId);
+	    // 등록번호 및 사용자 정보 업데이트 로직
+	    boolean isUpdated = mypageService.updateToBusinessMember(memberId, registrationNumber);
+
+	    if (isUpdated) {
+	        return ResponseEntity.ok("회원 전환 성공");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 전환 실패");
+	    }
+	}
+	
+	
 }

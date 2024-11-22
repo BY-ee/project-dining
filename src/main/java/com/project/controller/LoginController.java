@@ -1,6 +1,6 @@
 package com.project.controller;
 
-import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.domain.Point;
 import com.project.dto.Login;
+import com.project.mapper.PointMapper;
 import com.project.service.LoginService;
-import com.project.service.SendEmailContentService;
+import com.project.service.PointService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,8 @@ public class LoginController {
 
 	private final LoginService loginService;
 	private final OAuth2AuthorizedClientService authorizedClientService;
-
+	private final PointService pointService;
+	
 	// 로그인 페이지
 	@GetMapping("/login")
 	public String loginForm() {
@@ -92,8 +95,11 @@ public class LoginController {
 		int result = 0;
 		result = loginService.joinMember(login);
 		
-		Long id = login.getId();
-		System.out.println(id);
+		Login db = loginService.getUser(login.getMemberId());
+		
+		Point newPoint = Point.insertPoint(db.getId(), "회원가입", 500L, "지급", "active");
+		pointService.insertPoint(newPoint);
+        
 		model.addAttribute("result", result);
 
 		return "login/joinResult";
@@ -117,6 +123,7 @@ public class LoginController {
 	    Map<String, Object> userInfo = fetchUserInfo(registrationId, accessToken);
 
 	    Login db = null;
+	    Point newPoint = new Point();
 	    switch (registrationId) {
 	        case "naver":
 	            Map<String, Object> naverResponse = (Map<String, Object>) userInfo.get("response");
@@ -133,13 +140,13 @@ public class LoginController {
 
 	        case "google":
 	            tempId = (String) userInfo.get("sub");
-	            db = loginService.getGoogleUser(tempId);
+	            db = loginService.getGoogleUser(tempId); 
 	            break;
 
 	        default:
 	            return "redirect:/login";
 	    }
-
+	    
 	    if (db != null) {
 	        // 세션에 사용자 정보 저장
 	        session.setAttribute("loginUser", db);
@@ -187,15 +194,22 @@ public class LoginController {
 			return "login/pwdReset"; // 비밀번호 재설정 페이지로 이동
 		} else {
 			// 유효하지 않은 토큰
-			return "invalidToken";
+			return "login/pwdResetFail";
 		}
 	}
 
 	// 비밀번호 재설정
 	@PostMapping("/updatePassword")
 	@ResponseBody // AJAX 요청에 응답을 문자열로 반환
-	public String updatePassword(@ModelAttribute("Login") Login login) {
+	public String updatePassword(@ModelAttribute("Login") Login login,  HttpSession session) {
+		
+		String sessionToken = (String) session.getAttribute("passwordResetToken");
+		String sessionMemberId = (String) session.getAttribute("memberId");
+		  
 		loginService.updatePassword(login);
+		
+		session.removeAttribute("passwordResetToken"); // 세션에서 토큰 삭제
+	    session.removeAttribute("memberId"); // 세션에서 memberId 삭제
 		return "비밀번호 재설정이 완료되었습니다.";
 	}
 
@@ -216,11 +230,10 @@ public class LoginController {
 		}
 
 		String memberId = db.getMemberId();
-		if (memberId.length() > 15) {
-			return " 간편 로그인 회원입니다. ";
+		if (memberId.contains("@")) {
+		    return "간편 로그인 회원입니다.";
 		}
-
-		return "당신의 아이디는 " + db.getMemberId() + "입니다.";
+		return "당신의 아이디는 < " + db.getMemberId() + " >입니다.";
 	}
 
 	

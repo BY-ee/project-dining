@@ -655,3 +655,8 @@
 	border-radius: 4px;
 	border: 1px solid #ccc;
 }
+
+.memberChange:hover {
+        cursor: pointer; /* 기본 상태에서도 클릭 커서 */
+        transition: color 0.3s ease; /* 부드러운 색상 변경 효과 */
+}
