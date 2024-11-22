@@ -301,7 +301,7 @@
 /* 가게 목록 컨테이너 스타일 */
 /*============================================================================*/
 .store-container {
-    max-height: 800px;
+    max-height: 1200px;
     max-width: 1500px; /* 고정 너비 설정 */
     overflow-y: auto;
     border: 1px solid #ddd;
@@ -313,6 +313,7 @@
     margin: 20px auto; /* 화면 가운데 정렬 */
     padding: 20px;
     overflow-y: auto;
+    
 }
 
 .store-list {
@@ -320,6 +321,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     padding: 20px;
+    
 }
 
 .store-item-box {
