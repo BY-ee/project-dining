@@ -26,6 +26,12 @@
     font-size: 14px;
 }
 
+.notice-image img{
+	width: 300px;
+    margin: 0 auto;
+    display: flex;
+}
+
 .notice-content {
 	word-wrap: break-word; /* 긴 단어가 강제로 줄을 넘겨 표시됩니다 */
     overflow-wrap: break-word; /* 최신 속성, 동일한 역할을 합니다 */

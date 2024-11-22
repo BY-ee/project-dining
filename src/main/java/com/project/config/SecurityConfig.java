@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .loginPage("/login") // 로그인 페이지 경로
                 .usernameParameter("memberId") // 유저 아이디 네이밍을 memberId로 커스텀
                 .passwordParameter("passwd") // 유저 패스워드 네이밍을 passwd로 커스텀
+                // userDetailService
                 .defaultSuccessUrl("/") // 로그인 성공 시 기본 리다이렉트 URL
                 .permitAll() // 로그인 경로는 아무나 접근 가능
                 .failureHandler((request, response, exception) -> {
