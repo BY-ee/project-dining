@@ -440,13 +440,16 @@ body {
     top: 20%;
     left: 50%; /* 화면의 정가운데로 이동 */
     transform: translate(-50%, -10%); /* 가로축, 세로축 중심으로 이동 */
-    width: 35%;
+    width: 400px;
+    height: 800px; /* 높이 고정 */
     background: white;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     padding: 20px;
     display: none;
+    overflow-y: auto; /* 세로 스크롤 비활성화 */
+    
 }
 
 #create-form-popup-overlay {
