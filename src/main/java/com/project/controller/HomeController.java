@@ -61,7 +61,7 @@ public class HomeController {
             logger.debug("(HomeController) 디코딩된 장소명: {}", location);
 
             List<Store> stores;
-            if (location.isEmpty()) {
+            if ("ALL".equals(location)) {
                 // location이 빈 문자열일 경우 모든 가게를 조회
                 stores = storeService.getActiveStores();
             } else {
