@@ -91,7 +91,6 @@
 					<option value="" >정렬</option>
 					<option value="likes" id="likes">좋아요순</option>
 					<option value="reviews" id="reviews">댓글순</option>
-					<option value="views" id="views">조회순</option>
 				</select>
 			</div>
 

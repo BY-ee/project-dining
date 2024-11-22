@@ -17,16 +17,15 @@
         <section class="faq">
             <h2>무엇을 도와드릴까요?</h2>
             <div class="faq-items">
-                <button class="faq-item" onclick="toggleAnswer(this)">Q. 가까운 맛집을 어떻게 찾을 수 있나요?</button>
-                <div class="faq-answer">앱 내 검색 기능을 이용하여 원하는 지역이나 음식 종류를 입력하시면, 
-                위치를 기반으로 가까운 맛집을 추천받을 수 있습니다. GPS 기능을 켜두시면 더욱 정확한 추천이 가능합니다.</div>
+                <button class="faq-item" onclick="toggleAnswer(this)">Q. 원하는 맛집을 어떻게 찾을 수 있나요?</button>
+                <div class="faq-answer">앱 내 카테고리 기능을 이용하여 원하는 지역이나 음식 종류를 선택하시면 확인이 가능합니다.</div>
                 
                 <button class="faq-item" onclick="toggleAnswer(this)">Q. 리뷰는 어떻게 작성하나요?</button>
                 <div class="faq-answer">방문한 맛집에서 '리뷰 작성' 버튼을 클릭하시면, 음식, 분위기, 서비스에 대한 평가와 함께 사진 및 텍스트 리뷰를 
                 남기실 수 있습니다. 다른 사용자에게 도움이 되는 생생한 리뷰를 작성해 주세요!</div>
                 
                 <button class="faq-item" onclick="toggleAnswer(this)">Q. 추천 받은 맛집을 저장할 수 있나요?</button>
-                <div class="faq-answer">네, 추천 받은 맛집을 '즐겨찾기' 기능을 통해 저장할 수 있습니다. 앱 내에서 저장한 맛집은 '내 즐겨찾기' 
+                <div class="faq-answer">네, 추천 받은 맛집을 '좋아요' 기능을 통해 저장할 수 있습니다. 앱 내에서 저장한 맛집은 '활동내역' 
                 메뉴에서 언제든지 다시 확인하실 수 있습니다.</div>
                 
                 <button class="faq-item" onclick="toggleAnswer(this)">Q. 쿠폰이나 할인 혜택은 어떻게 확인하나요?</button>
@@ -57,40 +56,40 @@
     <section class="tab-faq">
         <div class="tabs">
             <button class="tab-button" onclick="showTab('login', event)">로그인/회원가입</button>
-            <button class="tab-button" onclick="showTab('recommendation', event)">추천 이용방법</button>
+            <button class="tab-button" onclick="showTab('recommendation', event)">채팅 이용방법</button>
             <button class="tab-button" onclick="showTab('store-inquiry', event)">가게 등록 문의</button>
             <button class="tab-button" onclick="showTab('ad-partnership', event)">광고 제휴 문의</button>
         </div>
         
         <div id="login" class="tab-content">
             <button class="faq-item" onclick="toggleAnswer(this)">Q. 간편가입으로 가입했는데 이메일 변경 가능한가요?</button>
-            <div class="faq-detial-answer">간편가입 계정에서는 이메일 변경이 불가능합니다.</div>
+            <div class="faq-detial-answer">미아페이지 > 간편가입 경우 계정 정보 탭에서 변경이 가능합니다.</div>
             
             <button class="faq-item" onclick="toggleAnswer(this)">Q. 비밀번호는 어떻게 변경하나요?</button>
-            <div class="faq-detial-answer">마이페이지 > 계정 설정에서 변경 가능합니다.</div>
+            <div class="faq-detial-answer">마이페이지 > 비밀번호는 계정 정보에서 이메일 인증을 통해 변경 가능합니다.</div>
             
             <button class="faq-item" onclick="toggleAnswer(this)">Q. 회원 탈퇴는 어떻게 하나요?</button>
-            <div class="faq-detial-answer">탈퇴는 고객센터를 통해 진행해 주세요.</div>
+            <div class="faq-detial-answer">마이페이지 > 회원 탈퇴는 약관 동의 이후 계정 정보에서 탈퇴/회원 삭제가 가능합니다 </div>
             
             <button class="faq-item" onclick="toggleAnswer(this)">Q. 중복 가입 시 문제는 어떻게 해결하나요?</button>
             <div class="faq-detial-answer">고객센터로 문의 바랍니다.</div>
         </div>
         
-        <div id="recommendation" class="tab-content"">
-            <button class="faq-item" onclick="toggleAnswer(this)">Q. 추천 알고리즘은 어떻게 작동하나요?</button>
-            <div class="faq-detial-answer">알고리즘은 사용자 관심사를 기반으로 추천됩니다.</div>
-            
-            <button class="faq-item" onclick="toggleAnswer(this)">Q. 추천 목록을 새로고침하려면?</button>
-            <div class="faq-detial-answer">추천 목록은 새로고침 버튼을 누르거나 일정 시간마다 업데이트됩니다.</div>
-            
-            <button class="faq-item" onclick="toggleAnswer(this)">Q. 추천이 마음에 안 들면 어떻게 하나요?</button>
-            <div class=faq-detial-answer>관심 없는 항목을 설정하면 더욱 맞춤 추천이 가능합니다.</div>
-            
-            <button class="faq-item" onclick="toggleAnswer(this)">Q. 추천 항목을 저장할 수 있나요?</button>
-            <div class="faq-detial-answer">저장 기능은 마이페이지에서 이용 가능합니다.</div>
-        </div>
+        <div id="recommendation" class="tab-content">
+		    <button class="faq-item" onclick="toggleAnswer(this)">Q. 채팅방은 어떻게 생성하나요?</button>
+		    <div class="faq-detial-answer">커뮤니티 페이지에서 '채팅방 생성' 버튼을 클릭한 후, 필요한 정보를 입력하고 '생성' 버튼을 누르면 채팅방이 만들어집니다.</div>
+		    
+		    <button class="faq-item" onclick="toggleAnswer(this)">Q. 부적절한 언어를 사용하는 유저는 어떻게 신고하나요?</button>
+		    <div class="faq-detial-answer">고객센터의 '이메일 문의하기'를 통해 대화 내용과 닉네임이 보이는 캡처를 보내주시면, 확인 후 계정이 비활성화될 수 있습니다.</div>
+		    
+		    <button class="faq-item" onclick="toggleAnswer(this)">Q. 입장 버튼을 눌렀는데 채팅방이 보이지 않아요.</button>
+		    <div class="faq-detial-answer">채팅방 입장은 로그인 후 가능합니다. 상단 메뉴에서 '내 채팅'을 클릭하면 참여 중인 채팅방 목록을 확인할 수 있습니다.</div>
+		    
+		    <button class="faq-item" onclick="toggleAnswer(this)">Q. 채팅방 만료 시간 이후에는 어떻게 되나요?</button>
+		    <div class="faq-detial-answer">채팅방은 만료 시간이 지나면 자동으로 삭제됩니다. 바로 반영되지 않을 경우 페이지를 새로고침해 주세요.</div>
+		</div>
         
-        <div id="store-inquiry" class="tab-content"">
+        <div id="store-inquiry" class="tab-content">
             <button class="faq-item" onclick="toggleAnswer(this)">Q. 가게 등록 절차는 어떻게 되나요?</button>
             <div class="faq-detial-answer">등록은 기본 정보 입력 후 검토를 거쳐 승인됩니다.</div>
             
@@ -104,7 +103,7 @@
             <div class="faq-detial-answer">가게 정보 수정은 관리자 페이지에서 가능합니다.</div>
         </div>
         
-        <div id="ad-partnership" class="tab-content"">
+        <div id="ad-partnership" class="tab-content">
             <button class="faq-item" onclick="toggleAnswer(this)">Q. 광고 제휴 신청은 어떻게 하나요?</button>
             <div class="faq-detial-answer">광고 제휴는 제휴 페이지에서 신청 가능합니다.</div>
             
