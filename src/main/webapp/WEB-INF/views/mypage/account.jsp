@@ -7,7 +7,6 @@
 <jsp:include page="/WEB-INF/views/templates/head.jsp" />
 <link rel="stylesheet" href="css/mypage/myPageStyles.css">
 <link rel="stylesheet" href="css/mypage/commonStyles.css">
-<script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 <script>
 	$(document).ready(function(){
