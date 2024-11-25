@@ -13,6 +13,7 @@ $(document).ready(function () {
         $("#chat-room-container").hide(); // 채팅방 숨기기
         $("#chat-list-container").show(); // 채팅 목록 표시
         currentRoomId = null; // 현재 방 ID 초기화
+		
         saveChatVisibility("list"); // 채팅 목록 상태 저장
         if (stompClient) {
             stompClient.disconnect(); // WebSocket 연결 해제s
@@ -80,6 +81,7 @@ function restoreChatVisibility() {
     if (chatVisibility === "list") {
         $("#chat-list-container").css("display", "block"); // 채팅 목록 표시
         $("#chat-room-container").css("display", "none"); // 채팅방 숨기기
+        $("#chat-room-container").css("display", "bloc"); // 채팅방 숨기기
     } else if (chatVisibility === "hidden") {
         $("#chat-list-container").css("display", "none"); // 채팅 목록 숨기기
         $("#chat-room-container").css("display", "none"); // 채팅방 숨기기
