@@ -43,7 +43,7 @@ public class MypageController {
 	private final MypageService mypageService;
 	private final PointService pointService;
 	
-	
+	//
 	@GetMapping("/mypage")
     public String myPage(@RequestParam(name = "likePage",defaultValue="1") int likePage,
     					@RequestParam(name = "reviewPage",defaultValue="1") int reviewPage,
