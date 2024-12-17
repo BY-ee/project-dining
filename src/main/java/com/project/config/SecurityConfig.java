@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -32,6 +35,17 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // 세션 만료 이벤트를 관리하기 위한 Bean
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean
@@ -65,7 +79,6 @@ public class SecurityConfig {
                 .loginPage("/login") // 로그인 페이지 경로
                 .usernameParameter("memberId") // 유저 아이디 네이밍을 memberId로 커스텀
                 .passwordParameter("passwd") // 유저 패스워드 네이밍을 passwd로 커스텀
-                // userDetailService
                 .defaultSuccessUrl("/") // 로그인 성공 시 기본 리다이렉트 URL
                 .permitAll() // 로그인 경로는 아무나 접근 가능
                 .failureHandler((request, response, exception) -> {
@@ -91,18 +104,20 @@ public class SecurityConfig {
         		.ignoringRequestMatchers(request -> "GET".equalsIgnoreCase(request.getMethod()))
                 .ignoringRequestMatchers("/proxy/**") // 프록시 경로에 대한 CSRF 보호 비활성화
                 .ignoringRequestMatchers("/sendVerificationEmail")
-        		);
-
-        // 다중 로그인 설정
-        http.sessionManagement(auth -> auth
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
         );
 
-        // 세션 고정 공격 보호
-        http.sessionManagement(auth -> auth
-                .sessionFixation().changeSessionId()
-        );
+        // sessionManagement 설정
+        http.sessionManagement(sessionManagement -> {
+             // 세션 고정 공격 보호
+             sessionManagement.sessionFixation(sessionFixationConfigurer ->
+                     sessionFixationConfigurer.changeSessionId()
+             );
+
+            // 다중 로그인 방지
+             sessionManagement.maximumSessions(1)
+                     .maxSessionsPreventsLogin(true)
+                     .sessionRegistry(sessionRegistry());
+        });
 
         // 간편로그인 관련 설정
         http.oauth2Login(oauth2 -> oauth2
