@@ -299,7 +299,7 @@ body {
 /* 가게 목록 컨테이너 스타일 */
 /*============================================================================*/
 .store-container {
-    max-height: 1200px;
+    max-height: 800px;
     max-width: 1500px; /* 고정 너비 설정 */
     overflow-y: auto;
     border: 1px solid #ddd;
