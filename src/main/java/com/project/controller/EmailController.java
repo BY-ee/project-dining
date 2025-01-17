@@ -105,7 +105,7 @@ public class EmailController {
 				session.setAttribute("tokenExpiration", tokenExpiration);
 				
 				// 비밀번호 재설정 링크 생성
-				String resetLink = "http://localhost:80/reset-password?token=" + token + "&memberId="
+				String resetLink = "https://nyami.shop/reset-password?token=" + token + "&memberId="
 						+ login.getMemberId();
     			
 				// 이메일 전송 method 실행
