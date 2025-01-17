@@ -33,7 +33,7 @@
 						<div class="likes-slider">
 							<c:forEach var="mypageLike" items= "${likePageResponse.list}">
 								<div class="item">
-									<a href="/storeDetail?store_ID=${mypageLike.storeId}">
+									<a href="/store/${mypageLike.storeId}">
 										<img src="/images/store/${mypageLike.mainImage1}">
 									</a>
 									<span>${mypageLike.storeName }</span>
@@ -57,7 +57,7 @@
 						<div class="review-slider">
 							<c:forEach var="mypageReview" items= "${reviewPageResponse.list}">
 								<div class="item">
-									<a href="/storeDetail?store_ID=${mypageReview.storeId}">
+									<a href="/store/${mypageReview.storeId}">
 										<img src="images/store/${mypageReview.mainImage1}">
 									</a>
 									<span>${mypageReview.storeName}</span>
@@ -142,7 +142,7 @@
 									    <c:if test="${store.enrollStatus == 'enrolled'}">
 									        <div style="margin-top: 15px; text-align: center;">
 									            <button style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;" 
-									                onclick="location.href='/storeDetail?store_ID=${store.id}'">
+									                onclick="location.href='/store/${store.id}'">
 									                내 가게 보러가기
 									            </button>
 									        </div>

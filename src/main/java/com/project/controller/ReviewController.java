@@ -67,7 +67,7 @@ public class ReviewController {
 		if (existingReview != null) {
 			if ("active".equals(existingReview.getStatus())) {
 				redirectAttributes.addFlashAttribute("duplicateReviewMessage", "이미 리뷰를 작성하셨습니다.");
-				return "redirect:/storeDetail?store_ID=" + storeId;
+				return "redirect:/store/" + storeId;
 			} else if ("hidden".equals(existingReview.getStatus())) {
 				reviewService.deleteReview(existingReview.getId());
 			}
@@ -150,7 +150,7 @@ public class ReviewController {
 		reviewService.submitReview(newReview);
 
 		// 다시 원래 페이지로 리디렉션
-		return "redirect:/storeDetail?store_ID=" + storeId;
+		return "redirect:/store/" + storeId;
 	}
 
 	// 리뷰 수정 요청 처리
