@@ -9,7 +9,7 @@
     <title>가게 관리</title>
 
     <link rel="stylesheet" href="/css/admin/adminStore.css">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminStore.js"></script>
     <script src="/js/store/store.js"></script>
 </head>

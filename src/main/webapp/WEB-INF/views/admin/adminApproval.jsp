@@ -8,7 +8,7 @@
   <head>
     <title>게시글 승인</title>
     <link rel="stylesheet" type="text/css" href="/css/admin/adminApproval.css">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/admin/adminApproval.js"></script>
   </head>
   <body>
