@@ -3,7 +3,6 @@ package com.project.controller;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -34,18 +33,7 @@ public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     
     @GetMapping("/")
-    public String home(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-    	// Spring Security가 관리하는 세션 데이터를 가져옴 (매개변수로 주입)
-//        if (userDetails != null) {
-//            String id = userDetails.getUsername();
-//            String role = userDetails.getAuthorities().iterator().next().getAuthority();
-//            model.addAttribute("id", id);
-//            model.addAttribute("role", role);
-//        } else {
-//        	// 로그인되어 있지 않으면 id, role 데이터를 임의로 클라이언트에게 전송
-//            model.addAttribute("id", "anonymousUser");
-//            model.addAttribute("role", "ROLE_ANONYMOUS");
-//        }
+    public String home(Model model) {
         
         List<Store> stores = storeService.getActiveStores(); // 모든 가게 목록을 가져옴
         model.addAttribute("stores", stores); // 모델에 stores 속성으로 추가

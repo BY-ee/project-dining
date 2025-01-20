@@ -1,7 +1,9 @@
 package com.project.config;
 
-import java.io.IOException;
-
+import com.project.service.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,11 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
-import com.project.service.CustomOAuth2UserService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -79,13 +77,18 @@ public class SecurityConfig {
                 .loginPage("/login") // 로그인 페이지 경로
                 .usernameParameter("memberId") // 유저 아이디 네이밍을 memberId로 커스텀
                 .passwordParameter("passwd") // 유저 패스워드 네이밍을 passwd로 커스텀
-                .defaultSuccessUrl("/") // 로그인 성공 시 기본 리다이렉트 URL
                 .permitAll() // 로그인 경로는 아무나 접근 가능
-                .failureHandler((request, response, exception) -> {
+                .successHandler((request, response, authentication) -> {  // 로그인 성공 핸들러
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("{\"message\": \"로그인에 성공하였습니다.\"}");
+                })
+                .failureHandler((request, response, exception) -> {  // 로그인 실패 핸들러
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().write("{\"message\": \"로그인 실패. 아이디와 비밀번호를 확인하세요.\"}");
+                    response.getWriter().write("{\"message\": \"로그인에 실패하였습니다.\"}");
                 })
         );
 
